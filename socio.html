@@ -8,8 +8,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
         /* ============================================================
-           FLY FUTBOLEROS · PANEL DEL SOCIO (MÓVIL MEJORADO)
-           Menú inferior · Gestos táctiles · Mobile First
+           FLY FUTBOLEROS · PANEL DEL SOCIO
            ============================================================ */
 
         /* ===== RESET & BASE ===== */
@@ -40,7 +39,6 @@
             --radius-xs: 8px;
             --transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             --transition-fast: all 0.2s ease;
-            --bottom-nav-height: 64px;
         }
 
         html {
@@ -56,7 +54,6 @@
             min-height: 100dvh;
             overflow-x: hidden;
             position: relative;
-            padding-bottom: calc(var(--bottom-nav-height) + 20px);
         }
 
         ::-webkit-scrollbar {
@@ -72,7 +69,7 @@
             box-shadow: 0 0 20px rgba(0, 212, 255, 0.2);
         }
 
-        /* ===== PARTÍCULAS DE FONDO ===== */
+        /* ===== PARTICULAS ===== */
         #particles {
             position: fixed;
             inset: 0;
@@ -88,20 +85,10 @@
             pointer-events: none;
         }
         @keyframes float-particle {
-            0% {
-                transform: translateY(100vh) scale(0);
-                opacity: 0;
-            }
-            10% {
-                opacity: 1;
-            }
-            90% {
-                opacity: 1;
-            }
-            100% {
-                transform: translateY(-10vh) scale(1);
-                opacity: 0;
-            }
+            0% { transform: translateY(100vh) scale(0); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-10vh) scale(1); opacity: 0; }
         }
 
         /* ===== HEADER ===== */
@@ -189,55 +176,22 @@
             font-weight: 500;
         }
         @keyframes pulse-dot {
-            0%,
-            100% {
-                transform: scale(1);
-                box-shadow: 0 0 8px rgba(0, 255, 127, 0.15);
-            }
-            50% {
-                transform: scale(1.3);
-                box-shadow: 0 0 20px rgba(0, 255, 127, 0.25);
-            }
+            0%, 100% { transform: scale(1); box-shadow: 0 0 8px rgba(0, 255, 127, 0.15); }
+            50% { transform: scale(1.3); box-shadow: 0 0 20px rgba(0, 255, 127, 0.25); }
         }
         @media (max-width: 480px) {
-            .status-bar {
-                font-size: 0.5rem;
-                gap: 4px;
-                padding: 2px 8px;
-            }
-            .status-bar .sep {
-                display: none;
-            }
+            .status-bar { font-size: 0.5rem; gap: 4px; padding: 2px 8px; }
+            .status-bar .sep { display: none; }
         }
 
-        /* ===== MAIN CONTENT ===== */
+        /* ===== MAIN ===== */
         .socio-main {
             position: relative;
             z-index: 1;
             max-width: 1200px;
             margin: 0 auto;
-            padding: 16px 16px 20px;
+            padding: 16px;
             width: 100%;
-        }
-
-        /* ===== SECCIONES (para swipe) ===== */
-        .section-page {
-            display: none;
-            animation: slideIn 0.4s ease;
-        }
-        .section-page.active {
-            display: block;
-        }
-
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateX(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
         }
 
         /* ===== CARDS ===== */
@@ -266,10 +220,6 @@
         }
         .glass-card:hover {
             border-color: rgba(0, 212, 255, 0.08);
-        }
-
-        .glass-card:active {
-            transform: scale(0.99);
         }
 
         /* ===== PROFILE ===== */
@@ -312,9 +262,7 @@
             transition: var(--transition-fast);
             box-shadow: 0 0 20px rgba(0, 212, 255, 0.08);
         }
-        .profile-avatar .edit-btn:active {
-            transform: scale(0.85);
-        }
+        .profile-avatar .edit-btn:active { transform: scale(0.85); }
 
         .profile-info h1 {
             font-size: 1.3rem;
@@ -368,7 +316,7 @@
             border: 1px solid rgba(255, 45, 138, 0.06);
         }
 
-        /* ===== PLAN SECTION ===== */
+        /* ===== PLAN ===== */
         .plan-section {
             padding: 18px 20px;
             margin-bottom: 16px;
@@ -425,20 +373,19 @@
             border-top: 1px solid var(--border-glow);
         }
 
-        /* ===== BOTONES (más grandes para móvil) ===== */
+        /* ===== BOTONES ===== */
         .btn {
             display: inline-flex;
             align-items: center;
             justify-content: center;
             gap: 8px;
-            padding: 12px 20px;
-            min-height: 48px;
-            min-width: 48px;
+            padding: 10px 18px;
+            min-height: 44px;
             border: none;
             border-radius: var(--radius-sm);
             font-family: 'Inter', sans-serif;
             font-weight: 600;
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             cursor: pointer;
             transition: var(--transition-fast);
             text-transform: uppercase;
@@ -447,18 +394,12 @@
             touch-action: manipulation;
         }
 
-        .btn:active {
-            transform: scale(0.95);
-        }
+        .btn:active { transform: scale(0.95); }
 
         .btn-primary {
             background: var(--gradient-primary);
             color: #fff;
             box-shadow: 0 0 30px rgba(0, 212, 255, 0.04);
-        }
-
-        .btn-primary:hover {
-            box-shadow: 0 4px 30px rgba(0, 212, 255, 0.1);
         }
 
         .btn-secondary {
@@ -473,28 +414,10 @@
             border-color: rgba(0, 212, 255, 0.08);
         }
 
-        .btn-success {
-            background: var(--gradient-success);
-            color: #fff;
-        }
-
-        .btn-success:hover {
-            box-shadow: 0 4px 30px rgba(0, 255, 127, 0.1);
-        }
-
-        .btn-danger {
-            background: var(--neon-pink);
-            color: #fff;
-        }
-
-        .btn-danger:hover {
-            box-shadow: 0 4px 30px rgba(255, 45, 138, 0.1);
-        }
-
         .btn-sm {
-            padding: 8px 14px;
-            min-height: 36px;
-            font-size: 0.6rem;
+            padding: 6px 12px;
+            min-height: 32px;
+            font-size: 0.55rem;
         }
 
         .btn:disabled {
@@ -507,18 +430,14 @@
             .btn {
                 padding: 10px 16px;
                 min-height: 44px;
-                font-size: 0.7rem;
+                font-size: 0.65rem;
                 width: 100%;
             }
             .btn-sm {
                 padding: 6px 12px;
                 min-height: 32px;
-                font-size: 0.55rem;
+                font-size: 0.5rem;
                 width: auto;
-            }
-            .plan-actions .btn {
-                flex: 1;
-                min-width: 100px;
             }
         }
 
@@ -547,26 +466,15 @@
             color: var(--text-secondary);
         }
 
-        .socio-table tr:active {
-            background: rgba(255, 255, 255, 0.02);
-        }
-
         .table-container {
             overflow-x: auto;
             -webkit-overflow-scrolling: touch;
         }
 
         @media (max-width: 480px) {
-            .socio-table {
-                font-size: 0.6rem;
-            }
-            .socio-table th {
-                padding: 6px 8px;
-                font-size: 0.5rem;
-            }
-            .socio-table td {
-                padding: 5px 8px;
-            }
+            .socio-table { font-size: 0.6rem; }
+            .socio-table th { padding: 6px 8px; font-size: 0.5rem; }
+            .socio-table td { padding: 5px 8px; }
         }
 
         /* ===== RECORDATORIO ===== */
@@ -613,9 +521,7 @@
             padding: 16px;
         }
 
-        .modal.active {
-            display: flex;
-        }
+        .modal.active { display: flex; }
 
         .modal-content {
             width: 100%;
@@ -661,9 +567,7 @@
             padding: 4px;
         }
 
-        .modal-close:hover {
-            color: var(--neon-pink);
-        }
+        .modal-close:hover { color: var(--neon-pink); }
 
         .modal-body {
             padding: 16px 18px;
@@ -729,20 +633,14 @@
         }
 
         @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(16px) scale(0.96);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
+            from { opacity: 0; transform: translateY(16px) scale(0.96); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
         }
 
         /* ===== TOAST ===== */
         .toast {
             position: fixed;
-            bottom: calc(var(--bottom-nav-height) + 20px);
+            bottom: 20px;
             right: 20px;
             left: 20px;
             max-width: 400px;
@@ -767,24 +665,16 @@
             flex-shrink: 0;
         }
 
-        .toast .icon.success {
-            color: var(--neon-green);
-        }
-        .toast .icon.error {
-            color: var(--neon-pink);
-        }
-        .toast .icon.warning {
-            color: var(--neon-orange);
-        }
-        .toast .icon.info {
-            color: var(--neon-blue);
-        }
+        .toast .icon.success { color: var(--neon-green); }
+        .toast .icon.error { color: var(--neon-pink); }
+        .toast .icon.warning { color: var(--neon-orange); }
+        .toast .icon.info { color: var(--neon-blue); }
 
         @media (max-width: 480px) {
             .toast {
                 font-size: 0.75rem;
                 padding: 12px 16px;
-                bottom: calc(var(--bottom-nav-height) + 12px);
+                bottom: 12px;
                 left: 12px;
                 right: 12px;
             }
@@ -795,7 +685,7 @@
         }
 
         /* ============================================================
-           BOTTOM NAVIGATION (Menú inferior)
+           BOTTOM NAVIGATION
            ============================================================ */
         .bottom-nav {
             position: fixed;
@@ -807,8 +697,8 @@
             backdrop-filter: blur(24px);
             -webkit-backdrop-filter: blur(24px);
             border-top: 1px solid var(--border-glow);
-            height: var(--bottom-nav-height);
-            display: flex;
+            height: 64px;
+            display: none;
             align-items: center;
             justify-content: space-around;
             padding: 0 8px;
@@ -835,9 +725,7 @@
             border-radius: var(--radius-xs);
         }
 
-        .bottom-nav .nav-item:active {
-            transform: scale(0.92);
-        }
+        .bottom-nav .nav-item:active { transform: scale(0.92); }
 
         .bottom-nav .nav-item i {
             font-size: 1.2rem;
@@ -875,127 +763,71 @@
             box-shadow: 0 0 20px rgba(255, 45, 138, 0.2);
         }
 
+        @media (max-width: 768px) {
+            .bottom-nav { display: flex; }
+        }
+
         @media (max-width: 480px) {
-            .bottom-nav .nav-item {
-                padding: 4px 8px;
-                min-width: 48px;
-                min-height: 40px;
-            }
-            .bottom-nav .nav-item i {
-                font-size: 1rem;
-            }
-            .bottom-nav .nav-item span {
-                font-size: 0.45rem;
-            }
+            .bottom-nav .nav-item { padding: 4px 8px; min-width: 48px; min-height: 40px; }
+            .bottom-nav .nav-item i { font-size: 1rem; }
+            .bottom-nav .nav-item span { font-size: 0.45rem; }
         }
 
         @media (min-width: 769px) {
-            .bottom-nav {
-                display: none;
-            }
+            .bottom-nav { display: none !important; }
         }
 
-        /* ============================================================
-           RESPONSIVE
-           ============================================================ */
+        /* ===== SECTION PAGES (para navegación) ===== */
+        .section-page {
+            display: none;
+            animation: slideIn 0.4s ease;
+        }
+        .section-page.active {
+            display: block;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        /* ===== RESPONSIVE ===== */
         @media (max-width: 768px) {
-            .profile-header {
-                flex-direction: column;
-                text-align: center;
-            }
-
-            .plan-grid {
-                grid-template-columns: 1fr 1fr;
-            }
-
-            .recordatorio {
-                flex-direction: column;
-                text-align: center;
-                justify-content: center;
-            }
-
-            .socio-header .header-content {
-                flex-direction: column;
-                align-items: stretch;
-                text-align: center;
-            }
-
-            .socio-header .header-actions {
-                justify-content: center;
-            }
-
-            .socio-main {
-                padding: 12px 12px 20px;
-            }
+            .profile-header { flex-direction: column; text-align: center; }
+            .plan-grid { grid-template-columns: 1fr 1fr; }
+            .recordatorio { flex-direction: column; text-align: center; justify-content: center; }
+            .socio-header .header-content { flex-direction: column; align-items: stretch; text-align: center; }
+            .socio-header .header-actions { justify-content: center; }
+            .socio-main { padding: 12px 12px 20px; }
+            body { padding-bottom: 80px; }
         }
 
         @media (max-width: 480px) {
-            .plan-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .glass-card {
-                padding: 14px 14px;
-            }
-
-            .socio-main {
-                padding: 10px 10px 16px;
-            }
-
-            .profile-avatar img {
-                width: 64px;
-                height: 64px;
-            }
-
-            .profile-info h1 {
-                font-size: 1.1rem;
-            }
-
-            .profile-info p {
-                font-size: 0.75rem;
-            }
-
-            .plan-section {
-                padding: 14px 14px;
-            }
-
-            .plan-header h3 {
-                font-size: 0.9rem;
-            }
-
-            .plan-item {
-                padding: 6px 10px;
-            }
-
-            .plan-item span {
-                font-size: 0.8rem;
-            }
-
-            .recordatorio {
-                padding: 12px 14px;
-            }
-            .recordatorio i {
-                font-size: 1.1rem;
-            }
+            .plan-grid { grid-template-columns: 1fr; }
+            .glass-card { padding: 14px 14px; }
+            .socio-main { padding: 10px 10px 16px; }
+            .profile-avatar img { width: 64px; height: 64px; }
+            .profile-info h1 { font-size: 1.1rem; }
+            .profile-info p { font-size: 0.75rem; }
+            .plan-section { padding: 14px 14px; }
+            .plan-header h3 { font-size: 0.9rem; }
+            .plan-item { padding: 6px 10px; }
+            .plan-item span { font-size: 0.8rem; }
+            .recordatorio { padding: 12px 14px; }
+            .recordatorio i { font-size: 1.1rem; }
+            body { padding-bottom: 76px; }
         }
 
         @media (max-width: 380px) {
-            .glass-card {
-                padding: 12px 10px;
-            }
-            .profile-avatar img {
-                width: 56px;
-                height: 56px;
-            }
-            .profile-info h1 {
-                font-size: 1rem;
-            }
+            .glass-card { padding: 12px 10px; }
+            .profile-avatar img { width: 56px; height: 56px; }
+            .profile-info h1 { font-size: 1rem; }
         }
     </style>
 </head>
 <body>
 
-    <!-- ===== PARTÍCULAS DE FONDO ===== -->
+    <!-- ===== PARTÍCULAS ===== -->
     <div id="particles"></div>
 
     <!-- ===== HEADER ===== -->
@@ -1053,7 +885,6 @@
         <!-- ===== SECCIÓN 2: PLAN ===== -->
         <div class="section-page" id="section-plan">
 
-            <!-- Plan Sabatero -->
             <div id="planSabateroContainer" class="plan-section glass-card hidden">
                 <div class="plan-header">
                     <h3>📋 Plan Sabatero</h3>
@@ -1080,7 +911,6 @@
                 </div>
             </div>
 
-            <!-- Plan Finder -->
             <div id="planFinderContainer" class="plan-section glass-card hidden">
                 <div class="plan-header">
                     <h3>🏃 Plan Finder</h3>
@@ -1101,7 +931,6 @@
                 </div>
             </div>
 
-            <!-- Recordatorio -->
             <div id="recordatorioContainer" class="recordatorio hidden">
                 <i class="fas fa-exclamation-triangle"></i>
                 <div class="content">
@@ -1142,7 +971,7 @@
 
     </main>
 
-    <!-- ===== MODAL: SUBIR COMPROBANTE ===== -->
+    <!-- ===== MODAL ===== -->
     <div class="modal" id="uploadModal">
         <div class="modal-content">
             <div class="modal-header">
@@ -1171,7 +1000,7 @@
         </div>
     </div>
 
-    <!-- ===== BOTTOM NAVIGATION (Menú inferior) ===== -->
+    <!-- ===== BOTTOM NAV ===== -->
     <nav class="bottom-nav" id="bottomNav">
         <button class="nav-item active" data-section="perfil" onclick="navigateTo('perfil')">
             <i class="fas fa-user"></i>
@@ -1193,7 +1022,7 @@
     <!-- ============================================================ -->
     <script>
         // ================================================================
-        // 0. PARTÍCULAS DE FONDO
+        // PARTÍCULAS
         // ================================================================
 
         (function createParticles() {
@@ -1212,7 +1041,7 @@
         })();
 
         // ================================================================
-        // 1. RELOJ Y TEMPERATURA
+        // RELOJ
         // ================================================================
 
         function updateClock() {
@@ -1222,77 +1051,31 @@
         }
         setInterval(updateClock, 1000);
         updateClock();
-
         document.getElementById('tempDisplay').textContent = '17°C';
 
         // ================================================================
-        // 2. NAVEGACIÓN POR SECTIONS (Menú inferior + Swipe)
+        // NAVEGACIÓN
         // ================================================================
 
         var currentSection = 'perfil';
-        var touchStartX = 0;
-        var touchEndX = 0;
-        var isSwiping = false;
 
-        // Navegación por menú
         function navigateTo(section) {
-            // Ocultar todas las secciones
             document.querySelectorAll('.section-page').forEach(function(el) {
                 el.classList.remove('active');
             });
-
-            // Mostrar la sección seleccionada
             var target = document.getElementById('section-' + section);
-            if (target) {
-                target.classList.add('active');
-            }
+            if (target) target.classList.add('active');
 
-            // Actualizar navegación inferior
             document.querySelectorAll('.bottom-nav .nav-item').forEach(function(el) {
                 el.classList.remove('active');
-                if (el.dataset.section === section) {
-                    el.classList.add('active');
-                }
+                if (el.dataset.section === section) el.classList.add('active');
             });
 
             currentSection = section;
         }
 
-        // Gestos táctiles (Swipe)
-        var mainContainer = document.getElementById('socioMain');
-
-        mainContainer.addEventListener('touchstart', function(e) {
-            touchStartX = e.changedTouches[0].screenX;
-            isSwiping = true;
-        }, { passive: true });
-
-        mainContainer.addEventListener('touchend', function(e) {
-            if (!isSwiping) return;
-            touchEndX = e.changedTouches[0].screenX;
-            handleSwipe();
-            isSwiping = false;
-        }, { passive: true });
-
-        function handleSwipe() {
-            var diff = touchStartX - touchEndX;
-            var sections = ['perfil', 'plan', 'historial'];
-            var currentIndex = sections.indexOf(currentSection);
-
-            // Swipe izquierda (siguiente)
-            if (diff > 50 && currentIndex < sections.length - 1) {
-                navigateTo(sections[currentIndex + 1]);
-                // Feedback háptico visual
-                showToast('👆 ' + sections[currentIndex + 1].toUpperCase(), 'info');
-            }
-            // Swipe derecha (anterior)
-            else if (diff < -50 && currentIndex > 0) {
-                navigateTo(sections[currentIndex - 1]);
-                showToast('👆 ' + sections[currentIndex - 1].toUpperCase(), 'info');
-            }
-        }
-
         // ================================================================
-        // 3. OBTENER USUARIO ACTUAL
+        // USUARIO
         // ================================================================
 
         var currentUser = null;
@@ -1318,7 +1101,7 @@
         }
 
         // ================================================================
-        // 4. CARGAR DATOS DEL SOCIO
+        // CARGAR DATOS
         // ================================================================
 
         function loadSocioData() {
@@ -1326,9 +1109,7 @@
 
             if (!sessionUser) {
                 showToast('⚠️ Sesión no encontrada. Redirigiendo...', 'warning');
-                setTimeout(function() {
-                    window.location.href = 'index.html';
-                }, 1500);
+                setTimeout(function() { window.location.href = 'index.html'; }, 1500);
                 return;
             }
 
@@ -1336,9 +1117,7 @@
 
             if (!userData) {
                 showToast('⚠️ Usuario no encontrado. Redirigiendo...', 'warning');
-                setTimeout(function() {
-                    window.location.href = 'index.html';
-                }, 1500);
+                setTimeout(function() { window.location.href = 'index.html'; }, 1500);
                 return;
             }
 
@@ -1349,7 +1128,6 @@
             renderHistorial(userData);
             checkVencimiento(userData);
 
-            // Badge de notificación en el menú inferior
             var badge = document.getElementById('navBadge');
             if (historialPagos.length > 0) {
                 var pendientes = historialPagos.filter(function(p) { return p.estado === 'Pendiente'; });
@@ -1366,15 +1144,13 @@
                 var adminBtn = document.createElement('button');
                 adminBtn.className = 'btn btn-primary btn-sm';
                 adminBtn.innerHTML = '<i class="fas fa-crown"></i> Admin';
-                adminBtn.onclick = function() {
-                    window.location.href = 'admin.html';
-                };
+                adminBtn.onclick = function() { window.location.href = 'admin.html'; };
                 headerActions.prepend(adminBtn);
             }
         }
 
         // ================================================================
-        // 5. RENDERIZAR PERFIL
+        // RENDER
         // ================================================================
 
         function renderProfile(user) {
@@ -1393,24 +1169,14 @@
             var avatarImg = document.getElementById('socioAvatar');
             if (user.foto_url && user.foto_url.startsWith('http')) {
                 avatarImg.src = user.foto_url;
-            } else if (user.foto_url) {
-                avatarImg.src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 80 80"%3E%3Ccircle cx="40" cy="40" r="40" fill="%23111122"/%3E%3Ccircle cx="40" cy="26" r="12" fill="%23222244"/%3E%3Cpath d="M10 72c0-12 16-20 30-20s30 8 30 20" fill="%23222244"/%3E%3C/svg%3E';
             }
         }
 
         function getStatusClass(estado) {
-            var map = {
-                'Activo': 'badge-active',
-                'Pendiente': 'badge-pending',
-                'Suspendido': 'badge-suspended',
-                'Vencido': 'badge-expired'
-            };
+            var map = { 'Activo': 'badge-active', 'Pendiente': 'badge-pending', 'Suspendido': 'badge-suspended',
+                'Vencido': 'badge-expired' };
             return map[estado] || 'badge-pending';
         }
-
-        // ================================================================
-        // 6. RENDERIZAR PLAN
-        // ================================================================
 
         function renderPlan(user) {
             var sabateroContainer = document.getElementById('planSabateroContainer');
@@ -1436,7 +1202,6 @@
                 finderContainer.classList.remove('hidden');
 
                 document.getElementById('finderMetodo').textContent = user.metodo_pago || 'N/A';
-
                 var pagosCountFinder = historialPagos.filter(function(p) { return p.estado === 'Aprobado'; }).length;
                 document.getElementById('finderPagos').textContent = pagosCountFinder;
             }
@@ -1448,10 +1213,6 @@
             var diff = Math.ceil((venc - hoy) / (1000 * 60 * 60 * 24));
             return diff > 0 ? diff + ' días' : 'Vencido';
         }
-
-        // ================================================================
-        // 7. RENDERIZAR HISTORIAL
-        // ================================================================
 
         function renderHistorial(user) {
             var tbody = document.getElementById('historialTableBody');
@@ -1475,10 +1236,6 @@
                     '</tr>';
             }).join('');
         }
-
-        // ================================================================
-        // 8. VERIFICAR VENCIMIENTO
-        // ================================================================
 
         function checkVencimiento(user) {
             var container = document.getElementById('recordatorioContainer');
@@ -1504,7 +1261,7 @@
         }
 
         // ================================================================
-        // 9. FUNCIONES DE ACCIÓN
+        // ACCIONES
         // ================================================================
 
         function editarFotoPerfil() {
@@ -1565,7 +1322,6 @@
             renderHistorial(userData);
             checkVencimiento(userData);
 
-            // Actualizar badge
             var badge = document.getElementById('navBadge');
             var pendientes = historialPagos.filter(function(p) { return p.estado === 'Pendiente'; });
             if (pendientes.length > 0) {
@@ -1627,7 +1383,6 @@
             renderPlan(userData);
             renderHistorial(userData);
 
-            // Actualizar badge
             var badge = document.getElementById('navBadge');
             var pendientes = historialPagos.filter(function(p) { return p.estado === 'Pendiente'; });
             if (pendientes.length > 0) {
@@ -1662,7 +1417,7 @@
         }
 
         // ================================================================
-        // 10. MODALES
+        // MODALES
         // ================================================================
 
         function closeModal(id) {
@@ -1675,7 +1430,7 @@
         });
 
         // ================================================================
-        // 11. PREVISUALIZACIÓN DE ARCHIVO
+        // FILE PREVIEW
         // ================================================================
 
         document.getElementById('uploadReceipt').addEventListener('change', function() {
@@ -1690,7 +1445,7 @@
         });
 
         // ================================================================
-        // 12. TOAST
+        // TOAST
         // ================================================================
 
         function showToast(message, type) {
@@ -1717,7 +1472,7 @@
         }
 
         // ================================================================
-        // 13. CERRAR SESIÓN
+        // CERRAR SESIÓN
         // ================================================================
 
         function handleLogout() {
@@ -1732,20 +1487,17 @@
         }
 
         // ================================================================
-        // 14. INICIALIZAR
+        // INICIALIZAR
         // ================================================================
 
         loadSocioData();
 
-        console.log('👤 FLY FUTBOLEROS · Panel del Socio (Móvil Mejorado)');
+        console.log('👤 FLY FUTBOLEROS · Panel del Socio');
         console.log('📋 Usuario actual:', currentUser);
         console.log('📊 Historial de pagos:', historialPagos.length);
-        console.log('📱 Navegación: Menú inferior + Swipe');
+        console.log('📱 Navegación: Menú inferior');
 
-        // ================================================================
-        // 15. RESET NAV BADGE (ocultar al hacer clic en Plan)
-        // ================================================================
-
+        // Ocultar badge al hacer clic en Plan
         document.querySelector('.bottom-nav .nav-item[data-section="plan"]').addEventListener('click', function() {
             var badge = document.getElementById('navBadge');
             badge.style.display = 'none';
