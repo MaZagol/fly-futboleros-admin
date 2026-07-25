@@ -10,8 +10,6 @@
         /* ============================================================
            FLY FUTBOLEROS · PANEL DEL SOCIO
            ============================================================ */
-
-        /* ===== RESET & BASE ===== */
         * {
             margin: 0;
             padding: 0;
@@ -22,7 +20,6 @@
         :root {
             --bg-deep: #06060e;
             --bg-card: rgba(12, 12, 26, 0.6);
-            --bg-card-hover: rgba(12, 12, 26, 0.8);
             --border-glow: rgba(0, 212, 255, 0.06);
             --text-primary: #e8e8f0;
             --text-secondary: #9a9ab0;
@@ -39,6 +36,7 @@
             --radius-xs: 8px;
             --transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             --transition-fast: all 0.2s ease;
+            --bottom-nav-height: 64px;
         }
 
         html {
@@ -54,6 +52,7 @@
             min-height: 100dvh;
             overflow-x: hidden;
             position: relative;
+            padding-bottom: calc(var(--bottom-nav-height) + 24px);
         }
 
         ::-webkit-scrollbar {
@@ -69,7 +68,6 @@
             box-shadow: 0 0 20px rgba(0, 212, 255, 0.2);
         }
 
-        /* ===== PARTICULAS ===== */
         #particles {
             position: fixed;
             inset: 0;
@@ -85,10 +83,20 @@
             pointer-events: none;
         }
         @keyframes float-particle {
-            0% { transform: translateY(100vh) scale(0); opacity: 0; }
-            10% { opacity: 1; }
-            90% { opacity: 1; }
-            100% { transform: translateY(-10vh) scale(1); opacity: 0; }
+            0% {
+                transform: translateY(100vh) scale(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-10vh) scale(1);
+                opacity: 0;
+            }
         }
 
         /* ===== HEADER ===== */
@@ -98,11 +106,9 @@
             z-index: 100;
             background: rgba(6, 6, 14, 0.92);
             backdrop-filter: blur(24px);
-            -webkit-backdrop-filter: blur(24px);
             border-bottom: 1px solid var(--border-glow);
             padding: 10px 16px;
         }
-
         .socio-header .header-content {
             display: flex;
             justify-content: space-between;
@@ -112,22 +118,13 @@
             flex-wrap: wrap;
             gap: 10px;
         }
-
-        .socio-header .logo {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
         .socio-header .logo h2 {
             font-size: 1.1rem;
             font-weight: 900;
             background: var(--gradient-primary);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            text-shadow: 0 0 40px rgba(0, 212, 255, 0.05);
         }
-
         .socio-header .logo .badge {
             font-size: 0.45rem;
             padding: 2px 10px;
@@ -138,7 +135,6 @@
             text-transform: uppercase;
             letter-spacing: 1px;
         }
-
         .socio-header .header-actions {
             display: flex;
             align-items: center;
@@ -176,12 +172,25 @@
             font-weight: 500;
         }
         @keyframes pulse-dot {
-            0%, 100% { transform: scale(1); box-shadow: 0 0 8px rgba(0, 255, 127, 0.15); }
-            50% { transform: scale(1.3); box-shadow: 0 0 20px rgba(0, 255, 127, 0.25); }
+            0%,
+            100% {
+                transform: scale(1);
+                box-shadow: 0 0 8px rgba(0, 255, 127, 0.15);
+            }
+            50% {
+                transform: scale(1.3);
+                box-shadow: 0 0 20px rgba(0, 255, 127, 0.25);
+            }
         }
-        @media (max-width: 480px) {
-            .status-bar { font-size: 0.5rem; gap: 4px; padding: 2px 8px; }
-            .status-bar .sep { display: none; }
+        @media(max-width:480px) {
+            .status-bar {
+                font-size: 0.5rem;
+                gap: 4px;
+                padding: 2px 8px;
+            }
+            .status-bar .sep {
+                display: none;
+            }
         }
 
         /* ===== MAIN ===== */
@@ -218,8 +227,8 @@
             opacity: 0.04;
             pointer-events: none;
         }
-        .glass-card:hover {
-            border-color: rgba(0, 212, 255, 0.08);
+        .glass-card:active {
+            transform: scale(0.99);
         }
 
         /* ===== PROFILE ===== */
@@ -229,12 +238,10 @@
             gap: 20px;
             flex-wrap: wrap;
         }
-
         .profile-avatar {
             position: relative;
             flex-shrink: 0;
         }
-
         .profile-avatar img {
             width: 72px;
             height: 72px;
@@ -243,7 +250,6 @@
             border: 2px solid var(--neon-blue);
             box-shadow: 0 0 30px rgba(0, 212, 255, 0.06);
         }
-
         .profile-avatar .edit-btn {
             position: absolute;
             bottom: 0;
@@ -262,20 +268,19 @@
             transition: var(--transition-fast);
             box-shadow: 0 0 20px rgba(0, 212, 255, 0.08);
         }
-        .profile-avatar .edit-btn:active { transform: scale(0.85); }
-
+        .profile-avatar .edit-btn:active {
+            transform: scale(0.85);
+        }
         .profile-info h1 {
             font-size: 1.3rem;
             font-weight: 700;
             color: var(--text-primary);
         }
-
         .profile-info p {
             color: var(--text-secondary);
             font-size: 0.8rem;
             margin: 2px 0;
         }
-
         .profile-info p strong {
             color: var(--text-primary);
         }
@@ -290,26 +295,21 @@
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
-
         .badge-active {
             background: rgba(0, 255, 127, 0.06);
             color: var(--neon-green);
             border: 1px solid rgba(0, 255, 127, 0.06);
-            text-shadow: 0 0 20px rgba(0, 255, 127, 0.05);
         }
-
         .badge-pending {
             background: rgba(255, 106, 0, 0.06);
             color: var(--neon-orange);
             border: 1px solid rgba(255, 106, 0, 0.06);
         }
-
         .badge-suspended {
             background: rgba(255, 45, 138, 0.06);
             color: var(--neon-pink);
             border: 1px solid rgba(255, 45, 138, 0.06);
         }
-
         .badge-expired {
             background: rgba(255, 45, 138, 0.06);
             color: var(--neon-pink);
@@ -321,7 +321,6 @@
             padding: 18px 20px;
             margin-bottom: 16px;
         }
-
         .plan-header {
             display: flex;
             justify-content: space-between;
@@ -330,26 +329,22 @@
             flex-wrap: wrap;
             gap: 8px;
         }
-
         .plan-header h3 {
             font-size: 1rem;
             font-weight: 600;
             color: var(--text-primary);
         }
-
         .plan-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
             gap: 10px;
         }
-
         .plan-item {
             padding: 8px 12px;
             background: rgba(0, 0, 0, 0.2);
             border-radius: var(--radius-xs);
             border: 1px solid var(--border-glow);
         }
-
         .plan-item label {
             display: block;
             font-size: 0.5rem;
@@ -357,13 +352,11 @@
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
-
         .plan-item span {
             font-size: 0.85rem;
             font-weight: 600;
             color: var(--text-primary);
         }
-
         .plan-actions {
             display: flex;
             flex-wrap: wrap;
@@ -393,40 +386,35 @@
             -webkit-tap-highlight-color: transparent;
             touch-action: manipulation;
         }
-
-        .btn:active { transform: scale(0.95); }
-
+        .btn:active {
+            transform: scale(0.95);
+        }
         .btn-primary {
             background: var(--gradient-primary);
             color: #fff;
             box-shadow: 0 0 30px rgba(0, 212, 255, 0.04);
         }
-
         .btn-secondary {
             background: rgba(0, 0, 0, 0.2);
             color: var(--text-secondary);
             border: 1px solid var(--border-glow);
         }
-
         .btn-secondary:hover {
             background: rgba(0, 0, 0, 0.4);
             color: var(--text-primary);
             border-color: rgba(0, 212, 255, 0.08);
         }
-
         .btn-sm {
             padding: 6px 12px;
             min-height: 32px;
             font-size: 0.55rem;
         }
-
         .btn:disabled {
             opacity: 0.5;
             cursor: not-allowed;
             transform: none !important;
         }
-
-        @media (max-width: 480px) {
+        @media(max-width:480px) {
             .btn {
                 padding: 10px 16px;
                 min-height: 44px;
@@ -447,7 +435,6 @@
             border-collapse: collapse;
             font-size: 0.7rem;
         }
-
         .socio-table th {
             padding: 8px 10px;
             text-align: left;
@@ -458,23 +445,27 @@
             letter-spacing: 0.5px;
             border-bottom: 1px solid var(--border-glow);
         }
-
         .socio-table td {
             padding: 6px 10px;
             border-bottom: 1px solid rgba(255, 255, 255, 0.015);
             vertical-align: middle;
             color: var(--text-secondary);
         }
-
         .table-container {
             overflow-x: auto;
             -webkit-overflow-scrolling: touch;
         }
-
-        @media (max-width: 480px) {
-            .socio-table { font-size: 0.6rem; }
-            .socio-table th { padding: 6px 8px; font-size: 0.5rem; }
-            .socio-table td { padding: 5px 8px; }
+        @media(max-width:480px) {
+            .socio-table {
+                font-size: 0.6rem;
+            }
+            .socio-table th {
+                padding: 6px 8px;
+                font-size: 0.5rem;
+            }
+            .socio-table td {
+                padding: 5px 8px;
+            }
         }
 
         /* ===== RECORDATORIO ===== */
@@ -489,19 +480,15 @@
             gap: 14px;
             flex-wrap: wrap;
         }
-
         .recordatorio i {
             color: var(--neon-orange);
             font-size: 1.3rem;
             flex-shrink: 0;
-            text-shadow: 0 0 20px rgba(255, 106, 0, 0.05);
         }
-
         .recordatorio .content h4 {
             color: var(--neon-orange);
             font-size: 0.85rem;
         }
-
         .recordatorio .content p {
             color: var(--text-secondary);
             font-size: 0.75rem;
@@ -513,21 +500,19 @@
             inset: 0;
             background: rgba(0, 0, 0, 0.85);
             backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
             z-index: 2000;
             display: none;
             align-items: center;
             justify-content: center;
             padding: 16px;
         }
-
-        .modal.active { display: flex; }
-
+        .modal.active {
+            display: flex;
+        }
         .modal-content {
             width: 100%;
             max-width: 500px;
             max-height: 90vh;
-            max-height: 90dvh;
             overflow-y: auto;
             background: rgba(6, 6, 14, 0.98);
             border: 1px solid var(--border-glow);
@@ -536,7 +521,6 @@
             animation: fadeInUp 0.3s ease;
             box-shadow: var(--shadow-card);
         }
-
         .modal-header {
             display: flex;
             justify-content: space-between;
@@ -550,13 +534,11 @@
             z-index: 10;
             border-radius: var(--radius) var(--radius) 0 0;
         }
-
         .modal-header h2 {
             font-size: 0.95rem;
             font-weight: 600;
             color: var(--text-primary);
         }
-
         .modal-close {
             background: none;
             border: none;
@@ -566,13 +548,12 @@
             transition: var(--transition-fast);
             padding: 4px;
         }
-
-        .modal-close:hover { color: var(--neon-pink); }
-
+        .modal-close:hover {
+            color: var(--neon-pink);
+        }
         .modal-body {
             padding: 16px 18px;
         }
-
         .modal-body .file-upload-area {
             border: 2px dashed var(--border-glow);
             border-radius: var(--radius-sm);
@@ -582,28 +563,23 @@
             transition: var(--transition-fast);
             background: rgba(0, 0, 0, 0.15);
         }
-
         .modal-body .file-upload-area:hover {
             border-color: var(--neon-blue);
             background: rgba(0, 212, 255, 0.02);
         }
-
         .modal-body .file-upload-area i {
             font-size: 1.8rem;
             color: var(--text-muted);
             display: block;
             margin-bottom: 6px;
         }
-
         .modal-body .file-upload-area p {
             color: var(--text-secondary);
             font-size: 0.75rem;
         }
-
-        .modal-body .file-upload-area input[type="file"] {
+        .modal-body .file-upload-area input[type=file] {
             display: none;
         }
-
         .modal-body .file-preview {
             margin-top: 8px;
             padding: 8px 12px;
@@ -614,33 +590,35 @@
             align-items: center;
             gap: 10px;
         }
-
         .modal-body .file-preview i {
             color: var(--neon-blue);
             font-size: 0.9rem;
         }
-
         .modal-body .file-preview .name {
             flex: 1;
             font-size: 0.7rem;
             color: var(--text-primary);
         }
-
         .modal-body .file-preview .remove {
             color: var(--neon-pink);
             cursor: pointer;
             font-size: 0.8rem;
         }
-
         @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(16px) scale(0.96); }
-            to { opacity: 1; transform: translateY(0) scale(1); }
+            from {
+                opacity: 0;
+                transform: translateY(16px) scale(0.96);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
         }
 
         /* ===== TOAST ===== */
         .toast {
             position: fixed;
-            bottom: 20px;
+            bottom: calc(var(--bottom-nav-height) + 16px);
             right: 20px;
             left: 20px;
             max-width: 400px;
@@ -659,22 +637,27 @@
             gap: 12px;
             font-size: 0.85rem;
         }
-
         .toast .icon {
             font-size: 1.1rem;
             flex-shrink: 0;
         }
-
-        .toast .icon.success { color: var(--neon-green); }
-        .toast .icon.error { color: var(--neon-pink); }
-        .toast .icon.warning { color: var(--neon-orange); }
-        .toast .icon.info { color: var(--neon-blue); }
-
-        @media (max-width: 480px) {
+        .toast .icon.success {
+            color: var(--neon-green);
+        }
+        .toast .icon.error {
+            color: var(--neon-pink);
+        }
+        .toast .icon.warning {
+            color: var(--neon-orange);
+        }
+        .toast .icon.info {
+            color: var(--neon-blue);
+        }
+        @media(max-width:480px) {
             .toast {
                 font-size: 0.75rem;
                 padding: 12px 16px;
-                bottom: 12px;
+                bottom: calc(var(--bottom-nav-height) + 12px);
                 left: 12px;
                 right: 12px;
             }
@@ -684,9 +667,26 @@
             display: none !important;
         }
 
-        /* ============================================================
-           BOTTOM NAVIGATION
-           ============================================================ */
+        /* ===== SECTION PAGES ===== */
+        .section-page {
+            display: none;
+            animation: slideIn 0.4s ease;
+        }
+        .section-page.active {
+            display: block;
+        }
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* ===== BOTTOM NAV ===== */
         .bottom-nav {
             position: fixed;
             bottom: 0;
@@ -695,16 +695,14 @@
             z-index: 500;
             background: rgba(6, 6, 14, 0.95);
             backdrop-filter: blur(24px);
-            -webkit-backdrop-filter: blur(24px);
             border-top: 1px solid var(--border-glow);
-            height: 64px;
-            display: none;
+            height: var(--bottom-nav-height);
+            display: flex;
             align-items: center;
             justify-content: space-around;
             padding: 0 8px;
             box-shadow: 0 -8px 40px rgba(0, 0, 0, 0.5);
         }
-
         .bottom-nav .nav-item {
             display: flex;
             flex-direction: column;
@@ -724,14 +722,13 @@
             touch-action: manipulation;
             border-radius: var(--radius-xs);
         }
-
-        .bottom-nav .nav-item:active { transform: scale(0.92); }
-
+        .bottom-nav .nav-item:active {
+            transform: scale(0.92);
+        }
         .bottom-nav .nav-item i {
             font-size: 1.2rem;
             transition: var(--transition-fast);
         }
-
         .bottom-nav .nav-item span {
             font-size: 0.5rem;
             font-weight: 500;
@@ -739,15 +736,9 @@
             letter-spacing: 0.5px;
             transition: var(--transition-fast);
         }
-
         .bottom-nav .nav-item.active {
             color: var(--neon-blue);
         }
-
-        .bottom-nav .nav-item.active i {
-            text-shadow: 0 0 20px rgba(0, 212, 255, 0.2);
-        }
-
         .bottom-nav .nav-item .nav-badge {
             position: absolute;
             top: 2px;
@@ -762,66 +753,98 @@
             text-align: center;
             box-shadow: 0 0 20px rgba(255, 45, 138, 0.2);
         }
-
-        @media (max-width: 768px) {
-            .bottom-nav { display: flex; }
+        @media(max-width:480px) {
+            .bottom-nav .nav-item {
+                padding: 4px 8px;
+                min-width: 48px;
+                min-height: 40px;
+            }
+            .bottom-nav .nav-item i {
+                font-size: 1rem;
+            }
+            .bottom-nav .nav-item span {
+                font-size: 0.45rem;
+            }
         }
 
-        @media (max-width: 480px) {
-            .bottom-nav .nav-item { padding: 4px 8px; min-width: 48px; min-height: 40px; }
-            .bottom-nav .nav-item i { font-size: 1rem; }
-            .bottom-nav .nav-item span { font-size: 0.45rem; }
+        /* ============================================================
+           RESPONSIVE
+           ============================================================ */
+        @media(max-width:768px) {
+            .profile-header {
+                flex-direction: column;
+                text-align: center;
+            }
+            .plan-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            .recordatorio {
+                flex-direction: column;
+                text-align: center;
+                justify-content: center;
+            }
+            .socio-header .header-content {
+                flex-direction: column;
+                align-items: stretch;
+                text-align: center;
+            }
+            .socio-header .header-actions {
+                justify-content: center;
+            }
+            .socio-main {
+                padding: 12px;
+            }
         }
-
-        @media (min-width: 769px) {
-            .bottom-nav { display: none !important; }
+        @media(max-width:480px) {
+            .plan-grid {
+                grid-template-columns: 1fr;
+            }
+            .glass-card {
+                padding: 14px;
+            }
+            .socio-main {
+                padding: 10px;
+            }
+            .profile-avatar img {
+                width: 64px;
+                height: 64px;
+            }
+            .profile-info h1 {
+                font-size: 1.1rem;
+            }
+            .profile-info p {
+                font-size: 0.75rem;
+            }
+            .plan-section {
+                padding: 14px;
+            }
+            .plan-header h3 {
+                font-size: 0.9rem;
+            }
+            .plan-item {
+                padding: 6px 10px;
+            }
+            .plan-item span {
+                font-size: 0.8rem;
+            }
+            .recordatorio {
+                padding: 12px 14px;
+            }
+            .recordatorio i {
+                font-size: 1.1rem;
+            }
         }
-
-        /* ===== SECTION PAGES (para navegación) ===== */
-        .section-page {
-            display: none;
-            animation: slideIn 0.4s ease;
-        }
-        .section-page.active {
-            display: block;
-        }
-
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateX(30px); }
-            to { opacity: 1; transform: translateX(0); }
-        }
-
-        /* ===== RESPONSIVE ===== */
-        @media (max-width: 768px) {
-            .profile-header { flex-direction: column; text-align: center; }
-            .plan-grid { grid-template-columns: 1fr 1fr; }
-            .recordatorio { flex-direction: column; text-align: center; justify-content: center; }
-            .socio-header .header-content { flex-direction: column; align-items: stretch; text-align: center; }
-            .socio-header .header-actions { justify-content: center; }
-            .socio-main { padding: 12px 12px 20px; }
-            body { padding-bottom: 80px; }
-        }
-
-        @media (max-width: 480px) {
-            .plan-grid { grid-template-columns: 1fr; }
-            .glass-card { padding: 14px 14px; }
-            .socio-main { padding: 10px 10px 16px; }
-            .profile-avatar img { width: 64px; height: 64px; }
-            .profile-info h1 { font-size: 1.1rem; }
-            .profile-info p { font-size: 0.75rem; }
-            .plan-section { padding: 14px 14px; }
-            .plan-header h3 { font-size: 0.9rem; }
-            .plan-item { padding: 6px 10px; }
-            .plan-item span { font-size: 0.8rem; }
-            .recordatorio { padding: 12px 14px; }
-            .recordatorio i { font-size: 1.1rem; }
-            body { padding-bottom: 76px; }
-        }
-
-        @media (max-width: 380px) {
-            .glass-card { padding: 12px 10px; }
-            .profile-avatar img { width: 56px; height: 56px; }
-            .profile-info h1 { font-size: 1rem; }
+        @media(max-width:380px) {
+            .glass-card {
+                padding: 12px 10px;
+            }
+            .profile-avatar img {
+                width: 56px;
+                height: 56px;
+            }
+            .profile-info h1 {
+                font-size: 1rem;
+            }
         }
     </style>
 </head>
@@ -856,7 +879,7 @@
     <!-- ===== MAIN ===== -->
     <main class="socio-main" id="socioMain">
 
-        <!-- ===== SECCIÓN 1: PERFIL ===== -->
+        <!-- ===== SECCIÓN: PERFIL ===== -->
         <div class="section-page active" id="section-perfil">
             <div class="glass-card">
                 <div class="profile-header">
@@ -882,9 +905,10 @@
             </div>
         </div>
 
-        <!-- ===== SECCIÓN 2: PLAN ===== -->
+        <!-- ===== SECCIÓN: PLAN ===== -->
         <div class="section-page" id="section-plan">
 
+            <!-- Plan Sabatero -->
             <div id="planSabateroContainer" class="plan-section glass-card hidden">
                 <div class="plan-header">
                     <h3>📋 Plan Sabatero</h3>
@@ -911,6 +935,7 @@
                 </div>
             </div>
 
+            <!-- Plan Finder -->
             <div id="planFinderContainer" class="plan-section glass-card hidden">
                 <div class="plan-header">
                     <h3>🏃 Plan Finder</h3>
@@ -931,6 +956,7 @@
                 </div>
             </div>
 
+            <!-- Recordatorio -->
             <div id="recordatorioContainer" class="recordatorio hidden">
                 <i class="fas fa-exclamation-triangle"></i>
                 <div class="content">
@@ -941,7 +967,7 @@
             </div>
         </div>
 
-        <!-- ===== SECCIÓN 3: HISTORIAL ===== -->
+        <!-- ===== SECCIÓN: HISTORIAL ===== -->
         <div class="section-page" id="section-historial">
             <div class="glass-card">
                 <h3 style="margin-bottom:14px;font-size:0.95rem;">📜 Historial de Pagos</h3>
@@ -971,7 +997,7 @@
 
     </main>
 
-    <!-- ===== MODAL ===== -->
+    <!-- ===== MODAL: SUBIR COMPROBANTE ===== -->
     <div class="modal" id="uploadModal">
         <div class="modal-content">
             <div class="modal-header">
@@ -1000,7 +1026,7 @@
         </div>
     </div>
 
-    <!-- ===== BOTTOM NAV ===== -->
+    <!-- ===== BOTTOM NAVIGATION ===== -->
     <nav class="bottom-nav" id="bottomNav">
         <button class="nav-item active" data-section="perfil" onclick="navigateTo('perfil')">
             <i class="fas fa-user"></i>
@@ -1022,7 +1048,7 @@
     <!-- ============================================================ -->
     <script>
         // ================================================================
-        // PARTÍCULAS
+        // 1. PARTÍCULAS
         // ================================================================
 
         (function createParticles() {
@@ -1041,7 +1067,7 @@
         })();
 
         // ================================================================
-        // RELOJ
+        // 2. RELOJ Y TEMPERATURA
         // ================================================================
 
         function updateClock() {
@@ -1051,10 +1077,11 @@
         }
         setInterval(updateClock, 1000);
         updateClock();
+
         document.getElementById('tempDisplay').textContent = '17°C';
 
         // ================================================================
-        // NAVEGACIÓN
+        // 3. NAVEGACIÓN POR SECCIONES
         // ================================================================
 
         var currentSection = 'perfil';
@@ -1075,7 +1102,83 @@
         }
 
         // ================================================================
-        // USUARIO
+        // 4. BASE DE DATOS EN MEMORIA (DATOS DE PRUEBA)
+        // ================================================================
+
+        // Si no existe, creamos los datos de prueba
+        if (typeof window.USERS_DB === 'undefined' || !window.USERS_DB || window.USERS_DB.length === 0) {
+            window.USERS_DB = [];
+
+            // Usuario administrador
+            window.USERS_DB.push({
+                id: 1,
+                username: 'admin',
+                nombre: 'Administrador',
+                telefono: '0999 999999',
+                email: 'admin@flyfutboleros.com',
+                password: 'admin123',
+                plan: 'Sabatero',
+                metodo_pago: 'Transferencia',
+                estado: 'Activo',
+                fecha_registro: new Date().toISOString(),
+                fecha_inicio: new Date().toISOString(),
+                fecha_vencimiento: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
+                foto_url: null,
+                comprobante_url: null,
+                role: 'admin',
+                pagos: [
+                    { fecha: new Date().toISOString(), monto: 20000, metodo: 'Transferencia', estado: 'Aprobado' }
+                ]
+            });
+
+            // Usuario socio 1
+            window.USERS_DB.push({
+                id: 2,
+                username: 'juanperez',
+                nombre: 'Juan Pérez',
+                telefono: '0981 123456',
+                email: 'juan@email.com',
+                password: 'juan123',
+                plan: 'Sabatero',
+                metodo_pago: 'Transferencia',
+                estado: 'Activo',
+                fecha_registro: new Date().toISOString(),
+                fecha_inicio: new Date().toISOString(),
+                fecha_vencimiento: new Date(Date.now() + 15 * 24 * 60 * 60 * 1000).toISOString(),
+                foto_url: null,
+                comprobante_url: null,
+                role: 'socio',
+                pagos: [
+                    { fecha: new Date().toISOString(), monto: 20000, metodo: 'Transferencia', estado: 'Aprobado' }
+                ]
+            });
+
+            // Usuario socio 2
+            window.USERS_DB.push({
+                id: 3,
+                username: 'mariag',
+                nombre: 'María González',
+                telefono: '0981 654321',
+                email: 'maria@email.com',
+                password: 'maria123',
+                plan: 'Finder',
+                metodo_pago: 'Efectivo',
+                estado: 'Pendiente',
+                fecha_registro: new Date().toISOString(),
+                fecha_inicio: null,
+                fecha_vencimiento: null,
+                foto_url: null,
+                comprobante_url: null,
+                role: 'socio',
+                pagos: []
+            });
+
+            console.log('📦 Datos de prueba cargados en memoria (socio.html)');
+            console.log('👤 Usuarios disponibles:', window.USERS_DB.length);
+        }
+
+        // ================================================================
+        // 5. GESTIÓN DE USUARIO
         // ================================================================
 
         var currentUser = null;
@@ -1101,23 +1204,29 @@
         }
 
         // ================================================================
-        // CARGAR DATOS
+        // 6. CARGAR DATOS DEL SOCIO
         // ================================================================
 
         function loadSocioData() {
             var sessionUser = getCurrentUser();
 
+            // Si no hay sesión, redirigir al login
             if (!sessionUser) {
                 showToast('⚠️ Sesión no encontrada. Redirigiendo...', 'warning');
-                setTimeout(function() { window.location.href = 'index.html'; }, 1500);
+                setTimeout(function() {
+                    window.location.href = 'index.html';
+                }, 1500);
                 return;
             }
 
             var userData = getUserData(sessionUser.username);
 
+            // Si el usuario no existe en la base de datos, redirigir al login
             if (!userData) {
                 showToast('⚠️ Usuario no encontrado. Redirigiendo...', 'warning');
-                setTimeout(function() { window.location.href = 'index.html'; }, 1500);
+                setTimeout(function() {
+                    window.location.href = 'index.html';
+                }, 1500);
                 return;
             }
 
@@ -1128,6 +1237,7 @@
             renderHistorial(userData);
             checkVencimiento(userData);
 
+            // Mostrar badge de notificaciones si hay pagos pendientes
             var badge = document.getElementById('navBadge');
             if (historialPagos.length > 0) {
                 var pendientes = historialPagos.filter(function(p) { return p.estado === 'Pendiente'; });
@@ -1139,6 +1249,7 @@
                 }
             }
 
+            // Si es admin, mostrar botón para ir al panel admin
             if (userData.role === 'admin') {
                 var headerActions = document.querySelector('.socio-header .header-actions');
                 var adminBtn = document.createElement('button');
@@ -1150,7 +1261,7 @@
         }
 
         // ================================================================
-        // RENDER
+        // 7. RENDERIZAR PERFIL
         // ================================================================
 
         function renderProfile(user) {
@@ -1173,10 +1284,18 @@
         }
 
         function getStatusClass(estado) {
-            var map = { 'Activo': 'badge-active', 'Pendiente': 'badge-pending', 'Suspendido': 'badge-suspended',
-                'Vencido': 'badge-expired' };
+            var map = {
+                'Activo': 'badge-active',
+                'Pendiente': 'badge-pending',
+                'Suspendido': 'badge-suspended',
+                'Vencido': 'badge-expired'
+            };
             return map[estado] || 'badge-pending';
         }
+
+        // ================================================================
+        // 8. RENDERIZAR PLAN
+        // ================================================================
 
         function renderPlan(user) {
             var sabateroContainer = document.getElementById('planSabateroContainer');
@@ -1214,6 +1333,10 @@
             return diff > 0 ? diff + ' días' : 'Vencido';
         }
 
+        // ================================================================
+        // 9. RENDERIZAR HISTORIAL
+        // ================================================================
+
         function renderHistorial(user) {
             var tbody = document.getElementById('historialTableBody');
 
@@ -1236,6 +1359,10 @@
                     '</tr>';
             }).join('');
         }
+
+        // ================================================================
+        // 10. VERIFICAR VENCIMIENTO
+        // ================================================================
 
         function checkVencimiento(user) {
             var container = document.getElementById('recordatorioContainer');
@@ -1261,7 +1388,7 @@
         }
 
         // ================================================================
-        // ACCIONES
+        // 11. FUNCIONES DE ACCIÓN
         // ================================================================
 
         function editarFotoPerfil() {
@@ -1417,7 +1544,7 @@
         }
 
         // ================================================================
-        // MODALES
+        // 12. MODALES
         // ================================================================
 
         function closeModal(id) {
@@ -1430,7 +1557,7 @@
         });
 
         // ================================================================
-        // FILE PREVIEW
+        // 13. PREVISUALIZACIÓN DE ARCHIVO
         // ================================================================
 
         document.getElementById('uploadReceipt').addEventListener('change', function() {
@@ -1445,7 +1572,7 @@
         });
 
         // ================================================================
-        // TOAST
+        // 14. TOAST
         // ================================================================
 
         function showToast(message, type) {
@@ -1472,7 +1599,7 @@
         }
 
         // ================================================================
-        // CERRAR SESIÓN
+        // 15. CERRAR SESIÓN
         // ================================================================
 
         function handleLogout() {
@@ -1487,7 +1614,7 @@
         }
 
         // ================================================================
-        // INICIALIZAR
+        // 16. INICIALIZAR
         // ================================================================
 
         loadSocioData();
@@ -1497,7 +1624,6 @@
         console.log('📊 Historial de pagos:', historialPagos.length);
         console.log('📱 Navegación: Menú inferior');
 
-        // Ocultar badge al hacer clic en Plan
         document.querySelector('.bottom-nav .nav-item[data-section="plan"]').addEventListener('click', function() {
             var badge = document.getElementById('navBadge');
             badge.style.display = 'none';
