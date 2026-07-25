@@ -3,25 +3,54 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>FLY FUTBOLEROS</title>
+    <title>FLY FUTBOLEROS · Registro</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
+        /* ============================================================
+           FLY FUTBOLEROS · REGISTRO Y LOGIN
+           Diseño Ultra Futurista · Colores Neón Oscuro
+           ============================================================ */
+
         /* ===== RESET & BASE ===== */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
         }
 
         :root {
             --bg-deep: #06060e;
-            --neon-blue: #00d4ff;
-            --neon-purple: #8b3cff;
-            --neon-green: #00ff7f;
+            --bg-card: rgba(12, 12, 26, 0.6);
+            --bg-card-hover: rgba(12, 12, 26, 0.8);
+            --border-glow: rgba(0, 212, 255, 0.08);
             --text-primary: #e8e8f0;
             --text-secondary: #9a9ab0;
             --text-muted: #5a5a7a;
+            --neon-blue: #00d4ff;
+            --neon-purple: #8b3cff;
+            --neon-pink: #ff2d8a;
+            --neon-green: #00ff7f;
+            --neon-orange: #ff6a00;
+            --neon-cyan: #00f7ff;
+            --neon-yellow: #ffd700;
             --gradient-primary: linear-gradient(135deg, #00d4ff, #8b3cff);
+            --gradient-secondary: linear-gradient(135deg, #ff2d8a, #8b3cff);
+            --gradient-success: linear-gradient(135deg, #00ff7f, #00d4ff);
+            --gradient-warning: linear-gradient(135deg, #ff6a00, #ffd700);
+            --shadow-neon: 0 0 80px rgba(0, 212, 255, 0.04);
+            --shadow-card: 0 8px 48px rgba(0, 0, 0, 0.9);
+            --radius: 20px;
+            --radius-sm: 12px;
+            --radius-xs: 8px;
+            --transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            --transition-fast: all 0.2s ease;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            -webkit-font-smoothing: antialiased;
         }
 
         body {
@@ -30,11 +59,24 @@
             color: var(--text-primary);
             min-height: 100vh;
             min-height: 100dvh;
+            overflow-x: hidden;
             display: flex;
             align-items: center;
             justify-content: center;
-            overflow: hidden;
             position: relative;
+        }
+
+        ::-webkit-scrollbar {
+            width: 3px;
+            height: 3px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-deep);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--neon-blue);
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.2);
         }
 
         /* ===== PARTÍCULAS DE FONDO ===== */
@@ -48,7 +90,7 @@
         .particle {
             position: absolute;
             border-radius: 50%;
-            background: radial-gradient(circle, rgba(0, 212, 255, 0.08), transparent);
+            background: radial-gradient(circle, rgba(0, 212, 255, 0.1), transparent);
             animation: float-particle linear infinite;
             pointer-events: none;
         }
@@ -69,380 +111,779 @@
             }
         }
 
-        /* ===== ANILLO NEÓN ===== */
-        .glow-ring {
-            position: absolute;
-            width: 400px;
-            height: 400px;
-            border-radius: 50%;
-            border: 1px solid rgba(0, 212, 255, 0.03);
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            animation: pulse-ring 4s ease-in-out infinite;
-        }
-        .glow-ring:nth-child(2) {
-            width: 500px;
-            height: 500px;
-            animation-delay: 1.5s;
-        }
-        .glow-ring:nth-child(3) {
-            width: 600px;
-            height: 600px;
-            animation-delay: 3s;
-        }
-
-        @keyframes pulse-ring {
-            0%,
-            100% {
-                opacity: 0.3;
-                transform: translate(-50%, -50%) scale(1);
-            }
-            50% {
-                opacity: 0.8;
-                transform: translate(-50%, -50%) scale(1.1);
-            }
-        }
-
-        /* ===== CONTENEDOR ===== */
-        .container {
+        /* ===== LOGIN SCREEN ===== */
+        .login-screen {
             position: relative;
             z-index: 1;
-            text-align: center;
-            max-width: 600px;
-            padding: 20px;
+            width: 100%;
+            max-width: 440px;
+            padding: 16px;
+            animation: fadeIn 0.6s ease;
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.96) translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
         }
 
-        /* ===== LOGO ===== */
-        .logo {
-            font-size: 4rem;
+        .login-box {
+            background: var(--bg-card);
+            border: 1px solid var(--border-glow);
+            border-radius: var(--radius);
+            padding: 32px 28px;
+            box-shadow: var(--shadow-card);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            position: relative;
+            overflow: hidden;
+            max-height: 96vh;
+            overflow-y: auto;
+        }
+        .login-box::-webkit-scrollbar {
+            width: 2px;
+        }
+        .login-box::-webkit-scrollbar-thumb {
+            background: var(--neon-blue);
+            border-radius: 10px;
+        }
+
+        /* Efecto de brillo en el borde */
+        .login-box::before {
+            content: '';
+            position: absolute;
+            inset: -1px;
+            border-radius: var(--radius);
+            padding: 1px;
+            background: var(--gradient-primary);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            opacity: 0.12;
+            pointer-events: none;
+        }
+
+        /* Efecto de brillo superior */
+        .login-box::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(ellipse at 50% 0%, rgba(0, 212, 255, 0.02), transparent 60%);
+            pointer-events: none;
+        }
+
+        .login-box .logo {
+            text-align: center;
+            margin-bottom: 28px;
+            position: relative;
+            z-index: 1;
+        }
+        .login-box .logo h1 {
+            font-size: 2.2rem;
             font-weight: 900;
             background: var(--gradient-primary);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            letter-spacing: -2px;
-            text-shadow: 0 0 80px rgba(0, 212, 255, 0.05);
-            margin-bottom: 8px;
+            letter-spacing: -0.5px;
+            text-shadow: 0 0 60px rgba(0, 212, 255, 0.08);
         }
-
-        .logo-sub {
-            font-size: 0.7rem;
+        .login-box .logo p {
+            font-size: 0.6rem;
             color: var(--text-secondary);
-            letter-spacing: 10px;
+            letter-spacing: 8px;
             text-transform: uppercase;
-            margin-bottom: 32px;
+            margin-top: 2px;
             opacity: 0.6;
         }
 
-        /* ===== TÍTULO ===== */
-        .title {
-            font-size: 1.6rem;
-            font-weight: 700;
-            margin-bottom: 8px;
-        }
-        .title span {
-            color: var(--neon-blue);
-        }
-
-        .subtitle {
-            color: var(--text-secondary);
-            font-size: 0.95rem;
-            margin-bottom: 40px;
-            line-height: 1.6;
-        }
-
-        /* ===== BOTONES ===== */
-        .btn-group {
-            display: flex;
-            flex-direction: column;
-            gap: 14px;
-            max-width: 320px;
-            margin: 0 auto;
-        }
-
-        .btn {
+        /* ===== STATUS BAR ===== */
+        .status-bar {
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 12px;
-            padding: 16px 24px;
-            border: none;
-            border-radius: 14px;
-            font-family: 'Inter', sans-serif;
-            font-size: 0.95rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            min-height: 56px;
-            -webkit-tap-highlight-color: transparent;
-            touch-action: manipulation;
-        }
-
-        .btn:active {
-            transform: scale(0.96);
-        }
-
-        .btn-primary {
-            background: var(--gradient-primary);
-            color: #fff;
-            box-shadow: 0 0 40px rgba(0, 212, 255, 0.05);
-        }
-        .btn-primary:hover {
-            box-shadow: 0 4px 40px rgba(0, 212, 255, 0.15);
-            transform: translateY(-2px);
-        }
-
-        .btn-secondary {
-            background: rgba(255, 255, 255, 0.03);
-            color: var(--text-secondary);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-        }
-        .btn-secondary:hover {
-            background: rgba(255, 255, 255, 0.06);
-            color: var(--text-primary);
-            border-color: rgba(0, 212, 255, 0.1);
-        }
-
-        .btn i {
-            font-size: 1.1rem;
-        }
-
-        .btn .badge {
-            font-size: 0.5rem;
-            padding: 2px 10px;
-            border-radius: 12px;
-            background: rgba(0, 255, 127, 0.08);
-            color: var(--neon-green);
-            border: 1px solid rgba(0, 255, 127, 0.06);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .btn .badge-admin {
-            background: rgba(0, 212, 255, 0.08);
-            color: var(--neon-blue);
-            border-color: rgba(0, 212, 255, 0.06);
-        }
-
-        /* ===== SEPARADOR ===== */
-        .divider {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            margin: 20px 0;
-            color: var(--text-muted);
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-        .divider::before,
-        .divider::after {
-            content: '';
-            flex: 1;
-            height: 1px;
-            background: rgba(255, 255, 255, 0.04);
-        }
-
-        /* ===== FOOTER ===== */
-        .footer {
-            margin-top: 40px;
-            color: var(--text-muted);
-            font-size: 0.65rem;
-            letter-spacing: 1px;
-        }
-        .footer span {
-            color: var(--neon-blue);
-            opacity: 0.5;
-        }
-
-        /* ===== VERSIÓN ===== */
-        .version {
-            position: fixed;
-            bottom: 20px;
-            right: 24px;
-            font-size: 0.55rem;
-            color: var(--text-muted);
-            opacity: 0.3;
-            letter-spacing: 1px;
-            z-index: 2;
-        }
-
-        /* ===== RESPONSIVE ===== */
-        @media (max-width: 480px) {
-            .logo {
-                font-size: 3rem;
-            }
-            .title {
-                font-size: 1.3rem;
-            }
-            .subtitle {
-                font-size: 0.85rem;
-            }
-            .btn {
-                font-size: 0.85rem;
-                padding: 14px 20px;
-                min-height: 50px;
-            }
-            .glow-ring {
-                width: 250px;
-                height: 250px;
-            }
-            .glow-ring:nth-child(2) {
-                width: 320px;
-                height: 320px;
-            }
-            .glow-ring:nth-child(3) {
-                width: 390px;
-                height: 390px;
-            }
-            .version {
-                display: none;
-            }
-        }
-
-        @media (max-width: 380px) {
-            .logo {
-                font-size: 2.5rem;
-            }
-            .btn {
-                font-size: 0.75rem;
-                padding: 12px 16px;
-                min-height: 44px;
-            }
-            .btn i {
-                font-size: 0.9rem;
-            }
-        }
-
-        /* ===== STATUS BAR (HORA) ===== */
-        .status {
-            position: fixed;
-            top: 20px;
-            right: 24px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
             font-size: 0.6rem;
             color: var(--text-muted);
-            opacity: 0.4;
-            z-index: 2;
+            padding: 5px 14px;
             background: rgba(0, 0, 0, 0.3);
-            padding: 4px 12px;
             border-radius: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border-glow);
+            margin-bottom: 24px;
+            position: relative;
+            z-index: 1;
+            flex-wrap: wrap;
         }
-        .status .dot {
-            width: 4px;
-            height: 4px;
+        .status-bar .dot {
+            width: 5px;
+            height: 5px;
             border-radius: 50%;
             background: var(--neon-green);
             display: inline-block;
             animation: pulse-dot 2s infinite;
+            box-shadow: 0 0 12px rgba(0, 255, 127, 0.2);
+        }
+        .status-bar .sep {
+            opacity: 0.15;
+        }
+        .status-bar .time {
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+        .status-bar .icon-glow {
+            color: var(--neon-blue);
+            opacity: 0.4;
         }
         @keyframes pulse-dot {
             0%,
             100% {
                 transform: scale(1);
-                opacity: 0.5;
+                box-shadow: 0 0 10px rgba(0, 255, 127, 0.15);
             }
             50% {
                 transform: scale(1.3);
-                opacity: 1;
+                box-shadow: 0 0 25px rgba(0, 255, 127, 0.3);
             }
         }
         @media (max-width: 480px) {
-            .status {
-                top: 12px;
-                right: 12px;
+            .status-bar {
                 font-size: 0.5rem;
-                padding: 2px 10px;
+                gap: 6px;
+                padding: 4px 10px;
             }
+        }
+
+        /* ===== FORM ===== */
+        .login-box .form-group {
+            margin-bottom: 14px;
+            position: relative;
+            z-index: 1;
+        }
+        .login-box .form-group label {
+            display: block;
+            font-size: 0.65rem;
+            color: var(--text-secondary);
+            font-weight: 600;
+            margin-bottom: 4px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .login-box .form-group label .required {
+            color: var(--neon-pink);
+            margin-left: 2px;
+        }
+        .login-box .form-group input,
+        .login-box .form-group select {
+            width: 100%;
+            padding: 11px 14px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--border-glow);
+            border-radius: var(--radius-sm);
+            color: var(--text-primary);
+            font-size: 0.9rem;
+            font-family: 'Inter', sans-serif;
+            transition: var(--transition-fast);
+            outline: none;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+        .login-box .form-group input:focus,
+        .login-box .form-group select:focus {
+            border-color: var(--neon-blue);
+            box-shadow: 0 0 30px rgba(0, 212, 255, 0.06);
+        }
+        .login-box .form-group input::placeholder {
+            color: var(--text-muted);
+        }
+        .login-box .form-group select option {
+            background: #0a0a1a;
+            color: var(--text-primary);
+        }
+        .login-box .form-group .hint {
+            font-size: 0.55rem;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+        .login-box .form-group .hint i {
+            color: var(--neon-blue);
+            margin-right: 4px;
+            font-size: 0.5rem;
+        }
+
+        /* ===== BOTONES ===== */
+        .login-box .btn-primary {
+            width: 100%;
+            padding: 14px;
+            background: var(--gradient-primary);
+            border: none;
+            border-radius: var(--radius-sm);
+            color: #fff;
+            font-size: 0.85rem;
+            font-weight: 700;
+            font-family: 'Inter', sans-serif;
+            cursor: pointer;
+            transition: var(--transition-fast);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            position: relative;
+            z-index: 1;
+            box-shadow: 0 0 40px rgba(0, 212, 255, 0.04);
+        }
+        .login-box .btn-primary:active {
+            transform: scale(0.96);
+        }
+        .login-box .btn-primary:hover {
+            box-shadow: 0 4px 40px rgba(0, 212, 255, 0.12);
+        }
+        .login-box .btn-primary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .login-box .btn-secondary {
+            width: 100%;
+            padding: 12px;
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--border-glow);
+            border-radius: var(--radius-sm);
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+            font-weight: 500;
+            font-family: 'Inter', sans-serif;
+            cursor: pointer;
+            transition: var(--transition-fast);
+            position: relative;
+            z-index: 1;
+            margin-top: 10px;
+            text-align: center;
+            text-decoration: none;
+            display: block;
+        }
+        .login-box .btn-secondary:active {
+            transform: scale(0.96);
+        }
+        .login-box .btn-secondary:hover {
+            background: rgba(0, 0, 0, 0.4);
+            color: var(--text-primary);
+            border-color: rgba(0, 212, 255, 0.1);
+        }
+
+        .login-box .error-msg {
+            color: var(--neon-pink);
+            font-size: 0.75rem;
+            text-align: center;
+            margin-top: 10px;
+            min-height: 20px;
+            position: relative;
+            z-index: 1;
+            text-shadow: 0 0 20px rgba(255, 45, 138, 0.1);
+        }
+        .login-box .error-msg i {
+            margin-right: 6px;
+        }
+
+        .login-box .success-msg {
+            color: var(--neon-green);
+            font-size: 0.75rem;
+            text-align: center;
+            margin-top: 10px;
+            min-height: 20px;
+            position: relative;
+            z-index: 1;
+            text-shadow: 0 0 20px rgba(0, 255, 127, 0.1);
+        }
+        .login-box .success-msg i {
+            margin-right: 6px;
+        }
+
+        .login-box .auth-switch {
+            text-align: center;
+            margin-top: 16px;
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+            position: relative;
+            z-index: 1;
+        }
+        .login-box .auth-switch a {
+            color: var(--neon-blue);
+            text-decoration: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition-fast);
+        }
+        .login-box .auth-switch a:hover {
+            color: var(--neon-purple);
+            text-shadow: 0 0 30px rgba(139, 60, 255, 0.2);
+        }
+
+        .login-box .hidden {
+            display: none !important;
+        }
+
+        /* ===== FILE UPLOAD ===== */
+        .file-upload-area {
+            border: 2px dashed var(--border-glow);
+            border-radius: var(--radius-sm);
+            padding: 18px;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition-fast);
+            background: rgba(0, 0, 0, 0.15);
+        }
+        .file-upload-area:hover {
+            border-color: var(--neon-blue);
+            background: rgba(0, 212, 255, 0.02);
+        }
+        .file-upload-area i {
+            font-size: 1.4rem;
+            color: var(--text-muted);
+            display: block;
+            margin-bottom: 4px;
+        }
+        .file-upload-area p {
+            color: var(--text-secondary);
+            font-size: 0.75rem;
+        }
+        .file-upload-area .hint {
+            color: var(--text-muted);
+            font-size: 0.55rem;
+            margin-top: 2px;
+        }
+        .file-upload-area input[type="file"] {
+            display: none;
+        }
+        .file-preview {
+            margin-top: 8px;
+            padding: 8px 12px;
+            background: rgba(0, 212, 255, 0.04);
+            border-radius: var(--radius-xs);
+            border: 1px solid rgba(0, 212, 255, 0.06);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .file-preview i {
+            color: var(--neon-blue);
+            font-size: 0.9rem;
+        }
+        .file-preview .name {
+            flex: 1;
+            font-size: 0.7rem;
+            color: var(--text-primary);
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        .file-preview .remove {
+            color: var(--neon-pink);
+            cursor: pointer;
+            font-size: 0.8rem;
+            padding: 2px 6px;
+        }
+        .file-preview .remove:active {
+            transform: scale(0.85);
+        }
+
+        /* ===== BANK DATA ===== */
+        .bank-data {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: var(--radius-sm);
+            padding: 12px 14px;
+            border: 1px solid rgba(0, 212, 255, 0.04);
+            margin-top: 8px;
+        }
+        .bank-data .row {
+            display: grid;
+            grid-template-columns: 80px 1fr;
+            gap: 2px 10px;
+            font-size: 0.7rem;
+            padding: 2px 0;
+        }
+        .bank-data .row .label {
+            color: var(--text-muted);
+            font-size: 0.6rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .bank-data .row .value {
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+        .bank-data .row .value.highlight {
+            color: var(--neon-blue);
+            font-weight: 700;
+            text-shadow: 0 0 20px rgba(0, 212, 255, 0.08);
+        }
+        .bank-data .row .value.highlight-green {
+            color: var(--neon-green);
+            font-weight: 700;
+            text-shadow: 0 0 20px rgba(0, 255, 127, 0.08);
+        }
+        .bank-data .alert {
+            margin-top: 8px;
+            padding: 8px 12px;
+            background: rgba(255, 106, 0, 0.04);
+            border: 1px solid rgba(255, 106, 0, 0.06);
+            border-radius: var(--radius-xs);
+            font-size: 0.65rem;
+            color: var(--neon-orange);
+        }
+        .bank-data .alert i {
+            margin-right: 6px;
+        }
+
+        /* ===== PAYMENT METHOD INFO ===== */
+        .payment-method-info {
+            margin-top: 8px;
+            padding: 12px 14px;
+            background: rgba(0, 0, 0, 0.15);
+            border-radius: var(--radius-sm);
+            border: 1px solid rgba(0, 212, 255, 0.04);
+        }
+        .payment-method-info p {
+            color: var(--text-secondary);
+            font-size: 0.75rem;
+            margin: 4px 0;
+        }
+        .payment-method-info strong {
+            color: var(--neon-blue);
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 480px) {
+            .login-box {
+                padding: 24px 18px;
+                border-radius: var(--radius-sm);
+            }
+            .login-box .logo h1 {
+                font-size: 1.8rem;
+            }
+            .login-box .form-group input,
+            .login-box .form-group select {
+                font-size: 0.85rem;
+                padding: 10px 12px;
+            }
+            .login-box .form-group label {
+                font-size: 0.6rem;
+            }
+            .login-box .btn-primary {
+                font-size: 0.8rem;
+                padding: 13px;
+            }
+            .bank-data .row {
+                grid-template-columns: 1fr;
+                gap: 0;
+            }
+            .bank-data .row .label {
+                font-size: 0.55rem;
+            }
+            .file-upload-area {
+                padding: 14px;
+            }
+            .file-upload-area i {
+                font-size: 1.2rem;
+            }
+        }
+
+        @media (max-width: 380px) {
+            .login-box {
+                padding: 18px 14px;
+            }
+            .login-box .logo h1 {
+                font-size: 1.5rem;
+            }
+            .login-box .form-group input,
+            .login-box .form-group select {
+                font-size: 0.8rem;
+                padding: 8px 10px;
+            }
+            .login-box .btn-primary {
+                font-size: 0.75rem;
+                padding: 11px;
+            }
+        }
+
+        /* ===== TOAST ===== */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            left: 20px;
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 14px 20px;
+            background: rgba(6, 6, 14, 0.96);
+            border: 1px solid var(--border-glow);
+            border-radius: var(--radius-sm);
+            color: var(--text-primary);
+            z-index: 9999;
+            animation: fadeInUp 0.3s ease;
+            box-shadow: var(--shadow-card);
+            backdrop-filter: blur(16px);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 0.85rem;
+        }
+        .toast .icon {
+            font-size: 1.1rem;
+            flex-shrink: 0;
+        }
+        .toast .icon.success {
+            color: var(--neon-green);
+        }
+        .toast .icon.error {
+            color: var(--neon-pink);
+        }
+        .toast .icon.warning {
+            color: var(--neon-orange);
+        }
+        .toast .icon.info {
+            color: var(--neon-blue);
+        }
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px) scale(0.96);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+        @media (max-width: 480px) {
+            .toast {
+                font-size: 0.75rem;
+                padding: 12px 16px;
+                bottom: 12px;
+                left: 12px;
+                right: 12px;
+            }
+        }
+
+        .spinner {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid rgba(255, 255, 255, 0.06);
+            border-top-color: var(--neon-blue);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            vertical-align: middle;
+        }
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+        .btn-primary .spinner {
+            width: 14px;
+            height: 14px;
+            border-width: 2px;
         }
     </style>
 </head>
 <body>
 
-    <!-- ===== PARTÍCULAS ===== -->
+    <!-- ===== PARTÍCULAS DE FONDO ===== -->
     <div id="particles"></div>
 
-    <!-- ===== ANILLOS NEÓN ===== -->
-    <div class="glow-ring"></div>
-    <div class="glow-ring"></div>
-    <div class="glow-ring"></div>
+    <!-- ===== LOGIN SCREEN ===== -->
+    <div class="login-screen" id="loginScreen">
 
-    <!-- ===== STATUS ===== -->
-    <div class="status">
-        <span class="dot"></span>
-        <span id="clockDisplay">00:00</span>
-    </div>
+        <div class="login-box">
 
-    <!-- ===== CONTENIDO ===== -->
-    <div class="container">
+            <div class="logo">
+                <h1>⚡ FLY</h1>
+                <p>FUTBOLEROS</p>
+            </div>
 
-        <div class="logo">⚡ FLY</div>
-        <div class="logo-sub">FUTBOLEROS</div>
+            <!-- ===== STATUS BAR ===== -->
+            <div class="status-bar">
+                <span class="dot"></span>
+                <span class="time" id="clockDisplay">00:00</span>
+                <span class="sep">·</span>
+                <span id="tempDisplay">17°C</span>
+                <span class="sep">·</span>
+                <span>PYG</span>
+                <span class="sep">·</span>
+                <span class="icon-glow">✦</span>
+            </div>
 
-        <h1 class="title">
-            Gestión <span>Futurista</span>
-        </h1>
+            <!-- ===== LOGIN FORM ===== -->
+            <form id="loginForm">
+                <div class="form-group">
+                    <label>👤 Usuario <span class="required">*</span></label>
+                    <input type="text" id="loginUsername" placeholder="Ej: elcrack_10" required autocomplete="username">
+                    <div class="hint"><i class="fas fa-info-circle"></i> Usa tu nickname de siempre</div>
+                </div>
+                <div class="form-group">
+                    <label>🔒 Contraseña <span class="required">*</span></label>
+                    <input type="password" id="loginPassword" placeholder="••••••••" required autocomplete="current-password">
+                </div>
+                <button type="submit" class="btn-primary" id="loginBtn">
+                    <i class="fas fa-sign-in-alt"></i> Iniciar Sesión
+                </button>
+                <div class="error-msg" id="loginError"></div>
+                <div class="auth-switch">
+                    ¿No tienes cuenta? <a onclick="showRegister()">Regístrate aquí</a>
+                </div>
+            </form>
 
-        <p class="subtitle">
-            Sistema de administración y gestión de socios<br>
-            para FLY FUTBOLEROS.
-        </p>
+            <!-- ===== REGISTER FORM ===== -->
+            <form id="registerForm" class="hidden">
+                <!-- Foto de perfil -->
+                <div class="form-group">
+                    <label>📸 Foto de Perfil</label>
+                    <div class="file-upload-area" onclick="document.getElementById('profilePhoto').click()">
+                        <i class="fas fa-camera"></i>
+                        <p>Subir foto de perfil</p>
+                        <div class="hint">JPG, PNG · Recomendado 200x200</div>
+                        <input type="file" id="profilePhoto" accept="image/*">
+                    </div>
+                    <div id="profilePhotoPreview" class="file-preview" style="display:none;">
+                        <i class="fas fa-image"></i>
+                        <span class="name" id="profilePhotoName">archivo.jpg</span>
+                        <span class="remove" onclick="document.getElementById('profilePhoto').value='';this.parentElement.style.display='none';">✕</span>
+                    </div>
+                </div>
 
-        <div class="btn-group">
-            <a href="admin.html" class="btn btn-primary">
-                <i class="fas fa-crown"></i>
-                Panel de Administración
-                <span class="badge badge-admin">ADMIN</span>
-            </a>
+                <!-- Username -->
+                <div class="form-group">
+                    <label>👤 Nickname <span class="required">*</span></label>
+                    <input type="text" id="registerUsername" placeholder="Ej: elcrack_10" required>
+                    <div class="hint"><i class="fas fa-info-circle"></i> Solo letras, números, _ y . (mínimo 3)</div>
+                </div>
 
-            <a href="socio.html" class="btn btn-secondary">
-                <i class="fas fa-user"></i>
-                Panel del Socio
-                <span class="badge">SOCIO</span>
-            </a>
+                <!-- Nombre -->
+                <div class="form-group">
+                    <label>👤 Nombre y Apellido <span class="required">*</span></label>
+                    <input type="text" id="registerName" placeholder="Juan Pérez" required>
+                </div>
+
+                <!-- Teléfono -->
+                <div class="form-group">
+                    <label>📱 Celular <span class="required">*</span></label>
+                    <input type="tel" id="registerPhone" placeholder="+595 981 123456" required>
+                </div>
+
+                <!-- Email (opcional) -->
+                <div class="form-group">
+                    <label>📧 Correo (opcional)</label>
+                    <input type="email" id="registerEmail" placeholder="tu@email.com">
+                    <div class="hint"><i class="fas fa-info-circle"></i> Opcional, para recibir notificaciones</div>
+                </div>
+
+                <!-- Contraseña -->
+                <div class="form-group">
+                    <label>🔒 Contraseña <span class="required">*</span></label>
+                    <input type="password" id="registerPassword" placeholder="••••••••" required minlength="6">
+                    <div class="hint"><i class="fas fa-info-circle"></i> Mínimo 6 caracteres</div>
+                </div>
+
+                <!-- Plan -->
+                <div class="form-group">
+                    <label>📋 Plan <span class="required">*</span></label>
+                    <select id="registerPlan" required>
+                        <option value="">Selecciona un plan</option>
+                        <option value="Sabatero">⚡ Plan Sabatero · Gs. 20.000/mes</option>
+                        <option value="Finder">🏃 Plan Finder · Gs. 5.000/partido</option>
+                    </select>
+                </div>
+
+                <!-- Método de pago -->
+                <div class="form-group">
+                    <label>💳 Método de Pago <span class="required">*</span></label>
+                    <select id="registerPaymentMethod" required>
+                        <option value="">Selecciona método</option>
+                        <option value="Transferencia">💻 Transferencia</option>
+                        <option value="Efectivo">💰 Efectivo</option>
+                    </select>
+                </div>
+
+                <!-- Información Transferencia -->
+                <div id="transferenciaInfo" class="hidden payment-method-info">
+                    <p><i class="fas fa-info-circle"></i> <strong>Transferencia Bancaria</strong></p>
+                    <div class="bank-data">
+                        <div class="row"><span class="label">Titular:</span><span class="value">Alberto Mariano Ramirez Zarate</span></div>
+                        <div class="row"><span class="label">CI:</span><span class="value">3.652.362</span></div>
+                        <div class="row"><span class="label">Entidad:</span><span class="value">Ueno Bank</span></div>
+                        <div class="row"><span class="label">N° Cuenta:</span><span class="value highlight">619315284</span></div>
+                        <div class="row"><span class="label">Moneda:</span><span class="value">Guaraníes (Gs.)</span></div>
+                        <div class="row"><span class="label">Alias:</span><span class="value highlight-green">+595961101538</span></div>
+                    </div>
+                    <div class="alert">
+                        <i class="fas fa-lightbulb"></i> Usa el alias <strong>+595961101538</strong> para transferencias rápidas por Ueno.
+                    </div>
+                    <div class="form-group" style="margin-top:12px;">
+                        <label>📎 Subir Comprobante <span class="required">*</span></label>
+                        <div class="file-upload-area" onclick="document.getElementById('receipt').click()">
+                            <i class="fas fa-upload"></i>
+                            <p>JPG, PNG, PDF</p>
+                            <div class="hint">Captura de pantalla o foto del comprobante</div>
+                            <input type="file" id="receipt" accept=".jpg,.jpeg,.png,.pdf">
+                        </div>
+                        <div id="receiptPreview" class="file-preview" style="display:none;">
+                            <i class="fas fa-file"></i>
+                            <span class="name" id="receiptName">archivo.pdf</span>
+                            <span class="remove" onclick="document.getElementById('receipt').value='';this.parentElement.style.display='none';">✕</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Información Efectivo -->
+                <div id="efectivoInfo" class="hidden payment-method-info">
+                    <p><i class="fas fa-info-circle"></i> <strong>Pago en Efectivo</strong></p>
+                    <p>Tu pago quedará en estado <strong>Pendiente</strong> hasta que el administrador confirme.</p>
+                </div>
+
+                <button type="submit" class="btn-primary" id="registerBtn">
+                    <i class="fas fa-user-plus"></i> Registrarse
+                </button>
+
+                <div class="error-msg" id="registerError"></div>
+                <div class="success-msg" id="registerSuccess"></div>
+
+                <div class="auth-switch">
+                    ¿Ya tienes cuenta? <a onclick="showLogin()">Inicia sesión aquí</a>
+                </div>
+            </form>
+
         </div>
-
-        <div class="divider">✦</div>
-
-        <div class="footer">
-            <span>⚡</span> FLY FUTBOLEROS · Sistema de Gestión v1.0
-        </div>
-
     </div>
-
-    <div class="version">v1.0 · Futurista</div>
 
     <!-- ============================================================ -->
     <!-- ===== SCRIPTS ===== -->
     <!-- ============================================================ -->
     <script>
         // ================================================================
-        // PARTÍCULAS DE FONDO
+        // 0. PARTÍCULAS DE FONDO
         // ================================================================
 
         (function createParticles() {
             var container = document.getElementById('particles');
-            for (var i = 0; i < 35; i++) {
+            for (var i = 0; i < 45; i++) {
                 var p = document.createElement('div');
                 p.className = 'particle';
                 var s = Math.random() * 4 + 2;
                 p.style.width = s + 'px';
                 p.style.height = s + 'px';
                 p.style.left = Math.random() * 100 + '%';
-                p.style.animationDuration = (Math.random() * 16 + 12) + 's';
+                p.style.animationDuration = (Math.random() * 18 + 10) + 's';
                 p.style.animationDelay = (Math.random() * 12) + 's';
                 container.appendChild(p);
             }
         })();
 
         // ================================================================
-        // RELOJ
+        // 1. RELOJ Y TEMPERATURA
         // ================================================================
 
         function updateClock() {
@@ -453,8 +894,400 @@
         setInterval(updateClock, 1000);
         updateClock();
 
-        console.log('⚡ FLY FUTBOLEROS · Página de Bienvenida');
-        console.log('📱 Diseño Futurista · v1.0');
+        document.getElementById('tempDisplay').textContent = '17°C';
+
+        // ================================================================
+        // 2. NAVEGACIÓN ENTRE LOGIN Y REGISTRO
+        // ================================================================
+
+        function showRegister() {
+            document.getElementById('loginForm').classList.add('hidden');
+            document.getElementById('registerForm').classList.remove('hidden');
+            document.getElementById('loginError').textContent = '';
+            document.getElementById('registerError').textContent = '';
+            document.getElementById('registerSuccess').textContent = '';
+        }
+
+        function showLogin() {
+            document.getElementById('registerForm').classList.add('hidden');
+            document.getElementById('loginForm').classList.remove('hidden');
+            document.getElementById('loginError').textContent = '';
+            document.getElementById('registerError').textContent = '';
+            document.getElementById('registerSuccess').textContent = '';
+        }
+
+        // ================================================================
+        // 3. VALIDACIÓN DE USERNAME
+        // ================================================================
+
+        document.getElementById('registerUsername').addEventListener('input', function() {
+            this.value = this.value.toLowerCase().replace(/[^a-z0-9_.]/g, '');
+        });
+
+        // ================================================================
+        // 4. MÉTODO DE PAGO
+        // ================================================================
+
+        document.getElementById('registerPaymentMethod').addEventListener('change', function() {
+            var transferencia = document.getElementById('transferenciaInfo');
+            var efectivo = document.getElementById('efectivoInfo');
+
+            if (this.value === 'Transferencia') {
+                transferencia.classList.remove('hidden');
+                efectivo.classList.add('hidden');
+            } else if (this.value === 'Efectivo') {
+                transferencia.classList.add('hidden');
+                efectivo.classList.remove('hidden');
+            } else {
+                transferencia.classList.add('hidden');
+                efectivo.classList.add('hidden');
+            }
+        });
+
+        // ================================================================
+        // 5. PREVISUALIZACIÓN DE ARCHIVOS
+        // ================================================================
+
+        document.getElementById('profilePhoto').addEventListener('change', function() {
+            var preview = document.getElementById('profilePhotoPreview');
+            var name = document.getElementById('profilePhotoName');
+            if (this.files && this.files[0]) {
+                name.textContent = this.files[0].name;
+                preview.style.display = 'flex';
+            } else {
+                preview.style.display = 'none';
+            }
+        });
+
+        document.getElementById('receipt').addEventListener('change', function() {
+            var preview = document.getElementById('receiptPreview');
+            var name = document.getElementById('receiptName');
+            if (this.files && this.files[0]) {
+                name.textContent = this.files[0].name;
+                preview.style.display = 'flex';
+            } else {
+                preview.style.display = 'none';
+            }
+        });
+
+        // ================================================================
+        // 6. TOAST
+        // ================================================================
+
+        function showToast(message, type) {
+            if (type === undefined) type = 'info';
+            var colors = { success: '#00ff7f', error: '#ff2d8a', warning: '#ff6a00', info: '#00d4ff' };
+            var icons = { success: 'fa-check-circle', error: 'fa-exclamation-circle', warning: 'fa-exclamation-triangle',
+                info: 'fa-info-circle' };
+
+            var existing = document.querySelector('.toast');
+            if (existing) existing.remove();
+
+            var el = document.createElement('div');
+            el.className = 'toast';
+            el.innerHTML =
+                '<i class="fas ' + icons[type] + ' icon ' + type + '"></i><span>' + message + '</span>';
+            el.style.borderColor = colors[type];
+            document.body.appendChild(el);
+
+            setTimeout(function() {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(20px)';
+                setTimeout(function() { el.remove(); }, 300);
+            }, 4000);
+        }
+
+        // ================================================================
+        // 7. SIMULACIÓN - BASE DE DATOS EN MEMORIA
+        // ================================================================
+
+        window.USERS_DB = window.USERS_DB || [];
+
+        if (window.USERS_DB.length === 0) {
+            window.USERS_DB.push({
+                id: 1,
+                username: 'admin',
+                nombre: 'Administrador',
+                telefono: '0999 999999',
+                email: 'admin@flyfutboleros.com',
+                password: 'admin123',
+                plan: 'Sabatero',
+                metodo_pago: 'Transferencia',
+                estado: 'Activo',
+                fecha_registro: new Date().toISOString(),
+                fecha_inicio: new Date().toISOString(),
+                fecha_vencimiento: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
+                foto_url: null,
+                comprobante_url: null,
+                role: 'admin',
+                pagos: []
+            });
+
+            window.USERS_DB.push({
+                id: 2,
+                username: 'juanperez',
+                nombre: 'Juan Pérez',
+                telefono: '0981 123456',
+                email: 'juan@email.com',
+                password: 'juan123',
+                plan: 'Sabatero',
+                metodo_pago: 'Transferencia',
+                estado: 'Activo',
+                fecha_registro: new Date().toISOString(),
+                fecha_inicio: new Date().toISOString(),
+                fecha_vencimiento: new Date(Date.now() + 15 * 24 * 60 * 60 * 1000).toISOString(),
+                foto_url: null,
+                comprobante_url: null,
+                role: 'socio',
+                pagos: [
+                    { fecha: new Date().toISOString(), monto: 20000, metodo: 'Transferencia', estado: 'Aprobado' }
+                ]
+            });
+
+            window.USERS_DB.push({
+                id: 3,
+                username: 'mariag',
+                nombre: 'María González',
+                telefono: '0981 654321',
+                email: 'maria@email.com',
+                password: 'maria123',
+                plan: 'Finder',
+                metodo_pago: 'Efectivo',
+                estado: 'Pendiente',
+                fecha_registro: new Date().toISOString(),
+                fecha_inicio: null,
+                fecha_vencimiento: null,
+                foto_url: null,
+                comprobante_url: null,
+                role: 'socio',
+                pagos: []
+            });
+
+            console.log('📦 Datos de prueba cargados en memoria');
+            console.log('👤 Usuarios disponibles:', window.USERS_DB.length);
+        }
+
+        // ================================================================
+        // 8. LOGIN
+        // ================================================================
+
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            var username = document.getElementById('loginUsername').value.trim();
+            var password = document.getElementById('loginPassword').value;
+            var errorEl = document.getElementById('loginError');
+            var btn = document.getElementById('loginBtn');
+
+            if (!username || !password) {
+                errorEl.textContent = '⚠️ Completa todos los campos';
+                return;
+            }
+
+            btn.disabled = true;
+            btn.innerHTML = '<span class="spinner"></span> Ingresando...';
+
+            setTimeout(function() {
+                var user = window.USERS_DB.find(function(u) {
+                    return u.username === username.toLowerCase() && u.password === password;
+                });
+
+                if (user) {
+                    errorEl.textContent = '';
+                    showToast('✅ ¡Bienvenido ' + user.nombre + '!', 'success');
+
+                    try {
+                        localStorage.setItem('fly_user_session', JSON.stringify({
+                            id: user.id,
+                            username: user.username,
+                            nombre: user.nombre,
+                            role: user.role || 'socio'
+                        }));
+                    } catch (e) {}
+
+                    setTimeout(function() {
+                        if (user.role === 'admin') {
+                            window.location.href = 'admin.html';
+                        } else {
+                            window.location.href = 'socio.html';
+                        }
+                    }, 1200);
+                } else {
+                    errorEl.textContent = '❌ Usuario o contraseña incorrectos';
+                    btn.disabled = false;
+                    btn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Iniciar Sesión';
+                }
+            }, 1000);
+        });
+
+        // ================================================================
+        // 9. REGISTRO
+        // ================================================================
+
+        document.getElementById('registerForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            var username = document.getElementById('registerUsername').value.trim();
+            var nombre = document.getElementById('registerName').value.trim();
+            var telefono = document.getElementById('registerPhone').value.trim();
+            var email = document.getElementById('registerEmail').value.trim();
+            var password = document.getElementById('registerPassword').value;
+            var plan = document.getElementById('registerPlan').value;
+            var metodo = document.getElementById('registerPaymentMethod').value;
+            var foto = document.getElementById('profilePhoto').files[0];
+            var comprobante = document.getElementById('receipt').files[0];
+
+            var errorEl = document.getElementById('registerError');
+            var successEl = document.getElementById('registerSuccess');
+            var btn = document.getElementById('registerBtn');
+
+            if (!username || username.length < 3) {
+                errorEl.textContent = '⚠️ El usuario debe tener al menos 3 caracteres';
+                return;
+            }
+            if (!nombre) {
+                errorEl.textContent = '⚠️ Ingresa tu nombre completo';
+                return;
+            }
+            if (!telefono) {
+                errorEl.textContent = '⚠️ Ingresa tu número de celular';
+                return;
+            }
+            if (password.length < 6) {
+                errorEl.textContent = '⚠️ La contraseña debe tener al menos 6 caracteres';
+                return;
+            }
+            if (!plan) {
+                errorEl.textContent = '⚠️ Selecciona un plan';
+                return;
+            }
+            if (!metodo) {
+                errorEl.textContent = '⚠️ Selecciona un método de pago';
+                return;
+            }
+            if (metodo === 'Transferencia' && !comprobante) {
+                errorEl.textContent = '⚠️ Debes subir el comprobante de transferencia';
+                return;
+            }
+
+            var existing = window.USERS_DB.find(function(u) { return u.username === username.toLowerCase(); });
+            if (existing) {
+                errorEl.textContent = '⚠️ El nombre de usuario ya está en uso';
+                return;
+            }
+
+            errorEl.textContent = '';
+            successEl.textContent = '';
+
+            btn.disabled = true;
+            btn.innerHTML = '<span class="spinner"></span> Registrando...';
+
+            setTimeout(function() {
+                var fotoUrl = null;
+                var comprobanteUrl = null;
+
+                if (foto) {
+                    fotoUrl = 'foto_' + Date.now() + '_' + foto.name;
+                }
+                if (comprobante) {
+                    comprobanteUrl = 'comp_' + Date.now() + '_' + comprobante.name;
+                }
+
+                var now = new Date();
+                var vencimiento = new Date(now);
+                vencimiento.setDate(vencimiento.getDate() + 30);
+
+                var nuevoUsuario = {
+                    id: window.USERS_DB.length + 1,
+                    username: username.toLowerCase(),
+                    nombre: nombre,
+                    telefono: telefono,
+                    email: email || null,
+                    password: password,
+                    plan: plan,
+                    metodo_pago: metodo,
+                    estado: 'Pendiente',
+                    fecha_registro: now.toISOString(),
+                    fecha_inicio: now.toISOString(),
+                    fecha_vencimiento: plan === 'Sabatero' ? vencimiento.toISOString() : null,
+                    foto_url: fotoUrl,
+                    comprobante_url: comprobanteUrl,
+                    role: 'socio',
+                    pagos: []
+                };
+
+                if (comprobanteUrl) {
+                    nuevoUsuario.pagos.push({
+                        fecha: now.toISOString(),
+                        monto: plan === 'Sabatero' ? 20000 : 5000,
+                        metodo: 'Transferencia',
+                        estado: 'Pendiente',
+                        comprobante_url: comprobanteUrl
+                    });
+                }
+
+                window.USERS_DB.push(nuevoUsuario);
+
+                successEl.textContent = '✅ ¡Registro exitoso! Serás redirigido...';
+                errorEl.textContent = '';
+
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-user-plus"></i> Registrarse';
+
+                showToast('✅ ¡Registro exitoso ' + nombre + '!', 'success');
+
+                console.log('📝 Nuevo usuario registrado:', nuevoUsuario);
+                console.log('📊 Total usuarios:', window.USERS_DB.length);
+
+                document.getElementById('registerUsername').value = '';
+                document.getElementById('registerName').value = '';
+                document.getElementById('registerPhone').value = '';
+                document.getElementById('registerEmail').value = '';
+                document.getElementById('registerPassword').value = '';
+                document.getElementById('registerPlan').value = '';
+                document.getElementById('registerPaymentMethod').value = '';
+                document.getElementById('profilePhoto').value = '';
+                document.getElementById('profilePhotoPreview').style.display = 'none';
+                document.getElementById('receipt').value = '';
+                document.getElementById('receiptPreview').style.display = 'none';
+                document.getElementById('transferenciaInfo').classList.add('hidden');
+                document.getElementById('efectivoInfo').classList.add('hidden');
+
+                setTimeout(function() {
+                    showLogin();
+                    showToast('🔐 Inicia sesión con tu usuario y contraseña', 'info');
+                }, 2000);
+
+            }, 1500);
+        });
+
+        // ================================================================
+        // 10. ENTER PARA LOGIN
+        // ================================================================
+
+        document.getElementById('loginPassword').addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                document.getElementById('loginForm').dispatchEvent(new Event('submit'));
+            }
+        });
+
+        document.getElementById('registerPassword').addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                document.getElementById('registerForm').dispatchEvent(new Event('submit'));
+            }
+        });
+
+        // ================================================================
+        // 11. MOSTRAR LOGIN POR DEFECTO
+        // ================================================================
+
+        showLogin();
+
+        console.log('🔐 FLY FUTBOLEROS · Sistema de Registro (SIMULACIÓN)');
+        console.log('📋 Usuarios en memoria:', window.USERS_DB.length);
+        console.log('👤 Usuario admin: admin / admin123');
+        console.log('👤 Usuario prueba: juanperez / juan123');
+        console.log('👤 Usuario prueba: mariag / maria123');
     </script>
 
 </body>
