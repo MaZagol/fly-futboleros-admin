@@ -709,7 +709,7 @@
             align-items: center;
             justify-content: center;
             gap: 2px;
-            padding: 6px 12px;
+            padding: 8px 12px;
             border: none;
             background: none;
             color: var(--text-muted);
@@ -738,6 +738,9 @@
         }
         .bottom-nav .nav-item.active {
             color: var(--neon-blue);
+        }
+        .bottom-nav .nav-item.active i {
+            text-shadow: 0 0 20px rgba(0, 212, 255, 0.2);
         }
         .bottom-nav .nav-item .nav-badge {
             position: absolute;
@@ -909,7 +912,7 @@
         <div class="section-page" id="section-plan">
 
             <!-- Plan Sabatero -->
-            <div id="planSabateroContainer" class="plan-section glass-card hidden">
+            <div id="planSabateroContainer" class="plan-section glass-card">
                 <div class="plan-header">
                     <h3>📋 Plan Sabatero</h3>
                     <span class="badge badge-active">Mensual</span>
@@ -1081,35 +1084,46 @@
         document.getElementById('tempDisplay').textContent = '17°C';
 
         // ================================================================
-        // 3. NAVEGACIÓN POR SECCIONES
+        // 3. NAVEGACIÓN POR SECCIONES (CORREGIDA)
         // ================================================================
 
         var currentSection = 'perfil';
 
         function navigateTo(section) {
+            console.log('🔀 Navegando a:', section);
+
+            // Ocultar todas las secciones
             document.querySelectorAll('.section-page').forEach(function(el) {
                 el.classList.remove('active');
             });
-            var target = document.getElementById('section-' + section);
-            if (target) target.classList.add('active');
 
+            // Mostrar la sección seleccionada
+            var target = document.getElementById('section-' + section);
+            if (target) {
+                target.classList.add('active');
+                console.log('✅ Sección activada:', section);
+            } else {
+                console.warn('⚠️ Sección no encontrada:', section);
+            }
+
+            // Actualizar navegación inferior
             document.querySelectorAll('.bottom-nav .nav-item').forEach(function(el) {
                 el.classList.remove('active');
-                if (el.dataset.section === section) el.classList.add('active');
+                if (el.dataset.section === section) {
+                    el.classList.add('active');
+                }
             });
 
             currentSection = section;
         }
 
         // ================================================================
-        // 4. BASE DE DATOS EN MEMORIA (DATOS DE PRUEBA)
+        // 4. BASE DE DATOS EN MEMORIA
         // ================================================================
 
-        // Si no existe, creamos los datos de prueba
         if (typeof window.USERS_DB === 'undefined' || !window.USERS_DB || window.USERS_DB.length === 0) {
             window.USERS_DB = [];
 
-            // Usuario administrador
             window.USERS_DB.push({
                 id: 1,
                 username: 'admin',
@@ -1131,7 +1145,6 @@
                 ]
             });
 
-            // Usuario socio 1
             window.USERS_DB.push({
                 id: 2,
                 username: 'juanperez',
@@ -1153,7 +1166,6 @@
                 ]
             });
 
-            // Usuario socio 2
             window.USERS_DB.push({
                 id: 3,
                 username: 'mariag',
@@ -1173,7 +1185,7 @@
                 pagos: []
             });
 
-            console.log('📦 Datos de prueba cargados en memoria (socio.html)');
+            console.log('📦 Datos de prueba cargados en memoria');
             console.log('👤 Usuarios disponibles:', window.USERS_DB.length);
         }
 
@@ -1210,7 +1222,6 @@
         function loadSocioData() {
             var sessionUser = getCurrentUser();
 
-            // Si no hay sesión, redirigir al login
             if (!sessionUser) {
                 showToast('⚠️ Sesión no encontrada. Redirigiendo...', 'warning');
                 setTimeout(function() {
@@ -1221,7 +1232,6 @@
 
             var userData = getUserData(sessionUser.username);
 
-            // Si el usuario no existe en la base de datos, redirigir al login
             if (!userData) {
                 showToast('⚠️ Usuario no encontrado. Redirigiendo...', 'warning');
                 setTimeout(function() {
@@ -1237,7 +1247,7 @@
             renderHistorial(userData);
             checkVencimiento(userData);
 
-            // Mostrar badge de notificaciones si hay pagos pendientes
+            // Mostrar badge de notificaciones
             var badge = document.getElementById('navBadge');
             if (historialPagos.length > 0) {
                 var pendientes = historialPagos.filter(function(p) { return p.estado === 'Pendiente'; });
@@ -1249,7 +1259,7 @@
                 }
             }
 
-            // Si es admin, mostrar botón para ir al panel admin
+            // Si es admin, mostrar botón
             if (userData.role === 'admin') {
                 var headerActions = document.querySelector('.socio-header .header-actions');
                 var adminBtn = document.createElement('button');
@@ -1294,17 +1304,21 @@
         }
 
         // ================================================================
-        // 8. RENDERIZAR PLAN
+        // 8. RENDERIZAR PLAN (CORREGIDO - AHORA MUESTRA SIEMPRE EL PLAN CORRECTO)
         // ================================================================
 
         function renderPlan(user) {
             var sabateroContainer = document.getElementById('planSabateroContainer');
             var finderContainer = document.getElementById('planFinderContainer');
 
+            console.log('📋 Renderizando plan para:', user.plan);
+
+            // Ocultar ambos contenedores primero
+            sabateroContainer.classList.add('hidden');
+            finderContainer.classList.add('hidden');
+
             if (user.plan === 'Sabatero') {
                 sabateroContainer.classList.remove('hidden');
-                finderContainer.classList.add('hidden');
-
                 document.getElementById('sabateroInicio').textContent = user.fecha_inicio ? new Date(user.fecha_inicio)
                     .toLocaleDateString() : 'No definida';
                 document.getElementById('sabateroVencimiento').textContent = user.fecha_vencimiento ? new Date(user
@@ -1317,9 +1331,7 @@
                 document.getElementById('sabateroPagos').textContent = pagosCount;
 
             } else if (user.plan === 'Finder') {
-                sabateroContainer.classList.add('hidden');
                 finderContainer.classList.remove('hidden');
-
                 document.getElementById('finderMetodo').textContent = user.metodo_pago || 'N/A';
                 var pagosCountFinder = historialPagos.filter(function(p) { return p.estado === 'Aprobado'; }).length;
                 document.getElementById('finderPagos').textContent = pagosCountFinder;
@@ -1624,10 +1636,14 @@
         console.log('📊 Historial de pagos:', historialPagos.length);
         console.log('📱 Navegación: Menú inferior');
 
+        // Ocultar badge al hacer clic en Plan
         document.querySelector('.bottom-nav .nav-item[data-section="plan"]').addEventListener('click', function() {
             var badge = document.getElementById('navBadge');
             badge.style.display = 'none';
         });
+
+        // Debug: verificar que los botones del menú existen
+        console.log('🔘 Botones del menú:', document.querySelectorAll('.bottom-nav .nav-item').length);
     </script>
 
 </body>
