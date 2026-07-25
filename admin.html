@@ -1,0 +1,3682 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>FLY FUTBOLEROS · Admin</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        /* ===== TODOS LOS ESTILOS ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        :root {
+            --novak-bg: #0a0a12;
+            --novak-bg-secondary: #12121e;
+            --novak-card: rgba(255, 255, 255, 0.03);
+            --novak-card-hover: rgba(255, 255, 255, 0.06);
+            --novak-border: rgba(255, 255, 255, 0.06);
+            --novak-text: #ffffff;
+            --novak-text-secondary: #8a8aa8;
+            --novak-text-muted: #5a5a7a;
+            --novak-blue: #00b4ff;
+            --novak-purple: #7b2fff;
+            --novak-pink: #ff2d95;
+            --novak-green: #00ff95;
+            --novak-orange: #ff6b00;
+            --novak-gradient-primary: linear-gradient(135deg, #00b4ff, #7b2fff);
+            --novak-shadow: 0 8px 40px rgba(0, 0, 0, 0.6);
+            --radius: 16px;
+            --radius-sm: 10px;
+            --radius-xs: 8px;
+            --transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            --transition-fast: all 0.2s ease;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--novak-bg);
+            color: var(--novak-text);
+            min-height: 100vh;
+            min-height: 100dvh;
+            overflow-x: hidden;
+            display: flex;
+            position: relative;
+        }
+
+        ::-webkit-scrollbar {
+            width: 3px;
+            height: 3px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--novak-bg);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--novak-blue);
+            border-radius: 10px;
+        }
+
+        /* ============================================================
+                   LOGIN SCREEN
+                   ============================================================ */
+        .login-screen {
+            position: fixed;
+            inset: 0;
+            background: var(--novak-bg);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .login-screen.hidden {
+            display: none;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.98);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .login-box {
+            background: var(--novak-card);
+            border: 1px solid var(--novak-border);
+            border-radius: var(--radius);
+            padding: 40px 36px;
+            max-width: 400px;
+            width: 100%;
+            box-shadow: var(--novak-shadow);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+
+        .login-box .logo {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .login-box .logo h1 {
+            font-size: 1.8rem;
+            font-weight: 900;
+            background: var(--novak-gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.5px;
+        }
+
+        .login-box .logo p {
+            font-size: 0.65rem;
+            color: var(--novak-text-secondary);
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            margin-top: 4px;
+        }
+
+        .login-box .form-group {
+            margin-bottom: 18px;
+        }
+
+        .login-box .form-group label {
+            display: block;
+            font-size: 0.7rem;
+            color: var(--novak-text-secondary);
+            font-weight: 500;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .login-box .form-group input {
+            width: 100%;
+            padding: 12px 16px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--novak-border);
+            border-radius: var(--radius-sm);
+            color: var(--novak-text);
+            font-size: 0.95rem;
+            font-family: 'Inter', sans-serif;
+            transition: var(--transition-fast);
+            outline: none;
+        }
+
+        .login-box .form-group input:focus {
+            border-color: rgba(0, 180, 255, 0.3);
+            box-shadow: 0 0 30px rgba(0, 180, 255, 0.05);
+        }
+
+        .login-box .form-group input::placeholder {
+            color: var(--novak-text-muted);
+        }
+
+        .login-box .btn-login {
+            width: 100%;
+            padding: 14px;
+            background: var(--novak-gradient-primary);
+            border: none;
+            border-radius: var(--radius-sm);
+            color: #fff;
+            font-size: 0.9rem;
+            font-weight: 600;
+            font-family: 'Inter', sans-serif;
+            cursor: pointer;
+            transition: var(--transition-fast);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .login-box .btn-login:active {
+            transform: scale(0.96);
+        }
+
+        .login-box .btn-login:hover {
+            box-shadow: 0 4px 30px rgba(0, 180, 255, 0.2);
+        }
+
+        .login-box .btn-login:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .login-box .error-msg {
+            color: var(--novak-pink);
+            font-size: 0.75rem;
+            text-align: center;
+            margin-top: 12px;
+            min-height: 24px;
+        }
+
+        .login-box .error-msg i {
+            margin-right: 6px;
+        }
+
+        .login-box .hint {
+            text-align: center;
+            margin-top: 16px;
+            font-size: 0.6rem;
+            color: var(--novak-text-muted);
+            opacity: 0.5;
+        }
+
+        @media (max-width: 480px) {
+            .login-box {
+                padding: 30px 24px;
+            }
+            .login-box .logo h1 {
+                font-size: 1.5rem;
+            }
+            .login-box .form-group input {
+                font-size: 0.85rem;
+                padding: 10px 14px;
+            }
+        }
+
+        /* ============================================================
+                   EL RESTO DE LOS ESTILOS (COMPACTADOS)
+                   ============================================================ */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 64px;
+            height: 100vh;
+            height: 100dvh;
+            background: rgba(10, 10, 18, 0.96);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border-right: 1px solid var(--novak-border);
+            padding: 16px 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            z-index: 1000;
+            transition: var(--transition);
+            overflow: hidden;
+        }
+
+        .sidebar:hover {
+            width: 200px;
+            background: rgba(10, 10, 18, 0.98);
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+                width: 240px;
+                padding: 16px 0;
+                transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            }
+            .sidebar.mobile-open {
+                transform: translateX(0);
+                box-shadow: 0 0 60px rgba(0, 0, 0, 0.8);
+            }
+            .sidebar .sidebar-nav li .label,
+            .sidebar .sidebar-footer .user-name,
+            .sidebar .sidebar-nav li .badge {
+                opacity: 1 !important;
+                transform: translateX(0) !important;
+            }
+        }
+
+        .sidebar .logo {
+            font-size: 1.2rem;
+            font-weight: 900;
+            background: var(--novak-gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 24px;
+            letter-spacing: -0.5px;
+            white-space: nowrap;
+            overflow: hidden;
+            width: 100%;
+            text-align: center;
+            padding: 0 8px;
+            flex-shrink: 0;
+        }
+
+        .sidebar .logo span {
+            font-size: 0.5rem;
+            display: block;
+            -webkit-text-fill-color: var(--novak-text-secondary);
+            letter-spacing: 4px;
+            font-weight: 300;
+        }
+
+        .sidebar-nav {
+            list-style: none;
+            width: 100%;
+            flex: 1;
+            padding: 0 6px;
+            overflow-y: auto;
+        }
+
+        .sidebar-nav li {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 12px;
+            margin: 2px 0;
+            border-radius: var(--radius-sm);
+            color: var(--novak-text-secondary);
+            cursor: pointer;
+            transition: var(--transition-fast);
+            white-space: nowrap;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .sidebar-nav li:active {
+            transform: scale(0.96);
+        }
+
+        .sidebar-nav li i {
+            font-size: 1rem;
+            min-width: 20px;
+            text-align: center;
+        }
+
+        .sidebar-nav li .label {
+            font-size: 0.75rem;
+            font-weight: 500;
+            opacity: 0;
+            transform: translateX(-8px);
+            transition: var(--transition);
+        }
+
+        .sidebar:hover .sidebar-nav li .label {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .sidebar-nav li:hover {
+            background: var(--novak-card-hover);
+            color: var(--novak-text);
+        }
+
+        .sidebar-nav li.active {
+            background: rgba(0, 180, 255, 0.06);
+            color: var(--novak-blue);
+            border: 1px solid rgba(0, 180, 255, 0.08);
+        }
+
+        .sidebar-nav li.active::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 20%;
+            height: 60%;
+            width: 2px;
+            background: var(--novak-blue);
+            border-radius: 0 4px 4px 0;
+            box-shadow: 0 0 20px rgba(0, 180, 255, 0.2);
+        }
+
+        .sidebar-nav li .badge {
+            position: absolute;
+            right: 12px;
+            background: var(--novak-pink);
+            color: #fff;
+            font-size: 0.5rem;
+            font-weight: 600;
+            padding: 1px 7px;
+            border-radius: 10px;
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .sidebar:hover .sidebar-nav li .badge {
+            opacity: 1;
+        }
+
+        .sidebar-footer {
+            width: 100%;
+            padding: 12px 8px;
+            border-top: 1px solid var(--novak-border);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            flex-shrink: 0;
+        }
+
+        .sidebar-footer .avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: 1.5px solid var(--novak-blue);
+            object-fit: cover;
+            transition: var(--transition-fast);
+            cursor: pointer;
+        }
+
+        .sidebar-footer .user-name {
+            font-size: 0.6rem;
+            color: var(--novak-text-secondary);
+            opacity: 0;
+            transition: var(--transition);
+            white-space: nowrap;
+        }
+
+        .sidebar:hover .sidebar-footer .user-name {
+            opacity: 1;
+        }
+
+        .sidebar-footer .logout-btn {
+            background: none;
+            border: none;
+            color: var(--novak-text-muted);
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: var(--transition-fast);
+            padding: 4px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .sidebar-footer .logout-btn:active {
+            transform: scale(0.88);
+        }
+
+        .sidebar-footer .logout-btn:hover {
+            color: var(--novak-pink);
+        }
+
+        .main-content {
+            margin-left: 64px;
+            flex: 1;
+            min-height: 100vh;
+            min-height: 100dvh;
+            padding: 16px 20px 80px;
+            transition: var(--transition);
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                margin-left: 0;
+                padding: 12px 12px 80px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .main-content {
+                padding: 10px 10px 80px;
+            }
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0 16px;
+            border-bottom: 1px solid var(--novak-border);
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .topbar-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .btn-toggle-sidebar {
+            background: none;
+            border: none;
+            color: var(--novak-text-secondary);
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 4px 8px;
+            border-radius: var(--radius-xs);
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .btn-toggle-sidebar {
+                display: block;
+            }
+        }
+
+        .topbar-left .page-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            background: var(--novak-gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1.2;
+        }
+
+        .topbar-left .page-subtitle {
+            font-size: 0.6rem;
+            color: var(--novak-text-secondary);
+            -webkit-text-fill-color: var(--novak-text-secondary);
+            display: block;
+        }
+
+        @media (max-width: 480px) {
+            .topbar-left .page-title {
+                font-size: 1rem;
+            }
+            .topbar-left .page-subtitle {
+                font-size: 0.55rem;
+            }
+        }
+
+        .topbar-right {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .notification-bell {
+            position: relative;
+            cursor: pointer;
+            padding: 6px 8px;
+            border-radius: 50%;
+            background: var(--novak-card);
+            border: 1px solid var(--novak-border);
+            transition: var(--transition-fast);
+            color: var(--novak-text-secondary);
+        }
+
+        .notification-bell:active {
+            transform: scale(0.88);
+        }
+
+        .notification-bell .bell-icon {
+            font-size: 1rem;
+        }
+
+        .notification-bell .badge-dot {
+            position: absolute;
+            top: 0px;
+            right: 0px;
+            width: 16px;
+            height: 16px;
+            background: var(--novak-pink);
+            color: #fff;
+            font-size: 0.5rem;
+            font-weight: 700;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1.5px solid var(--novak-bg);
+            animation: pulse-dot 2s infinite;
+            box-shadow: 0 0 16px rgba(255, 45, 149, 0.2);
+        }
+
+        @keyframes pulse-dot {
+            0%,
+            100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.08);
+                box-shadow: 0 0 24px rgba(255, 45, 149, 0.3);
+            }
+        }
+
+        .notification-bell .dropdown {
+            position: absolute;
+            top: calc(100% + 8px);
+            right: -40px;
+            width: 340px;
+            max-height: 420px;
+            overflow-y: auto;
+            background: rgba(10, 10, 18, 0.98);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid var(--novak-border);
+            border-radius: var(--radius);
+            padding: 8px 0;
+            display: none;
+            box-shadow: var(--novak-shadow);
+            z-index: 500;
+        }
+
+        @media (max-width: 480px) {
+            .notification-bell .dropdown {
+                width: 280px;
+                right: -60px;
+                max-height: 360px;
+            }
+        }
+
+        .notification-bell .dropdown.open {
+            display: block;
+            animation: fadeInDown 0.25s ease;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-8px) scale(0.98);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .notification-bell .dropdown .header {
+            padding: 6px 16px 10px;
+            border-bottom: 1px solid var(--novak-border);
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: var(--novak-text-secondary);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .notification-bell .dropdown .header .mark-all {
+            cursor: pointer;
+            color: var(--novak-blue);
+            font-weight: 400;
+            font-size: 0.6rem;
+        }
+
+        .notification-bell .dropdown .item {
+            padding: 10px 14px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            transition: var(--transition-fast);
+            border-left: 2px solid transparent;
+        }
+
+        .notification-bell .dropdown .item:active {
+            transform: scale(0.98);
+        }
+
+        .notification-bell .dropdown .item.unread {
+            border-left-color: var(--novak-blue);
+            background: rgba(0, 180, 255, 0.02);
+        }
+
+        .notification-bell .dropdown .item .icon {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            flex-shrink: 0;
+        }
+
+        .notification-bell .dropdown .item .icon.blue {
+            background: rgba(0, 180, 255, 0.1);
+            color: var(--novak-blue);
+        }
+        .notification-bell .dropdown .item .icon.green {
+            background: rgba(0, 255, 149, 0.1);
+            color: var(--novak-green);
+        }
+        .notification-bell .dropdown .item .icon.pink {
+            background: rgba(255, 45, 149, 0.1);
+            color: var(--novak-pink);
+        }
+        .notification-bell .dropdown .item .icon.orange {
+            background: rgba(255, 107, 0, 0.1);
+            color: var(--novak-orange);
+        }
+        .notification-bell .dropdown .item .icon.purple {
+            background: rgba(123, 47, 255, 0.1);
+            color: var(--novak-purple);
+        }
+
+        .notification-bell .dropdown .item .info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .notification-bell .dropdown .item .info .title {
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: var(--novak-text);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .notification-bell .dropdown .item .info .time {
+            font-size: 0.6rem;
+            color: var(--novak-text-muted);
+        }
+
+        .notification-bell .dropdown .item .action-label {
+            font-size: 0.5rem;
+            padding: 1px 8px;
+            border-radius: 12px;
+            background: var(--novak-card);
+            color: var(--novak-text-muted);
+            flex-shrink: 0;
+            border: 1px solid var(--novak-border);
+        }
+
+        .notification-bell .dropdown .item .dot {
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: var(--novak-blue);
+            flex-shrink: 0;
+            animation: pulse-dot 2s infinite;
+        }
+
+        .status-bar {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.6rem;
+            color: var(--novak-text-muted);
+            padding: 3px 10px;
+            background: var(--novak-card);
+            border-radius: 20px;
+            border: 1px solid var(--novak-border);
+            flex-wrap: nowrap;
+        }
+
+        .status-bar .dot {
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: var(--novak-green);
+            display: inline-block;
+            animation: pulse-dot 2s infinite;
+        }
+
+        @media (max-width: 480px) {
+            .status-bar {
+                font-size: 0.5rem;
+                gap: 4px;
+                padding: 2px 8px;
+            }
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeInUp 0.4s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(16px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 480px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 8px;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .stats-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 6px;
+            }
+        }
+
+        .stat-card {
+            background: var(--novak-card);
+            border: 1px solid var(--novak-border);
+            border-radius: var(--radius);
+            padding: 14px 16px;
+            transition: var(--transition-fast);
+            cursor: default;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card:active {
+            transform: scale(0.98);
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1.5px;
+            background: var(--novak-gradient-primary);
+            opacity: 0;
+            transition: var(--transition-fast);
+        }
+
+        .stat-card:hover {
+            background: var(--novak-card-hover);
+            border-color: rgba(255, 255, 255, 0.06);
+            transform: translateY(-1px);
+        }
+
+        .stat-card:hover::before {
+            opacity: 1;
+        }
+
+        .stat-card .top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 6px;
+        }
+
+        .stat-card .top .icon {
+            width: 32px;
+            height: 32px;
+            border-radius: var(--radius-xs);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+        }
+
+        .stat-card .top .icon.blue {
+            background: rgba(0, 180, 255, 0.08);
+            color: var(--novak-blue);
+        }
+        .stat-card .top .icon.green {
+            background: rgba(0, 255, 149, 0.08);
+            color: var(--novak-green);
+        }
+        .stat-card .top .icon.purple {
+            background: rgba(123, 47, 255, 0.08);
+            color: var(--novak-purple);
+        }
+        .stat-card .top .icon.pink {
+            background: rgba(255, 45, 149, 0.08);
+            color: var(--novak-pink);
+        }
+        .stat-card .top .icon.orange {
+            background: rgba(255, 107, 0, 0.08);
+            color: var(--novak-orange);
+        }
+
+        .stat-card .top .trend {
+            font-size: 0.55rem;
+            font-weight: 600;
+            padding: 1px 8px;
+            border-radius: 12px;
+        }
+
+        .stat-card .top .trend.up {
+            color: var(--novak-green);
+            background: rgba(0, 255, 149, 0.06);
+        }
+        .stat-card .top .trend.down {
+            color: var(--novak-pink);
+            background: rgba(255, 45, 149, 0.06);
+        }
+        .stat-card .top .trend.neutral {
+            color: var(--novak-text-muted);
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        .stat-card .value {
+            font-size: 1.5rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            background: var(--novak-gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1.2;
+        }
+
+        .stat-card .label {
+            font-size: 0.6rem;
+            color: var(--novak-text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 500;
+        }
+
+        @media (max-width: 480px) {
+            .stat-card {
+                padding: 10px 12px;
+                border-radius: var(--radius-sm);
+            }
+            .stat-card .value {
+                font-size: 1.2rem;
+            }
+            .stat-card .top .icon {
+                width: 26px;
+                height: 26px;
+                font-size: 0.7rem;
+            }
+            .stat-card .label {
+                font-size: 0.5rem;
+            }
+            .stat-card .top .trend {
+                font-size: 0.45rem;
+                padding: 0 6px;
+            }
+        }
+
+        .charts-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .charts-row {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+        }
+
+        .chart-card {
+            background: var(--novak-card);
+            border: 1px solid var(--novak-border);
+            border-radius: var(--radius);
+            padding: 16px 18px;
+            transition: var(--transition-fast);
+        }
+
+        .chart-card .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .chart-card .header h3 {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--novak-text-secondary);
+            letter-spacing: 0.3px;
+        }
+
+        .chart-card .header .badge {
+            font-size: 0.5rem;
+            padding: 1px 10px;
+            border-radius: 12px;
+            background: rgba(0, 180, 255, 0.06);
+            color: var(--novak-blue);
+            border: 1px solid rgba(0, 180, 255, 0.06);
+        }
+
+        @media (max-width: 480px) {
+            .chart-card {
+                padding: 12px 14px;
+            }
+            .chart-card .header h3 {
+                font-size: 0.65rem;
+            }
+        }
+
+        .donut-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 24px;
+            padding: 4px 0;
+            flex-wrap: wrap;
+        }
+
+        .donut {
+            width: 110px;
+            height: 110px;
+            border-radius: 50%;
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        .donut .center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--novak-bg);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .donut .center .number {
+            font-size: 1.1rem;
+            font-weight: 800;
+            color: var(--novak-text);
+        }
+
+        .donut .center .label {
+            font-size: 0.45rem;
+            color: var(--novak-text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        @media (max-width: 480px) {
+            .donut {
+                width: 90px;
+                height: 90px;
+            }
+            .donut .center {
+                width: 50px;
+                height: 50px;
+            }
+            .donut .center .number {
+                font-size: 0.9rem;
+            }
+        }
+
+        .donut-legend {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .donut-legend .item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.7rem;
+            color: var(--novak-text-secondary);
+        }
+
+        .donut-legend .item .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .donut-legend .item .dot.blue {
+            background: var(--novak-blue);
+        }
+        .donut-legend .item .dot.purple {
+            background: var(--novak-purple);
+        }
+
+        .donut-legend .item .percent {
+            font-weight: 600;
+            color: var(--novak-text);
+            margin-left: auto;
+        }
+
+        @media (max-width: 480px) {
+            .donut-legend .item {
+                font-size: 0.6rem;
+            }
+            .donut-legend .item .dot {
+                width: 6px;
+                height: 6px;
+            }
+        }
+
+        .bar-chart {
+            display: flex;
+            align-items: flex-end;
+            gap: 6px;
+            height: 120px;
+            padding: 6px 0;
+        }
+
+        .bar-chart .bar-group {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2px;
+            height: 100%;
+            justify-content: flex-end;
+        }
+
+        .bar-chart .bar-group .bar {
+            width: 100%;
+            max-width: 28px;
+            border-radius: 3px 3px 0 0;
+            background: var(--novak-gradient-primary);
+            min-height: 3px;
+            transition: height 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            position: relative;
+        }
+
+        .bar-chart .bar-group .bar::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.15), transparent);
+            border-radius: 3px 3px 0 0;
+        }
+
+        .bar-chart .bar-group .bar-value {
+            font-size: 0.5rem;
+            color: var(--novak-text-secondary);
+            font-weight: 600;
+        }
+
+        .bar-chart .bar-group .bar-label {
+            font-size: 0.45rem;
+            color: var(--novak-text-muted);
+            text-transform: uppercase;
+        }
+
+        @media (max-width: 480px) {
+            .bar-chart {
+                height: 100px;
+                gap: 4px;
+            }
+            .bar-chart .bar-group .bar {
+                max-width: 20px;
+            }
+            .bar-chart .bar-group .bar-value {
+                font-size: 0.4rem;
+            }
+            .bar-chart .bar-group .bar-label {
+                font-size: 0.4rem;
+            }
+        }
+
+        .activity-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .activity-row {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+        }
+
+        .activity-card {
+            background: var(--novak-card);
+            border: 1px solid var(--novak-border);
+            border-radius: var(--radius);
+            padding: 16px 18px;
+            transition: var(--transition-fast);
+        }
+
+        .activity-card .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .activity-card .header h3 {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--novak-text-secondary);
+            letter-spacing: 0.3px;
+        }
+
+        .activity-card .header .action {
+            font-size: 0.6rem;
+            color: var(--novak-blue);
+            cursor: pointer;
+        }
+
+        @media (max-width: 480px) {
+            .activity-card {
+                padding: 12px 14px;
+            }
+            .activity-card .header h3 {
+                font-size: 0.65rem;
+            }
+        }
+
+        .activity-list {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .activity-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 10px;
+            border-radius: var(--radius-xs);
+            transition: var(--transition-fast);
+            cursor: default;
+        }
+
+        .activity-item .icon {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.6rem;
+            flex-shrink: 0;
+        }
+
+        .activity-item .icon.payment {
+            background: rgba(0, 180, 255, 0.08);
+            color: var(--novak-blue);
+        }
+        .activity-item .icon.register {
+            background: rgba(0, 255, 149, 0.08);
+            color: var(--novak-green);
+        }
+        .activity-item .icon.receipt {
+            background: rgba(255, 107, 0, 0.08);
+            color: var(--novak-orange);
+        }
+        .activity-item .icon.suspend {
+            background: rgba(255, 45, 149, 0.08);
+            color: var(--novak-pink);
+        }
+
+        .activity-item .info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .activity-item .info .title {
+            font-size: 0.7rem;
+            color: var(--novak-text);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .activity-item .info .time {
+            font-size: 0.55rem;
+            color: var(--novak-text-muted);
+        }
+
+        .activity-item .status {
+            font-size: 0.5rem;
+            font-weight: 600;
+            padding: 1px 8px;
+            border-radius: 12px;
+            flex-shrink: 0;
+        }
+
+        .activity-item .status.success {
+            color: var(--novak-green);
+            background: rgba(0, 255, 149, 0.06);
+        }
+        .activity-item .status.pending {
+            color: var(--novak-orange);
+            background: rgba(255, 107, 0, 0.06);
+        }
+        .activity-item .status.warning {
+            color: var(--novak-pink);
+            background: rgba(255, 45, 149, 0.06);
+        }
+        .activity-item .status.new {
+            color: var(--novak-blue);
+            background: rgba(0, 180, 255, 0.06);
+        }
+
+        @media (max-width: 480px) {
+            .activity-item {
+                padding: 6px 8px;
+                gap: 8px;
+            }
+            .activity-item .icon {
+                width: 24px;
+                height: 24px;
+                font-size: 0.5rem;
+            }
+            .activity-item .info .title {
+                font-size: 0.65rem;
+            }
+            .activity-item .info .time {
+                font-size: 0.5rem;
+            }
+            .activity-item .status {
+                font-size: 0.45rem;
+                padding: 0 6px;
+            }
+        }
+
+        .expiring-list {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .expiring-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 10px;
+            border-radius: var(--radius-xs);
+            transition: var(--transition-fast);
+        }
+
+        .expiring-item .avatar {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.04);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.6rem;
+            color: var(--novak-text-secondary);
+            flex-shrink: 0;
+            border: 1px solid var(--novak-border);
+        }
+
+        .expiring-item .info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .expiring-item .info .name {
+            font-size: 0.7rem;
+            color: var(--novak-text);
+        }
+
+        .expiring-item .info .name span {
+            color: var(--novak-text-muted);
+            font-size: 0.6rem;
+        }
+
+        .expiring-item .info .progress-track {
+            width: 100%;
+            height: 3px;
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: 3px;
+            margin-top: 3px;
+            overflow: hidden;
+        }
+
+        .expiring-item .info .progress-track .fill {
+            height: 100%;
+            border-radius: 3px;
+            transition: width 1s ease;
+        }
+
+        .expiring-item .info .progress-track .fill.green {
+            background: var(--novak-green);
+        }
+        .expiring-item .info .progress-track .fill.orange {
+            background: var(--novak-orange);
+        }
+        .expiring-item .info .progress-track .fill.red {
+            background: var(--novak-pink);
+        }
+
+        .expiring-item .days {
+            font-size: 0.6rem;
+            font-weight: 600;
+            padding: 1px 10px;
+            border-radius: 12px;
+            flex-shrink: 0;
+        }
+
+        .expiring-item .days.green {
+            color: var(--novak-green);
+            background: rgba(0, 255, 149, 0.06);
+        }
+        .expiring-item .days.orange {
+            color: var(--novak-orange);
+            background: rgba(255, 107, 0, 0.06);
+        }
+        .expiring-item .days.red {
+            color: var(--novak-pink);
+            background: rgba(255, 45, 149, 0.06);
+        }
+
+        @media (max-width: 480px) {
+            .expiring-item {
+                padding: 6px 8px;
+                gap: 8px;
+            }
+            .expiring-item .avatar {
+                width: 24px;
+                height: 24px;
+                font-size: 0.5rem;
+            }
+            .expiring-item .info .name {
+                font-size: 0.65rem;
+            }
+            .expiring-item .info .name span {
+                font-size: 0.55rem;
+            }
+            .expiring-item .days {
+                font-size: 0.5rem;
+                padding: 0 6px;
+            }
+        }
+
+        .table-controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 14px;
+        }
+
+        .search-box {
+            flex: 1;
+            min-width: 160px;
+            display: flex;
+            align-items: center;
+            background: var(--novak-card);
+            border: 1px solid var(--novak-border);
+            border-radius: var(--radius-sm);
+            padding: 0 12px;
+            transition: var(--transition-fast);
+        }
+
+        .search-box:focus-within {
+            border-color: rgba(0, 180, 255, 0.2);
+        }
+
+        .search-box input {
+            background: none;
+            border: none;
+            padding: 8px 8px;
+            color: var(--novak-text);
+            font-size: 0.8rem;
+            width: 100%;
+            outline: none;
+        }
+
+        .search-box input::placeholder {
+            color: var(--novak-text-muted);
+        }
+
+        .search-box i {
+            color: var(--novak-text-muted);
+            font-size: 0.8rem;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .filter-group select {
+            padding: 8px 12px;
+            background: var(--novak-card);
+            border: 1px solid var(--novak-border);
+            border-radius: var(--radius-sm);
+            color: var(--novak-text);
+            font-size: 0.7rem;
+            cursor: pointer;
+            outline: none;
+            -webkit-appearance: none;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%235a5a7a'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 10px center;
+            padding-right: 28px;
+        }
+
+        .filter-group select:focus {
+            border-color: rgba(0, 180, 255, 0.2);
+        }
+
+        .filter-group select option {
+            background: var(--novak-bg-secondary);
+        }
+
+        @media (max-width: 480px) {
+            .table-controls {
+                flex-direction: column;
+                gap: 8px;
+            }
+            .filter-group select {
+                flex: 1;
+                min-width: 80px;
+                font-size: 0.65rem;
+                padding: 6px 10px;
+                padding-right: 24px;
+            }
+            .search-box input {
+                font-size: 0.7rem;
+                padding: 6px 6px;
+            }
+        }
+
+        .table-container {
+            overflow-x: auto;
+            background: var(--novak-card);
+            border: 1px solid var(--novak-border);
+            border-radius: var(--radius);
+            padding: 0;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .admin-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.75rem;
+            min-width: 600px;
+        }
+
+        .admin-table th {
+            padding: 10px 12px;
+            text-align: left;
+            color: var(--novak-text-secondary);
+            font-weight: 500;
+            font-size: 0.6rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 1px solid var(--novak-border);
+        }
+
+        .admin-table td {
+            padding: 8px 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.02);
+            vertical-align: middle;
+        }
+
+        .admin-table tr:hover td {
+            background: rgba(255, 255, 255, 0.01);
+        }
+
+        .socio-avatar {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 1px solid var(--novak-border);
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 3px;
+            flex-wrap: wrap;
+        }
+
+        .action-buttons .btn {
+            padding: 3px 7px;
+            font-size: 0.55rem;
+        }
+
+        @media (max-width: 480px) {
+            .admin-table {
+                font-size: 0.65rem;
+                min-width: 500px;
+            }
+            .admin-table th {
+                padding: 6px 8px;
+                font-size: 0.5rem;
+            }
+            .admin-table td {
+                padding: 6px 8px;
+            }
+            .socio-avatar {
+                width: 22px;
+                height: 22px;
+            }
+            .action-buttons .btn {
+                padding: 2px 5px;
+                font-size: 0.5rem;
+            }
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 6px 14px;
+            border: none;
+            border-radius: var(--radius-sm);
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            font-size: 0.65rem;
+            cursor: pointer;
+            transition: var(--transition-fast);
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+
+        .btn:active {
+            transform: scale(0.95);
+        }
+
+        .btn-primary {
+            background: var(--novak-gradient-primary);
+            color: #fff;
+        }
+
+        .btn-secondary {
+            background: var(--novak-card);
+            color: var(--novak-text-secondary);
+            border: 1px solid var(--novak-border);
+        }
+
+        .btn-success {
+            background: var(--novak-gradient-success);
+            color: #fff;
+        }
+
+        .btn-danger {
+            background: var(--novak-pink);
+            color: #fff;
+        }
+
+        .btn-warning {
+            background: var(--novak-gradient-warning);
+            color: #fff;
+        }
+
+        .btn-sm {
+            padding: 3px 8px;
+            font-size: 0.5rem;
+        }
+
+        @media (max-width: 480px) {
+            .btn {
+                padding: 4px 10px;
+                font-size: 0.55rem;
+            }
+            .btn-sm {
+                padding: 2px 6px;
+                font-size: 0.45rem;
+            }
+        }
+
+        .badge-status {
+            display: inline-block;
+            padding: 1px 8px;
+            border-radius: 12px;
+            font-size: 0.55rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+
+        .badge-status.active {
+            background: rgba(0, 255, 149, 0.08);
+            color: var(--novak-green);
+            border: 1px solid rgba(0, 255, 149, 0.08);
+        }
+        .badge-status.pending {
+            background: rgba(255, 107, 0, 0.08);
+            color: var(--novak-orange);
+            border: 1px solid rgba(255, 107, 0, 0.08);
+        }
+        .badge-status.suspended {
+            background: rgba(255, 45, 149, 0.08);
+            color: var(--novak-pink);
+            border: 1px solid rgba(255, 45, 149, 0.08);
+        }
+        .badge-status.expired {
+            background: rgba(255, 45, 149, 0.08);
+            color: var(--novak-pink);
+            border: 1px solid rgba(255, 45, 149, 0.08);
+        }
+
+        @media (max-width: 480px) {
+            .badge-status {
+                font-size: 0.45rem;
+                padding: 0 6px;
+            }
+        }
+
+        .modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            z-index: 2000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            width: 100%;
+            max-width: 660px;
+            max-height: 90vh;
+            max-height: 90dvh;
+            overflow-y: auto;
+            background: rgba(10, 10, 18, 0.98);
+            border: 1px solid var(--novak-border);
+            border-radius: var(--radius);
+            padding: 0;
+            animation: fadeInUp 0.3s ease;
+            box-shadow: var(--novak-shadow);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--novak-border);
+            position: sticky;
+            top: 0;
+            background: rgba(10, 10, 18, 0.95);
+            backdrop-filter: blur(12px);
+            z-index: 10;
+            border-radius: var(--radius) var(--radius) 0 0;
+        }
+
+        .modal-header h2 {
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            color: var(--novak-text-secondary);
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: var(--transition-fast);
+            padding: 4px;
+        }
+
+        .modal-close:hover {
+            color: var(--novak-pink);
+        }
+
+        .modal-body {
+            padding: 16px 20px;
+        }
+
+        @media (max-width: 480px) {
+            .modal-content {
+                max-width: 100%;
+                border-radius: var(--radius-sm);
+            }
+            .modal-header {
+                padding: 12px 16px;
+            }
+            .modal-header h2 {
+                font-size: 0.9rem;
+            }
+            .modal-body {
+                padding: 12px 16px;
+            }
+        }
+
+        .config-section {
+            margin-top: 12px;
+        }
+
+        .config-section h4 {
+            font-size: 0.65rem;
+            color: var(--novak-text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 10px;
+        }
+
+        .config-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 6px 0;
+            border-bottom: 1px solid var(--novak-border);
+        }
+
+        .config-item:last-child {
+            border-bottom: none;
+        }
+
+        .config-item label {
+            flex: 1;
+            color: var(--novak-text-secondary);
+            font-size: 0.75rem;
+        }
+
+        .config-item input {
+            width: 80px;
+            padding: 6px 10px;
+            background: var(--novak-card);
+            border: 1px solid var(--novak-border);
+            border-radius: var(--radius-xs);
+            color: var(--novak-text);
+            text-align: right;
+            font-size: 0.75rem;
+            outline: none;
+        }
+
+        .config-item input:focus {
+            border-color: rgba(0, 180, 255, 0.2);
+        }
+
+        @media (max-width: 480px) {
+            .config-item label {
+                font-size: 0.65rem;
+            }
+            .config-item input {
+                width: 64px;
+                font-size: 0.65rem;
+                padding: 4px 8px;
+            }
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 6px;
+            margin-top: 14px;
+            flex-wrap: wrap;
+        }
+
+        .form-group {
+            margin-bottom: 12px;
+        }
+
+        .form-group label {
+            display: block;
+            color: var(--novak-text-secondary);
+            margin-bottom: 4px;
+            font-size: 0.7rem;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 8px 12px;
+            background: var(--novak-card);
+            border: 1px solid var(--novak-border);
+            border-radius: var(--radius-xs);
+            color: var(--novak-text);
+            font-size: 0.8rem;
+            outline: none;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            border-color: rgba(0, 180, 255, 0.2);
+        }
+
+        .form-group select option {
+            background: var(--novak-bg-secondary);
+        }
+
+        @media (max-width: 480px) {
+            .form-group input,
+            .form-group select {
+                font-size: 0.7rem;
+                padding: 6px 10px;
+            }
+        }
+
+        /* ===== VISOR DE COMPROBANTES ===== */
+        #visorComprobanteOverlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            z-index: 3000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+            animation: fadeInUp 0.3s ease;
+        }
+
+        #visorComprobanteOverlay.active {
+            display: flex;
+        }
+
+        #visorComprobanteOverlay .visor-container {
+            background: rgba(10, 10, 18, 0.98);
+            border: 1px solid var(--novak-border);
+            border-radius: var(--radius);
+            max-width: 900px;
+            width: 100%;
+            max-height: 90vh;
+            max-height: 90dvh;
+            display: flex;
+            flex-direction: column;
+            box-shadow: var(--novak-shadow);
+            overflow: hidden;
+        }
+
+        #visorComprobanteOverlay .visor-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 20px;
+            border-bottom: 1px solid var(--novak-border);
+            flex-shrink: 0;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        #visorComprobanteOverlay .visor-header .title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        #visorComprobanteOverlay .visor-header .title i {
+            color: var(--novak-blue);
+        }
+
+        #visorComprobanteOverlay .visor-header .actions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        #visorComprobanteOverlay .visor-body {
+            flex: 1;
+            overflow: auto;
+            padding: 16px;
+            min-height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        #visorComprobanteOverlay .visor-body .loading {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            color: var(--novak-text-muted);
+        }
+
+        #visorComprobanteOverlay .visor-body .loading i {
+            font-size: 2rem;
+            color: var(--novak-blue);
+        }
+
+        #visorComprobanteOverlay .visor-body img {
+            max-width: 100%;
+            max-height: 70vh;
+            max-height: 70dvh;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--novak-border);
+            object-fit: contain;
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        #visorComprobanteOverlay .visor-body .pdf-view,
+        #visorComprobanteOverlay .visor-body .file-view {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            padding: 30px 20px;
+            text-align: center;
+            width: 100%;
+        }
+
+        #visorComprobanteOverlay .visor-body .pdf-view i,
+        #visorComprobanteOverlay .visor-body .file-view i {
+            font-size: 4rem;
+            opacity: 0.5;
+        }
+
+        #visorComprobanteOverlay .visor-body .pdf-view .file-name,
+        #visorComprobanteOverlay .visor-body .file-view .file-name {
+            color: var(--novak-text);
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        #visorComprobanteOverlay .visor-body .pdf-view .file-meta,
+        #visorComprobanteOverlay .visor-body .file-view .file-meta {
+            color: var(--novak-text-muted);
+            font-size: 0.8rem;
+        }
+
+        #visorComprobanteOverlay .visor-body .pdf-view .preview-box,
+        #visorComprobanteOverlay .visor-body .file-view .preview-box {
+            width: 100%;
+            max-width: 500px;
+            min-height: 150px;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--novak-border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 8px;
+            padding: 20px;
+        }
+
+        #visorComprobanteOverlay .visor-footer {
+            padding: 10px 20px;
+            border-top: 1px solid var(--novak-border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-shrink: 0;
+            font-size: 0.65rem;
+            color: var(--novak-text-muted);
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        #visorComprobanteOverlay .visor-footer .info {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        @media (max-width: 480px) {
+            #visorComprobanteOverlay .visor-header {
+                padding: 10px 14px;
+            }
+            #visorComprobanteOverlay .visor-header .title {
+                font-size: 0.8rem;
+            }
+            #visorComprobanteOverlay .visor-body {
+                padding: 10px;
+                min-height: 200px;
+            }
+            #visorComprobanteOverlay .visor-footer {
+                padding: 8px 14px;
+                font-size: 0.55rem;
+            }
+            #visorComprobanteOverlay .visor-body .pdf-view i,
+            #visorComprobanteOverlay .visor-body .file-view i {
+                font-size: 3rem;
+            }
+            #visorComprobanteOverlay .visor-body .pdf-view .file-name,
+            #visorComprobanteOverlay .visor-body .file-view .file-name {
+                font-size: 0.85rem;
+            }
+        }
+
+        /* ===== TOAST ===== */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 12px 18px;
+            background: rgba(10, 10, 18, 0.96);
+            border: 1px solid var(--novak-border);
+            border-radius: var(--radius-sm);
+            color: var(--novak-text);
+            z-index: 9999;
+            max-width: 340px;
+            animation: fadeInUp 0.3s ease;
+            box-shadow: var(--novak-shadow);
+            backdrop-filter: blur(16px);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.8rem;
+        }
+
+        .toast .icon {
+            font-size: 1rem;
+        }
+
+        .toast .icon.success {
+            color: var(--novak-green);
+        }
+        .toast .icon.error {
+            color: var(--novak-pink);
+        }
+        .toast .icon.warning {
+            color: var(--novak-orange);
+        }
+        .toast .icon.info {
+            color: var(--novak-blue);
+        }
+
+        @media (max-width: 480px) {
+            .toast {
+                bottom: 12px;
+                right: 12px;
+                left: 12px;
+                max-width: none;
+                font-size: 0.7rem;
+                padding: 10px 14px;
+            }
+        }
+
+        .sidebar-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+            display: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .sidebar-overlay.active {
+            display: block;
+            opacity: 1;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar-overlay.active {
+                display: block;
+            }
+        }
+
+        .text-gradient {
+            background: var(--novak-gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .text-muted {
+            color: var(--novak-text-muted);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ============================================================
+    LOGIN SCREEN
+    ============================================================ -->
+    <div class="login-screen" id="loginScreen">
+        <div class="login-box">
+            <div class="logo">
+                <h1>⚡ FLY</h1>
+                <p>FUTBOLEROS · ADMIN</p>
+            </div>
+            <form id="loginForm" onsubmit="return handleLogin(event)">
+                <div class="form-group">
+                    <label>🔑 Contraseña</label>
+                    <input type="password" id="loginPassword" placeholder="Ingresa la contraseña" required autofocus>
+                </div>
+                <button type="submit" class="btn-login" id="loginBtn">
+                    <i class="fas fa-lock"></i> Acceder
+                </button>
+                <div class="error-msg" id="loginError"></div>
+                <div class="hint">🔒 Acceso restringido · FLY FUTBOLEROS</div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ============================================================
+    SIDEBAR
+    ============================================================ -->
+    <nav class="sidebar" id="sidebar">
+        <div class="logo">
+            FLY
+            <span>FUTBOLEROS</span>
+        </div>
+        <ul class="sidebar-nav">
+            <li class="active" data-tab="dashboard"><i class="fas fa-chart-pie"></i><span class="label">Dashboard</span></li>
+            <li data-tab="socios"><i class="fas fa-users"></i><span class="label">Socios</span><span class="badge">5</span></li>
+            <li data-tab="pagos"><i class="fas fa-credit-card"></i><span class="label">Pagos</span></li>
+            <li data-tab="comprobantes"><i class="fas fa-file-invoice"></i><span class="label">Comprobantes</span><span class="badge">1</span></li>
+            <li data-tab="notificaciones"><i class="fas fa-bell"></i><span class="label">Notificaciones</span><span class="badge">3</span></li>
+            <li data-tab="bancarios"><i class="fas fa-university"></i><span class="label">Datos Bancarios</span></li>
+            <li data-tab="configuracion"><i class="fas fa-cog"></i><span class="label">Configuración</span></li>
+        </ul>
+        <div class="sidebar-footer">
+            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='16' fill='%23222'/%3E%3Ccircle cx='16' cy='10' r='5' fill='%23444'/%3E%3Cpath d='M4 28c0-5 7-9 12-9s12 4 12 9' fill='%23444'/%3E%3C/svg%3E" alt="Admin" class="avatar">
+            <span class="user-name">Administrador</span>
+            <button class="logout-btn" onclick="handleLogout()" title="Cerrar Sesión">
+                <i class="fas fa-sign-out-alt"></i> <span style="font-size:0.6rem;opacity:0;transition:var(--transition);">Salir</span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- ============================================================
+    MAIN CONTENT
+    ============================================================ -->
+    <main class="main-content" id="mainContent" style="display:none;">
+
+        <!-- TOP BAR -->
+        <header class="topbar">
+            <div class="topbar-left">
+                <button class="btn-toggle-sidebar" id="toggleSidebar"><i class="fas fa-bars"></i></button>
+                <div>
+                    <h1 class="page-title" id="pageTitle">Dashboard</h1>
+                    <span class="page-subtitle">Visión general · FLY FUTBOLEROS</span>
+                </div>
+            </div>
+            <div class="topbar-right">
+                <div class="notification-bell" id="notificationBell">
+                    <i class="fas fa-bell bell-icon"></i>
+                    <span class="badge-dot" id="notificationCount">3</span>
+                    <div class="dropdown" id="notificationDropdown">
+                        <div class="header">
+                            <span>🔔 Notificaciones</span>
+                            <span class="mark-all" onclick="marcarTodasLeidas()">Marcar todas</span>
+                        </div>
+                        <div id="notificationList"></div>
+                    </div>
+                </div>
+                <div class="status-bar">
+                    <span class="dot"></span>
+                    <span id="clockDisplay">19:37</span>
+                    <span>·</span>
+                    <span>17°C</span>
+                    <span>·</span>
+                    <span>PYG</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- ===== TAB: DASHBOARD ===== -->
+        <div class="tab-content active" id="tab-dashboard">
+            <div class="stats-grid" id="statsGrid"></div>
+            <div class="charts-row">
+                <div class="chart-card">
+                    <div class="header"><h3>📊 Socios por Plan</h3><span class="badge">Actualizado</span></div>
+                    <div id="planChart" class="donut-container"></div>
+                </div>
+                <div class="chart-card">
+                    <div class="header"><h3>💰 Ingresos Mensuales</h3><span class="badge">Gs.</span></div>
+                    <div id="incomeChart" class="bar-chart"></div>
+                </div>
+            </div>
+            <div class="activity-row">
+                <div class="activity-card">
+                    <div class="header"><h3>📋 Actividad Reciente</h3><span class="action" onclick="showToast('Cargando más actividad...','info')">Ver todas</span></div>
+                    <div class="activity-list" id="activityList"></div>
+                </div>
+                <div class="activity-card">
+                    <div class="header"><h3>⏳ Próximos a Vencer</h3><span class="action" onclick="switchTab('socios')">Ver todos</span></div>
+                    <div class="expiring-list" id="expiringList"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== TAB: SOCIOS ===== -->
+        <div class="tab-content" id="tab-socios">
+            <div class="table-controls">
+                <div class="search-box"><i class="fas fa-search"></i><input type="text" id="searchSocios" placeholder="Buscar socio..."></div>
+                <div class="filter-group">
+                    <select id="filterEstado">
+                        <option value="todos">Todos los estados</option>
+                        <option value="Activo">Activo</option>
+                        <option value="Pendiente">Pendiente</option>
+                        <option value="Suspendido">Suspendido</option>
+                        <option value="Vencido">Vencido</option>
+                    </select>
+                    <select id="filterPlan">
+                        <option value="todos">Todos los planes</option>
+                        <option value="Sabatero">Sabatero</option>
+                        <option value="Finder">Finder</option>
+                    </select>
+                    <select id="filterMetodo">
+                        <option value="todos">Todos los métodos</option>
+                        <option value="Transferencia">Transferencia</option>
+                        <option value="Efectivo">Efectivo</option>
+                    </select>
+                </div>
+            </div>
+            <div class="table-container">
+                <table class="admin-table">
+                    <thead><tr><th>Foto</th><th>Nombre / Usuario</th><th>ID</th><th>Plan</th><th>Estado</th><th>Método</th><th>Importe</th><th>Acciones</th></tr></thead>
+                    <tbody id="sociosTableBody"></tbody>
+                </table>
+            </div>
+            <div class="pagination" id="sociosPagination"></div>
+        </div>
+
+        <!-- ===== TAB: PAGOS ===== -->
+        <div class="tab-content" id="tab-pagos">
+            <div class="table-container">
+                <table class="admin-table">
+                    <thead><tr><th>Socio</th><th>Plan</th><th>Monto</th><th>Fecha</th><th>Método</th><th>Estado</th><th>Acciones</th></tr></thead>
+                    <tbody id="pagosTableBody"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- ===== TAB: COMPROBANTES ===== -->
+        <div class="tab-content" id="tab-comprobantes">
+            <div class="table-container">
+                <table class="admin-table">
+                    <thead><tr><th>Socio</th><th>Archivo</th><th>Fecha</th><th>Estado</th><th>Acciones</th></tr></thead>
+                    <tbody id="comprobantesTableBody"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- ===== TAB: NOTIFICACIONES ===== -->
+        <div class="tab-content" id="tab-notificaciones">
+            <div class="notifications-list" id="notificationsFullList"></div>
+        </div>
+
+        <!-- ===== TAB: DATOS BANCARIOS ===== -->
+        <div class="tab-content" id="tab-bancarios">
+            <div class="chart-card">
+                <div class="header"><h3>🏦 Datos Bancarios</h3><span class="badge badge-status active">Cuenta Principal</span></div>
+                <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:10px;margin-top:12px;">
+                    <div class="stat-card" style="padding:10px 14px;"><label style="font-size:0.55rem;color:var(--novak-text-muted);text-transform:uppercase;">Titular</label><div style="font-weight:600;margin-top:2px;font-size:0.8rem;">Alberto Mariano Ramirez Zarate</div></div>
+                    <div class="stat-card" style="padding:10px 14px;"><label style="font-size:0.55rem;color:var(--novak-text-muted);text-transform:uppercase;">CI</label><div style="font-weight:600;margin-top:2px;font-size:0.8rem;">3.652.362</div></div>
+                    <div class="stat-card" style="padding:10px 14px;"><label style="font-size:0.55rem;color:var(--novak-text-muted);text-transform:uppercase;">Entidad</label><div style="font-weight:600;margin-top:2px;font-size:0.8rem;">Ueno Bank</div></div>
+                    <div class="stat-card" style="padding:10px 14px;border-color:rgba(0,180,255,0.15);"><label style="font-size:0.55rem;color:var(--novak-text-muted);text-transform:uppercase;">N° Cuenta</label><div style="font-weight:700;margin-top:2px;color:var(--novak-blue);font-size:1rem;">619315284</div></div>
+                    <div class="stat-card" style="padding:10px 14px;"><label style="font-size:0.55rem;color:var(--novak-text-muted);text-transform:uppercase;">Moneda</label><div style="font-weight:600;margin-top:2px;font-size:0.8rem;">Guaraníes (Gs.)</div></div>
+                    <div class="stat-card" style="padding:10px 14px;border-color:rgba(0,255,149,0.15);"><label style="font-size:0.55rem;color:var(--novak-text-muted);text-transform:uppercase;">Alias</label><div style="font-weight:700;margin-top:2px;color:var(--novak-green);font-size:1rem;">+595961101538</div></div>
+                </div>
+                <div style="margin-top:14px;display:flex;gap:8px;flex-wrap:wrap;">
+                    <button class="btn btn-secondary btn-sm" onclick="copiarDatosAdmin()"><i class="fas fa-copy"></i> Copiar</button>
+                    <button class="btn btn-secondary btn-sm" onclick="window.open('https://www.ueno.com.py/','_blank')"><i class="fas fa-external-link-alt"></i> Ueno</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== TAB: CONFIGURACIÓN ===== -->
+        <div class="tab-content" id="tab-configuracion">
+            <div class="chart-card">
+                <div class="header"><h3>⚙️ Configuración</h3></div>
+                <div class="config-section">
+                    <h4>Planes</h4>
+                    <div class="config-item"><label>Plan Sabatero (Gs.)</label><input type="number" id="configSabatero" value="20000"></div>
+                    <div class="config-item"><label>Plan Finder (Gs.)</label><input type="number" id="configFinder" value="5000"></div>
+                </div>
+                <div class="config-section">
+                    <h4>Días de Gracia</h4>
+                    <div class="config-item"><label>Días antes del vencimiento</label><input type="number" id="configGracia" value="7"></div>
+                </div>
+                <button class="btn btn-primary" onclick="saveConfig()" style="margin-top:14px;"><i class="fas fa-save"></i> Guardar</button>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- ===== MODALES ===== -->
+    <div class="modal" id="socioModal">
+        <div class="modal-content">
+            <div class="modal-header"><h2 id="modalTitle">Detalle del Socio</h2><button class="modal-close" onclick="closeModal('socioModal')">&times;</button></div>
+            <div class="modal-body" id="socioModalBody"></div>
+        </div>
+    </div>
+
+    <div class="modal" id="editModal">
+        <div class="modal-content">
+            <div class="modal-header"><h2 id="editModalTitle">Editar Socio</h2><button class="modal-close" onclick="closeModal('editModal')">&times;</button></div>
+            <div class="modal-body" id="editModalBody"></div>
+        </div>
+    </div>
+
+    <!-- ===== VISOR DE COMPROBANTES ===== -->
+    <div id="visorComprobanteOverlay">
+        <div class="visor-container">
+            <div class="visor-header">
+                <div class="title"><i class="fas fa-file-invoice"></i><span id="visorTitle">Comprobante</span></div>
+                <div class="actions">
+                    <a id="visorDownloadBtn" href="#" download class="btn btn-primary btn-sm"><i class="fas fa-download"></i> Descargar</a>
+                    <button onclick="cerrarVisorComprobante()" style="background:none;border:none;color:var(--novak-text-secondary);font-size:1.2rem;cursor:pointer;padding:4px 8px;"><i class="fas fa-times"></i></button>
+                </div>
+            </div>
+            <div class="visor-body" id="visorBody"><div class="loading"><i class="fas fa-spinner fa-spin"></i><span>Cargando comprobante...</span></div></div>
+            <div class="visor-footer"><span>📎 FLY FUTBOLEROS · Comprobante de pago</span><span class="info" id="visorInfo">Cargando...</span></div>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- ===== SCRIPTS ===== -->
+    <!-- ============================================================ -->
+    <script>
+        // ================================================================
+        // 0. LOGIN
+        // ================================================================
+        const ADMIN_PASSWORD = 'fly2026';
+        let isAuthenticated = false;
+
+        function handleLogin(e) {
+            e.preventDefault();
+            const password = document.getElementById('loginPassword').value;
+            const errorEl = document.getElementById('loginError');
+            const btn = document.getElementById('loginBtn');
+
+            if (password === ADMIN_PASSWORD) {
+                isAuthenticated = true;
+                document.getElementById('loginScreen').classList.add('hidden');
+                document.getElementById('mainContent').style.display = 'block';
+                errorEl.innerHTML = '';
+                // Iniciar la app después del login
+                initApp();
+                // Mostrar notificación de bienvenida
+                setTimeout(function() {
+                    showToast('✅ Bienvenido al panel de administración', 'success');
+                }, 500);
+            } else {
+                errorEl.innerHTML = '<i class="fas fa-exclamation-circle"></i> Contraseña incorrecta';
+                document.getElementById('loginPassword').value = '';
+                document.getElementById('loginPassword').focus();
+                btn.style.animation = 'shake 0.4s ease';
+                setTimeout(function() { btn.style.animation = ''; }, 500);
+            }
+            return false;
+        }
+
+        // Añadir estilo shake
+        var shakeStyle = document.createElement('style');
+        shakeStyle.textContent = `
+                    @keyframes shake {
+                        0%, 100% { transform: translateX(0); }
+                        25% { transform: translateX(-8px); }
+                        75% { transform: translateX(8px); }
+                    }
+                `;
+        document.head.appendChild(shakeStyle);
+
+        // Enter para login
+        document.getElementById('loginPassword').addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                document.getElementById('loginForm').dispatchEvent(new Event('submit'));
+            }
+        });
+
+        // ================================================================
+        // 1. DATOS DE PRUEBA
+        // ================================================================
+        var DATOS_PRUEBA = {
+            socios: [
+                { id: 1, nombre: 'Juan Pérez', username: 'juanp', email: 'juan@email.com', telefono: '0981 123456',
+                    plan: 'Sabatero', estado: 'Activo', metodo_pago: 'Transferencia', foto_url: null,
+                    comprobante_url: null, fecha_inicio: '2026-01-15', fecha_vencimiento: '2026-02-15',
+                    created_at: '2026-01-15' },
+                { id: 2, nombre: 'María González', username: 'mariag', email: 'maria@email.com', telefono: '0981 654321',
+                    plan: 'Finder', estado: 'Pendiente', metodo_pago: 'Efectivo', foto_url: null, comprobante_url: null,
+                    created_at: '2026-01-16' },
+                { id: 3, nombre: 'Carlos López', username: 'carlosl', email: 'carlos@email.com', telefono: '0981 789012',
+                    plan: 'Sabatero', estado: 'Activo', metodo_pago: 'Transferencia', foto_url: null,
+                    comprobante_url: 'https://example.com/comprobante.pdf', fecha_inicio: '2026-01-10',
+                    fecha_vencimiento: '2026-02-10', created_at: '2026-01-10' },
+                { id: 4, nombre: 'Ana Martínez', username: 'anam', email: 'ana@email.com', telefono: '0981 345678',
+                    plan: 'Finder', estado: 'Suspendido', metodo_pago: 'Transferencia', foto_url: null,
+                    comprobante_url: null, created_at: '2026-01-12' },
+                { id: 5, nombre: 'Pedro Ramírez', username: 'pedror', email: 'pedro@email.com', telefono: '0981 901234',
+                    plan: 'Sabatero', estado: 'Vencido', metodo_pago: 'Efectivo', foto_url: null, comprobante_url: null,
+                    fecha_inicio: '2025-12-01', fecha_vencimiento: '2026-01-01', created_at: '2025-12-01' }
+            ],
+            pagos: [
+                { id: 1, socio_id: 1, monto: 20000, metodo: 'Transferencia', estado: 'Aprobado', plan: 'Sabatero',
+                    fecha: '2026-01-15' },
+                { id: 2, socio_id: 3, monto: 20000, metodo: 'Transferencia', estado: 'Aprobado', plan: 'Sabatero',
+                    fecha: '2026-01-10' },
+                { id: 3, socio_id: 5, monto: 20000, metodo: 'Efectivo', estado: 'Pendiente', plan: 'Sabatero',
+                    fecha: '2025-12-01' }
+            ],
+            notificaciones: [{
+                    id: 1,
+                    tipo: 'nuevo_socio',
+                    mensaje: 'Nuevo socio: @juanp - Juan Pérez',
+                    leida: false,
+                    created_at: '2026-01-15',
+                    data: { socio_id: 1, username: 'juanp' }
+                },
+                {
+                    id: 2,
+                    tipo: 'nuevo_comprobante',
+                    mensaje: '📎 Carlos López subió un comprobante',
+                    leida: false,
+                    created_at: '2026-01-16',
+                    data: { socio_id: 3, username: 'carlosl' }
+                },
+                {
+                    id: 3,
+                    tipo: 'proximo_vencer',
+                    mensaje: '⏳ Juan Pérez vence en 3 días',
+                    leida: true,
+                    created_at: '2026-01-14',
+                    data: { socio_id: 1, username: 'juanp' }
+                },
+                {
+                    id: 4,
+                    tipo: 'pago_efectivo',
+                    mensaje: '💰 Pedro Ramírez pagó en efectivo (Pendiente)',
+                    leida: false,
+                    created_at: '2026-01-13',
+                    data: { socio_id: 5, username: 'pedror' }
+                },
+                {
+                    id: 5,
+                    tipo: 'socio_activado',
+                    mensaje: '✅ María González fue activada',
+                    leida: false,
+                    created_at: '2026-01-12',
+                    data: { socio_id: 2, username: 'mariag' }
+                }
+            ],
+            actividades: [
+                { tipo: 'payment', mensaje: 'Juan Pérez pagó su membresía Sabatero', tiempo: '15:30', status: 'success' },
+                { tipo: 'register', mensaje: 'María González se registró como Finder', tiempo: '14:20', status: 'new' },
+                { tipo: 'receipt', mensaje: 'Carlos López subió un comprobante', tiempo: '12:45', status: 'pending' },
+                { tipo: 'suspend', mensaje: 'Ana Martínez fue suspendida', tiempo: '10:00', status: 'warning' }
+            ],
+            proximosVencer: [
+                { nombre: 'Juan Pérez', username: 'juanp', dias: 3, progreso: 85, nivel: 'orange' },
+                { nombre: 'Carlos López', username: 'carlosl', dias: 5, progreso: 70, nivel: 'orange' },
+                { nombre: 'Pedro Ramírez', username: 'pedror', dias: 10, progreso: 40, nivel: 'green' }
+            ]
+        };
+
+        // ================================================================
+        // 2. BASE DE DATOS
+        // ================================================================
+        var DB = {
+            async getSocios() { return DATOS_PRUEBA.socios; },
+            async getSocioById(id) { return DATOS_PRUEBA.socios.find(function(s) { return s.id === id; }) || null; },
+            async updateSocio(id, updates) {
+                var socio = DATOS_PRUEBA.socios.find(function(s) { return s.id === id; });
+                if (socio) {
+                    for (var key in updates) { socio[key] = updates[key]; }
+                }
+                return socio;
+            },
+            async deleteSocio(id) {
+                var index = DATOS_PRUEBA.socios.findIndex(function(s) { return s.id === id; });
+                if (index > -1) DATOS_PRUEBA.socios.splice(index, 1);
+                return true;
+            },
+            async getPagos() { return DATOS_PRUEBA.pagos; },
+            async getPagosBySocioId(socioId) {
+                return DATOS_PRUEBA.pagos.filter(function(p) { return p.socio_id === socioId; });
+            },
+            async createPago(pagoData) {
+                var nuevoPago = { id: DATOS_PRUEBA.pagos.length + 1 };
+                for (var key in pagoData) { nuevoPago[key] = pagoData[key]; }
+                DATOS_PRUEBA.pagos.push(nuevoPago);
+                return nuevoPago;
+            },
+            async getNotificaciones() { return DATOS_PRUEBA.notificaciones; },
+            async markNotificationRead(id) {
+                var notif = DATOS_PRUEBA.notificaciones.find(function(n) { return n.id === id; });
+                if (notif) notif.leida = true;
+                return true;
+            },
+            async markAllNotificationsRead() {
+                DATOS_PRUEBA.notificaciones.forEach(function(n) { n.leida = true; });
+                return true;
+            },
+            async getActividades() { return DATOS_PRUEBA.actividades; },
+            async getProximosVencer() { return DATOS_PRUEBA.proximosVencer; }
+        };
+
+        // ================================================================
+        // 3. AUTH (Simulado para el admin)
+        // ================================================================
+        var Auth = {
+            async getCurrentUser() {
+                return { id: 'admin-123', email: 'admin@flyfutboleros.com', user_metadata: { nombre: 'Administrador' } };
+            },
+            async getUserRole() { return 'admin'; },
+            async protectRoute() {
+                if (!isAuthenticated) {
+                    window.location.href = 'admin.html';
+                    return null;
+                }
+                return { user: await this.getCurrentUser(), role: 'admin' };
+            },
+            async logout() { return { success: true }; }
+        };
+
+        // ================================================================
+        // 4. ESTADO GLOBAL
+        // ================================================================
+        var AdminState = {
+            socios: [],
+            pagos: [],
+            comprobantes: [],
+            notificaciones: [],
+            currentPage: 1,
+            pageSize: 10,
+            filters: { estado: 'todos', plan: 'todos', metodo: 'todos', search: '' }
+        };
+
+        // ================================================================
+        // 5. FUNCIONES PRINCIPALES
+        // ================================================================
+
+        function showToast(message, type) {
+            if (type === undefined) type = 'info';
+            var colors = { success: '#00ff95', error: '#ff2d95', warning: '#ff6b00', info: '#00b4ff' };
+            var icons = { success: 'fa-check-circle', error: 'fa-exclamation-circle', warning: 'fa-exclamation-triangle',
+                info: 'fa-info-circle' };
+            var existing = document.querySelector('.toast');
+            if (existing) existing.remove();
+            var el = document.createElement('div');
+            el.className = 'toast';
+            el.innerHTML =
+                '<i class="fas ' + icons[type] + ' icon ' + type + '"></i><span>' + message + '</span>';
+            el.style.borderColor = colors[type];
+            document.body.appendChild(el);
+            setTimeout(function() {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(20px)';
+                setTimeout(function() { el.remove(); }, 300);
+            }, 3500);
+        }
+        window.showToast = showToast;
+
+        function openModal(id) {
+            var modal = document.getElementById(id);
+            if (modal) { modal.classList.add('active');
+                document.body.style.overflow = 'hidden'; }
+        }
+
+        function closeModal(id) {
+            var modal = document.getElementById(id);
+            if (modal) { modal.classList.remove('active');
+                document.body.style.overflow = ''; }
+        }
+        window.openModal = openModal;
+        window.closeModal = closeModal;
+
+        function getStatusBadge(estado) {
+            var map = { 'Activo': 'active', 'Pendiente': 'pending', 'Suspendido': 'suspended', 'Vencido': 'expired' };
+            return '<span class="badge-status ' + (map[estado] || 'pending') + '">' + (estado || 'Pendiente') + '</span>';
+        }
+
+        function switchTab(tab) {
+            document.querySelectorAll('.sidebar-nav li').forEach(function(item) {
+                item.classList.toggle('active', item.dataset.tab === tab);
+            });
+            document.querySelectorAll('.tab-content').forEach(function(content) {
+                content.classList.toggle('active', content.id === 'tab-' + tab);
+            });
+            var titles = {
+                dashboard: 'Dashboard',
+                socios: 'Socios',
+                pagos: 'Pagos',
+                comprobantes: 'Comprobantes',
+                notificaciones: 'Notificaciones',
+                bancarios: 'Datos Bancarios',
+                configuracion: 'Configuración'
+            };
+            document.getElementById('pageTitle').textContent = titles[tab] || tab;
+            closeSidebarMobile();
+            if (tab === 'dashboard') loadDashboardData();
+            if (tab === 'notificaciones') renderNotificacionesFull();
+        }
+        window.switchTab = switchTab;
+
+        function closeSidebarMobile() {
+            document.getElementById('sidebar').classList.remove('mobile-open');
+            document.getElementById('sidebarOverlay').classList.remove('active');
+        }
+
+        document.getElementById('toggleSidebar').addEventListener('click', function() {
+            var sidebar = document.getElementById('sidebar');
+            var overlay = document.getElementById('sidebarOverlay');
+            sidebar.classList.toggle('mobile-open');
+            overlay.classList.toggle('active');
+        });
+
+        function updateClock() {
+            var now = new Date();
+            var time = now.toLocaleTimeString('es', { hour: '2-digit', minute: '2-digit' });
+            document.getElementById('clockDisplay').textContent = time;
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        document.getElementById('notificationBell').addEventListener('click', function(e) {
+            e.stopPropagation();
+            document.getElementById('notificationDropdown').classList.toggle('open');
+        });
+
+        document.addEventListener('click', function() {
+            var dropdown = document.getElementById('notificationDropdown');
+            if (dropdown) dropdown.classList.remove('open');
+        });
+
+        // ================================================================
+        // 6. NOTIFICACIONES CON ACCIONES (CORREGIDO)
+        // ================================================================
+
+        var NOTIFICATION_ACTIONS = {
+            'nuevo_socio': {
+                icon: 'fa-user-plus',
+                color: 'blue',
+                label: 'Ver Socio',
+                action: function(data) {
+                    if (data && data.socio_id) {
+                        viewSocio(data.socio_id);
+                    } else if (data && data.username) {
+                        var socio = DATOS_PRUEBA.socios.find(function(s) { return s.username === data.username; });
+                        if (socio) viewSocio(socio.id);
+                    } else {
+                        switchTab('socios');
+                        showToast('👤 Buscando socio...', 'info');
+                    }
+                }
+            },
+            'nuevo_comprobante': {
+                icon: 'fa-file-invoice',
+                color: 'orange',
+                label: 'Ver Comprobante',
+                action: function(data) {
+                    if (data && data.socio_id) {
+                        var socio = DATOS_PRUEBA.socios.find(function(s) { return s.id === data.socio_id; });
+                        if (socio && socio.comprobante_url) {
+                            abrirVisorComprobante(socio.comprobante_url, socio.nombre);
+                        } else {
+                            switchTab('comprobantes');
+                            showToast('📎 Buscando comprobante...', 'info');
+                        }
+                    } else {
+                        switchTab('comprobantes');
+                    }
+                }
+            },
+            'pago_efectivo': {
+                icon: 'fa-money-bill-wave',
+                color: 'green',
+                label: 'Confirmar Pago',
+                action: function(data) {
+                    if (data && data.socio_id) {
+                        viewSocio(data.socio_id);
+                        setTimeout(function() {
+                            showToast('💰 Selecciona "Aprobar Pago" en el perfil', 'warning');
+                        }, 500);
+                    } else {
+                        switchTab('socios');
+                    }
+                }
+            },
+            'proximo_vencer': {
+                icon: 'fa-clock',
+                color: 'pink',
+                label: 'Ver Socio',
+                action: function(data) {
+                    if (data && data.socio_id) {
+                        viewSocio(data.socio_id);
+                    } else if (data && data.username) {
+                        var socio = DATOS_PRUEBA.socios.find(function(s) { return s.username === data.username; });
+                        if (socio) viewSocio(socio.id);
+                    } else {
+                        switchTab('socios');
+                    }
+                }
+            },
+            'socio_activado': {
+                icon: 'fa-play',
+                color: 'green',
+                label: 'Ver Socio',
+                action: function(data) {
+                    if (data && data.socio_id) viewSocio(data.socio_id);
+                    else switchTab('socios');
+                }
+            },
+            'socio_suspendido': {
+                icon: 'fa-pause',
+                color: 'pink',
+                label: 'Ver Socio',
+                action: function(data) {
+                    if (data && data.socio_id) viewSocio(data.socio_id);
+                    else switchTab('socios');
+                }
+            },
+            'default': {
+                icon: 'fa-bell',
+                color: 'blue',
+                label: 'Ver Detalle',
+                action: function() { switchTab('notificaciones'); }
+            }
+        };
+
+        // ===== RENDER NOTIFICACIONES DROPDOWN =====
+        function renderNotificacionesDropdown(notificaciones) {
+            var container = document.getElementById('notificationList');
+            if (!container) return;
+            var displayNotifs = notificaciones.slice(0, 5);
+            if (displayNotifs.length === 0) {
+                container.innerHTML =
+                    '<div style="padding:20px 16px;text-align:center;color:var(--novak-text-muted);font-size:0.75rem;"><i class="fas fa-check-circle" style="color:var(--novak-green);font-size:1rem;display:block;margin-bottom:6px;"></i>Todo al día</div>';
+                return;
+            }
+            container.innerHTML = displayNotifs.map(function(n) {
+                var info = NOTIFICATION_ACTIONS[n.tipo] || NOTIFICATION_ACTIONS.default;
+                var actionData = n.data || { socio_id: n.socio_id, username: n.username };
+                return '<div class="item ' + (n.leida ? '' : 'unread') +
+                    '" onclick="handleNotificationClick(' + n.id + ', \'' + n.tipo + '\', \'' + JSON.stringify(
+                        actionData).replace(/'/g, "\\'") +
+                    '\')">' +
+                    '<div class="icon ' + info.color + '"><i class="fas ' + info.icon + '"></i></div>' +
+                    '<div class="info">' +
+                    '<div class="title">' + n.mensaje + '</div>' +
+                    '<div class="time">' + timeAgo(n.created_at) + '</div>' +
+                    '</div>' +
+                    (!n.leida ? '<span class="dot"></span>' : '') +
+                    '<span class="action-label">' + info.label + '</span>' +
+                    '</div>';
+            }).join('');
+        }
+
+        // ===== HANDLE NOTIFICATION CLICK (CORREGIDO) =====
+        async function handleNotificationClick(id, tipo, dataJson) {
+            try {
+                // 1. Marcar como leída
+                await DB.markNotificationRead(id);
+
+                // 2. Obtener la acción
+                var info = NOTIFICATION_ACTIONS[tipo] || NOTIFICATION_ACTIONS.default;
+                var data = {};
+                try {
+                    data = JSON.parse(dataJson);
+                } catch (e) {
+                    data = {};
+                }
+
+                // 3. Cerrar el dropdown
+                document.getElementById('notificationDropdown').classList.remove('open');
+
+                // 4. Ejecutar la acción con los datos
+                if (typeof info.action === 'function') {
+                    info.action(data);
+                } else {
+                    switchTab('notificaciones');
+                }
+
+                // 5. Actualizar el badge
+                await loadDashboardData();
+
+            } catch (error) {
+                console.error('Error al procesar notificación:', error);
+                showToast('Error al procesar la notificación', 'error');
+            }
+        }
+        window.handleNotificationClick = handleNotificationClick;
+
+        // ===== MARCAR TODAS LEÍDAS =====
+        async function marcarTodasLeidas() {
+            try {
+                await DB.markAllNotificationsRead();
+                await loadDashboardData();
+                await renderNotificacionesFull();
+                showToast('✅ Todas las notificaciones marcadas como leídas', 'success');
+                document.getElementById('notificationDropdown').classList.remove('open');
+            } catch (error) {
+                showToast('Error al marcar como leídas', 'error');
+            }
+        }
+        window.marcarTodasLeidas = marcarTodasLeidas;
+
+        // ===== RENDER NOTIFICACIONES FULL =====
+        async function renderNotificacionesFull() {
+            try {
+                var notificaciones = await DB.getNotificaciones();
+                var container = document.getElementById('notificationsFullList');
+                if (!container) return;
+                if (notificaciones.length === 0) {
+                    container.innerHTML =
+                        '<div style="text-align:center;padding:60px 20px;color:var(--novak-text-muted);"><i class="fas fa-bell-slash" style="font-size:2.5rem;display:block;margin-bottom:12px;opacity:0.3;"></i><h3 style="font-weight:400;font-size:1rem;">No hay notificaciones</h3></div>';
+                    return;
+                }
+                container.innerHTML = notificaciones.map(function(n) {
+                    var info = NOTIFICATION_ACTIONS[n.tipo] || NOTIFICATION_ACTIONS.default;
+                    var actionData = n.data || { socio_id: n.socio_id, username: n.username };
+                    return '<div class="notification-item-full ' + (n.leida ? '' : 'unread') +
+                        '" onclick="handleNotificationClick(' + n.id + ', \'' + n.tipo + '\', \'' + JSON.stringify(
+                            actionData).replace(/'/g, "\\'") +
+                        '\')" style="display:flex;align-items:center;gap:14px;padding:12px 16px;background:var(--novak-card);border-radius:var(--radius-sm);border-left:2px solid ' +
+                        (n.leida ? 'transparent' : 'var(--novak-blue)') +
+                        ';cursor:pointer;transition:var(--transition-fast);">' +
+                        '<div class="icon ' + info.color +
+                        '" style="width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.7rem;flex-shrink:0;background:rgba(0,180,255,0.08);color:var(--novak-blue);"><i class="fas ' +
+                        info.icon + '"></i></div>' +
+                        '<div style="flex:1;">' +
+                        '<div style="font-size:0.8rem;color:var(--novak-text);">' + n.mensaje + '</div>' +
+                        '<div style="font-size:0.6rem;color:var(--novak-text-muted);">' + timeAgo(n.created_at) +
+                        '</div>' +
+                        '</div>' +
+                        '<span style="font-size:0.5rem;padding:1px 8px;border-radius:12px;background:var(--novak-card);color:var(--novak-blue);border:1px solid rgba(0,180,255,0.06);flex-shrink:0;">' +
+                        info.label + '</span>' +
+                        '<span style="font-size:0.5rem;color:var(--novak-text-muted);flex-shrink:0;">' + (n.leida ?
+                            'Leída' : 'Nueva') + '</span>' +
+                        '</div>';
+                }).join('');
+            } catch (error) {
+                console.error('Error:', error);
+                showToast('Error al cargar notificaciones', 'error');
+            }
+        }
+
+        function timeAgo(date) {
+            if (!date) return 'recientemente';
+            var diff = new Date() - new Date(date);
+            var mins = Math.floor(diff / 60000);
+            if (mins < 1) return 'ahora mismo';
+            if (mins < 60) return 'hace ' + mins + ' min';
+            var hours = Math.floor(mins / 60);
+            if (hours < 24) return 'hace ' + hours + ' h';
+            var days = Math.floor(hours / 24);
+            if (days < 7) return 'hace ' + days + ' d';
+            return new Date(date).toLocaleDateString();
+        }
+
+        // ================================================================
+        // 7. VISOR DE COMPROBANTES
+        // ================================================================
+
+        function abrirVisorComprobante(url, nombreSocio) {
+            var overlay = document.getElementById('visorComprobanteOverlay');
+            var title = document.getElementById('visorTitle');
+            var body = document.getElementById('visorBody');
+            var info = document.getElementById('visorInfo');
+            var downloadBtn = document.getElementById('visorDownloadBtn');
+            if (!overlay) return;
+            title.textContent = 'Comprobante · ' + (nombreSocio || 'Socio');
+            downloadBtn.href = url;
+            info.textContent = '📄 ' + url.split('/').pop();
+            body.innerHTML =
+                '<div class="loading"><i class="fas fa-spinner fa-spin"></i><span>Cargando comprobante...</span></div>';
+            overlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+            cargarContenidoVisor(url, body);
+        }
+
+        function cerrarVisorComprobante() {
+            var overlay = document.getElementById('visorComprobanteOverlay');
+            if (overlay) {
+                overlay.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        }
+
+        function cargarContenidoVisor(url, body) {
+            var extension = url.split('.').pop().toLowerCase();
+            var nombreArchivo = url.split('/').pop();
+            if (['jpg', 'jpeg', 'png', 'gif', 'webp', 'svg', 'bmp'].indexOf(extension) !== -1) {
+                body.innerHTML =
+                    '<img src="' + url +
+                    '" alt="Comprobante" onerror="this.parentElement.innerHTML = \'<div class=\\"file-view\\"><i class=\\"fas fa-image\\" style=\\"color: var(--novak-text-muted);\\"></i><div class=\\"file-name\\">' +
+                    nombreArchivo +
+                    '</div><div class=\\"file-meta\\">No se pudo cargar la imagen</div><a href=\\"' + url +
+                    '\\" target=\\"_blank\\" class=\\"btn btn-primary btn-sm\\" style=\\"text-decoration:none;\\"><i class=\\"fas fa-external-link-alt\\"></i> Abrir</a></div>\'" />';
+                return;
+            }
+            if (extension === 'pdf') {
+                body.innerHTML = '<div class="pdf-view">' +
+                    '<i class="fas fa-file-pdf" style="color: #ff2d55;"></i>' +
+                    '<div class="file-name">' + nombreArchivo + '</div>' +
+                    '<div class="file-meta">Documento PDF</div>' +
+                    '<div class="preview-box">' +
+                    '<i class="fas fa-file-pdf" style="font-size:2rem;color:#ff2d55;opacity:0.3;"></i>' +
+                    '<span style="font-size:0.8rem;color:var(--novak-text-muted);">Vista previa no disponible</span>' +
+                    '<a href="' + url +
+                    '" target="_blank" class="btn btn-primary btn-sm" style="text-decoration:none;margin-top:8px;"><i class="fas fa-external-link-alt"></i> Abrir PDF</a>' +
+                    '</div>' +
+                    '</div>';
+                return;
+            }
+            body.innerHTML = '<div class="file-view">' +
+                '<i class="fas fa-file" style="color: var(--novak-text-muted);"></i>' +
+                '<div class="file-name">' + nombreArchivo + '</div>' +
+                '<div class="file-meta">' + extension.toUpperCase() + ' · ' + (url.length / 1024).toFixed(1) +
+                ' KB</div>' +
+                '<div class="preview-box">' +
+                '<i class="fas fa-file" style="font-size:2rem;opacity:0.3;"></i>' +
+                '<span style="font-size:0.8rem;color:var(--novak-text-muted);">Vista previa no disponible</span>' +
+                '<a href="' + url +
+                '" target="_blank" class="btn btn-primary btn-sm" style="text-decoration:none;margin-top:8px;"><i class="fas fa-external-link-alt"></i> Abrir archivo</a>' +
+                '</div>' +
+                '</div>';
+        }
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                var overlay = document.getElementById('visorComprobanteOverlay');
+                if (overlay && overlay.classList.contains('active')) cerrarVisorComprobante();
+            }
+        });
+
+        // ================================================================
+        // 8. DASHBOARD
+        // ================================================================
+        async function loadDashboardData() {
+            try {
+                var socios = await DB.getSocios();
+                var pagos = await DB.getPagos();
+                var notificaciones = await DB.getNotificaciones();
+                var actividades = await DB.getActividades();
+                var proximos = await DB.getProximosVencer();
+                var stats = {
+                    total: socios.length,
+                    activos: socios.filter(function(s) { return s.estado === 'Activo'; }).length,
+                    pendientes: socios.filter(function(s) { return s.estado === 'Pendiente'; }).length,
+                    suspendidos: socios.filter(function(s) { return s.estado === 'Suspendido'; }).length,
+                    vencidos: socios.filter(function(s) { return s.estado === 'Vencido'; }).length,
+                    ingresos_mes: pagos.reduce(function(sum, p) { return sum + (p.monto || 0); }, 0),
+                    ingresos_sabatero: pagos.filter(function(p) { return p.plan === 'Sabatero'; }).reduce(function(sum,
+                        p) { return sum + (p.monto || 0); }, 0),
+                    ingresos_finder: pagos.filter(function(p) { return p.plan === 'Finder'; }).reduce(function(sum,
+                        p) { return sum + (p.monto || 0); }, 0),
+                    notificaciones_no_leidas: notificaciones.filter(function(n) { return !n.leida; }).length
+                };
+                renderStats(stats);
+                renderPlanChart(socios);
+                renderIncomeChart(pagos);
+                renderActividades(actividades);
+                renderProximosVencer(proximos);
+                renderNotificacionesDropdown(notificaciones);
+                var badge = document.getElementById('notificationCount');
+                if (badge) {
+                    badge.textContent = stats.notificaciones_no_leidas;
+                    badge.style.display = stats.notificaciones_no_leidas > 0 ? 'flex' : 'none';
+                }
+            } catch (e) { console.error('Dashboard error:', e); }
+        }
+
+        function renderStats(stats) {
+            var grid = document.getElementById('statsGrid');
+            if (!grid) return;
+            var cards = [
+                { icon: 'fa-users', label: 'Total Socios', value: stats.total, color: 'blue', trend: '+12%',
+                    trendClass: 'up' },
+                { icon: 'fa-check-circle', label: 'Activos', value: stats.activos, color: 'green', trend: '▲ 8%',
+                    trendClass: 'up' },
+                { icon: 'fa-clock', label: 'Pendientes', value: stats.pendientes, color: 'orange', trend: '▲ 5%',
+                    trendClass: 'up' },
+                { icon: 'fa-ban', label: 'Suspendidos', value: stats.suspendidos, color: 'pink', trend: '─ 0%',
+                    trendClass: 'neutral' },
+                { icon: 'fa-exclamation-triangle', label: 'Vencidos', value: stats.vencidos, color: 'pink', trend: '▼ 2%',
+                    trendClass: 'down' },
+                { icon: 'fa-money-bill-wave', label: 'Ingresos del Mes',
+                    value: 'Gs. ' + stats.ingresos_mes.toLocaleString(), color: 'green', trend: '▲ 15%',
+                    trendClass: 'up' },
+                { icon: 'fa-futbol', label: 'Ingresos Sabatero',
+                    value: 'Gs. ' + stats.ingresos_sabatero.toLocaleString(), color: 'blue', trend: '▲ 10%',
+                    trendClass: 'up' },
+                { icon: 'fa-running', label: 'Ingresos Finder',
+                    value: 'Gs. ' + stats.ingresos_finder.toLocaleString(), color: 'purple', trend: '─ 0%',
+                    trendClass: 'neutral' }
+            ];
+            grid.innerHTML = cards.map(function(c) {
+                return '<div class="stat-card">' +
+                    '<div class="top"><div class="icon ' + c.color + '"><i class="fas ' + c.icon +
+                    '"></i></div><span class="trend ' + c.trendClass + '">' + c.trend + '</span></div>' +
+                    '<div class="value">' + c.value + '</div>' +
+                    '<div class="label">' + c.label + '</div>' +
+                    '</div>';
+            }).join('');
+        }
+
+        function renderPlanChart(socios) {
+            var container = document.getElementById('planChart');
+            if (!container) return;
+            var sabatero = socios.filter(function(s) { return s.plan === 'Sabatero'; }).length;
+            var finder = socios.filter(function(s) { return s.plan === 'Finder'; }).length;
+            var total = sabatero + finder || 1;
+            var sabPercent = Math.round((sabatero / total) * 100);
+            var findPercent = Math.round((finder / total) * 100);
+            container.innerHTML =
+                '<div class="donut" style="background:conic-gradient(var(--novak-blue) 0deg ' + (sabPercent * 3.6) +
+                'deg, var(--novak-purple) ' + (sabPercent * 3.6) + 'deg 360deg);">' +
+                '<div class="center"><div class="number">' + total + '</div><div class="label">Socios</div></div>' +
+                '</div>' +
+                '<div class="donut-legend">' +
+                '<div class="item"><span class="dot blue"></span>Sabatero<span class="percent">' + sabPercent +
+                '%</span></div>' +
+                '<div class="item"><span class="dot purple"></span>Finder<span class="percent">' + findPercent +
+                '%</span></div>' +
+                '</div>';
+        }
+
+        function renderIncomeChart(pagos) {
+            var container = document.getElementById('incomeChart');
+            if (!container) return;
+            var monthlyData = {};
+            pagos.forEach(function(p) {
+                if (p.fecha) {
+                    var d = new Date(p.fecha);
+                    var key = d.toLocaleString('es', { month: 'short' });
+                    monthlyData[key] = (monthlyData[key] || 0) + (p.monto || 0);
+                }
+            });
+            var months = Object.keys(monthlyData);
+            var values = months.map(function(m) { return monthlyData[m]; });
+            var max = Math.max.apply(null, values.concat([1]));
+            if (months.length === 0) {
+                container.innerHTML =
+                    '<p style="color:var(--novak-text-muted);text-align:center;width:100%;font-size:0.7rem;">No hay datos</p>';
+                return;
+            }
+            container.innerHTML = months.map(function(m, i) {
+                return '<div class="bar-group">' +
+                    '<div class="bar-value">' + values[i].toLocaleString() + '</div>' +
+                    '<div class="bar" style="height:' + ((values[i] / max) * 100) + 'px;"></div>' +
+                    '<div class="bar-label">' + m + '</div>' +
+                    '</div>';
+            }).join('');
+        }
+
+        function renderActividades(actividades) {
+            var container = document.getElementById('activityList');
+            if (!container) return;
+            var icons = { payment: 'fa-credit-card', register: 'fa-user-plus', receipt: 'fa-file-invoice',
+                suspend: 'fa-ban' };
+            var iconClasses = { payment: 'payment', register: 'register', receipt: 'receipt', suspend: 'suspend' };
+            var statusLabels = { success: 'Completado', new: 'Nuevo', pending: 'Pendiente', warning: '⚠️' };
+            container.innerHTML = actividades.map(function(a) {
+                return '<div class="activity-item">' +
+                    '<div class="icon ' + (iconClasses[a.tipo] || 'payment') + '"><i class="fas ' + (icons[a
+                        .tipo] || 'fa-bell') + '"></i></div>' +
+                    '<div class="info"><div class="title">' + a.mensaje + '</div><div class="time">' + a.tiempo +
+                    '</div></div>' +
+                    '<span class="status ' + a.status + '">' + (statusLabels[a.status] || a.status) + '</span>' +
+                    '</div>';
+            }).join('');
+        }
+
+        function renderProximosVencer(proximos) {
+            var container = document.getElementById('expiringList');
+            if (!container) return;
+            container.innerHTML = proximos.map(function(p) {
+                return '<div class="expiring-item">' +
+                    '<div class="avatar">' + p.nombre.charAt(0) + '</div>' +
+                    '<div class="info">' +
+                    '<div class="name">' + p.nombre + ' <span>@' + p.username + '</span></div>' +
+                    '<div class="progress-track"><div class="fill ' + p.nivel + '" style="width:' + p.progreso +
+                    '%;"></div></div>' +
+                    '</div>' +
+                    '<span class="days ' + p.nivel + '">' + p.dias + ' días</span>' +
+                    '</div>';
+            }).join('');
+        }
+
+        // ================================================================
+        // 9. SOCIOS - CRUD
+        // ================================================================
+
+        async function loadSocios() {
+            try {
+                AdminState.socios = await DB.getSocios();
+                renderSocios();
+            } catch (e) { console.error('loadSocios error:', e); }
+        }
+
+        function renderSocios() {
+            var tbody = document.getElementById('sociosTableBody');
+            if (!tbody) return;
+            var filtered = AdminState.socios.filter(function(s) {
+                var search = AdminState.filters.search.toLowerCase();
+                var matchSearch = (s.nombre || '').toLowerCase().indexOf(search) !== -1 ||
+                    (s.username || '').toLowerCase().indexOf(search) !== -1 ||
+                    String(s.id).indexOf(search) !== -1;
+                var matchEstado = AdminState.filters.estado === 'todos' || s.estado === AdminState.filters.estado;
+                var matchPlan = AdminState.filters.plan === 'todos' || s.plan === AdminState.filters.plan;
+                var matchMetodo = AdminState.filters.metodo === 'todos' || s.metodo_pago === AdminState.filters
+                .metodo;
+                return matchSearch && matchEstado && matchPlan && matchMetodo;
+            });
+            var start = (AdminState.currentPage - 1) * AdminState.pageSize;
+            var paginated = filtered.slice(start, start + AdminState.pageSize);
+            if (paginated.length === 0) {
+                tbody.innerHTML =
+                    '<tr><td colspan="8" style="text-align:center;padding:30px;color:var(--novak-text-muted);font-size:0.8rem;"><i class="fas fa-inbox" style="font-size:1.5rem;display:block;margin-bottom:8px;"></i>No hay socios</td></tr>';
+                renderPagination(0);
+                return;
+            }
+            tbody.innerHTML = paginated.map(function(s) {
+                return '<tr>' +
+                    '<td><img src="' + (s.foto_url ||
+                        'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2228%22 height=%2228%22 viewBox=%220 0 28 28%22%3E%3Ccircle cx=%2214%22 cy=%2214%22 r=%2214%22 fill=%22%23333%22/%3E%3Ccircle cx=%2214%22 cy=%229%22 r=%224%22 fill=%22%23555%22/%3E%3Cpath d=%22M3 26c0-4 6-8 11-8s11 4 11 8%22 fill=%22%23555%22/%3E%3C/svg%3E'
+                        ) +
+                    '" class="socio-avatar"></td>' +
+                    '<td><strong style="font-size:0.75rem;">' + s.nombre +
+                    '</strong><div style="font-size:0.6rem;color:var(--novak-text-muted);">@' + s.username +
+                    '</div></td>' +
+                    '<td style="font-size:0.7rem;">#' + s.id + '</td>' +
+                    '<td><span class="badge-status ' + (s.plan === 'Sabatero' ? 'active' : 'pending') + '">' + s
+                    .plan + '</span></td>' +
+                    '<td>' + getStatusBadge(s.estado) + '</td>' +
+                    '<td style="font-size:0.7rem;">' + s.metodo_pago + '</td>' +
+                    '<td style="font-size:0.7rem;">Gs. ' + (s.plan === 'Sabatero' ? 20000 : 5000).toLocaleString() +
+                    '</td>' +
+                    '<td><div class="action-buttons">' +
+                    '<button class="btn btn-secondary btn-sm" onclick="viewSocio(' + s.id +
+                    ')"><i class="fas fa-eye"></i></button>' +
+                    '<button class="btn btn-primary btn-sm" onclick="editSocio(' + s.id +
+                    ')"><i class="fas fa-edit"></i></button>' +
+                    (s.estado === 'Pendiente' ? '<button class="btn btn-success btn-sm" onclick="approvePayment(' +
+                        s.id + ')"><i class="fas fa-check"></i></button>' : '') +
+                    (s.estado === 'Activo' ? '<button class="btn btn-warning btn-sm" onclick="suspendSocio(' + s
+                        .id + ')"><i class="fas fa-pause"></i></button>' : '') +
+                    (s.estado === 'Suspendido' ? '<button class="btn btn-success btn-sm" onclick="activateSocio(' +
+                        s.id + ')"><i class="fas fa-play"></i></button>' : '') +
+                    '<button class="btn btn-danger btn-sm" onclick="deleteSocio(' + s.id +
+                    ')"><i class="fas fa-trash"></i></button>' +
+                    '</div></td>' +
+                    '</tr>';
+            }).join('');
+            renderPagination(filtered.length);
+        }
+
+        function renderPagination(total) {
+            var container = document.getElementById('sociosPagination');
+            if (!container) return;
+            var totalPages = Math.ceil(total / AdminState.pageSize);
+            if (totalPages <= 1) { container.innerHTML = ''; return; }
+            var html = '';
+            for (var i = 1; i <= totalPages; i++) {
+                html += '<button class="btn ' + (i === AdminState.currentPage ? 'btn-primary' : 'btn-secondary') +
+                    ' btn-sm" onclick="goToPage(' + i + ')">' + i + '</button>';
+            }
+            container.innerHTML = html;
+        }
+
+        function goToPage(page) {
+            AdminState.currentPage = page;
+            renderSocios();
+        }
+        window.goToPage = goToPage;
+
+        // ===== VER SOCIO =====
+        async function viewSocio(id) {
+            try {
+                var socio = await DB.getSocioById(id);
+                if (!socio) { showToast('Socio no encontrado', 'error'); return; }
+                var pagos = await DB.getPagosBySocioId(id);
+                document.getElementById('modalTitle').textContent = '@' + socio.username + ' · #' + socio.id;
+                document.getElementById('socioModalBody').innerHTML =
+                    '<div style="display:flex;gap:16px;align-items:center;margin-bottom:16px;flex-wrap:wrap;">' +
+                    '<img src="' + (socio.foto_url ||
+                        'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2260%22 height=%2260%22 viewBox=%220 0 60 60%22%3E%3Ccircle cx=%2230%22 cy=%2230%22 r=%2230%22 fill=%22%23333%22/%3E%3Ccircle cx=%2230%22 cy=%2218%22 r=%228%22 fill=%22%23555%22/%3E%3Cpath d=%22M6 52c0-8 13-14 24-14s24 6 24 14%22 fill=%22%23555%22/%3E%3C/svg%3E'
+                        ) +
+                    '" style="width:56px;height:56px;border-radius:50%;border:2px solid var(--novak-blue);">' +
+                    '<div>' +
+                    '<h3 style="font-size:1rem;">' + socio.nombre + '</h3>' +
+                    '<p style="color:var(--novak-text-muted);font-size:0.75rem;">@' + socio.username + ' · #' + socio
+                    .id + '</p>' +
+                    '<p style="color:var(--novak-text-muted);font-size:0.7rem;">' + (socio.email || 'Sin email') +
+                    ' · ' + socio.telefono + '</p>' +
+                    '</div>' +
+                    '</div>' +
+                    '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:8px;margin:12px 0;">' +
+                    '<div class="stat-card" style="padding:8px 12px;"><label style="font-size:0.5rem;color:var(--novak-text-muted);text-transform:uppercase;">Plan</label><div style="font-size:0.75rem;font-weight:600;">' +
+                    socio.plan + '</div></div>' +
+                    '<div class="stat-card" style="padding:8px 12px;"><label style="font-size:0.5rem;color:var(--novak-text-muted);text-transform:uppercase;">Estado</label><div>' +
+                    getStatusBadge(socio.estado) + '</div></div>' +
+                    '<div class="stat-card" style="padding:8px 12px;"><label style="font-size:0.5rem;color:var(--novak-text-muted);text-transform:uppercase;">Método</label><div style="font-size:0.75rem;font-weight:600;">' +
+                    socio.metodo_pago + '</div></div>' +
+                    '<div class="stat-card" style="padding:8px 12px;"><label style="font-size:0.5rem;color:var(--novak-text-muted);text-transform:uppercase;">Importe</label><div style="font-size:0.75rem;font-weight:600;">Gs. ' +
+                    (socio.plan === 'Sabatero' ? 20000 : 5000).toLocaleString() + '</div></div>' +
+                    (socio.plan === 'Sabatero' ?
+                        '<div class="stat-card" style="padding:8px 12px;"><label style="font-size:0.5rem;color:var(--novak-text-muted);text-transform:uppercase;">Inicio</label><div style="font-size:0.75rem;">' +
+                        (socio.fecha_inicio || 'N/A') + '</div></div>' +
+                        '<div class="stat-card" style="padding:8px 12px;"><label style="font-size:0.5rem;color:var(--novak-text-muted);text-transform:uppercase;">Vencimiento</label><div style="font-size:0.75rem;">' +
+                        (socio.fecha_vencimiento || 'N/A') + '</div></div>' : '') +
+                    '</div>' +
+                    '<div style="margin:12px 0;">' +
+                    '<h4 style="font-size:0.7rem;color:var(--novak-text-secondary);margin-bottom:8px;">📜 Historial de Pagos</h4>' +
+                    (pagos.length === 0 ? '<p style="color:var(--novak-text-muted);font-size:0.75rem;">No hay pagos registrados</p>' :
+                        '<table class="admin-table" style="font-size:0.65rem;min-width:auto;"><thead><tr><th>Fecha</th><th>Monto</th><th>Método</th><th>Estado</th></tr></thead><tbody>' +
+                        pagos.map(function(p) {
+                            return '<tr><td>' + new Date(p.fecha).toLocaleDateString() +
+                                '</td><td>Gs. ' + p.monto.toLocaleString() + '</td><td>' + p
+                                .metodo + '</td><td>' + getStatusBadge(p.estado) + '</td></tr>';
+                        }).join('') + '</tbody></table>') +
+                    '</div>' +
+                    '<div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:12px;padding-top:12px;border-top:1px solid var(--novak-border);">' +
+                    (socio.estado === 'Pendiente' ?
+                        '<button class="btn btn-success btn-sm" onclick="approvePayment(' + socio.id +
+                        ')"><i class="fas fa-check"></i> Aprobar</button>' : '') +
+                    (socio.estado === 'Activo' ?
+                        '<button class="btn btn-warning btn-sm" onclick="suspendSocio(' + socio.id +
+                        ')"><i class="fas fa-pause"></i> Suspender</button>' : '') +
+                    (socio.estado === 'Suspendido' ?
+                        '<button class="btn btn-success btn-sm" onclick="activateSocio(' + socio.id +
+                        ')"><i class="fas fa-play"></i> Activar</button>' : '') +
+                    '<button class="btn btn-primary btn-sm" onclick="editSocio(' + socio.id +
+                    ')"><i class="fas fa-edit"></i> Editar</button>' +
+                    '<button class="btn btn-danger btn-sm" onclick="deleteSocio(' + socio.id +
+                    ')"><i class="fas fa-trash"></i> Eliminar</button>' +
+                    '</div>';
+                openModal('socioModal');
+            } catch (e) { console.error('viewSocio error:', e);
+                showToast('Error al cargar datos', 'error'); }
+        }
+        window.viewSocio = viewSocio;
+
+        // ===== ACCIONES =====
+        async function approvePayment(id) {
+            if (!confirm('¿Confirmar que el pago ha sido recibido?')) return;
+            try {
+                var socio = await DB.getSocioById(id);
+                if (!socio) { showToast('Socio no encontrado', 'error'); return; }
+                var now = new Date().toISOString().split('T')[0];
+                await DB.updateSocio(id, { estado: 'Activo', fecha_inicio: now });
+                if (socio.plan === 'Sabatero') {
+                    var venc = new Date();
+                    venc.setDate(venc.getDate() + 30);
+                    await DB.updateSocio(id, { fecha_vencimiento: venc.toISOString().split('T')[0] });
+                }
+                await DB.createPago({
+                    socio_id: id,
+                    monto: socio.plan === 'Sabatero' ? 20000 : 5000,
+                    metodo: socio.metodo_pago || 'Transferencia',
+                    estado: 'Aprobado',
+                    plan: socio.plan,
+                    fecha: new Date().toISOString().split('T')[0]
+                });
+                showToast('✅ Pago aprobado', 'success');
+                await Promise.all([loadSocios(), loadDashboardData()]);
+                closeModal('socioModal');
+            } catch (e) { console.error('approvePayment error:', e);
+                showToast('Error al aprobar', 'error'); }
+        }
+        window.approvePayment = approvePayment;
+
+        async function suspendSocio(id) {
+            if (!confirm('¿Suspender este socio?')) return;
+            try {
+                await DB.updateSocio(id, { estado: 'Suspendido' });
+                showToast('✅ Socio suspendido', 'success');
+                await Promise.all([loadSocios(), loadDashboardData()]);
+                closeModal('socioModal');
+            } catch (e) { showToast('Error al suspender', 'error'); }
+        }
+        window.suspendSocio = suspendSocio;
+
+        async function activateSocio(id) {
+            if (!confirm('¿Activar este socio?')) return;
+            try {
+                await DB.updateSocio(id, { estado: 'Activo' });
+                showToast('✅ Socio activado', 'success');
+                await Promise.all([loadSocios(), loadDashboardData()]);
+                closeModal('socioModal');
+            } catch (e) { showToast('Error al activar', 'error'); }
+        }
+        window.activateSocio = activateSocio;
+
+        async function deleteSocio(id) {
+            if (!confirm('¿Eliminar permanentemente?')) return;
+            try {
+                await DB.deleteSocio(id);
+                showToast('✅ Socio eliminado', 'success');
+                await Promise.all([loadSocios(), loadDashboardData()]);
+                closeModal('socioModal');
+            } catch (e) { showToast('Error al eliminar', 'error'); }
+        }
+        window.deleteSocio = deleteSocio;
+
+        // ===== EDITAR SOCIO =====
+        async function editSocio(id) {
+            try {
+                var socio = await DB.getSocioById(id);
+                if (!socio) { showToast('Socio no encontrado', 'error'); return; }
+                document.getElementById('editModalTitle').textContent = 'Editar: @' + socio.username;
+                document.getElementById('editModalBody').innerHTML =
+                    '<form id="editSocioForm">' +
+                    '<div class="form-group"><label>Nombre</label><input type="text" id="editNombre" value="' + socio
+                    .nombre + '" required></div>' +
+                    '<div class="form-group"><label>Teléfono</label><input type="text" id="editTelefono" value="' +
+                    socio.telefono + '" required></div>' +
+                    '<div class="form-group"><label>Email</label><input type="email" id="editEmail" value="' + (socio
+                        .email || '') + '"></div>' +
+                    '<div class="form-group"><label>Plan</label><select id="editPlan">' +
+                    '<option value="Sabatero"' + (socio.plan === 'Sabatero' ? ' selected' : '') + '>Sabatero</option>' +
+                    '<option value="Finder"' + (socio.plan === 'Finder' ? ' selected' : '') + '>Finder</option>' +
+                    '</select></div>' +
+                    '<div class="form-group"><label>Estado</label><select id="editEstado">' +
+                    '<option value="Activo"' + (socio.estado === 'Activo' ? ' selected' : '') + '>Activo</option>' +
+                    '<option value="Pendiente"' + (socio.estado === 'Pendiente' ? ' selected' : '') +
+                    '>Pendiente</option>' +
+                    '<option value="Suspendido"' + (socio.estado === 'Suspendido' ? ' selected' : '') +
+                    '>Suspendido</option>' +
+                    '<option value="Vencido"' + (socio.estado === 'Vencido' ? ' selected' : '') + '>Vencido</option>' +
+                    '</select></div>' +
+                    '<div class="form-group"><label>Método</label><select id="editMetodo">' +
+                    '<option value="Transferencia"' + (socio.metodo_pago === 'Transferencia' ? ' selected' : '') +
+                    '>Transferencia</option>' +
+                    '<option value="Efectivo"' + (socio.metodo_pago === 'Efectivo' ? ' selected' : '') +
+                    '>Efectivo</option>' +
+                    '</select></div>' +
+                    (socio.plan === 'Sabatero' ?
+                        '<div class="form-group"><label>Inicio</label><input type="date" id="editInicio" value="' + (
+                            socio.fecha_inicio || '') + '"></div>' +
+                        '<div class="form-group"><label>Vencimiento</label><input type="date" id="editVencimiento" value="' +
+                        (socio.fecha_vencimiento || '') + '"></div>' : '') +
+                    '<div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap;">' +
+                    '<button type="submit" class="btn btn-primary btn-sm"><i class="fas fa-save"></i> Guardar</button>' +
+                    '<button type="button" class="btn btn-secondary btn-sm" onclick="closeModal(\'editModal\')">Cancelar</button>' +
+                    '</div>' +
+                    '</form>';
+                openModal('editModal');
+                document.getElementById('editSocioForm').addEventListener('submit', async function(e) {
+                    e.preventDefault();
+                    var updates = {
+                        nombre: document.getElementById('editNombre').value.trim(),
+                        telefono: document.getElementById('editTelefono').value.trim(),
+                        email: document.getElementById('editEmail').value.trim() || null,
+                        plan: document.getElementById('editPlan').value,
+                        estado: document.getElementById('editEstado').value,
+                        metodo_pago: document.getElementById('editMetodo').value
+                    };
+                    var inicio = document.getElementById('editInicio');
+                    var venc = document.getElementById('editVencimiento');
+                    if (inicio) updates.fecha_inicio = inicio.value || null;
+                    if (venc) updates.fecha_vencimiento = venc.value || null;
+                    try {
+                        await DB.updateSocio(id, updates);
+                        showToast('✅ Socio actualizado', 'success');
+                        closeModal('editModal');
+                        await Promise.all([loadSocios(), loadDashboardData()]);
+                    } catch (e) { showToast('Error al actualizar', 'error'); }
+                });
+            } catch (e) { console.error('editSocio error:', e);
+                showToast('Error al cargar datos', 'error'); }
+        }
+        window.editSocio = editSocio;
+
+        // ================================================================
+        // 10. PAGOS Y COMPROBANTES
+        // ================================================================
+
+        async function loadPagos() {
+            try {
+                var socios = await DB.getSocios();
+                var allPagos = await DB.getPagos();
+                allPagos = allPagos.map(function(p) {
+                    var socio = socios.find(function(s) { return s.id === p.socio_id; });
+                    return { '': '', socio_nombre: socio ? socio.nombre : 'N/A', socio_username: socio ? socio
+                            .username : 'sin usuario' };
+                    for (var key in p) { arguments[0][key] = p[key]; }
+                    return arguments[0];
+                }.bind({}));
+                AdminState.pagos = allPagos.sort(function(a, b) { return new Date(b.fecha) - new Date(a.fecha); });
+                renderPagos();
+            } catch (e) { console.error('loadPagos error:', e); }
+        }
+
+        function renderPagos() {
+            var tbody = document.getElementById('pagosTableBody');
+            if (!tbody) return;
+            if (AdminState.pagos.length === 0) {
+                tbody.innerHTML =
+                    '<tr><td colspan="7" style="text-align:center;padding:30px;color:var(--novak-text-muted);font-size:0.8rem;"><i class="fas fa-credit-card" style="font-size:1.5rem;display:block;margin-bottom:8px;"></i>No hay pagos</td></tr>';
+                return;
+            }
+            tbody.innerHTML = AdminState.pagos.slice(0, 50).map(function(p) {
+                return '<tr>' +
+                    '<td><strong style="font-size:0.75rem;">' + p.socio_nombre +
+                    '</strong><div style="font-size:0.6rem;color:var(--novak-text-muted);">@' + p.socio_username +
+                    '</div></td>' +
+                    '<td><span class="badge-status ' + (p.plan === 'Sabatero' ? 'active' : 'pending') + '">' + p
+                    .plan + '</span></td>' +
+                    '<td style="font-size:0.7rem;">Gs. ' + (p.monto || 0).toLocaleString() + '</td>' +
+                    '<td style="font-size:0.7rem;">' + (p.fecha ? new Date(p.fecha).toLocaleDateString() :
+                    'N/A') + '</td>' +
+                    '<td style="font-size:0.7rem;">' + (p.metodo || 'N/A') + '</td>' +
+                    '<td>' + getStatusBadge(p.estado) + '</td>' +
+                    '<td><button class="btn btn-secondary btn-sm" onclick="showToast(\'Pago #' + p.id +
+                    '\',\'info\')"><i class="fas fa-eye"></i></button></td>' +
+                    '</tr>';
+            }).join('');
+        }
+
+        async function loadComprobantes() {
+            try {
+                var socios = await DB.getSocios();
+                var comprobantes = socios.filter(function(s) { return s.comprobante_url; }).map(function(s) {
+                    return {
+                        socio_id: s.id,
+                        socio_nombre: s.nombre,
+                        socio_username: s.username || 'sin usuario',
+                        archivo_url: s.comprobante_url,
+                        fecha: s.created_at || new Date().toISOString().split('T')[0],
+                        estado: s.estado
+                    };
+                });
+                AdminState.comprobantes = comprobantes;
+                renderComprobantes();
+            } catch (e) { console.error('loadComprobantes error:', e); }
+        }
+
+        function renderComprobantes() {
+            var tbody = document.getElementById('comprobantesTableBody');
+            if (!tbody) return;
+            if (AdminState.comprobantes.length === 0) {
+                tbody.innerHTML =
+                    '<tr><td colspan="5" style="text-align:center;padding:30px;color:var(--novak-text-muted);font-size:0.8rem;"><i class="fas fa-file-invoice" style="font-size:1.5rem;display:block;margin-bottom:8px;"></i>No hay comprobantes</td></tr>';
+                return;
+            }
+            tbody.innerHTML = AdminState.comprobantes.map(function(c) {
+                return '<tr>' +
+                    '<td><strong style="font-size:0.75rem;">' + c.socio_nombre +
+                    '</strong><div style="font-size:0.6rem;color:var(--novak-text-muted);">@' + c.socio_username +
+                    '</div></td>' +
+                    '<td><button class="btn btn-primary btn-sm" onclick="abrirVisorComprobante(\'' + c
+                    .archivo_url + '\', \'' + c.socio_nombre +
+                    '\')"><i class="fas fa-eye"></i> Ver</button></td>' +
+                    '<td style="font-size:0.7rem;">' + new Date(c.fecha).toLocaleDateString() + '</td>' +
+                    '<td>' + getStatusBadge(c.estado) + '</td>' +
+                    '<td><a href="' + c.archivo_url +
+                    '" download class="btn btn-secondary btn-sm"><i class="fas fa-download"></i></a>' +
+                    (c.estado === 'Pendiente' ?
+                        '<button class="btn btn-success btn-sm" onclick="approvePayment(' + c.socio_id +
+                        ')"><i class="fas fa-check"></i></button>' : '') +
+                    '</td>' +
+                    '</tr>';
+            }).join('');
+        }
+
+        // ================================================================
+        // 11. OTRAS FUNCIONES
+        // ================================================================
+
+        function copiarDatosAdmin() {
+            var datos =
+                '🏦 DATOS PARA TRANSFERENCIA - FLY FUTBOLEROS\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\nTitular: Alberto Mariano Ramirez Zarate\nCI: 3.652.362\nEntidad: Ueno Bank\nN° de Cuenta: 619315284\nMoneda: Guaraníes (Gs.)\nAlias (Ueno): +595961101538\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━';
+            if (navigator.clipboard) {
+                navigator.clipboard.writeText(datos).then(function() { showToast('✅ Datos copiados', 'success'); })
+                    .catch(function() { fallbackCopy(datos); });
+            } else { fallbackCopy(datos); }
+        }
+        window.copiarDatosAdmin = copiarDatosAdmin;
+
+        function fallbackCopy(text) {
+            var ta = document.createElement('textarea');
+            ta.value = text;
+            ta.style.position = 'fixed';
+            ta.style.left = '-9999px';
+            document.body.appendChild(ta);
+            ta.select();
+            try { document.execCommand('copy');
+                showToast('✅ Datos copiados', 'success'); } catch (e) { showToast('Error al copiar', 'error'); }
+            document.body.removeChild(ta);
+        }
+
+        function saveConfig() {
+            var sabatero = document.getElementById('configSabatero') ? document.getElementById('configSabatero').value :
+                20000;
+            var finder = document.getElementById('configFinder') ? document.getElementById('configFinder').value : 5000;
+            var gracia = document.getElementById('configGracia') ? document.getElementById('configGracia').value : 7;
+            console.log('Config guardada:', { sabatero: sabatero, finder: finder, gracia: gracia });
+            showToast('✅ Configuración guardada', 'success');
+        }
+        window.saveConfig = saveConfig;
+
+        // ===== CERRAR SESIÓN (CORREGIDO) =====
+        async function handleLogout() {
+            if (!confirm('¿Cerrar sesión?')) return;
+            isAuthenticated = false;
+            document.getElementById('loginScreen').classList.remove('hidden');
+            document.getElementById('mainContent').style.display = 'none';
+            document.getElementById('loginPassword').value = '';
+            document.getElementById('loginError').innerHTML = '';
+            // Cerrar dropdown de notificaciones si está abierto
+            document.getElementById('notificationDropdown').classList.remove('open');
+            showToast('🔒 Sesión cerrada correctamente', 'info');
+        }
+        window.handleLogout = handleLogout;
+
+        async function refreshData() {
+            console.log('🔄 Refrescando...');
+            var tab = document.querySelector('.tab-content.active');
+            if (tab) {
+                var id = tab.id.replace('tab-', '');
+                if (id === 'dashboard') await loadDashboardData();
+                else if (id === 'socios') await loadSocios();
+                else if (id === 'pagos') await loadPagos();
+                else if (id === 'comprobantes') await loadComprobantes();
+                else if (id === 'notificaciones') await renderNotificacionesFull();
+            }
+        }
+
+        // ================================================================
+        // 12. INICIALIZAR (después del login)
+        // ================================================================
+        async function initApp() {
+            console.log('🚀 Iniciando FLY FUTBOLEROS Admin...');
+            try {
+                var auth = await Auth.protectRoute();
+                if (!auth) return;
+                document.querySelector('.sidebar-footer .user-name').textContent = auth.user.user_metadata.nombre ||
+                    'Administrador';
+
+                // Mostrar "Salir" al hacer hover en el botón de logout
+                var logoutBtn = document.querySelector('.sidebar-footer .logout-btn span');
+                if (logoutBtn) {
+                    document.querySelector('.sidebar-footer .logout-btn').addEventListener('mouseenter', function() {
+                        logoutBtn.style.opacity = '1';
+                    });
+                    document.querySelector('.sidebar-footer .logout-btn').addEventListener('mouseleave', function() {
+                        logoutBtn.style.opacity = '0';
+                    });
+                }
+
+                document.querySelectorAll('.sidebar-nav li').forEach(function(item) {
+                    item.addEventListener('click', function() {
+                        var tab = this.dataset.tab;
+                        if (tab) switchTab(tab);
+                    });
+                });
+                document.getElementById('searchSocios').addEventListener('input', function() {
+                    AdminState.filters.search = this.value;
+                    AdminState.currentPage = 1;
+                    renderSocios();
+                });
+                document.getElementById('filterEstado').addEventListener('change', function() {
+                    AdminState.filters.estado = this.value;
+                    AdminState.currentPage = 1;
+                    renderSocios();
+                });
+                document.getElementById('filterPlan').addEventListener('change', function() {
+                    AdminState.filters.plan = this.value;
+                    AdminState.currentPage = 1;
+                    renderSocios();
+                });
+                document.getElementById('filterMetodo').addEventListener('change', function() {
+                    AdminState.filters.metodo = this.value;
+                    AdminState.currentPage = 1;
+                    renderSocios();
+                });
+                await Promise.all([
+                    loadDashboardData(),
+                    loadSocios(),
+                    loadPagos(),
+                    loadComprobantes(),
+                    renderNotificacionesFull()
+                ]);
+                setInterval(refreshData, 30000);
+                console.log('✅ FLY FUTBOLEROS Admin listo');
+            } catch (error) {
+                console.error('❌ Error:', error);
+                showToast('Error al cargar el panel', 'error');
+            }
+        }
+
+        // ================================================================
+        // 13. INICIO - Mostrar login primero
+        // ================================================================
+        console.log('🔐 FLY FUTBOLEROS Admin · Ingresa la contraseña');
+
+        // Si ya está autenticado (por si recarga la página)
+        if (isAuthenticated) {
+            document.getElementById('loginScreen').classList.add('hidden');
+            document.getElementById('mainContent').style.display = 'block';
+            initApp();
+        }
+    </script>
+
+</body>
+</html>
