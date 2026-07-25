@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>FLY FUTBOLEROS</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        /* ===== RESET & BASE ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-deep: #06060e;
+            --neon-blue: #00d4ff;
+            --neon-purple: #8b3cff;
+            --neon-green: #00ff7f;
+            --text-primary: #e8e8f0;
+            --text-secondary: #9a9ab0;
+            --text-muted: #5a5a7a;
+            --gradient-primary: linear-gradient(135deg, #00d4ff, #8b3cff);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg-deep);
+            color: var(--text-primary);
+            min-height: 100vh;
+            min-height: 100dvh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* ===== PARTÍCULAS DE FONDO ===== */
+        #particles {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            overflow: hidden;
+            pointer-events: none;
+        }
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(0, 212, 255, 0.08), transparent);
+            animation: float-particle linear infinite;
+            pointer-events: none;
+        }
+        @keyframes float-particle {
+            0% {
+                transform: translateY(100vh) scale(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-10vh) scale(1);
+                opacity: 0;
+            }
+        }
+
+        /* ===== ANILLO NEÓN ===== */
+        .glow-ring {
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            border-radius: 50%;
+            border: 1px solid rgba(0, 212, 255, 0.03);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation: pulse-ring 4s ease-in-out infinite;
+        }
+        .glow-ring:nth-child(2) {
+            width: 500px;
+            height: 500px;
+            animation-delay: 1.5s;
+        }
+        .glow-ring:nth-child(3) {
+            width: 600px;
+            height: 600px;
+            animation-delay: 3s;
+        }
+
+        @keyframes pulse-ring {
+            0%,
+            100% {
+                opacity: 0.3;
+                transform: translate(-50%, -50%) scale(1);
+            }
+            50% {
+                opacity: 0.8;
+                transform: translate(-50%, -50%) scale(1.1);
+            }
+        }
+
+        /* ===== CONTENEDOR ===== */
+        .container {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            max-width: 600px;
+            padding: 20px;
+        }
+
+        /* ===== LOGO ===== */
+        .logo {
+            font-size: 4rem;
+            font-weight: 900;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -2px;
+            text-shadow: 0 0 80px rgba(0, 212, 255, 0.05);
+            margin-bottom: 8px;
+        }
+
+        .logo-sub {
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+            letter-spacing: 10px;
+            text-transform: uppercase;
+            margin-bottom: 32px;
+            opacity: 0.6;
+        }
+
+        /* ===== TÍTULO ===== */
+        .title {
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        .title span {
+            color: var(--neon-blue);
+        }
+
+        .subtitle {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin-bottom: 40px;
+            line-height: 1.6;
+        }
+
+        /* ===== BOTONES ===== */
+        .btn-group {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            max-width: 320px;
+            margin: 0 auto;
+        }
+
+        .btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            padding: 16px 24px;
+            border: none;
+            border-radius: 14px;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            min-height: 56px;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+        }
+
+        .btn:active {
+            transform: scale(0.96);
+        }
+
+        .btn-primary {
+            background: var(--gradient-primary);
+            color: #fff;
+            box-shadow: 0 0 40px rgba(0, 212, 255, 0.05);
+        }
+        .btn-primary:hover {
+            box-shadow: 0 4px 40px rgba(0, 212, 255, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.03);
+            color: var(--text-secondary);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.06);
+            color: var(--text-primary);
+            border-color: rgba(0, 212, 255, 0.1);
+        }
+
+        .btn i {
+            font-size: 1.1rem;
+        }
+
+        .btn .badge {
+            font-size: 0.5rem;
+            padding: 2px 10px;
+            border-radius: 12px;
+            background: rgba(0, 255, 127, 0.08);
+            color: var(--neon-green);
+            border: 1px solid rgba(0, 255, 127, 0.06);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn .badge-admin {
+            background: rgba(0, 212, 255, 0.08);
+            color: var(--neon-blue);
+            border-color: rgba(0, 212, 255, 0.06);
+        }
+
+        /* ===== SEPARADOR ===== */
+        .divider {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin: 20px 0;
+            color: var(--text-muted);
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: rgba(255, 255, 255, 0.04);
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            margin-top: 40px;
+            color: var(--text-muted);
+            font-size: 0.65rem;
+            letter-spacing: 1px;
+        }
+        .footer span {
+            color: var(--neon-blue);
+            opacity: 0.5;
+        }
+
+        /* ===== VERSIÓN ===== */
+        .version {
+            position: fixed;
+            bottom: 20px;
+            right: 24px;
+            font-size: 0.55rem;
+            color: var(--text-muted);
+            opacity: 0.3;
+            letter-spacing: 1px;
+            z-index: 2;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 480px) {
+            .logo {
+                font-size: 3rem;
+            }
+            .title {
+                font-size: 1.3rem;
+            }
+            .subtitle {
+                font-size: 0.85rem;
+            }
+            .btn {
+                font-size: 0.85rem;
+                padding: 14px 20px;
+                min-height: 50px;
+            }
+            .glow-ring {
+                width: 250px;
+                height: 250px;
+            }
+            .glow-ring:nth-child(2) {
+                width: 320px;
+                height: 320px;
+            }
+            .glow-ring:nth-child(3) {
+                width: 390px;
+                height: 390px;
+            }
+            .version {
+                display: none;
+            }
+        }
+
+        @media (max-width: 380px) {
+            .logo {
+                font-size: 2.5rem;
+            }
+            .btn {
+                font-size: 0.75rem;
+                padding: 12px 16px;
+                min-height: 44px;
+            }
+            .btn i {
+                font-size: 0.9rem;
+            }
+        }
+
+        /* ===== STATUS BAR (HORA) ===== */
+        .status {
+            position: fixed;
+            top: 20px;
+            right: 24px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.6rem;
+            color: var(--text-muted);
+            opacity: 0.4;
+            z-index: 2;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 4px 12px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.02);
+        }
+        .status .dot {
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            background: var(--neon-green);
+            display: inline-block;
+            animation: pulse-dot 2s infinite;
+        }
+        @keyframes pulse-dot {
+            0%,
+            100% {
+                transform: scale(1);
+                opacity: 0.5;
+            }
+            50% {
+                transform: scale(1.3);
+                opacity: 1;
+            }
+        }
+        @media (max-width: 480px) {
+            .status {
+                top: 12px;
+                right: 12px;
+                font-size: 0.5rem;
+                padding: 2px 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== PARTÍCULAS ===== -->
+    <div id="particles"></div>
+
+    <!-- ===== ANILLOS NEÓN ===== -->
+    <div class="glow-ring"></div>
+    <div class="glow-ring"></div>
+    <div class="glow-ring"></div>
+
+    <!-- ===== STATUS ===== -->
+    <div class="status">
+        <span class="dot"></span>
+        <span id="clockDisplay">00:00</span>
+    </div>
+
+    <!-- ===== CONTENIDO ===== -->
+    <div class="container">
+
+        <div class="logo">⚡ FLY</div>
+        <div class="logo-sub">FUTBOLEROS</div>
+
+        <h1 class="title">
+            Gestión <span>Futurista</span>
+        </h1>
+
+        <p class="subtitle">
+            Sistema de administración y gestión de socios<br>
+            para FLY FUTBOLEROS.
+        </p>
+
+        <div class="btn-group">
+            <a href="admin.html" class="btn btn-primary">
+                <i class="fas fa-crown"></i>
+                Panel de Administración
+                <span class="badge badge-admin">ADMIN</span>
+            </a>
+
+            <a href="socio.html" class="btn btn-secondary">
+                <i class="fas fa-user"></i>
+                Panel del Socio
+                <span class="badge">SOCIO</span>
+            </a>
+        </div>
+
+        <div class="divider">✦</div>
+
+        <div class="footer">
+            <span>⚡</span> FLY FUTBOLEROS · Sistema de Gestión v1.0
+        </div>
+
+    </div>
+
+    <div class="version">v1.0 · Futurista</div>
+
+    <!-- ============================================================ -->
+    <!-- ===== SCRIPTS ===== -->
+    <!-- ============================================================ -->
+    <script>
+        // ================================================================
+        // PARTÍCULAS DE FONDO
+        // ================================================================
+
+        (function createParticles() {
+            var container = document.getElementById('particles');
+            for (var i = 0; i < 35; i++) {
+                var p = document.createElement('div');
+                p.className = 'particle';
+                var s = Math.random() * 4 + 2;
+                p.style.width = s + 'px';
+                p.style.height = s + 'px';
+                p.style.left = Math.random() * 100 + '%';
+                p.style.animationDuration = (Math.random() * 16 + 12) + 's';
+                p.style.animationDelay = (Math.random() * 12) + 's';
+                container.appendChild(p);
+            }
+        })();
+
+        // ================================================================
+        // RELOJ
+        // ================================================================
+
+        function updateClock() {
+            var now = new Date();
+            var time = now.toLocaleTimeString('es', { hour: '2-digit', minute: '2-digit' });
+            document.getElementById('clockDisplay').textContent = time;
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        console.log('⚡ FLY FUTBOLEROS · Página de Bienvenida');
+        console.log('📱 Diseño Futurista · v1.0');
+    </script>
+
+</body>
+</html>
