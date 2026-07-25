@@ -1,0 +1,1756 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>FLY FUTBOLEROS · Mi Cuenta</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        /* ============================================================
+           FLY FUTBOLEROS · PANEL DEL SOCIO (MÓVIL MEJORADO)
+           Menú inferior · Gestos táctiles · Mobile First
+           ============================================================ */
+
+        /* ===== RESET & BASE ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        :root {
+            --bg-deep: #06060e;
+            --bg-card: rgba(12, 12, 26, 0.6);
+            --bg-card-hover: rgba(12, 12, 26, 0.8);
+            --border-glow: rgba(0, 212, 255, 0.06);
+            --text-primary: #e8e8f0;
+            --text-secondary: #9a9ab0;
+            --text-muted: #5a5a7a;
+            --neon-blue: #00d4ff;
+            --neon-purple: #8b3cff;
+            --neon-pink: #ff2d8a;
+            --neon-green: #00ff7f;
+            --neon-orange: #ff6a00;
+            --gradient-primary: linear-gradient(135deg, #00d4ff, #8b3cff);
+            --shadow-card: 0 8px 48px rgba(0, 0, 0, 0.9);
+            --radius: 18px;
+            --radius-sm: 12px;
+            --radius-xs: 8px;
+            --transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            --transition-fast: all 0.2s ease;
+            --bottom-nav-height: 64px;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg-deep);
+            color: var(--text-primary);
+            min-height: 100vh;
+            min-height: 100dvh;
+            overflow-x: hidden;
+            position: relative;
+            padding-bottom: calc(var(--bottom-nav-height) + 20px);
+        }
+
+        ::-webkit-scrollbar {
+            width: 3px;
+            height: 3px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-deep);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--neon-blue);
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.2);
+        }
+
+        /* ===== PARTÍCULAS DE FONDO ===== */
+        #particles {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            overflow: hidden;
+            pointer-events: none;
+        }
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(0, 212, 255, 0.08), transparent);
+            animation: float-particle linear infinite;
+            pointer-events: none;
+        }
+        @keyframes float-particle {
+            0% {
+                transform: translateY(100vh) scale(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-10vh) scale(1);
+                opacity: 0;
+            }
+        }
+
+        /* ===== HEADER ===== */
+        .socio-header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(6, 6, 14, 0.92);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border-bottom: 1px solid var(--border-glow);
+            padding: 10px 16px;
+        }
+
+        .socio-header .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .socio-header .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .socio-header .logo h2 {
+            font-size: 1.1rem;
+            font-weight: 900;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 40px rgba(0, 212, 255, 0.05);
+        }
+
+        .socio-header .logo .badge {
+            font-size: 0.45rem;
+            padding: 2px 10px;
+            border-radius: 12px;
+            background: rgba(0, 255, 127, 0.06);
+            color: var(--neon-green);
+            border: 1px solid rgba(0, 255, 127, 0.06);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .socio-header .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        /* ===== STATUS BAR ===== */
+        .status-bar {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.55rem;
+            color: var(--text-muted);
+            padding: 3px 10px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 20px;
+            border: 1px solid var(--border-glow);
+            flex-wrap: nowrap;
+        }
+        .status-bar .dot {
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            background: var(--neon-green);
+            display: inline-block;
+            animation: pulse-dot 2s infinite;
+            box-shadow: 0 0 10px rgba(0, 255, 127, 0.15);
+        }
+        .status-bar .sep {
+            opacity: 0.15;
+        }
+        .status-bar .time {
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+        @keyframes pulse-dot {
+            0%,
+            100% {
+                transform: scale(1);
+                box-shadow: 0 0 8px rgba(0, 255, 127, 0.15);
+            }
+            50% {
+                transform: scale(1.3);
+                box-shadow: 0 0 20px rgba(0, 255, 127, 0.25);
+            }
+        }
+        @media (max-width: 480px) {
+            .status-bar {
+                font-size: 0.5rem;
+                gap: 4px;
+                padding: 2px 8px;
+            }
+            .status-bar .sep {
+                display: none;
+            }
+        }
+
+        /* ===== MAIN CONTENT ===== */
+        .socio-main {
+            position: relative;
+            z-index: 1;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 16px 16px 20px;
+            width: 100%;
+        }
+
+        /* ===== SECCIONES (para swipe) ===== */
+        .section-page {
+            display: none;
+            animation: slideIn 0.4s ease;
+        }
+        .section-page.active {
+            display: block;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* ===== CARDS ===== */
+        .glass-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-glow);
+            border-radius: var(--radius);
+            padding: 20px 20px;
+            transition: var(--transition-fast);
+            margin-bottom: 16px;
+            position: relative;
+            overflow: hidden;
+        }
+        .glass-card::before {
+            content: '';
+            position: absolute;
+            inset: -1px;
+            border-radius: var(--radius);
+            padding: 1px;
+            background: var(--gradient-primary);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            opacity: 0.04;
+            pointer-events: none;
+        }
+        .glass-card:hover {
+            border-color: rgba(0, 212, 255, 0.08);
+        }
+
+        .glass-card:active {
+            transform: scale(0.99);
+        }
+
+        /* ===== PROFILE ===== */
+        .profile-header {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .profile-avatar {
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        .profile-avatar img {
+            width: 72px;
+            height: 72px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--neon-blue);
+            box-shadow: 0 0 30px rgba(0, 212, 255, 0.06);
+        }
+
+        .profile-avatar .edit-btn {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            background: var(--gradient-primary);
+            border: none;
+            border-radius: 50%;
+            width: 26px;
+            height: 26px;
+            color: #fff;
+            font-size: 0.55rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition-fast);
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.08);
+        }
+        .profile-avatar .edit-btn:active {
+            transform: scale(0.85);
+        }
+
+        .profile-info h1 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .profile-info p {
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+            margin: 2px 0;
+        }
+
+        .profile-info p strong {
+            color: var(--text-primary);
+        }
+
+        /* ===== BADGES ===== */
+        .badge {
+            display: inline-block;
+            padding: 2px 10px;
+            border-radius: 12px;
+            font-size: 0.55rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .badge-active {
+            background: rgba(0, 255, 127, 0.06);
+            color: var(--neon-green);
+            border: 1px solid rgba(0, 255, 127, 0.06);
+            text-shadow: 0 0 20px rgba(0, 255, 127, 0.05);
+        }
+
+        .badge-pending {
+            background: rgba(255, 106, 0, 0.06);
+            color: var(--neon-orange);
+            border: 1px solid rgba(255, 106, 0, 0.06);
+        }
+
+        .badge-suspended {
+            background: rgba(255, 45, 138, 0.06);
+            color: var(--neon-pink);
+            border: 1px solid rgba(255, 45, 138, 0.06);
+        }
+
+        .badge-expired {
+            background: rgba(255, 45, 138, 0.06);
+            color: var(--neon-pink);
+            border: 1px solid rgba(255, 45, 138, 0.06);
+        }
+
+        /* ===== PLAN SECTION ===== */
+        .plan-section {
+            padding: 18px 20px;
+            margin-bottom: 16px;
+        }
+
+        .plan-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 14px;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .plan-header h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .plan-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 10px;
+        }
+
+        .plan-item {
+            padding: 8px 12px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: var(--radius-xs);
+            border: 1px solid var(--border-glow);
+        }
+
+        .plan-item label {
+            display: block;
+            font-size: 0.5rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .plan-item span {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .plan-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 14px;
+            padding-top: 14px;
+            border-top: 1px solid var(--border-glow);
+        }
+
+        /* ===== BOTONES (más grandes para móvil) ===== */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px 20px;
+            min-height: 48px;
+            min-width: 48px;
+            border: none;
+            border-radius: var(--radius-sm);
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: var(--transition-fast);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+        }
+
+        .btn:active {
+            transform: scale(0.95);
+        }
+
+        .btn-primary {
+            background: var(--gradient-primary);
+            color: #fff;
+            box-shadow: 0 0 30px rgba(0, 212, 255, 0.04);
+        }
+
+        .btn-primary:hover {
+            box-shadow: 0 4px 30px rgba(0, 212, 255, 0.1);
+        }
+
+        .btn-secondary {
+            background: rgba(0, 0, 0, 0.2);
+            color: var(--text-secondary);
+            border: 1px solid var(--border-glow);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(0, 0, 0, 0.4);
+            color: var(--text-primary);
+            border-color: rgba(0, 212, 255, 0.08);
+        }
+
+        .btn-success {
+            background: var(--gradient-success);
+            color: #fff;
+        }
+
+        .btn-success:hover {
+            box-shadow: 0 4px 30px rgba(0, 255, 127, 0.1);
+        }
+
+        .btn-danger {
+            background: var(--neon-pink);
+            color: #fff;
+        }
+
+        .btn-danger:hover {
+            box-shadow: 0 4px 30px rgba(255, 45, 138, 0.1);
+        }
+
+        .btn-sm {
+            padding: 8px 14px;
+            min-height: 36px;
+            font-size: 0.6rem;
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        @media (max-width: 480px) {
+            .btn {
+                padding: 10px 16px;
+                min-height: 44px;
+                font-size: 0.7rem;
+                width: 100%;
+            }
+            .btn-sm {
+                padding: 6px 12px;
+                min-height: 32px;
+                font-size: 0.55rem;
+                width: auto;
+            }
+            .plan-actions .btn {
+                flex: 1;
+                min-width: 100px;
+            }
+        }
+
+        /* ===== HISTORIAL ===== */
+        .socio-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.7rem;
+        }
+
+        .socio-table th {
+            padding: 8px 10px;
+            text-align: left;
+            color: var(--text-secondary);
+            font-weight: 500;
+            font-size: 0.55rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 1px solid var(--border-glow);
+        }
+
+        .socio-table td {
+            padding: 6px 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.015);
+            vertical-align: middle;
+            color: var(--text-secondary);
+        }
+
+        .socio-table tr:active {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .table-container {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        @media (max-width: 480px) {
+            .socio-table {
+                font-size: 0.6rem;
+            }
+            .socio-table th {
+                padding: 6px 8px;
+                font-size: 0.5rem;
+            }
+            .socio-table td {
+                padding: 5px 8px;
+            }
+        }
+
+        /* ===== RECORDATORIO ===== */
+        .recordatorio {
+            padding: 14px 18px;
+            border: 1px solid rgba(255, 106, 0, 0.12);
+            background: rgba(255, 106, 0, 0.02);
+            border-radius: var(--radius);
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            flex-wrap: wrap;
+        }
+
+        .recordatorio i {
+            color: var(--neon-orange);
+            font-size: 1.3rem;
+            flex-shrink: 0;
+            text-shadow: 0 0 20px rgba(255, 106, 0, 0.05);
+        }
+
+        .recordatorio .content h4 {
+            color: var(--neon-orange);
+            font-size: 0.85rem;
+        }
+
+        .recordatorio .content p {
+            color: var(--text-secondary);
+            font-size: 0.75rem;
+        }
+
+        /* ===== MODAL ===== */
+        .modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            z-index: 2000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            width: 100%;
+            max-width: 500px;
+            max-height: 90vh;
+            max-height: 90dvh;
+            overflow-y: auto;
+            background: rgba(6, 6, 14, 0.98);
+            border: 1px solid var(--border-glow);
+            border-radius: var(--radius);
+            padding: 0;
+            animation: fadeInUp 0.3s ease;
+            box-shadow: var(--shadow-card);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 18px;
+            border-bottom: 1px solid var(--border-glow);
+            position: sticky;
+            top: 0;
+            background: rgba(6, 6, 14, 0.95);
+            backdrop-filter: blur(12px);
+            z-index: 10;
+            border-radius: var(--radius) var(--radius) 0 0;
+        }
+
+        .modal-header h2 {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: var(--transition-fast);
+            padding: 4px;
+        }
+
+        .modal-close:hover {
+            color: var(--neon-pink);
+        }
+
+        .modal-body {
+            padding: 16px 18px;
+        }
+
+        .modal-body .file-upload-area {
+            border: 2px dashed var(--border-glow);
+            border-radius: var(--radius-sm);
+            padding: 24px 16px;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition-fast);
+            background: rgba(0, 0, 0, 0.15);
+        }
+
+        .modal-body .file-upload-area:hover {
+            border-color: var(--neon-blue);
+            background: rgba(0, 212, 255, 0.02);
+        }
+
+        .modal-body .file-upload-area i {
+            font-size: 1.8rem;
+            color: var(--text-muted);
+            display: block;
+            margin-bottom: 6px;
+        }
+
+        .modal-body .file-upload-area p {
+            color: var(--text-secondary);
+            font-size: 0.75rem;
+        }
+
+        .modal-body .file-upload-area input[type="file"] {
+            display: none;
+        }
+
+        .modal-body .file-preview {
+            margin-top: 8px;
+            padding: 8px 12px;
+            background: rgba(0, 212, 255, 0.04);
+            border-radius: var(--radius-xs);
+            border: 1px solid rgba(0, 212, 255, 0.06);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .modal-body .file-preview i {
+            color: var(--neon-blue);
+            font-size: 0.9rem;
+        }
+
+        .modal-body .file-preview .name {
+            flex: 1;
+            font-size: 0.7rem;
+            color: var(--text-primary);
+        }
+
+        .modal-body .file-preview .remove {
+            color: var(--neon-pink);
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(16px) scale(0.96);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        /* ===== TOAST ===== */
+        .toast {
+            position: fixed;
+            bottom: calc(var(--bottom-nav-height) + 20px);
+            right: 20px;
+            left: 20px;
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 14px 20px;
+            background: rgba(6, 6, 14, 0.96);
+            border: 1px solid var(--border-glow);
+            border-radius: var(--radius-sm);
+            color: var(--text-primary);
+            z-index: 9999;
+            animation: fadeInUp 0.3s ease;
+            box-shadow: var(--shadow-card);
+            backdrop-filter: blur(16px);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 0.85rem;
+        }
+
+        .toast .icon {
+            font-size: 1.1rem;
+            flex-shrink: 0;
+        }
+
+        .toast .icon.success {
+            color: var(--neon-green);
+        }
+        .toast .icon.error {
+            color: var(--neon-pink);
+        }
+        .toast .icon.warning {
+            color: var(--neon-orange);
+        }
+        .toast .icon.info {
+            color: var(--neon-blue);
+        }
+
+        @media (max-width: 480px) {
+            .toast {
+                font-size: 0.75rem;
+                padding: 12px 16px;
+                bottom: calc(var(--bottom-nav-height) + 12px);
+                left: 12px;
+                right: 12px;
+            }
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* ============================================================
+           BOTTOM NAVIGATION (Menú inferior)
+           ============================================================ */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 500;
+            background: rgba(6, 6, 14, 0.95);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border-top: 1px solid var(--border-glow);
+            height: var(--bottom-nav-height);
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            padding: 0 8px;
+            box-shadow: 0 -8px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        .bottom-nav .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 2px;
+            padding: 6px 12px;
+            border: none;
+            background: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: var(--transition-fast);
+            min-width: 56px;
+            min-height: 48px;
+            position: relative;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+            border-radius: var(--radius-xs);
+        }
+
+        .bottom-nav .nav-item:active {
+            transform: scale(0.92);
+        }
+
+        .bottom-nav .nav-item i {
+            font-size: 1.2rem;
+            transition: var(--transition-fast);
+        }
+
+        .bottom-nav .nav-item span {
+            font-size: 0.5rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: var(--transition-fast);
+        }
+
+        .bottom-nav .nav-item.active {
+            color: var(--neon-blue);
+        }
+
+        .bottom-nav .nav-item.active i {
+            text-shadow: 0 0 20px rgba(0, 212, 255, 0.2);
+        }
+
+        .bottom-nav .nav-item .nav-badge {
+            position: absolute;
+            top: 2px;
+            right: 4px;
+            background: var(--neon-pink);
+            color: #fff;
+            font-size: 0.45rem;
+            font-weight: 700;
+            padding: 1px 6px;
+            border-radius: 10px;
+            min-width: 16px;
+            text-align: center;
+            box-shadow: 0 0 20px rgba(255, 45, 138, 0.2);
+        }
+
+        @media (max-width: 480px) {
+            .bottom-nav .nav-item {
+                padding: 4px 8px;
+                min-width: 48px;
+                min-height: 40px;
+            }
+            .bottom-nav .nav-item i {
+                font-size: 1rem;
+            }
+            .bottom-nav .nav-item span {
+                font-size: 0.45rem;
+            }
+        }
+
+        @media (min-width: 769px) {
+            .bottom-nav {
+                display: none;
+            }
+        }
+
+        /* ============================================================
+           RESPONSIVE
+           ============================================================ */
+        @media (max-width: 768px) {
+            .profile-header {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .plan-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .recordatorio {
+                flex-direction: column;
+                text-align: center;
+                justify-content: center;
+            }
+
+            .socio-header .header-content {
+                flex-direction: column;
+                align-items: stretch;
+                text-align: center;
+            }
+
+            .socio-header .header-actions {
+                justify-content: center;
+            }
+
+            .socio-main {
+                padding: 12px 12px 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .plan-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .glass-card {
+                padding: 14px 14px;
+            }
+
+            .socio-main {
+                padding: 10px 10px 16px;
+            }
+
+            .profile-avatar img {
+                width: 64px;
+                height: 64px;
+            }
+
+            .profile-info h1 {
+                font-size: 1.1rem;
+            }
+
+            .profile-info p {
+                font-size: 0.75rem;
+            }
+
+            .plan-section {
+                padding: 14px 14px;
+            }
+
+            .plan-header h3 {
+                font-size: 0.9rem;
+            }
+
+            .plan-item {
+                padding: 6px 10px;
+            }
+
+            .plan-item span {
+                font-size: 0.8rem;
+            }
+
+            .recordatorio {
+                padding: 12px 14px;
+            }
+            .recordatorio i {
+                font-size: 1.1rem;
+            }
+        }
+
+        @media (max-width: 380px) {
+            .glass-card {
+                padding: 12px 10px;
+            }
+            .profile-avatar img {
+                width: 56px;
+                height: 56px;
+            }
+            .profile-info h1 {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== PARTÍCULAS DE FONDO ===== -->
+    <div id="particles"></div>
+
+    <!-- ===== HEADER ===== -->
+    <header class="socio-header">
+        <div class="header-content">
+            <div class="logo">
+                <h2>⚡ FLY FUTBOLEROS</h2>
+                <span class="badge badge-active">SOCIO</span>
+            </div>
+            <div class="header-actions">
+                <div class="status-bar">
+                    <span class="dot"></span>
+                    <span class="time" id="clockDisplay">00:00</span>
+                    <span class="sep">·</span>
+                    <span id="tempDisplay">17°C</span>
+                    <span class="sep">·</span>
+                    <span>PYG</span>
+                </div>
+                <button class="btn btn-secondary btn-sm" onclick="handleLogout()">
+                    <i class="fas fa-sign-out-alt"></i> Salir
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- ===== MAIN ===== -->
+    <main class="socio-main" id="socioMain">
+
+        <!-- ===== SECCIÓN 1: PERFIL ===== -->
+        <div class="section-page active" id="section-perfil">
+            <div class="glass-card">
+                <div class="profile-header">
+                    <div class="profile-avatar">
+                        <img id="socioAvatar" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Ccircle cx='40' cy='40' r='40' fill='%23111122'/%3E%3Ccircle cx='40' cy='26' r='12' fill='%23222244'/%3E%3Cpath d='M10 72c0-12 16-20 30-20s30 8 30 20' fill='%23222244'/%3E%3C/svg%3E" alt="Foto de perfil">
+                        <button class="edit-btn" onclick="editarFotoPerfil()" title="Cambiar foto">
+                            <i class="fas fa-camera"></i>
+                        </button>
+                    </div>
+                    <div class="profile-info">
+                        <h1 id="socioNombre">Cargando...</h1>
+                        <p><strong>Usuario:</strong> <span id="socioUsername">@cargando</span></p>
+                        <p><strong>ID:</strong> <span id="socioId">#0000</span></p>
+                        <p>
+                            <strong>Plan:</strong>
+                            <span id="socioPlan" class="badge badge-active">Sabatero</span>
+                            &nbsp;
+                            <strong>Estado:</strong>
+                            <span id="socioEstado" class="badge badge-active">Activo</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== SECCIÓN 2: PLAN ===== -->
+        <div class="section-page" id="section-plan">
+
+            <!-- Plan Sabatero -->
+            <div id="planSabateroContainer" class="plan-section glass-card hidden">
+                <div class="plan-header">
+                    <h3>📋 Plan Sabatero</h3>
+                    <span class="badge badge-active">Mensual</span>
+                </div>
+                <div class="plan-grid">
+                    <div class="plan-item"><label>Fecha de Inicio</label><span id="sabateroInicio">-</span></div>
+                    <div class="plan-item"><label>Fecha de Vencimiento</label><span id="sabateroVencimiento">-</span></div>
+                    <div class="plan-item"><label>Días Restantes</label><span id="sabateroDias">-</span></div>
+                    <div class="plan-item"><label>Cuota</label><span>Gs. 20.000</span></div>
+                    <div class="plan-item"><label>Método de Pago</label><span id="sabateroMetodo">-</span></div>
+                    <div class="plan-item"><label>Pagos Realizados</label><span id="sabateroPagos">0</span></div>
+                </div>
+                <div class="plan-actions">
+                    <button class="btn btn-primary" onclick="renovarMembresia()">
+                        <i class="fas fa-sync"></i> Renovar
+                    </button>
+                    <button class="btn btn-secondary" onclick="subirComprobante()">
+                        <i class="fas fa-upload"></i> Subir Comprobante
+                    </button>
+                    <button class="btn btn-secondary" onclick="descargarComprobantes()">
+                        <i class="fas fa-download"></i> Descargar
+                    </button>
+                </div>
+            </div>
+
+            <!-- Plan Finder -->
+            <div id="planFinderContainer" class="plan-section glass-card hidden">
+                <div class="plan-header">
+                    <h3>🏃 Plan Finder</h3>
+                    <span class="badge badge-pending">Por Partido</span>
+                </div>
+                <div class="plan-grid">
+                    <div class="plan-item"><label>Valor por Partido</label><span>Gs. 5.000</span></div>
+                    <div class="plan-item"><label>Método de Pago</label><span id="finderMetodo">-</span></div>
+                    <div class="plan-item"><label>Pagos Realizados</label><span id="finderPagos">0</span></div>
+                </div>
+                <div class="plan-actions">
+                    <button class="btn btn-secondary" onclick="subirComprobante()">
+                        <i class="fas fa-upload"></i> Subir Comprobante
+                    </button>
+                    <button class="btn btn-secondary" onclick="descargarComprobantes()">
+                        <i class="fas fa-download"></i> Descargar
+                    </button>
+                </div>
+            </div>
+
+            <!-- Recordatorio -->
+            <div id="recordatorioContainer" class="recordatorio hidden">
+                <i class="fas fa-exclamation-triangle"></i>
+                <div class="content">
+                    <h4>⚠️ Recordatorio de Vencimiento</h4>
+                    <p id="recordatorioMensaje">Tu membresía está próxima a vencer.</p>
+                </div>
+                <button class="btn btn-primary btn-sm" onclick="renovarMembresia()">Renovar Ahora</button>
+            </div>
+        </div>
+
+        <!-- ===== SECCIÓN 3: HISTORIAL ===== -->
+        <div class="section-page" id="section-historial">
+            <div class="glass-card">
+                <h3 style="margin-bottom:14px;font-size:0.95rem;">📜 Historial de Pagos</h3>
+                <div class="table-container">
+                    <table class="socio-table">
+                        <thead>
+                            <tr>
+                                <th>Fecha</th>
+                                <th>Monto</th>
+                                <th>Método</th>
+                                <th>Estado</th>
+                                <th>Comprobante</th>
+                            </tr>
+                        </thead>
+                        <tbody id="historialTableBody">
+                            <tr>
+                                <td colspan="5" style="text-align:center;padding:24px;color:var(--text-muted);font-size:0.75rem;">
+                                    <i class="fas fa-inbox" style="font-size:1.2rem;display:block;margin-bottom:6px;opacity:0.5;"></i>
+                                    No hay pagos registrados
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- ===== MODAL: SUBIR COMPROBANTE ===== -->
+    <div class="modal" id="uploadModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>📎 Subir Comprobante</h2>
+                <button class="modal-close" onclick="closeModal('uploadModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p style="margin-bottom:14px;color:var(--text-secondary);font-size:0.85rem;">
+                    Sube tu comprobante de pago. Formatos permitidos: JPG, PNG, PDF.
+                </p>
+                <div class="file-upload-area" onclick="document.getElementById('uploadReceipt').click()">
+                    <i class="fas fa-upload"></i>
+                    <p>Seleccionar archivo</p>
+                    <div style="font-size:0.6rem;color:var(--text-muted);margin-top:4px;">Captura de pantalla o foto</div>
+                    <input type="file" id="uploadReceipt" accept=".jpg,.jpeg,.png,.pdf">
+                </div>
+                <div id="uploadPreview" class="file-preview" style="display:none;">
+                    <i class="fas fa-file"></i>
+                    <span class="name" id="uploadFileName">archivo.jpg</span>
+                    <span class="remove" onclick="document.getElementById('uploadReceipt').value='';this.parentElement.style.display='none';">✕</span>
+                </div>
+                <button class="btn btn-primary" onclick="enviarComprobante()" style="margin-top:14px;width:100%;justify-content:center;">
+                    <i class="fas fa-paper-plane"></i> Enviar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== BOTTOM NAVIGATION (Menú inferior) ===== -->
+    <nav class="bottom-nav" id="bottomNav">
+        <button class="nav-item active" data-section="perfil" onclick="navigateTo('perfil')">
+            <i class="fas fa-user"></i>
+            <span>Perfil</span>
+        </button>
+        <button class="nav-item" data-section="plan" onclick="navigateTo('plan')">
+            <i class="fas fa-futbol"></i>
+            <span>Plan</span>
+            <span class="nav-badge" id="navBadge" style="display:none;">!</span>
+        </button>
+        <button class="nav-item" data-section="historial" onclick="navigateTo('historial')">
+            <i class="fas fa-history"></i>
+            <span>Historial</span>
+        </button>
+    </nav>
+
+    <!-- ============================================================ -->
+    <!-- ===== SCRIPTS ===== -->
+    <!-- ============================================================ -->
+    <script>
+        // ================================================================
+        // 0. PARTÍCULAS DE FONDO
+        // ================================================================
+
+        (function createParticles() {
+            var container = document.getElementById('particles');
+            for (var i = 0; i < 35; i++) {
+                var p = document.createElement('div');
+                p.className = 'particle';
+                var s = Math.random() * 3 + 2;
+                p.style.width = s + 'px';
+                p.style.height = s + 'px';
+                p.style.left = Math.random() * 100 + '%';
+                p.style.animationDuration = (Math.random() * 16 + 12) + 's';
+                p.style.animationDelay = (Math.random() * 12) + 's';
+                container.appendChild(p);
+            }
+        })();
+
+        // ================================================================
+        // 1. RELOJ Y TEMPERATURA
+        // ================================================================
+
+        function updateClock() {
+            var now = new Date();
+            var time = now.toLocaleTimeString('es', { hour: '2-digit', minute: '2-digit' });
+            document.getElementById('clockDisplay').textContent = time;
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        document.getElementById('tempDisplay').textContent = '17°C';
+
+        // ================================================================
+        // 2. NAVEGACIÓN POR SECTIONS (Menú inferior + Swipe)
+        // ================================================================
+
+        var currentSection = 'perfil';
+        var touchStartX = 0;
+        var touchEndX = 0;
+        var isSwiping = false;
+
+        // Navegación por menú
+        function navigateTo(section) {
+            // Ocultar todas las secciones
+            document.querySelectorAll('.section-page').forEach(function(el) {
+                el.classList.remove('active');
+            });
+
+            // Mostrar la sección seleccionada
+            var target = document.getElementById('section-' + section);
+            if (target) {
+                target.classList.add('active');
+            }
+
+            // Actualizar navegación inferior
+            document.querySelectorAll('.bottom-nav .nav-item').forEach(function(el) {
+                el.classList.remove('active');
+                if (el.dataset.section === section) {
+                    el.classList.add('active');
+                }
+            });
+
+            currentSection = section;
+        }
+
+        // Gestos táctiles (Swipe)
+        var mainContainer = document.getElementById('socioMain');
+
+        mainContainer.addEventListener('touchstart', function(e) {
+            touchStartX = e.changedTouches[0].screenX;
+            isSwiping = true;
+        }, { passive: true });
+
+        mainContainer.addEventListener('touchend', function(e) {
+            if (!isSwiping) return;
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+            isSwiping = false;
+        }, { passive: true });
+
+        function handleSwipe() {
+            var diff = touchStartX - touchEndX;
+            var sections = ['perfil', 'plan', 'historial'];
+            var currentIndex = sections.indexOf(currentSection);
+
+            // Swipe izquierda (siguiente)
+            if (diff > 50 && currentIndex < sections.length - 1) {
+                navigateTo(sections[currentIndex + 1]);
+                // Feedback háptico visual
+                showToast('👆 ' + sections[currentIndex + 1].toUpperCase(), 'info');
+            }
+            // Swipe derecha (anterior)
+            else if (diff < -50 && currentIndex > 0) {
+                navigateTo(sections[currentIndex - 1]);
+                showToast('👆 ' + sections[currentIndex - 1].toUpperCase(), 'info');
+            }
+        }
+
+        // ================================================================
+        // 3. OBTENER USUARIO ACTUAL
+        // ================================================================
+
+        var currentUser = null;
+        var historialPagos = [];
+
+        function getCurrentUser() {
+            try {
+                var session = localStorage.getItem('fly_user_session');
+                if (session) {
+                    currentUser = JSON.parse(session);
+                    return currentUser;
+                }
+            } catch (e) {}
+            return null;
+        }
+
+        function getUserData(username) {
+            if (window.USERS_DB) {
+                var user = window.USERS_DB.find(function(u) { return u.username === username; });
+                if (user) return user;
+            }
+            return null;
+        }
+
+        // ================================================================
+        // 4. CARGAR DATOS DEL SOCIO
+        // ================================================================
+
+        function loadSocioData() {
+            var sessionUser = getCurrentUser();
+
+            if (!sessionUser) {
+                showToast('⚠️ Sesión no encontrada. Redirigiendo...', 'warning');
+                setTimeout(function() {
+                    window.location.href = 'index.html';
+                }, 1500);
+                return;
+            }
+
+            var userData = getUserData(sessionUser.username);
+
+            if (!userData) {
+                showToast('⚠️ Usuario no encontrado. Redirigiendo...', 'warning');
+                setTimeout(function() {
+                    window.location.href = 'index.html';
+                }, 1500);
+                return;
+            }
+
+            historialPagos = userData.pagos || [];
+
+            renderProfile(userData);
+            renderPlan(userData);
+            renderHistorial(userData);
+            checkVencimiento(userData);
+
+            // Badge de notificación en el menú inferior
+            var badge = document.getElementById('navBadge');
+            if (historialPagos.length > 0) {
+                var pendientes = historialPagos.filter(function(p) { return p.estado === 'Pendiente'; });
+                if (pendientes.length > 0) {
+                    badge.style.display = 'block';
+                    badge.textContent = pendientes.length;
+                } else {
+                    badge.style.display = 'none';
+                }
+            }
+
+            if (userData.role === 'admin') {
+                var headerActions = document.querySelector('.socio-header .header-actions');
+                var adminBtn = document.createElement('button');
+                adminBtn.className = 'btn btn-primary btn-sm';
+                adminBtn.innerHTML = '<i class="fas fa-crown"></i> Admin';
+                adminBtn.onclick = function() {
+                    window.location.href = 'admin.html';
+                };
+                headerActions.prepend(adminBtn);
+            }
+        }
+
+        // ================================================================
+        // 5. RENDERIZAR PERFIL
+        // ================================================================
+
+        function renderProfile(user) {
+            document.getElementById('socioNombre').textContent = user.nombre || 'Sin nombre';
+            document.getElementById('socioUsername').textContent = '@' + user.username;
+            document.getElementById('socioId').textContent = '#' + user.id;
+
+            var planEl = document.getElementById('socioPlan');
+            planEl.textContent = user.plan || 'Sin plan';
+            planEl.className = 'badge ' + (user.plan === 'Sabatero' ? 'badge-active' : 'badge-pending');
+
+            var estadoEl = document.getElementById('socioEstado');
+            estadoEl.textContent = user.estado || 'Pendiente';
+            estadoEl.className = 'badge ' + getStatusClass(user.estado);
+
+            var avatarImg = document.getElementById('socioAvatar');
+            if (user.foto_url && user.foto_url.startsWith('http')) {
+                avatarImg.src = user.foto_url;
+            } else if (user.foto_url) {
+                avatarImg.src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 80 80"%3E%3Ccircle cx="40" cy="40" r="40" fill="%23111122"/%3E%3Ccircle cx="40" cy="26" r="12" fill="%23222244"/%3E%3Cpath d="M10 72c0-12 16-20 30-20s30 8 30 20" fill="%23222244"/%3E%3C/svg%3E';
+            }
+        }
+
+        function getStatusClass(estado) {
+            var map = {
+                'Activo': 'badge-active',
+                'Pendiente': 'badge-pending',
+                'Suspendido': 'badge-suspended',
+                'Vencido': 'badge-expired'
+            };
+            return map[estado] || 'badge-pending';
+        }
+
+        // ================================================================
+        // 6. RENDERIZAR PLAN
+        // ================================================================
+
+        function renderPlan(user) {
+            var sabateroContainer = document.getElementById('planSabateroContainer');
+            var finderContainer = document.getElementById('planFinderContainer');
+
+            if (user.plan === 'Sabatero') {
+                sabateroContainer.classList.remove('hidden');
+                finderContainer.classList.add('hidden');
+
+                document.getElementById('sabateroInicio').textContent = user.fecha_inicio ? new Date(user.fecha_inicio)
+                    .toLocaleDateString() : 'No definida';
+                document.getElementById('sabateroVencimiento').textContent = user.fecha_vencimiento ? new Date(user
+                    .fecha_vencimiento).toLocaleDateString() : 'No definida';
+                document.getElementById('sabateroDias').textContent = user.fecha_vencimiento ? calcularDias(user
+                    .fecha_vencimiento) : 'N/A';
+                document.getElementById('sabateroMetodo').textContent = user.metodo_pago || 'N/A';
+
+                var pagosCount = historialPagos.filter(function(p) { return p.estado === 'Aprobado'; }).length;
+                document.getElementById('sabateroPagos').textContent = pagosCount;
+
+            } else if (user.plan === 'Finder') {
+                sabateroContainer.classList.add('hidden');
+                finderContainer.classList.remove('hidden');
+
+                document.getElementById('finderMetodo').textContent = user.metodo_pago || 'N/A';
+
+                var pagosCountFinder = historialPagos.filter(function(p) { return p.estado === 'Aprobado'; }).length;
+                document.getElementById('finderPagos').textContent = pagosCountFinder;
+            }
+        }
+
+        function calcularDias(fechaVencimiento) {
+            var hoy = new Date();
+            var venc = new Date(fechaVencimiento);
+            var diff = Math.ceil((venc - hoy) / (1000 * 60 * 60 * 24));
+            return diff > 0 ? diff + ' días' : 'Vencido';
+        }
+
+        // ================================================================
+        // 7. RENDERIZAR HISTORIAL
+        // ================================================================
+
+        function renderHistorial(user) {
+            var tbody = document.getElementById('historialTableBody');
+
+            if (historialPagos.length === 0) {
+                tbody.innerHTML =
+                    '<tr><td colspan="5" style="text-align:center;padding:24px;color:var(--text-muted);font-size:0.75rem;"><i class="fas fa-inbox" style="font-size:1.2rem;display:block;margin-bottom:6px;opacity:0.5;"></i>No hay pagos registrados</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = historialPagos.map(function(p) {
+                return '<tr>' +
+                    '<td>' + new Date(p.fecha).toLocaleDateString() + '</td>' +
+                    '<td>Gs. ' + p.monto.toLocaleString() + '</td>' +
+                    '<td>' + p.metodo + '</td>' +
+                    '<td><span class="badge ' + getStatusClass(p.estado) + '">' + p.estado + '</span></td>' +
+                    '<td>' + (p.comprobante_url ?
+                        '<button class="btn btn-secondary btn-sm" onclick="showToast(\'Ver comprobante\',\'info\')"><i class="fas fa-eye"></i></button>' :
+                        '-') +
+                    '</td>' +
+                    '</tr>';
+            }).join('');
+        }
+
+        // ================================================================
+        // 8. VERIFICAR VENCIMIENTO
+        // ================================================================
+
+        function checkVencimiento(user) {
+            var container = document.getElementById('recordatorioContainer');
+
+            if (user.plan === 'Sabatero' && user.fecha_vencimiento) {
+                var dias = calcularDias(user.fecha_vencimiento);
+                var diasNum = parseInt(dias);
+
+                if (diasNum <= 7 && diasNum > 0) {
+                    container.classList.remove('hidden');
+                    document.getElementById('recordatorioMensaje').textContent =
+                        'Tu membresía vence en ' + dias + '. Te recomendamos renovar.';
+                } else if (diasNum <= 0) {
+                    container.classList.remove('hidden');
+                    document.getElementById('recordatorioMensaje').textContent =
+                        'Tu membresía ha vencido. Renueva para seguir disfrutando.';
+                } else {
+                    container.classList.add('hidden');
+                }
+            } else {
+                container.classList.add('hidden');
+            }
+        }
+
+        // ================================================================
+        // 9. FUNCIONES DE ACCIÓN
+        // ================================================================
+
+        function editarFotoPerfil() {
+            var input = document.createElement('input');
+            input.type = 'file';
+            input.accept = 'image/*';
+            input.onchange = function(e) {
+                var file = e.target.files[0];
+                if (!file) return;
+
+                var reader = new FileReader();
+                reader.onload = function(ev) {
+                    var img = document.getElementById('socioAvatar');
+                    img.src = ev.target.result;
+                    showToast('✅ Foto de perfil actualizada', 'success');
+
+                    var sessionUser = getCurrentUser();
+                    if (sessionUser) {
+                        var userData = getUserData(sessionUser.username);
+                        if (userData) {
+                            userData.foto_url = ev.target.result;
+                        }
+                    }
+                };
+                reader.readAsDataURL(file);
+            };
+            input.click();
+        }
+
+        function renovarMembresia() {
+            if (!confirm('¿Renovar tu membresía por 30 días más?')) return;
+
+            var sessionUser = getCurrentUser();
+            if (!sessionUser) return;
+
+            var userData = getUserData(sessionUser.username);
+            if (!userData) return;
+
+            var now = new Date();
+            var vencimiento = new Date(now);
+            vencimiento.setDate(vencimiento.getDate() + 30);
+
+            userData.fecha_inicio = now.toISOString();
+            userData.fecha_vencimiento = vencimiento.toISOString();
+            userData.estado = 'Pendiente';
+
+            showToast('✅ Renovación solicitada. Espera confirmación del administrador.', 'success');
+
+            historialPagos.push({
+                fecha: now.toISOString(),
+                monto: 20000,
+                metodo: userData.metodo_pago || 'Transferencia',
+                estado: 'Pendiente',
+                comprobante_url: null
+            });
+
+            renderPlan(userData);
+            renderHistorial(userData);
+            checkVencimiento(userData);
+
+            // Actualizar badge
+            var badge = document.getElementById('navBadge');
+            var pendientes = historialPagos.filter(function(p) { return p.estado === 'Pendiente'; });
+            if (pendientes.length > 0) {
+                badge.style.display = 'block';
+                badge.textContent = pendientes.length;
+            }
+        }
+
+        function subirComprobante() {
+            var sessionUser = getCurrentUser();
+            if (!sessionUser) return;
+
+            var userData = getUserData(sessionUser.username);
+            if (!userData) return;
+
+            if (userData.metodo_pago !== 'Transferencia') {
+                showToast('⚠️ Tu método de pago es Efectivo. No necesitas subir comprobante.', 'warning');
+                return;
+            }
+
+            document.getElementById('uploadModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function enviarComprobante() {
+            var fileInput = document.getElementById('uploadReceipt');
+            var file = fileInput.files[0];
+
+            if (!file) {
+                showToast('⚠️ Por favor selecciona un archivo', 'warning');
+                return;
+            }
+
+            var sessionUser = getCurrentUser();
+            if (!sessionUser) return;
+
+            var userData = getUserData(sessionUser.username);
+            if (!userData) return;
+
+            var fileUrl = 'comp_' + Date.now() + '_' + file.name;
+
+            userData.comprobante_url = fileUrl;
+            userData.estado = 'Pendiente';
+
+            historialPagos.push({
+                fecha: new Date().toISOString(),
+                monto: userData.plan === 'Sabatero' ? 20000 : 5000,
+                metodo: 'Transferencia',
+                estado: 'Pendiente',
+                comprobante_url: fileUrl
+            });
+
+            showToast('✅ Comprobante enviado exitosamente', 'success');
+            closeModal('uploadModal');
+
+            document.getElementById('uploadReceipt').value = '';
+            document.getElementById('uploadPreview').style.display = 'none';
+
+            renderPlan(userData);
+            renderHistorial(userData);
+
+            // Actualizar badge
+            var badge = document.getElementById('navBadge');
+            var pendientes = historialPagos.filter(function(p) { return p.estado === 'Pendiente'; });
+            if (pendientes.length > 0) {
+                badge.style.display = 'block';
+                badge.textContent = pendientes.length;
+            }
+        }
+
+        function descargarComprobantes() {
+            var sessionUser = getCurrentUser();
+            if (!sessionUser) return;
+
+            var userData = getUserData(sessionUser.username);
+            if (!userData) return;
+
+            var pagosConComprobante = historialPagos.filter(function(p) { return p.comprobante_url; });
+
+            if (pagosConComprobante.length === 0) {
+                showToast('⚠️ No hay comprobantes disponibles', 'warning');
+                return;
+            }
+
+            showToast('📎 Descargando ' + pagosConComprobante.length + ' comprobantes...', 'info');
+
+            pagosConComprobante.forEach(function(p) {
+                console.log('📎 Descargando: ' + p.comprobante_url);
+            });
+
+            setTimeout(function() {
+                showToast('✅ Comprobantes descargados (simulación)', 'success');
+            }, 1000);
+        }
+
+        // ================================================================
+        // 10. MODALES
+        // ================================================================
+
+        function closeModal(id) {
+            document.getElementById(id).classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        document.getElementById('uploadModal').addEventListener('click', function(e) {
+            if (e.target === this) closeModal('uploadModal');
+        });
+
+        // ================================================================
+        // 11. PREVISUALIZACIÓN DE ARCHIVO
+        // ================================================================
+
+        document.getElementById('uploadReceipt').addEventListener('change', function() {
+            var preview = document.getElementById('uploadPreview');
+            var name = document.getElementById('uploadFileName');
+            if (this.files && this.files[0]) {
+                name.textContent = this.files[0].name;
+                preview.style.display = 'flex';
+            } else {
+                preview.style.display = 'none';
+            }
+        });
+
+        // ================================================================
+        // 12. TOAST
+        // ================================================================
+
+        function showToast(message, type) {
+            if (type === undefined) type = 'info';
+            var colors = { success: '#00ff7f', error: '#ff2d8a', warning: '#ff6a00', info: '#00d4ff' };
+            var icons = { success: 'fa-check-circle', error: 'fa-exclamation-circle', warning: 'fa-exclamation-triangle',
+                info: 'fa-info-circle' };
+
+            var existing = document.querySelector('.toast');
+            if (existing) existing.remove();
+
+            var el = document.createElement('div');
+            el.className = 'toast';
+            el.innerHTML =
+                '<i class="fas ' + icons[type] + ' icon ' + type + '"></i><span>' + message + '</span>';
+            el.style.borderColor = colors[type];
+            document.body.appendChild(el);
+
+            setTimeout(function() {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(20px)';
+                setTimeout(function() { el.remove(); }, 300);
+            }, 4000);
+        }
+
+        // ================================================================
+        // 13. CERRAR SESIÓN
+        // ================================================================
+
+        function handleLogout() {
+            if (!confirm('¿Cerrar sesión?')) return;
+            try {
+                localStorage.removeItem('fly_user_session');
+            } catch (e) {}
+            showToast('🔒 Sesión cerrada', 'info');
+            setTimeout(function() {
+                window.location.href = 'index.html';
+            }, 1000);
+        }
+
+        // ================================================================
+        // 14. INICIALIZAR
+        // ================================================================
+
+        loadSocioData();
+
+        console.log('👤 FLY FUTBOLEROS · Panel del Socio (Móvil Mejorado)');
+        console.log('📋 Usuario actual:', currentUser);
+        console.log('📊 Historial de pagos:', historialPagos.length);
+        console.log('📱 Navegación: Menú inferior + Swipe');
+
+        // ================================================================
+        // 15. RESET NAV BADGE (ocultar al hacer clic en Plan)
+        // ================================================================
+
+        document.querySelector('.bottom-nav .nav-item[data-section="plan"]').addEventListener('click', function() {
+            var badge = document.getElementById('navBadge');
+            badge.style.display = 'none';
+        });
+    </script>
+
+</body>
+</html>
