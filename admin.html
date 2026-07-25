@@ -8,7 +8,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
-        /* ===== ESTILOS COMPLETOS ===== */
+        /* ===== TODOS LOS ESTILOS (COMPACTADOS) ===== */
         *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
         :root{--bg-deep:#06060e;--bg-card:rgba(12,12,26,0.6);--border-glow:rgba(0,212,255,0.06);--text-primary:#e8e8f0;--text-secondary:#9a9ab0;--text-muted:#5a5a7a;--neon-blue:#00d4ff;--neon-purple:#8b3cff;--neon-pink:#ff2d8a;--neon-green:#00ff7f;--neon-orange:#ff6a00;--gradient-primary:linear-gradient(135deg,#00d4ff,#8b3cff);--shadow-card:0 8px 48px rgba(0,0,0,0.9);--radius:16px;--radius-sm:10px;--radius-xs:8px;--transition:all 0.4s cubic-bezier(0.25,0.46,0.45,0.94);--transition-fast:all 0.2s ease}
         html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
@@ -337,8 +337,8 @@
                     <div class="chart-card"><div class="header"><h3>💰 Ingresos Mensuales</h3><span class="badge">Gs.</span></div><div id="incomeChart" class="bar-chart"></div></div>
                 </div>
                 <div class="activity-row">
-                    <div class="activity-card"><div class="header"><h3>📋 Actividad Reciente</h3><span class="action">Ver todas</span></div><div class="activity-list" id="activityList"></div></div>
-                    <div class="activity-card"><div class="header"><h3>⏳ Próximos a Vencer</h3><span class="action">Ver todos</span></div><div class="expiring-list" id="expiringList"></div></div>
+                    <div class="activity-card"><div class="header"><h3>📋 Actividad Reciente</h3><span class="action" onclick="showToast('Cargando más actividad...','info')">Ver todas</span></div><div class="activity-list" id="activityList"></div></div>
+                    <div class="activity-card"><div class="header"><h3>⏳ Próximos a Vencer</h3><span class="action" onclick="switchTab('socios')">Ver todos</span></div><div class="expiring-list" id="expiringList"></div></div>
                 </div>
             </div>
 
@@ -430,26 +430,9 @@
         </div>
     </div>
 
-    <!-- ===== VISOR COMPROBANTES ===== -->
-    <div id="visorComprobanteOverlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.88);backdrop-filter:blur(24px);z-index:3000;align-items:center;justify-content:center;padding:16px;">
-        <div style="background:rgba(6,6,14,0.98);border:1px solid var(--border-glow);border-radius:var(--radius);max-width:920px;width:100%;max-height:90vh;display:flex;flex-direction:column;overflow:hidden;">
-            <div style="display:flex;justify-content:space-between;align-items:center;padding:14px 20px;border-bottom:1px solid var(--border-glow);flex-shrink:0;flex-wrap:wrap;gap:8px;">
-                <div style="display:flex;align-items:center;gap:10px;font-weight:600;font-size:0.9rem;"><i class="fas fa-file-invoice" style="color:var(--neon-blue);"></i><span id="visorTitle">Comprobante</span></div>
-                <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
-                    <a id="visorDownloadBtn" href="#" download class="btn btn-primary btn-sm"><i class="fas fa-download"></i> Descargar</a>
-                    <button onclick="cerrarVisorComprobante()" style="background:none;border:none;color:var(--text-secondary);font-size:1.2rem;cursor:pointer;padding:4px 8px;"><i class="fas fa-times"></i></button>
-                </div>
-            </div>
-            <div id="visorBody" style="flex:1;overflow:auto;padding:16px;min-height:300px;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.2);">
-                <div style="display:flex;flex-direction:column;align-items:center;gap:12px;color:var(--text-muted);"><i class="fas fa-spinner fa-spin" style="font-size:2rem;color:var(--neon-blue);"></i><span>Cargando comprobante...</span></div>
-            </div>
-            <div style="padding:10px 20px;border-top:1px solid var(--border-glow);display:flex;justify-content:space-between;align-items:center;flex-shrink:0;font-size:0.65rem;color:var(--text-muted);flex-wrap:wrap;gap:8px;">
-                <span>📎 FLY FUTBOLEROS · Comprobante de pago</span>
-                <span id="visorInfo">Cargando...</span>
-            </div>
-        </div>
-    </div>
-
+    <!-- ============================================================ -->
+    <!-- ===== SCRIPTS ===== -->
+    <!-- ============================================================ -->
     <script>
         // ================================================================
         // 1. PARTÍCULAS
@@ -482,7 +465,7 @@
         document.getElementById('tempDisplay').textContent = '17°C';
 
         // ================================================================
-        // 3. SUPABASE
+        // 3. SUPABASE CONFIG
         // ================================================================
         const SUPABASE_URL = 'https://abgtdybklkfozoazfmiw.supabase.co';
         const SUPABASE_ANON_KEY =
@@ -568,16 +551,26 @@
             return map[estado] || 'badge-pending';
         }
 
-        // ================================================================
-        // 6. DASHBOARD
-        // ================================================================
-        var allSocios = [];
-        var allPagos = [];
-        var allNotificaciones = [];
-        var allComprobantes = [];
+        function timeAgo(date) {
+            if (!date) return 'recientemente';
+            var diff = new Date() - new Date(date);
+            var mins = Math.floor(diff / 60000);
+            if (mins < 1) return 'ahora mismo';
+            if (mins < 60) return 'hace ' + mins + ' min';
+            var hours = Math.floor(mins / 60);
+            if (hours < 24) return 'hace ' + hours + ' h';
+            var days = Math.floor(hours / 24);
+            if (days < 7) return 'hace ' + days + ' d';
+            return new Date(date).toLocaleDateString();
+        }
 
+        // ================================================================
+        // 6. CARGAR DATOS DEL DASHBOARD (CORREGIDO)
+        // ================================================================
         async function loadDashboardData() {
             try {
+                console.log('🔄 Cargando datos del dashboard...');
+
                 // Cargar socios
                 const { data: socios, error: sociosError } = await supabaseClient
                     .from('socios')
@@ -585,7 +578,6 @@
                     .order('created_at', { ascending: false });
 
                 if (sociosError) throw sociosError;
-                allSocios = socios || [];
 
                 // Cargar pagos
                 const { data: pagos, error: pagosError } = await supabaseClient
@@ -594,7 +586,6 @@
                     .order('fecha', { ascending: false });
 
                 if (pagosError) throw pagosError;
-                allPagos = pagos || [];
 
                 // Cargar notificaciones no leídas
                 const { data: notifs, error: notifsError } = await supabaseClient
@@ -604,41 +595,51 @@
                     .order('created_at', { ascending: false });
 
                 if (notifsError) throw notifsError;
-                allNotificaciones = notifs || [];
 
+                console.log('✅ Socios:', socios.length, 'Pagos:', pagos.length, 'Notificaciones:', notifs.length);
+
+                // Guardar en variables globales
+                window._socios = socios || [];
+                window._pagos = pagos || [];
+                window._notificaciones = notifs || [];
+
+                // Calcular estadísticas
                 var stats = {
-                    total: allSocios.length,
-                    activos: allSocios.filter(function(s) { return s.estado === 'Activo'; }).length,
-                    pendientes: allSocios.filter(function(s) { return s.estado === 'Pendiente'; }).length,
-                    suspendidos: allSocios.filter(function(s) { return s.estado === 'Suspendido'; }).length,
-                    vencidos: allSocios.filter(function(s) { return s.estado === 'Vencido'; }).length,
-                    ingresos_mes: allPagos.reduce(function(sum, p) { return sum + (p.monto || 0); }, 0),
-                    ingresos_sabatero: allPagos.filter(function(p) { return p.plan === 'Sabatero'; }).reduce(function(sum,
+                    total: socios.length,
+                    activos: socios.filter(function(s) { return s.estado === 'Activo'; }).length,
+                    pendientes: socios.filter(function(s) { return s.estado === 'Pendiente'; }).length,
+                    suspendidos: socios.filter(function(s) { return s.estado === 'Suspendido'; }).length,
+                    vencidos: socios.filter(function(s) { return s.estado === 'Vencido'; }).length,
+                    ingresos_mes: pagos.reduce(function(sum, p) { return sum + (p.monto || 0); }, 0),
+                    ingresos_sabatero: pagos.filter(function(p) { return p.plan === 'Sabatero'; }).reduce(function(sum,
                         p) { return sum + (p.monto || 0); }, 0),
-                    ingresos_finder: allPagos.filter(function(p) { return p.plan === 'Finder'; }).reduce(function(sum,
+                    ingresos_finder: pagos.filter(function(p) { return p.plan === 'Finder'; }).reduce(function(sum,
                         p) { return sum + (p.monto || 0); }, 0),
-                    notificaciones_no_leidas: allNotificaciones.length
+                    notificaciones_no_leidas: notifs.length
                 };
 
                 renderStats(stats);
-                renderPlanChart(allSocios);
-                renderIncomeChart(allPagos);
-                renderActividades(allPagos);
-                renderProximosVencer(allSocios);
-                renderNotificacionesDropdown(allNotificaciones);
+                renderPlanChart(socios);
+                renderIncomeChart(pagos);
+                renderActividades(pagos, socios);
+                renderProximosVencer(socios);
+                renderNotificacionesDropdown(notifs);
 
-                document.getElementById('sociosBadge').textContent = allSocios.length;
-                document.getElementById('notifBadgeSidebar').textContent = allNotificaciones.length;
+                // Actualizar badges
+                document.getElementById('sociosBadge').textContent = socios.length;
+                document.getElementById('notifBadgeSidebar').textContent = notifs.length;
 
                 var badge = document.getElementById('notificationCount');
                 if (badge) {
-                    badge.textContent = allNotificaciones.length;
-                    badge.style.display = allNotificaciones.length > 0 ? 'flex' : 'none';
+                    badge.textContent = notifs.length;
+                    badge.style.display = notifs.length > 0 ? 'flex' : 'none';
                 }
 
+                console.log('✅ Dashboard actualizado');
+
             } catch (error) {
-                console.error('Error loading dashboard:', error);
-                showToast('Error al cargar datos', 'error');
+                console.error('❌ Error loading dashboard:', error);
+                showToast('Error al cargar datos: ' + error.message, 'error');
             }
         }
 
@@ -719,10 +720,10 @@
             }).join('');
         }
 
-        function renderActividades(pagos) {
+        function renderActividades(pagos, socios) {
             var container = document.getElementById('activityList');
             var actividades = pagos.slice(0, 4).map(function(p) {
-                var socio = allSocios.find(function(s) { return s.id === p.socio_id; });
+                var socio = socios.find(function(s) { return s.id === p.socio_id; });
                 return {
                     tipo: 'payment',
                     mensaje: (socio ? socio.nombre : 'Socio') + ' pagó Gs. ' + p.monto.toLocaleString(),
@@ -812,19 +813,6 @@
             }).join('');
         }
 
-        function timeAgo(date) {
-            if (!date) return 'recientemente';
-            var diff = new Date() - new Date(date);
-            var mins = Math.floor(diff / 60000);
-            if (mins < 1) return 'ahora mismo';
-            if (mins < 60) return 'hace ' + mins + ' min';
-            var hours = Math.floor(mins / 60);
-            if (hours < 24) return 'hace ' + hours + ' h';
-            var days = Math.floor(hours / 24);
-            if (days < 7) return 'hace ' + days + ' d';
-            return new Date(date).toLocaleDateString();
-        }
-
         function marcarTodasLeidas() {
             showToast('✅ Todas las notificaciones marcadas como leídas', 'success');
             document.getElementById('notificationDropdown').classList.remove('open');
@@ -841,10 +829,9 @@
                     .order('created_at', { ascending: false });
 
                 if (error) throw error;
-                allNotificaciones = data || [];
 
                 var container = document.getElementById('notificationsFullList');
-                if (allNotificaciones.length === 0) {
+                if (!data || data.length === 0) {
                     container.innerHTML =
                         '<div style="text-align:center;padding:60px 20px;color:var(--text-muted);"><i class="fas fa-bell-slash" style="font-size:2.5rem;display:block;margin-bottom:12px;opacity:0.3;"></i><h3 style="font-weight:400;font-size:1rem;">No hay notificaciones</h3></div>';
                     return;
@@ -855,7 +842,7 @@
                 var colors = { 'nuevo_socio': 'blue', 'nuevo_comprobante': 'orange', 'pago_efectivo': 'green',
                     'proximo_vencer': 'pink', 'pago_confirmado': 'green' };
 
-                container.innerHTML = allNotificaciones.map(function(n) {
+                container.innerHTML = data.map(function(n) {
                     var icon = icons[n.tipo] || 'fa-bell';
                     var color = colors[n.tipo] || 'blue';
                     var label = n.tipo === 'nuevo_socio' ? 'Ver Socio' : n.tipo === 'nuevo_comprobante' ?
@@ -876,7 +863,7 @@
         }
 
         // ================================================================
-        // 9. SOCIOS
+        // 9. SOCIOS (CORREGIDO)
         // ================================================================
         var sociosPage = 1;
         var sociosPageSize = 10;
@@ -890,7 +877,7 @@
 
                 var query = supabaseClient
                     .from('socios')
-                    .select('*')
+                    .select('*', { count: 'exact' })
                     .order('created_at', { ascending: false });
 
                 if (search) {
@@ -903,15 +890,11 @@
                 var start = (sociosPage - 1) * sociosPageSize;
                 var end = start + sociosPageSize - 1;
 
-                const { data, error, count } = await query
-                    .range(start, end)
-                    .select('*', { count: 'exact' });
+                const { data, error, count } = await query.range(start, end);
 
                 if (error) throw error;
 
-                allSocios = data || [];
-                renderSocios(allSocios, count);
-                updateSociosBadge(count);
+                renderSocios(data || [], count || 0);
 
             } catch (error) {
                 console.error('Error loading socios:', error);
@@ -979,10 +962,6 @@
             loadSocios();
         }
 
-        function updateSociosBadge(count) {
-            document.getElementById('sociosBadge').textContent = count || 0;
-        }
-
         // Event listeners para filtros
         document.getElementById('searchSocios').addEventListener('input', function() {
             sociosPage = 1;
@@ -1009,14 +988,26 @@
         // ================================================================
         async function viewSocio(id) {
             try {
-                var socio = allSocios.find(function(s) { return s.id === id; });
-                if (!socio) {
-                    const { data } = await supabaseClient.from('socios').select('*').eq('id', id).single();
-                    socio = data;
-                }
-                if (!socio) { showToast('Socio no encontrado', 'error'); return; }
+                // Obtener socio de Supabase
+                const { data: socio, error } = await supabaseClient
+                    .from('socios')
+                    .select('*')
+                    .eq('id', id)
+                    .single();
 
-                var pagos = allPagos.filter(function(p) { return p.socio_id === id; });
+                if (error || !socio) {
+                    showToast('Socio no encontrado', 'error');
+                    return;
+                }
+
+                // Obtener pagos del socio
+                const { data: pagos, error: pagosError } = await supabaseClient
+                    .from('pagos')
+                    .select('*')
+                    .eq('socio_id', id)
+                    .order('fecha', { ascending: false });
+
+                if (pagosError) throw pagosError;
 
                 document.getElementById('modalTitle').textContent = '@' + socio.username + ' · #' + socio.id;
                 document.getElementById('socioModalBody').innerHTML =
@@ -1131,8 +1122,16 @@
 
         async function editSocio(id) {
             try {
-                var socio = allSocios.find(function(s) { return s.id === id; });
-                if (!socio) { showToast('Socio no encontrado', 'error'); return; }
+                const { data: socio, error } = await supabaseClient
+                    .from('socios')
+                    .select('*')
+                    .eq('id', id)
+                    .single();
+
+                if (error || !socio) {
+                    showToast('Socio no encontrado', 'error');
+                    return;
+                }
 
                 document.getElementById('editModalTitle').textContent = 'Editar: @' + socio.username;
                 document.getElementById('editModalBody').innerHTML =
@@ -1206,20 +1205,23 @@
                     .order('fecha', { ascending: false });
 
                 if (error) throw error;
-                allPagos = data || [];
 
-                var socios = await supabaseClient.from('socios').select('id, nombre, username');
+                // Obtener nombres de socios
+                const { data: socios } = await supabaseClient
+                    .from('socios')
+                    .select('id, nombre, username');
+
                 var sociosMap = {};
-                (socios.data || []).forEach(function(s) { sociosMap[s.id] = s; });
+                (socios || []).forEach(function(s) { sociosMap[s.id] = s; });
 
                 var tbody = document.getElementById('pagosTableBody');
-                if (allPagos.length === 0) {
+                if (!data || data.length === 0) {
                     tbody.innerHTML =
                         '<tr><td colspan="7" style="text-align:center;padding:40px;color:var(--text-muted);"><i class="fas fa-credit-card" style="font-size:1.5rem;display:block;margin-bottom:8px;"></i>No hay pagos</td></tr>';
                     return;
                 }
 
-                tbody.innerHTML = allPagos.slice(0, 50).map(function(p) {
+                tbody.innerHTML = data.slice(0, 50).map(function(p) {
                     var socio = sociosMap[p.socio_id];
                     return '<tr><td><strong style="font-size:0.75rem;">' + (socio ? socio.nombre : 'N/A') +
                         '</strong><div style="font-size:0.6rem;color:var(--text-muted);">@' + (socio ?
@@ -1245,8 +1247,13 @@
         // ================================================================
         async function loadComprobantes() {
             try {
-                var socios = await supabaseClient.from('socios').select('id, nombre, username, comprobante_url, estado');
-                var comprobantes = (socios.data || []).filter(function(s) { return s.comprobante_url; });
+                const { data: socios, error } = await supabaseClient
+                    .from('socios')
+                    .select('id, nombre, username, comprobante_url, estado, created_at');
+
+                if (error) throw error;
+
+                var comprobantes = (socios || []).filter(function(s) { return s.comprobante_url; });
 
                 var tbody = document.getElementById('comprobantesTableBody');
                 if (comprobantes.length === 0) {
@@ -1321,12 +1328,15 @@
         }
 
         // ================================================================
-        // 15. INICIALIZAR
+        // 15. INICIALIZAR (CORREGIDO)
         // ================================================================
         async function initAdmin() {
+            console.log('🚀 Iniciando panel de administración...');
+
             // Verificar sesión
             var session = localStorage.getItem('fly_user_session');
             if (!session) {
+                console.warn('⚠️ No hay sesión, redirigiendo a login');
                 window.location.href = 'index.html';
                 return;
             }
@@ -1334,15 +1344,18 @@
             try {
                 var user = JSON.parse(session);
                 if (user.role !== 'admin') {
+                    console.warn('⚠️ Usuario no es administrador, redirigiendo a socio');
                     window.location.href = 'socio.html';
                     return;
                 }
                 document.getElementById('adminName').textContent = user.nombre || 'Administrador';
+                console.log('✅ Usuario admin autenticado:', user.username);
             } catch (e) {
                 window.location.href = 'index.html';
                 return;
             }
 
+            // Cargar todos los datos
             await loadDashboardData();
             await loadSocios();
             await loadPagos();
@@ -1354,13 +1367,12 @@
                 loadDashboardData();
             }, 30000);
 
-            console.log('✅ FLY FUTBOLEROS · Panel de Administración (Supabase)');
+            console.log('✅ Panel de administración listo');
         }
 
-        // Inicializar
-        document.addEventListener('DOMContentLoaded', initAdmin);
-
-        // Evento para cerrar notificaciones
+        // ================================================================
+        // 16. EVENTOS DE NOTIFICACIONES
+        // ================================================================
         document.getElementById('notificationBell').addEventListener('click', function(e) {
             e.stopPropagation();
             document.getElementById('notificationDropdown').classList.toggle('open');
@@ -1369,6 +1381,14 @@
         document.addEventListener('click', function() {
             document.getElementById('notificationDropdown').classList.remove('open');
         });
+
+        // ================================================================
+        // 17. INICIALIZAR
+        // ================================================================
+        document.addEventListener('DOMContentLoaded', initAdmin);
+
+        console.log('📦 FLY FUTBOLEROS · Panel de Administración (Supabase)');
+        console.log('🔗 Conectado a:', SUPABASE_URL);
     </script>
 
 </body>
