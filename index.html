@@ -6,706 +6,106 @@
     <title>FLY FUTBOLEROS · Registro</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         /* ============================================================
            FLY FUTBOLEROS · REGISTRO Y LOGIN
-           Diseño Ultra Futurista · Colores Neón Oscuro
            ============================================================ */
-
-        /* ===== RESET & BASE ===== */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        :root {
-            --bg-deep: #06060e;
-            --bg-card: rgba(12, 12, 26, 0.6);
-            --bg-card-hover: rgba(12, 12, 26, 0.8);
-            --border-glow: rgba(0, 212, 255, 0.08);
-            --text-primary: #e8e8f0;
-            --text-secondary: #9a9ab0;
-            --text-muted: #5a5a7a;
-            --neon-blue: #00d4ff;
-            --neon-purple: #8b3cff;
-            --neon-pink: #ff2d8a;
-            --neon-green: #00ff7f;
-            --neon-orange: #ff6a00;
-            --neon-cyan: #00f7ff;
-            --neon-yellow: #ffd700;
-            --gradient-primary: linear-gradient(135deg, #00d4ff, #8b3cff);
-            --gradient-secondary: linear-gradient(135deg, #ff2d8a, #8b3cff);
-            --gradient-success: linear-gradient(135deg, #00ff7f, #00d4ff);
-            --gradient-warning: linear-gradient(135deg, #ff6a00, #ffd700);
-            --shadow-neon: 0 0 80px rgba(0, 212, 255, 0.04);
-            --shadow-card: 0 8px 48px rgba(0, 0, 0, 0.9);
-            --radius: 20px;
-            --radius-sm: 12px;
-            --radius-xs: 8px;
-            --transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            --transition-fast: all 0.2s ease;
-        }
-
-        html {
-            scroll-behavior: smooth;
-            -webkit-font-smoothing: antialiased;
-        }
-
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: var(--bg-deep);
-            color: var(--text-primary);
-            min-height: 100vh;
-            min-height: 100dvh;
-            overflow-x: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-        }
-
-        ::-webkit-scrollbar {
-            width: 3px;
-            height: 3px;
-        }
-        ::-webkit-scrollbar-track {
-            background: var(--bg-deep);
-        }
-        ::-webkit-scrollbar-thumb {
-            background: var(--neon-blue);
-            border-radius: 10px;
-            box-shadow: 0 0 20px rgba(0, 212, 255, 0.2);
-        }
-
-        /* ===== PARTÍCULAS DE FONDO ===== */
-        #particles {
-            position: fixed;
-            inset: 0;
-            z-index: 0;
-            overflow: hidden;
-            pointer-events: none;
-        }
-        .particle {
-            position: absolute;
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(0, 212, 255, 0.1), transparent);
-            animation: float-particle linear infinite;
-            pointer-events: none;
-        }
-        @keyframes float-particle {
-            0% {
-                transform: translateY(100vh) scale(0);
-                opacity: 0;
-            }
-            10% {
-                opacity: 1;
-            }
-            90% {
-                opacity: 1;
-            }
-            100% {
-                transform: translateY(-10vh) scale(1);
-                opacity: 0;
-            }
-        }
-
-        /* ===== LOGIN SCREEN ===== */
-        .login-screen {
-            position: relative;
-            z-index: 1;
-            width: 100%;
-            max-width: 440px;
-            padding: 16px;
-            animation: fadeIn 0.6s ease;
-        }
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: scale(0.96) translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: scale(1) translateY(0);
-            }
-        }
-
-        .login-box {
-            background: var(--bg-card);
-            border: 1px solid var(--border-glow);
-            border-radius: var(--radius);
-            padding: 32px 28px;
-            box-shadow: var(--shadow-card);
-            backdrop-filter: blur(24px);
-            -webkit-backdrop-filter: blur(24px);
-            position: relative;
-            overflow: hidden;
-            max-height: 96vh;
-            overflow-y: auto;
-        }
-        .login-box::-webkit-scrollbar {
-            width: 2px;
-        }
-        .login-box::-webkit-scrollbar-thumb {
-            background: var(--neon-blue);
-            border-radius: 10px;
-        }
-
-        /* Efecto de brillo en el borde */
-        .login-box::before {
-            content: '';
-            position: absolute;
-            inset: -1px;
-            border-radius: var(--radius);
-            padding: 1px;
-            background: var(--gradient-primary);
-            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            -webkit-mask-composite: xor;
-            mask-composite: exclude;
-            opacity: 0.12;
-            pointer-events: none;
-        }
-
-        /* Efecto de brillo superior */
-        .login-box::after {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(ellipse at 50% 0%, rgba(0, 212, 255, 0.02), transparent 60%);
-            pointer-events: none;
-        }
-
-        .login-box .logo {
-            text-align: center;
-            margin-bottom: 28px;
-            position: relative;
-            z-index: 1;
-        }
-        .login-box .logo h1 {
-            font-size: 2.2rem;
-            font-weight: 900;
-            background: var(--gradient-primary);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            letter-spacing: -0.5px;
-            text-shadow: 0 0 60px rgba(0, 212, 255, 0.08);
-        }
-        .login-box .logo p {
-            font-size: 0.6rem;
-            color: var(--text-secondary);
-            letter-spacing: 8px;
-            text-transform: uppercase;
-            margin-top: 2px;
-            opacity: 0.6;
-        }
-
-        /* ===== STATUS BAR ===== */
-        .status-bar {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-            font-size: 0.6rem;
-            color: var(--text-muted);
-            padding: 5px 14px;
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 20px;
-            border: 1px solid var(--border-glow);
-            margin-bottom: 24px;
-            position: relative;
-            z-index: 1;
-            flex-wrap: wrap;
-        }
-        .status-bar .dot {
-            width: 5px;
-            height: 5px;
-            border-radius: 50%;
-            background: var(--neon-green);
-            display: inline-block;
-            animation: pulse-dot 2s infinite;
-            box-shadow: 0 0 12px rgba(0, 255, 127, 0.2);
-        }
-        .status-bar .sep {
-            opacity: 0.15;
-        }
-        .status-bar .time {
-            color: var(--text-primary);
-            font-weight: 500;
-        }
-        .status-bar .icon-glow {
-            color: var(--neon-blue);
-            opacity: 0.4;
-        }
-        @keyframes pulse-dot {
-            0%,
-            100% {
-                transform: scale(1);
-                box-shadow: 0 0 10px rgba(0, 255, 127, 0.15);
-            }
-            50% {
-                transform: scale(1.3);
-                box-shadow: 0 0 25px rgba(0, 255, 127, 0.3);
-            }
-        }
-        @media (max-width: 480px) {
-            .status-bar {
-                font-size: 0.5rem;
-                gap: 6px;
-                padding: 4px 10px;
-            }
-        }
-
-        /* ===== FORM ===== */
-        .login-box .form-group {
-            margin-bottom: 14px;
-            position: relative;
-            z-index: 1;
-        }
-        .login-box .form-group label {
-            display: block;
-            font-size: 0.65rem;
-            color: var(--text-secondary);
-            font-weight: 600;
-            margin-bottom: 4px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-        .login-box .form-group label .required {
-            color: var(--neon-pink);
-            margin-left: 2px;
-        }
-        .login-box .form-group input,
-        .login-box .form-group select {
-            width: 100%;
-            padding: 11px 14px;
-            background: rgba(0, 0, 0, 0.3);
-            border: 1px solid var(--border-glow);
-            border-radius: var(--radius-sm);
-            color: var(--text-primary);
-            font-size: 0.9rem;
-            font-family: 'Inter', sans-serif;
-            transition: var(--transition-fast);
-            outline: none;
-            -webkit-appearance: none;
-            appearance: none;
-        }
-        .login-box .form-group input:focus,
-        .login-box .form-group select:focus {
-            border-color: var(--neon-blue);
-            box-shadow: 0 0 30px rgba(0, 212, 255, 0.06);
-        }
-        .login-box .form-group input::placeholder {
-            color: var(--text-muted);
-        }
-        .login-box .form-group select option {
-            background: #0a0a1a;
-            color: var(--text-primary);
-        }
-        .login-box .form-group .hint {
-            font-size: 0.55rem;
-            color: var(--text-muted);
-            margin-top: 4px;
-        }
-        .login-box .form-group .hint i {
-            color: var(--neon-blue);
-            margin-right: 4px;
-            font-size: 0.5rem;
-        }
-
-        /* ===== BOTONES ===== */
-        .login-box .btn-primary {
-            width: 100%;
-            padding: 14px;
-            background: var(--gradient-primary);
-            border: none;
-            border-radius: var(--radius-sm);
-            color: #fff;
-            font-size: 0.85rem;
-            font-weight: 700;
-            font-family: 'Inter', sans-serif;
-            cursor: pointer;
-            transition: var(--transition-fast);
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            position: relative;
-            z-index: 1;
-            box-shadow: 0 0 40px rgba(0, 212, 255, 0.04);
-        }
-        .login-box .btn-primary:active {
-            transform: scale(0.96);
-        }
-        .login-box .btn-primary:hover {
-            box-shadow: 0 4px 40px rgba(0, 212, 255, 0.12);
-        }
-        .login-box .btn-primary:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        .login-box .btn-secondary {
-            width: 100%;
-            padding: 12px;
-            background: rgba(0, 0, 0, 0.2);
-            border: 1px solid var(--border-glow);
-            border-radius: var(--radius-sm);
-            color: var(--text-secondary);
-            font-size: 0.8rem;
-            font-weight: 500;
-            font-family: 'Inter', sans-serif;
-            cursor: pointer;
-            transition: var(--transition-fast);
-            position: relative;
-            z-index: 1;
-            margin-top: 10px;
-            text-align: center;
-            text-decoration: none;
-            display: block;
-        }
-        .login-box .btn-secondary:active {
-            transform: scale(0.96);
-        }
-        .login-box .btn-secondary:hover {
-            background: rgba(0, 0, 0, 0.4);
-            color: var(--text-primary);
-            border-color: rgba(0, 212, 255, 0.1);
-        }
-
-        .login-box .error-msg {
-            color: var(--neon-pink);
-            font-size: 0.75rem;
-            text-align: center;
-            margin-top: 10px;
-            min-height: 20px;
-            position: relative;
-            z-index: 1;
-            text-shadow: 0 0 20px rgba(255, 45, 138, 0.1);
-        }
-        .login-box .error-msg i {
-            margin-right: 6px;
-        }
-
-        .login-box .success-msg {
-            color: var(--neon-green);
-            font-size: 0.75rem;
-            text-align: center;
-            margin-top: 10px;
-            min-height: 20px;
-            position: relative;
-            z-index: 1;
-            text-shadow: 0 0 20px rgba(0, 255, 127, 0.1);
-        }
-        .login-box .success-msg i {
-            margin-right: 6px;
-        }
-
-        .login-box .auth-switch {
-            text-align: center;
-            margin-top: 16px;
-            color: var(--text-secondary);
-            font-size: 0.8rem;
-            position: relative;
-            z-index: 1;
-        }
-        .login-box .auth-switch a {
-            color: var(--neon-blue);
-            text-decoration: none;
-            font-weight: 600;
-            cursor: pointer;
-            transition: var(--transition-fast);
-        }
-        .login-box .auth-switch a:hover {
-            color: var(--neon-purple);
-            text-shadow: 0 0 30px rgba(139, 60, 255, 0.2);
-        }
-
-        .login-box .hidden {
-            display: none !important;
-        }
-
-        /* ===== FILE UPLOAD ===== */
-        .file-upload-area {
-            border: 2px dashed var(--border-glow);
-            border-radius: var(--radius-sm);
-            padding: 18px;
-            text-align: center;
-            cursor: pointer;
-            transition: var(--transition-fast);
-            background: rgba(0, 0, 0, 0.15);
-        }
-        .file-upload-area:hover {
-            border-color: var(--neon-blue);
-            background: rgba(0, 212, 255, 0.02);
-        }
-        .file-upload-area i {
-            font-size: 1.4rem;
-            color: var(--text-muted);
-            display: block;
-            margin-bottom: 4px;
-        }
-        .file-upload-area p {
-            color: var(--text-secondary);
-            font-size: 0.75rem;
-        }
-        .file-upload-area .hint {
-            color: var(--text-muted);
-            font-size: 0.55rem;
-            margin-top: 2px;
-        }
-        .file-upload-area input[type="file"] {
-            display: none;
-        }
-        .file-preview {
-            margin-top: 8px;
-            padding: 8px 12px;
-            background: rgba(0, 212, 255, 0.04);
-            border-radius: var(--radius-xs);
-            border: 1px solid rgba(0, 212, 255, 0.06);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .file-preview i {
-            color: var(--neon-blue);
-            font-size: 0.9rem;
-        }
-        .file-preview .name {
-            flex: 1;
-            font-size: 0.7rem;
-            color: var(--text-primary);
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-        .file-preview .remove {
-            color: var(--neon-pink);
-            cursor: pointer;
-            font-size: 0.8rem;
-            padding: 2px 6px;
-        }
-        .file-preview .remove:active {
-            transform: scale(0.85);
-        }
-
-        /* ===== BANK DATA ===== */
-        .bank-data {
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: var(--radius-sm);
-            padding: 12px 14px;
-            border: 1px solid rgba(0, 212, 255, 0.04);
-            margin-top: 8px;
-        }
-        .bank-data .row {
-            display: grid;
-            grid-template-columns: 80px 1fr;
-            gap: 2px 10px;
-            font-size: 0.7rem;
-            padding: 2px 0;
-        }
-        .bank-data .row .label {
-            color: var(--text-muted);
-            font-size: 0.6rem;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        .bank-data .row .value {
-            color: var(--text-secondary);
-            font-weight: 500;
-        }
-        .bank-data .row .value.highlight {
-            color: var(--neon-blue);
-            font-weight: 700;
-            text-shadow: 0 0 20px rgba(0, 212, 255, 0.08);
-        }
-        .bank-data .row .value.highlight-green {
-            color: var(--neon-green);
-            font-weight: 700;
-            text-shadow: 0 0 20px rgba(0, 255, 127, 0.08);
-        }
-        .bank-data .alert {
-            margin-top: 8px;
-            padding: 8px 12px;
-            background: rgba(255, 106, 0, 0.04);
-            border: 1px solid rgba(255, 106, 0, 0.06);
-            border-radius: var(--radius-xs);
-            font-size: 0.65rem;
-            color: var(--neon-orange);
-        }
-        .bank-data .alert i {
-            margin-right: 6px;
-        }
-
-        /* ===== PAYMENT METHOD INFO ===== */
-        .payment-method-info {
-            margin-top: 8px;
-            padding: 12px 14px;
-            background: rgba(0, 0, 0, 0.15);
-            border-radius: var(--radius-sm);
-            border: 1px solid rgba(0, 212, 255, 0.04);
-        }
-        .payment-method-info p {
-            color: var(--text-secondary);
-            font-size: 0.75rem;
-            margin: 4px 0;
-        }
-        .payment-method-info strong {
-            color: var(--neon-blue);
-        }
-
-        /* ===== RESPONSIVE ===== */
-        @media (max-width: 480px) {
-            .login-box {
-                padding: 24px 18px;
-                border-radius: var(--radius-sm);
-            }
-            .login-box .logo h1 {
-                font-size: 1.8rem;
-            }
-            .login-box .form-group input,
-            .login-box .form-group select {
-                font-size: 0.85rem;
-                padding: 10px 12px;
-            }
-            .login-box .form-group label {
-                font-size: 0.6rem;
-            }
-            .login-box .btn-primary {
-                font-size: 0.8rem;
-                padding: 13px;
-            }
-            .bank-data .row {
-                grid-template-columns: 1fr;
-                gap: 0;
-            }
-            .bank-data .row .label {
-                font-size: 0.55rem;
-            }
-            .file-upload-area {
-                padding: 14px;
-            }
-            .file-upload-area i {
-                font-size: 1.2rem;
-            }
-        }
-
-        @media (max-width: 380px) {
-            .login-box {
-                padding: 18px 14px;
-            }
-            .login-box .logo h1 {
-                font-size: 1.5rem;
-            }
-            .login-box .form-group input,
-            .login-box .form-group select {
-                font-size: 0.8rem;
-                padding: 8px 10px;
-            }
-            .login-box .btn-primary {
-                font-size: 0.75rem;
-                padding: 11px;
-            }
-        }
-
-        /* ===== TOAST ===== */
-        .toast {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            left: 20px;
-            max-width: 400px;
-            margin: 0 auto;
-            padding: 14px 20px;
-            background: rgba(6, 6, 14, 0.96);
-            border: 1px solid var(--border-glow);
-            border-radius: var(--radius-sm);
-            color: var(--text-primary);
-            z-index: 9999;
-            animation: fadeInUp 0.3s ease;
-            box-shadow: var(--shadow-card);
-            backdrop-filter: blur(16px);
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-size: 0.85rem;
-        }
-        .toast .icon {
-            font-size: 1.1rem;
-            flex-shrink: 0;
-        }
-        .toast .icon.success {
-            color: var(--neon-green);
-        }
-        .toast .icon.error {
-            color: var(--neon-pink);
-        }
-        .toast .icon.warning {
-            color: var(--neon-orange);
-        }
-        .toast .icon.info {
-            color: var(--neon-blue);
-        }
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px) scale(0.96);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
-        }
-        @media (max-width: 480px) {
-            .toast {
-                font-size: 0.75rem;
-                padding: 12px 16px;
-                bottom: 12px;
-                left: 12px;
-                right: 12px;
-            }
-        }
-
-        .spinner {
-            display: inline-block;
-            width: 16px;
-            height: 16px;
-            border: 2px solid rgba(255, 255, 255, 0.06);
-            border-top-color: var(--neon-blue);
-            border-radius: 50%;
-            animation: spin 0.8s linear infinite;
-            vertical-align: middle;
-        }
-        @keyframes spin {
-            to {
-                transform: rotate(360deg);
-            }
-        }
-        .btn-primary .spinner {
-            width: 14px;
-            height: 14px;
-            border-width: 2px;
-        }
+        *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+        :root{--bg-deep:#06060e;--bg-card:rgba(12,12,26,0.6);--border-glow:rgba(0,212,255,0.08);--text-primary:#e8e8f0;--text-secondary:#9a9ab0;--text-muted:#5a5a7a;--neon-blue:#00d4ff;--neon-purple:#8b3cff;--neon-pink:#ff2d8a;--neon-green:#00ff7f;--neon-orange:#ff6a00;--gradient-primary:linear-gradient(135deg,#00d4ff,#8b3cff);--shadow-card:0 8px 48px rgba(0,0,0,0.9);--radius:20px;--radius-sm:12px;--transition:all 0.4s cubic-bezier(0.25,0.46,0.45,0.94);--transition-fast:all 0.2s ease}
+        html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
+        body{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg-deep);color:var(--text-primary);min-height:100vh;display:flex;align-items:center;justify-content:center;position:relative}
+        ::-webkit-scrollbar{width:3px;height:3px}
+        ::-webkit-scrollbar-track{background:var(--bg-deep)}
+        ::-webkit-scrollbar-thumb{background:var(--neon-blue);border-radius:10px;box-shadow:0 0 20px rgba(0,212,255,0.2)}
+        #particles{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none}
+        .particle{position:absolute;border-radius:50%;background:radial-gradient(circle,rgba(0,212,255,0.1),transparent);animation:float-particle linear infinite;pointer-events:none}
+        @keyframes float-particle{0%{transform:translateY(100vh) scale(0);opacity:0}10%{opacity:1}90%{opacity:1}100%{transform:translateY(-10vh) scale(1);opacity:0}}
+        .login-screen{position:relative;z-index:1;width:100%;max-width:440px;padding:16px;animation:fadeIn 0.6s ease}
+        @keyframes fadeIn{from{opacity:0;transform:scale(0.96) translateY(20px)}to{opacity:1;transform:scale(1) translateY(0)}}
+        .login-box{background:var(--bg-card);border:1px solid var(--border-glow);border-radius:var(--radius);padding:32px 28px;box-shadow:var(--shadow-card);backdrop-filter:blur(24px);position:relative;overflow:hidden;max-height:96vh;overflow-y:auto}
+        .login-box::-webkit-scrollbar{width:2px}
+        .login-box::-webkit-scrollbar-thumb{background:var(--neon-blue);border-radius:10px}
+        .login-box::before{content:'';position:absolute;inset:-1px;border-radius:var(--radius);padding:1px;background:var(--gradient-primary);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;opacity:0.12;pointer-events:none}
+        .login-box .logo{text-align:center;margin-bottom:28px;position:relative;z-index:1}
+        .login-box .logo h1{font-size:2.2rem;font-weight:900;background:var(--gradient-primary);-webkit-background-clip:text;-webkit-text-fill-color:transparent;letter-spacing:-0.5px}
+        .login-box .logo p{font-size:0.6rem;color:var(--text-secondary);letter-spacing:8px;text-transform:uppercase;margin-top:2px;opacity:0.6}
+        .status-bar{display:flex;align-items:center;justify-content:center;gap:12px;font-size:0.6rem;color:var(--text-muted);padding:5px 14px;background:rgba(0,0,0,0.3);border-radius:20px;border:1px solid var(--border-glow);margin-bottom:24px;position:relative;z-index:1;flex-wrap:wrap}
+        .status-bar .dot{width:5px;height:5px;border-radius:50%;background:var(--neon-green);display:inline-block;animation:pulse-dot 2s infinite;box-shadow:0 0 12px rgba(0,255,127,0.2)}
+        .status-bar .sep{opacity:0.15}
+        .status-bar .time{color:var(--text-primary);font-weight:500}
+        @keyframes pulse-dot{0%,100%{transform:scale(1);box-shadow:0 0 10px rgba(0,255,127,0.15)}50%{transform:scale(1.3);box-shadow:0 0 25px rgba(0,255,127,0.3)}}
+        @media(max-width:480px){.status-bar{font-size:0.5rem;gap:6px;padding:4px 10px}}
+        .login-box .form-group{margin-bottom:14px;position:relative;z-index:1}
+        .login-box .form-group label{display:block;font-size:0.65rem;color:var(--text-secondary);font-weight:600;margin-bottom:4px;text-transform:uppercase;letter-spacing:1px}
+        .login-box .form-group label .required{color:var(--neon-pink);margin-left:2px}
+        .login-box .form-group input,.login-box .form-group select{width:100%;padding:11px 14px;background:rgba(0,0,0,0.3);border:1px solid var(--border-glow);border-radius:var(--radius-sm);color:var(--text-primary);font-size:0.9rem;font-family:'Inter',sans-serif;transition:var(--transition-fast);outline:none;-webkit-appearance:none;appearance:none}
+        .login-box .form-group input:focus,.login-box .form-group select:focus{border-color:var(--neon-blue);box-shadow:0 0 30px rgba(0,212,255,0.06)}
+        .login-box .form-group input::placeholder{color:var(--text-muted)}
+        .login-box .form-group select option{background:#0a0a1a;color:var(--text-primary)}
+        .login-box .form-group .hint{font-size:0.55rem;color:var(--text-muted);margin-top:4px}
+        .login-box .form-group .hint i{color:var(--neon-blue);margin-right:4px;font-size:0.5rem}
+        .login-box .btn-primary{width:100%;padding:14px;background:var(--gradient-primary);border:none;border-radius:var(--radius-sm);color:#fff;font-size:0.85rem;font-weight:700;font-family:'Inter',sans-serif;cursor:pointer;transition:var(--transition-fast);text-transform:uppercase;letter-spacing:2px;position:relative;z-index:1;box-shadow:0 0 40px rgba(0,212,255,0.04)}
+        .login-box .btn-primary:active{transform:scale(0.96)}
+        .login-box .btn-primary:hover{box-shadow:0 4px 40px rgba(0,212,255,0.12)}
+        .login-box .btn-primary:disabled{opacity:0.5;cursor:not-allowed;transform:none}
+        .login-box .btn-secondary{width:100%;padding:12px;background:rgba(0,0,0,0.2);border:1px solid var(--border-glow);border-radius:var(--radius-sm);color:var(--text-secondary);font-size:0.8rem;font-weight:500;font-family:'Inter',sans-serif;cursor:pointer;transition:var(--transition-fast);position:relative;z-index:1;margin-top:10px;text-align:center;text-decoration:none;display:block}
+        .login-box .btn-secondary:hover{background:rgba(0,0,0,0.4);color:var(--text-primary);border-color:rgba(0,212,255,0.1)}
+        .login-box .error-msg{color:var(--neon-pink);font-size:0.75rem;text-align:center;margin-top:10px;min-height:20px;position:relative;z-index:1}
+        .login-box .error-msg i{margin-right:6px}
+        .login-box .success-msg{color:var(--neon-green);font-size:0.75rem;text-align:center;margin-top:10px;min-height:20px;position:relative;z-index:1}
+        .login-box .success-msg i{margin-right:6px}
+        .login-box .auth-switch{text-align:center;margin-top:16px;color:var(--text-secondary);font-size:0.8rem;position:relative;z-index:1}
+        .login-box .auth-switch a{color:var(--neon-blue);text-decoration:none;font-weight:600;cursor:pointer;transition:var(--transition-fast)}
+        .login-box .auth-switch a:hover{color:var(--neon-purple)}
+        .login-box .hidden{display:none !important}
+        .file-upload-area{border:2px dashed var(--border-glow);border-radius:var(--radius-sm);padding:18px;text-align:center;cursor:pointer;transition:var(--transition-fast);background:rgba(0,0,0,0.15)}
+        .file-upload-area:hover{border-color:var(--neon-blue);background:rgba(0,212,255,0.02)}
+        .file-upload-area i{font-size:1.4rem;color:var(--text-muted);display:block;margin-bottom:4px}
+        .file-upload-area p{color:var(--text-secondary);font-size:0.75rem}
+        .file-upload-area .hint{color:var(--text-muted);font-size:0.55rem;margin-top:2px}
+        .file-upload-area input[type=file]{display:none}
+        .file-preview{margin-top:8px;padding:8px 12px;background:rgba(0,212,255,0.04);border-radius:var(--radius-xs);border:1px solid rgba(0,212,255,0.06);display:flex;align-items:center;gap:10px}
+        .file-preview i{color:var(--neon-blue);font-size:0.9rem}
+        .file-preview .name{flex:1;font-size:0.7rem;color:var(--text-primary);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+        .file-preview .remove{color:var(--neon-pink);cursor:pointer;font-size:0.8rem;padding:2px 6px}
+        .file-preview .remove:active{transform:scale(0.85)}
+        .bank-data{background:rgba(0,0,0,0.2);border-radius:var(--radius-sm);padding:12px 14px;border:1px solid rgba(0,212,255,0.04);margin-top:8px}
+        .bank-data .row{display:grid;grid-template-columns:80px 1fr;gap:2px 10px;font-size:0.7rem;padding:2px 0}
+        .bank-data .row .label{color:var(--text-muted);font-size:0.6rem;text-transform:uppercase;letter-spacing:0.5px}
+        .bank-data .row .value{color:var(--text-secondary);font-weight:500}
+        .bank-data .row .value.highlight{color:var(--neon-blue);font-weight:700}
+        .bank-data .row .value.highlight-green{color:var(--neon-green);font-weight:700}
+        .bank-data .alert{margin-top:8px;padding:8px 12px;background:rgba(255,106,0,0.04);border:1px solid rgba(255,106,0,0.06);border-radius:var(--radius-xs);font-size:0.65rem;color:var(--neon-orange)}
+        .bank-data .alert i{margin-right:6px}
+        .payment-method-info{margin-top:8px;padding:12px 14px;background:rgba(0,0,0,0.15);border-radius:var(--radius-sm);border:1px solid rgba(0,212,255,0.04)}
+        .payment-method-info p{color:var(--text-secondary);font-size:0.75rem;margin:4px 0}
+        .payment-method-info strong{color:var(--neon-blue)}
+        @media(max-width:480px){.login-box{padding:24px 18px;border-radius:var(--radius-sm)}.login-box .logo h1{font-size:1.8rem}.login-box .form-group input,.login-box .form-group select{font-size:0.85rem;padding:10px 12px}.login-box .form-group label{font-size:0.6rem}.login-box .btn-primary{font-size:0.8rem;padding:13px}.bank-data .row{grid-template-columns:1fr;gap:0}.bank-data .row .label{font-size:0.55rem}.file-upload-area{padding:14px}}
+        @media(max-width:380px){.login-box{padding:18px 14px}.login-box .logo h1{font-size:1.5rem}.login-box .form-group input,.login-box .form-group select{font-size:0.8rem;padding:8px 10px}.login-box .btn-primary{font-size:0.75rem;padding:11px}}
+        .toast{position:fixed;bottom:20px;right:20px;left:20px;max-width:400px;margin:0 auto;padding:14px 20px;background:rgba(6,6,14,0.96);border:1px solid var(--border-glow);border-radius:var(--radius-sm);color:var(--text-primary);z-index:9999;animation:fadeInUp 0.3s ease;box-shadow:var(--shadow-card);backdrop-filter:blur(16px);display:flex;align-items:center;gap:12px;font-size:0.85rem}
+        .toast .icon{font-size:1.1rem;flex-shrink:0}
+        .toast .icon.success{color:var(--neon-green)}
+        .toast .icon.error{color:var(--neon-pink)}
+        .toast .icon.warning{color:var(--neon-orange)}
+        .toast .icon.info{color:var(--neon-blue)}
+        @keyframes fadeInUp{from{opacity:0;transform:translateY(20px) scale(0.96)}to{opacity:1;transform:translateY(0) scale(1)}}
+        @media(max-width:480px){.toast{font-size:0.75rem;padding:12px 16px;bottom:12px;left:12px;right:12px}}
+        .spinner{display:inline-block;width:16px;height:16px;border:2px solid rgba(255,255,255,0.06);border-top-color:var(--neon-blue);border-radius:50%;animation:spin 0.8s linear infinite;vertical-align:middle}
+        @keyframes spin{to{transform:rotate(360deg)}}
     </style>
 </head>
 <body>
 
-    <!-- ===== PARTÍCULAS DE FONDO ===== -->
     <div id="particles"></div>
 
-    <!-- ===== LOGIN SCREEN ===== -->
     <div class="login-screen" id="loginScreen">
-
         <div class="login-box">
-
             <div class="logo">
                 <h1>⚡ FLY</h1>
                 <p>FUTBOLEROS</p>
             </div>
 
-            <!-- ===== STATUS BAR ===== -->
             <div class="status-bar">
                 <span class="dot"></span>
                 <span class="time" id="clockDisplay">00:00</span>
@@ -714,19 +114,19 @@
                 <span class="sep">·</span>
                 <span>PYG</span>
                 <span class="sep">·</span>
-                <span class="icon-glow">✦</span>
+                <span style="opacity:0.3;">✦</span>
             </div>
 
-            <!-- ===== LOGIN FORM ===== -->
+            <!-- LOGIN -->
             <form id="loginForm">
                 <div class="form-group">
                     <label>👤 Usuario <span class="required">*</span></label>
-                    <input type="text" id="loginUsername" placeholder="Ej: elcrack_10" required autocomplete="username">
-                    <div class="hint"><i class="fas fa-info-circle"></i> Usa tu nickname de siempre</div>
+                    <input type="text" id="loginUsername" placeholder="Ej: elcrack_10" required>
+                    <div class="hint"><i class="fas fa-info-circle"></i> Usa tu nickname</div>
                 </div>
                 <div class="form-group">
                     <label>🔒 Contraseña <span class="required">*</span></label>
-                    <input type="password" id="loginPassword" placeholder="••••••••" required autocomplete="current-password">
+                    <input type="password" id="loginPassword" placeholder="••••••••" required>
                 </div>
                 <button type="submit" class="btn-primary" id="loginBtn">
                     <i class="fas fa-sign-in-alt"></i> Iniciar Sesión
@@ -737,9 +137,8 @@
                 </div>
             </form>
 
-            <!-- ===== REGISTER FORM ===== -->
+            <!-- REGISTRO -->
             <form id="registerForm" class="hidden">
-                <!-- Foto de perfil -->
                 <div class="form-group">
                     <label>📸 Foto de Perfil</label>
                     <div class="file-upload-area" onclick="document.getElementById('profilePhoto').click()">
@@ -755,40 +154,34 @@
                     </div>
                 </div>
 
-                <!-- Username -->
                 <div class="form-group">
                     <label>👤 Nickname <span class="required">*</span></label>
                     <input type="text" id="registerUsername" placeholder="Ej: elcrack_10" required>
                     <div class="hint"><i class="fas fa-info-circle"></i> Solo letras, números, _ y . (mínimo 3)</div>
                 </div>
 
-                <!-- Nombre -->
                 <div class="form-group">
                     <label>👤 Nombre y Apellido <span class="required">*</span></label>
                     <input type="text" id="registerName" placeholder="Juan Pérez" required>
                 </div>
 
-                <!-- Teléfono -->
                 <div class="form-group">
                     <label>📱 Celular <span class="required">*</span></label>
                     <input type="tel" id="registerPhone" placeholder="+595 981 123456" required>
                 </div>
 
-                <!-- Email (opcional) -->
                 <div class="form-group">
                     <label>📧 Correo (opcional)</label>
                     <input type="email" id="registerEmail" placeholder="tu@email.com">
-                    <div class="hint"><i class="fas fa-info-circle"></i> Opcional, para recibir notificaciones</div>
+                    <div class="hint"><i class="fas fa-info-circle"></i> Opcional, para notificaciones</div>
                 </div>
 
-                <!-- Contraseña -->
                 <div class="form-group">
                     <label>🔒 Contraseña <span class="required">*</span></label>
                     <input type="password" id="registerPassword" placeholder="••••••••" required minlength="6">
                     <div class="hint"><i class="fas fa-info-circle"></i> Mínimo 6 caracteres</div>
                 </div>
 
-                <!-- Plan -->
                 <div class="form-group">
                     <label>📋 Plan <span class="required">*</span></label>
                     <select id="registerPlan" required>
@@ -798,7 +191,6 @@
                     </select>
                 </div>
 
-                <!-- Método de pago -->
                 <div class="form-group">
                     <label>💳 Método de Pago <span class="required">*</span></label>
                     <select id="registerPaymentMethod" required>
@@ -808,7 +200,6 @@
                     </select>
                 </div>
 
-                <!-- Información Transferencia -->
                 <div id="transferenciaInfo" class="hidden payment-method-info">
                     <p><i class="fas fa-info-circle"></i> <strong>Transferencia Bancaria</strong></p>
                     <div class="bank-data">
@@ -827,7 +218,7 @@
                         <div class="file-upload-area" onclick="document.getElementById('receipt').click()">
                             <i class="fas fa-upload"></i>
                             <p>JPG, PNG, PDF</p>
-                            <div class="hint">Captura de pantalla o foto del comprobante</div>
+                            <div class="hint">Captura de pantalla o foto</div>
                             <input type="file" id="receipt" accept=".jpg,.jpeg,.png,.pdf">
                         </div>
                         <div id="receiptPreview" class="file-preview" style="display:none;">
@@ -838,7 +229,6 @@
                     </div>
                 </div>
 
-                <!-- Información Efectivo -->
                 <div id="efectivoInfo" class="hidden payment-method-info">
                     <p><i class="fas fa-info-circle"></i> <strong>Pago en Efectivo</strong></p>
                     <p>Tu pago quedará en estado <strong>Pendiente</strong> hasta que el administrador confirme.</p>
@@ -859,14 +249,10 @@
         </div>
     </div>
 
-    <!-- ============================================================ -->
-    <!-- ===== SCRIPTS ===== -->
-    <!-- ============================================================ -->
     <script>
         // ================================================================
-        // 0. PARTÍCULAS DE FONDO
+        // 1. PARTÍCULAS
         // ================================================================
-
         (function createParticles() {
             var container = document.getElementById('particles');
             for (var i = 0; i < 45; i++) {
@@ -883,9 +269,8 @@
         })();
 
         // ================================================================
-        // 1. RELOJ Y TEMPERATURA
+        // 2. RELOJ
         // ================================================================
-
         function updateClock() {
             var now = new Date();
             var time = now.toLocaleTimeString('es', { hour: '2-digit', minute: '2-digit' });
@@ -893,13 +278,11 @@
         }
         setInterval(updateClock, 1000);
         updateClock();
-
         document.getElementById('tempDisplay').textContent = '17°C';
 
         // ================================================================
-        // 2. NAVEGACIÓN ENTRE LOGIN Y REGISTRO
+        // 3. NAVEGACIÓN
         // ================================================================
-
         function showRegister() {
             document.getElementById('loginForm').classList.add('hidden');
             document.getElementById('registerForm').classList.remove('hidden');
@@ -917,79 +300,54 @@
         }
 
         // ================================================================
-        // 3. VALIDACIÓN DE USERNAME
+        // 4. VALIDACIONES
         // ================================================================
-
         document.getElementById('registerUsername').addEventListener('input', function() {
             this.value = this.value.toLowerCase().replace(/[^a-z0-9_.]/g, '');
         });
 
-        // ================================================================
-        // 4. MÉTODO DE PAGO
-        // ================================================================
-
         document.getElementById('registerPaymentMethod').addEventListener('change', function() {
-            var transferencia = document.getElementById('transferenciaInfo');
-            var efectivo = document.getElementById('efectivoInfo');
-
-            if (this.value === 'Transferencia') {
-                transferencia.classList.remove('hidden');
-                efectivo.classList.add('hidden');
-            } else if (this.value === 'Efectivo') {
-                transferencia.classList.add('hidden');
-                efectivo.classList.remove('hidden');
-            } else {
-                transferencia.classList.add('hidden');
-                efectivo.classList.add('hidden');
-            }
+            var t = document.getElementById('transferenciaInfo');
+            var e = document.getElementById('efectivoInfo');
+            if (this.value === 'Transferencia') { t.classList.remove('hidden');
+                e.classList.add('hidden'); } else if (this.value === 'Efectivo') { t.classList.add('hidden');
+                e.classList.remove('hidden'); } else { t.classList.add('hidden');
+                e.classList.add('hidden'); }
         });
 
         // ================================================================
-        // 5. PREVISUALIZACIÓN DE ARCHIVOS
+        // 5. PREVISUALIZACIÓN
         // ================================================================
-
         document.getElementById('profilePhoto').addEventListener('change', function() {
             var preview = document.getElementById('profilePhotoPreview');
             var name = document.getElementById('profilePhotoName');
-            if (this.files && this.files[0]) {
-                name.textContent = this.files[0].name;
-                preview.style.display = 'flex';
-            } else {
-                preview.style.display = 'none';
-            }
+            if (this.files && this.files[0]) { name.textContent = this.files[0].name;
+                preview.style.display = 'flex'; } else { preview.style.display = 'none'; }
         });
 
         document.getElementById('receipt').addEventListener('change', function() {
             var preview = document.getElementById('receiptPreview');
             var name = document.getElementById('receiptName');
-            if (this.files && this.files[0]) {
-                name.textContent = this.files[0].name;
-                preview.style.display = 'flex';
-            } else {
-                preview.style.display = 'none';
-            }
+            if (this.files && this.files[0]) { name.textContent = this.files[0].name;
+                preview.style.display = 'flex'; } else { preview.style.display = 'none'; }
         });
 
         // ================================================================
         // 6. TOAST
         // ================================================================
-
         function showToast(message, type) {
             if (type === undefined) type = 'info';
             var colors = { success: '#00ff7f', error: '#ff2d8a', warning: '#ff6a00', info: '#00d4ff' };
             var icons = { success: 'fa-check-circle', error: 'fa-exclamation-circle', warning: 'fa-exclamation-triangle',
                 info: 'fa-info-circle' };
-
             var existing = document.querySelector('.toast');
             if (existing) existing.remove();
-
             var el = document.createElement('div');
             el.className = 'toast';
             el.innerHTML =
                 '<i class="fas ' + icons[type] + ' icon ' + type + '"></i><span>' + message + '</span>';
             el.style.borderColor = colors[type];
             document.body.appendChild(el);
-
             setTimeout(function() {
                 el.style.opacity = '0';
                 el.style.transform = 'translateY(20px)';
@@ -998,80 +356,19 @@
         }
 
         // ================================================================
-        // 7. SIMULACIÓN - BASE DE DATOS EN MEMORIA
+        // 7. SUPABASE CONFIGURACIÓN
         // ================================================================
+        const SUPABASE_URL = 'https://abgtdybklkfozoazfmiw.supabase.co';
+        const SUPABASE_ANON_KEY =
+            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFiZ3RkeWJrbGtmb3pvYXpmbWl3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQ5Njg4MzcsImV4cCI6MjEwMDU0NDgzN30.H0WeLq7vXOYC_On43SfRUivc2thzz0zBq4r11NX8FOA';
 
-        window.USERS_DB = window.USERS_DB || [];
-
-        if (window.USERS_DB.length === 0) {
-            window.USERS_DB.push({
-                id: 1,
-                username: 'admin',
-                nombre: 'Administrador',
-                telefono: '0999 999999',
-                email: 'admin@flyfutboleros.com',
-                password: 'admin123',
-                plan: 'Sabatero',
-                metodo_pago: 'Transferencia',
-                estado: 'Activo',
-                fecha_registro: new Date().toISOString(),
-                fecha_inicio: new Date().toISOString(),
-                fecha_vencimiento: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
-                foto_url: null,
-                comprobante_url: null,
-                role: 'admin',
-                pagos: []
-            });
-
-            window.USERS_DB.push({
-                id: 2,
-                username: 'juanperez',
-                nombre: 'Juan Pérez',
-                telefono: '0981 123456',
-                email: 'juan@email.com',
-                password: 'juan123',
-                plan: 'Sabatero',
-                metodo_pago: 'Transferencia',
-                estado: 'Activo',
-                fecha_registro: new Date().toISOString(),
-                fecha_inicio: new Date().toISOString(),
-                fecha_vencimiento: new Date(Date.now() + 15 * 24 * 60 * 60 * 1000).toISOString(),
-                foto_url: null,
-                comprobante_url: null,
-                role: 'socio',
-                pagos: [
-                    { fecha: new Date().toISOString(), monto: 20000, metodo: 'Transferencia', estado: 'Aprobado' }
-                ]
-            });
-
-            window.USERS_DB.push({
-                id: 3,
-                username: 'mariag',
-                nombre: 'María González',
-                telefono: '0981 654321',
-                email: 'maria@email.com',
-                password: 'maria123',
-                plan: 'Finder',
-                metodo_pago: 'Efectivo',
-                estado: 'Pendiente',
-                fecha_registro: new Date().toISOString(),
-                fecha_inicio: null,
-                fecha_vencimiento: null,
-                foto_url: null,
-                comprobante_url: null,
-                role: 'socio',
-                pagos: []
-            });
-
-            console.log('📦 Datos de prueba cargados en memoria');
-            console.log('👤 Usuarios disponibles:', window.USERS_DB.length);
-        }
+        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        window.supabase = supabaseClient;
 
         // ================================================================
-        // 8. LOGIN
+        // 8. LOGIN CON SUPABASE
         // ================================================================
-
-        document.getElementById('loginForm').addEventListener('submit', function(e) {
+        document.getElementById('loginForm').addEventListener('submit', async function(e) {
             e.preventDefault();
 
             var username = document.getElementById('loginUsername').value.trim();
@@ -1087,44 +384,66 @@
             btn.disabled = true;
             btn.innerHTML = '<span class="spinner"></span> Ingresando...';
 
-            setTimeout(function() {
-                var user = window.USERS_DB.find(function(u) {
-                    return u.username === username.toLowerCase() && u.password === password;
+            try {
+                // Buscar socio por username
+                const { data: socio, error: socioError } = await supabaseClient
+                    .from('socios')
+                    .select('*')
+                    .eq('username', username.toLowerCase())
+                    .single();
+
+                if (socioError || !socio) {
+                    throw new Error('Usuario no encontrado');
+                }
+
+                // Login con email
+                const loginEmail = socio.email || `${socio.username}@flyfutboleros.com`;
+
+                const { data: authData, error: authError } = await supabaseClient.auth.signInWithPassword({
+                    email: loginEmail,
+                    password: password
                 });
 
-                if (user) {
-                    errorEl.textContent = '';
-                    showToast('✅ ¡Bienvenido ' + user.nombre + '!', 'success');
-
-                    try {
-                        localStorage.setItem('fly_user_session', JSON.stringify({
-                            id: user.id,
-                            username: user.username,
-                            nombre: user.nombre,
-                            role: user.role || 'socio'
-                        }));
-                    } catch (e) {}
-
-                    setTimeout(function() {
-                        if (user.role === 'admin') {
-                            window.location.href = 'admin.html';
-                        } else {
-                            window.location.href = 'socio.html';
-                        }
-                    }, 1200);
-                } else {
-                    errorEl.textContent = '❌ Usuario o contraseña incorrectos';
-                    btn.disabled = false;
-                    btn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Iniciar Sesión';
+                if (authError) {
+                    // Fallback
+                    const fallbackEmail = `${username.toLowerCase()}@flyfutboleros.com`;
+                    const { error: fe } = await supabaseClient.auth.signInWithPassword({
+                        email: fallbackEmail,
+                        password: password
+                    });
+                    if (fe) throw new Error('Credenciales incorrectas');
                 }
-            }, 1000);
+
+                errorEl.textContent = '';
+                showToast('✅ ¡Bienvenido ' + socio.nombre + '!', 'success');
+
+                // Guardar sesión
+                localStorage.setItem('fly_user_session', JSON.stringify({
+                    id: socio.id,
+                    username: socio.username,
+                    nombre: socio.nombre,
+                    role: socio.role || 'socio'
+                }));
+
+                setTimeout(function() {
+                    if (socio.role === 'admin') {
+                        window.location.href = 'admin.html';
+                    } else {
+                        window.location.href = 'socio.html';
+                    }
+                }, 1200);
+
+            } catch (error) {
+                errorEl.textContent = '❌ ' + (error.message || 'Error al iniciar sesión');
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Iniciar Sesión';
+            }
         });
 
         // ================================================================
-        // 9. REGISTRO
+        // 9. REGISTRO CON SUPABASE
         // ================================================================
-
-        document.getElementById('registerForm').addEventListener('submit', function(e) {
+        document.getElementById('registerForm').addEventListener('submit', async function(e) {
             e.preventDefault();
 
             var username = document.getElementById('registerUsername').value.trim();
@@ -1141,6 +460,7 @@
             var successEl = document.getElementById('registerSuccess');
             var btn = document.getElementById('registerBtn');
 
+            // Validaciones
             if (!username || username.length < 3) {
                 errorEl.textContent = '⚠️ El usuario debe tener al menos 3 caracteres';
                 return;
@@ -1170,7 +490,13 @@
                 return;
             }
 
-            var existing = window.USERS_DB.find(function(u) { return u.username === username.toLowerCase(); });
+            // Verificar si el usuario ya existe
+            const { data: existing } = await supabaseClient
+                .from('socios')
+                .select('username')
+                .eq('username', username.toLowerCase())
+                .single();
+
             if (existing) {
                 errorEl.textContent = '⚠️ El nombre de usuario ya está en uso';
                 return;
@@ -1182,63 +508,103 @@
             btn.disabled = true;
             btn.innerHTML = '<span class="spinner"></span> Registrando...';
 
-            setTimeout(function() {
-                var fotoUrl = null;
-                var comprobanteUrl = null;
+            try {
+                // Crear usuario en Auth
+                const authEmail = email || `${username.toLowerCase()}@flyfutboleros.com`;
 
-                if (foto) {
-                    fotoUrl = 'foto_' + Date.now() + '_' + foto.name;
+                const { data: authData, error: authError } = await supabaseClient.auth.signUp({
+                    email: authEmail,
+                    password: password,
+                    options: {
+                        data: {
+                            nombre: nombre,
+                            username: username.toLowerCase(),
+                            rol: 'socio'
+                        }
+                    }
+                });
+
+                if (authError) {
+                    if (authError.message.includes('already registered')) {
+                        throw new Error('Este email ya está registrado');
+                    }
+                    throw authError;
                 }
-                if (comprobante) {
-                    comprobanteUrl = 'comp_' + Date.now() + '_' + comprobante.name;
-                }
 
-                var now = new Date();
-                var vencimiento = new Date(now);
-                vencimiento.setDate(vencimiento.getDate() + 30);
-
-                var nuevoUsuario = {
-                    id: window.USERS_DB.length + 1,
+                // Crear socio en la tabla
+                const socioData = {
                     username: username.toLowerCase(),
                     nombre: nombre,
                     telefono: telefono,
                     email: email || null,
-                    password: password,
+                    password_hash: password,
                     plan: plan,
                     metodo_pago: metodo,
                     estado: 'Pendiente',
-                    fecha_registro: now.toISOString(),
-                    fecha_inicio: now.toISOString(),
-                    fecha_vencimiento: plan === 'Sabatero' ? vencimiento.toISOString() : null,
-                    foto_url: fotoUrl,
-                    comprobante_url: comprobanteUrl,
+                    fecha_registro: new Date().toISOString(),
                     role: 'socio',
-                    pagos: []
+                    user_id: authData.user.id
                 };
 
-                if (comprobanteUrl) {
-                    nuevoUsuario.pagos.push({
-                        fecha: now.toISOString(),
-                        monto: plan === 'Sabatero' ? 20000 : 5000,
-                        metodo: 'Transferencia',
-                        estado: 'Pendiente',
-                        comprobante_url: comprobanteUrl
-                    });
+                const { data: socio, error: socioError } = await supabaseClient
+                    .from('socios')
+                    .insert([socioData])
+                    .select()
+                    .single();
+
+                if (socioError) {
+                    await supabaseClient.auth.admin.deleteUser(authData.user.id);
+                    throw socioError;
                 }
 
-                window.USERS_DB.push(nuevoUsuario);
+                // Subir foto
+                if (foto) {
+                    try {
+                        const ext = foto.name.split('.').pop();
+                        const path = `${authData.user.id}/perfil.${ext}`;
+                        await supabaseClient.storage.from('perfiles').upload(path, foto);
+                        const url = supabaseClient.storage.from('perfiles').getPublicUrl(path).data.publicUrl;
+                        await supabaseClient.from('socios').update({ foto_url: url }).eq('id', socio.id);
+                    } catch (e) { console.warn('Error subiendo foto:', e); }
+                }
+
+                // Subir comprobante
+                if (metodo === 'Transferencia' && comprobante) {
+                    try {
+                        const ext = comprobante.name.split('.').pop();
+                        const path = `${authData.user.id}/comprobante_${Date.now()}.${ext}`;
+                        await supabaseClient.storage.from('comprobantes').upload(path, comprobante);
+                        const url = supabaseClient.storage.from('comprobantes').getPublicUrl(path).data.publicUrl;
+                        await supabaseClient.from('socios').update({ comprobante_url: url }).eq('id', socio.id);
+
+                        // Registrar pago pendiente
+                        await supabaseClient.from('pagos').insert([{
+                            socio_id: socio.id,
+                            monto: plan === 'Sabatero' ? 20000 : 5000,
+                            metodo: 'Transferencia',
+                            estado: 'Pendiente',
+                            plan: plan,
+                            comprobante_url: url,
+                            fecha: new Date().toISOString()
+                        }]);
+                    } catch (e) { console.warn('Error subiendo comprobante:', e); }
+                }
+
+                // Notificación
+                await supabaseClient.from('notificaciones').insert([{
+                    tipo: 'nuevo_socio',
+                    mensaje: `Nuevo socio: @${username} - ${nombre}`,
+                    leida: false,
+                    data: { socio_id: socio.id, username: username }
+                }]);
 
                 successEl.textContent = '✅ ¡Registro exitoso! Serás redirigido...';
-                errorEl.textContent = '';
+                showToast('✅ ¡Registro exitoso ' + nombre + '!', 'success');
 
                 btn.disabled = false;
                 btn.innerHTML = '<i class="fas fa-user-plus"></i> Registrarse';
 
-                showToast('✅ ¡Registro exitoso ' + nombre + '!', 'success');
-
-                console.log('📝 Nuevo usuario registrado:', nuevoUsuario);
-                console.log('📊 Total usuarios:', window.USERS_DB.length);
-
+                // Limpiar formulario
                 document.getElementById('registerUsername').value = '';
                 document.getElementById('registerName').value = '';
                 document.getElementById('registerPhone').value = '';
@@ -1258,13 +624,16 @@
                     showToast('🔐 Inicia sesión con tu usuario y contraseña', 'info');
                 }, 2000);
 
-            }, 1500);
+            } catch (error) {
+                errorEl.textContent = '❌ ' + (error.message || 'Error al registrarse');
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-user-plus"></i> Registrarse';
+            }
         });
 
         // ================================================================
         // 10. ENTER PARA LOGIN
         // ================================================================
-
         document.getElementById('loginPassword').addEventListener('keydown', function(e) {
             if (e.key === 'Enter') {
                 document.getElementById('loginForm').dispatchEvent(new Event('submit'));
@@ -1280,14 +649,10 @@
         // ================================================================
         // 11. MOSTRAR LOGIN POR DEFECTO
         // ================================================================
-
         showLogin();
 
-        console.log('🔐 FLY FUTBOLEROS · Sistema de Registro (SIMULACIÓN)');
-        console.log('📋 Usuarios en memoria:', window.USERS_DB.length);
-        console.log('👤 Usuario admin: admin / admin123');
-        console.log('👤 Usuario prueba: juanperez / juan123');
-        console.log('👤 Usuario prueba: mariag / maria123');
+        console.log('🔐 FLY FUTBOLEROS · Conectado a Supabase');
+        console.log('📋 URL:', SUPABASE_URL);
     </script>
 
 </body>
