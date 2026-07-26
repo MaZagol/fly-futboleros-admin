@@ -645,6 +645,121 @@
         console.log('👤 Usuario admin: admin / fly2026');
         console.log('📝 Los registros ahora son más simples');
     </script>
+// ================================================================
+// OBTENER TEMPERATURA REAL
+// ================================================================
 
+async function obtenerTemperatura() {
+    try {
+        // 1. Obtener ubicación por IP
+        const geoResponse = await fetch('https://ipapi.co/json/');
+        const geoData = await geoResponse.json();
+        
+        if (!geoData || !geoData.city) {
+            throw new Error('No se pudo obtener ubicación');
+        }
+
+        const ciudad = geoData.city;
+        const pais = geoData.country_name;
+
+        console.log('📍 Ubicación:', ciudad, pais);
+
+        // 2. Obtener clima usando OpenWeatherMap (sin API key, usando la gratuita)
+        // Usamos una API pública gratuita
+        const weatherResponse = await fetch(
+            `https://api.openweathermap.org/data/2.5/weather?q=${ciudad}&appid=bd5e378503939ddaee76f12ad7a97608&units=metric&lang=es`
+        );
+
+        if (!weatherResponse.ok) {
+            throw new Error('Error al obtener clima');
+        }
+
+        const weatherData = await weatherResponse.json();
+
+        if (!weatherData || !weatherData.main) {
+            throw new Error('Datos de clima no disponibles');
+        }
+
+        const temp = Math.round(weatherData.main.temp);
+        const descripcion = weatherData.weather[0].description;
+        const icono = weatherData.weather[0].icon;
+
+        console.log('🌡️ Temperatura:', temp, '°C');
+        console.log('☁️ Clima:', descripcion);
+
+        return {
+            temperatura: temp,
+            descripcion: descripcion,
+            icono: icono,
+            ciudad: ciudad,
+            pais: pais
+        };
+
+    } catch (error) {
+        console.warn('⚠️ Error obteniendo temperatura:', error.message);
+        
+        // Fallback: usar ubicación por IP sin API key
+        try {
+            const fallbackResponse = await fetch('https://ipapi.co/json/');
+            const fallbackData = await fallbackResponse.json();
+            
+            if (fallbackData && fallbackData.city) {
+                console.log('📍 Ubicación (fallback):', fallbackData.city);
+                return {
+                    temperatura: null,
+                    descripcion: 'Ubicación: ' + fallbackData.city,
+                    icono: null,
+                    ciudad: fallbackData.city,
+                    pais: fallbackData.country_name
+                };
+            }
+        } catch (e) {}
+
+        // Último fallback: mostrar solo la hora
+        return {
+            temperatura: '--',
+            descripcion: 'Sin datos',
+            icono: null,
+            ciudad: 'Desconocido',
+            pais: ''
+        };
+    }
+}
+
+// ================================================================
+// ACTUALIZAR CLIMA EN LA UI
+// ================================================================
+
+async function actualizarClima() {
+    try {
+        const clima = await obtenerTemperatura();
+        
+        const tempDisplay = document.getElementById('tempDisplay');
+        if (tempDisplay) {
+            if (clima.temperatura !== null && clima.temperatura !== '--') {
+                tempDisplay.textContent = `${clima.temperatura}°C`;
+            } else {
+                tempDisplay.textContent = '--°C';
+            }
+        }
+    } catch (error) {
+        console.warn('Error actualizando clima:', error);
+    }
+}
+
+// ================================================================
+// FUNCIÓN PARA ACTUALIZAR CLIMA CADA 5 MINUTOS
+// ================================================================
+
+function iniciarActualizacionClima() {
+    // Actualizar al cargar
+    actualizarClima();
+    
+    // Actualizar cada 5 minutos (300000 ms)
+    setInterval(actualizarClima, 300000);
+}
+
+// Llamar a la función al iniciar
+iniciarActualizacionClima();
 </body>
 </html>
