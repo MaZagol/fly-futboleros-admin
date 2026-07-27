@@ -3,244 +3,297 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>FLY FUTBOLEROS · Registro</title>
+    <title>FLY FUTBOLEROS · Mi Cuenta</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
-        /* ===== TODOS LOS ESTILOS ===== */
+        /* ===== RESET & BASE ===== */
         *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-        :root{--bg-deep:#06060e;--bg-card:rgba(12,12,26,0.6);--border-glow:rgba(0,212,255,0.08);--text-primary:#e8e8f0;--text-secondary:#9a9ab0;--text-muted:#5a5a7a;--neon-blue:#00d4ff;--neon-purple:#8b3cff;--neon-pink:#ff2d8a;--neon-green:#00ff7f;--neon-orange:#ff6a00;--gradient-primary:linear-gradient(135deg,#00d4ff,#8b3cff);--shadow-card:0 8px 48px rgba(0,0,0,0.9);--radius:20px;--radius-sm:12px;--transition:all 0.4s cubic-bezier(0.25,0.46,0.45,0.94);--transition-fast:all 0.2s ease}
-        html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
-        body{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg-deep);color:var(--text-primary);min-height:100vh;display:flex;align-items:center;justify-content:center;position:relative}
+        :root{--bg-deep:#06060e;--bg-card:rgba(12,12,26,0.6);--bg-card-hover:rgba(12,12,26,0.8);--border-glow:rgba(0,212,255,0.06);--text-primary:#e8e8f0;--text-secondary:#9a9ab0;--text-muted:#5a5a7a;--neon-blue:#00d4ff;--neon-purple:#8b3cff;--neon-pink:#ff2d8a;--neon-green:#00ff7f;--neon-orange:#ff6a00;--gradient-primary:linear-gradient(135deg,#00d4ff,#8b3cff);--shadow-card:0 8px 48px rgba(0,0,0,0.9);--radius:18px;--radius-sm:12px;--radius-xs:8px;--transition:all 0.4s cubic-bezier(0.25,0.46,0.45,0.94);--transition-fast:all 0.2s ease;--bottom-nav-height:64px}
+        html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased;font-size:16px}
+        body{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg-deep);color:var(--text-primary);min-height:100vh;overflow-x:hidden;position:relative;padding-bottom:calc(var(--bottom-nav-height)+24px)}
         ::-webkit-scrollbar{width:3px;height:3px}
         ::-webkit-scrollbar-track{background:var(--bg-deep)}
         ::-webkit-scrollbar-thumb{background:var(--neon-blue);border-radius:10px;box-shadow:0 0 20px rgba(0,212,255,0.2)}
+        
+        /* ===== PARTÍCULAS ===== */
         #particles{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none}
-        .particle{position:absolute;border-radius:50%;background:radial-gradient(circle,rgba(0,212,255,0.1),transparent);animation:float-particle linear infinite;pointer-events:none}
+        .particle{position:absolute;border-radius:50%;background:radial-gradient(circle,rgba(0,212,255,0.08),transparent);animation:float-particle linear infinite;pointer-events:none}
         @keyframes float-particle{0%{transform:translateY(100vh) scale(0);opacity:0}10%{opacity:1}90%{opacity:1}100%{transform:translateY(-10vh) scale(1);opacity:0}}
-        .login-screen{position:relative;z-index:1;width:100%;max-width:440px;padding:16px;animation:fadeIn 0.6s ease}
-        @keyframes fadeIn{from{opacity:0;transform:scale(0.96) translateY(20px)}to{opacity:1;transform:scale(1) translateY(0)}}
-        .login-box{background:var(--bg-card);border:1px solid var(--border-glow);border-radius:var(--radius);padding:32px 28px;box-shadow:var(--shadow-card);backdrop-filter:blur(24px);position:relative;overflow:hidden;max-height:96vh;overflow-y:auto}
-        .login-box::-webkit-scrollbar{width:2px}
-        .login-box::-webkit-scrollbar-thumb{background:var(--neon-blue);border-radius:10px}
-        .login-box::before{content:'';position:absolute;inset:-1px;border-radius:var(--radius);padding:1px;background:var(--gradient-primary);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;opacity:0.12;pointer-events:none}
-        .login-box .logo{text-align:center;margin-bottom:28px;position:relative;z-index:1}
-        .login-box .logo h1{font-size:2.2rem;font-weight:900;background:var(--gradient-primary);-webkit-background-clip:text;-webkit-text-fill-color:transparent;letter-spacing:-0.5px}
-        .login-box .logo p{font-size:0.6rem;color:var(--text-secondary);letter-spacing:8px;text-transform:uppercase;margin-top:2px;opacity:0.6}
-        .status-bar{display:flex;align-items:center;justify-content:center;gap:12px;font-size:0.6rem;color:var(--text-muted);padding:5px 14px;background:rgba(0,0,0,0.3);border-radius:20px;border:1px solid var(--border-glow);margin-bottom:24px;position:relative;z-index:1;flex-wrap:wrap}
-        .status-bar .dot{width:5px;height:5px;border-radius:50%;background:var(--neon-green);display:inline-block;animation:pulse-dot 2s infinite;box-shadow:0 0 12px rgba(0,255,127,0.2)}
+        
+        /* ===== HEADER ===== */
+        .socio-header{position:sticky;top:0;z-index:100;background:rgba(6,6,14,0.92);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-bottom:1px solid var(--border-glow);padding:10px 16px}
+        .socio-header .header-content{display:flex;justify-content:space-between;align-items:center;max-width:1200px;margin:0 auto;flex-wrap:wrap;gap:10px}
+        .socio-header .logo{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+        .socio-header .logo h2{font-size:clamp(0.9rem, 2.5vw, 1.2rem);font-weight:900;background:var(--gradient-primary);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+        .socio-header .logo .badge{font-size:0.45rem;padding:2px 10px;border-radius:12px;background:rgba(0,255,127,0.06);color:var(--neon-green);border:1px solid rgba(0,255,127,0.06);text-transform:uppercase;letter-spacing:1px}
+        .socio-header .header-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+        .status-bar{display:flex;align-items:center;gap:6px;font-size:clamp(0.45rem, 1.2vw, 0.6rem);color:var(--text-muted);padding:3px 10px;background:rgba(0,0,0,0.3);border-radius:20px;border:1px solid var(--border-glow);flex-wrap:nowrap}
+        .status-bar .dot{width:4px;height:4px;border-radius:50%;background:var(--neon-green);display:inline-block;animation:pulse-dot 2s infinite;box-shadow:0 0 10px rgba(0,255,127,0.15)}
         .status-bar .sep{opacity:0.15}
         .status-bar .time{color:var(--text-primary);font-weight:500}
-        @keyframes pulse-dot{0%,100%{transform:scale(1);box-shadow:0 0 10px rgba(0,255,127,0.15)}50%{transform:scale(1.3);box-shadow:0 0 25px rgba(0,255,127,0.3)}}
-        @media(max-width:480px){.status-bar{font-size:0.5rem;gap:6px;padding:4px 10px}}
-        .login-box .form-group{margin-bottom:14px;position:relative;z-index:1}
-        .login-box .form-group label{display:block;font-size:0.65rem;color:var(--text-secondary);font-weight:600;margin-bottom:4px;text-transform:uppercase;letter-spacing:1px}
-        .login-box .form-group label .required{color:var(--neon-pink);margin-left:2px}
-        .login-box .form-group input,.login-box .form-group select{width:100%;padding:11px 14px;background:rgba(0,0,0,0.3);border:1px solid var(--border-glow);border-radius:var(--radius-sm);color:var(--text-primary);font-size:0.9rem;font-family:'Inter',sans-serif;transition:var(--transition-fast);outline:none;-webkit-appearance:none;appearance:none}
-        .login-box .form-group input:focus,.login-box .form-group select:focus{border-color:var(--neon-blue);box-shadow:0 0 30px rgba(0,212,255,0.06)}
-        .login-box .form-group input::placeholder{color:var(--text-muted)}
-        .login-box .form-group select option{background:#0a0a1a;color:var(--text-primary)}
-        .login-box .form-group .hint{font-size:0.55rem;color:var(--text-muted);margin-top:4px}
-        .login-box .form-group .hint i{color:var(--neon-blue);margin-right:4px;font-size:0.5rem}
-        .login-box .btn-primary{width:100%;padding:14px;background:var(--gradient-primary);border:none;border-radius:var(--radius-sm);color:#fff;font-size:0.85rem;font-weight:700;font-family:'Inter',sans-serif;cursor:pointer;transition:var(--transition-fast);text-transform:uppercase;letter-spacing:2px;position:relative;z-index:1;box-shadow:0 0 40px rgba(0,212,255,0.04)}
-        .login-box .btn-primary:active{transform:scale(0.96)}
-        .login-box .btn-primary:hover{box-shadow:0 4px 40px rgba(0,212,255,0.12)}
-        .login-box .btn-primary:disabled{opacity:0.5;cursor:not-allowed;transform:none}
-        .login-box .btn-secondary{width:100%;padding:12px;background:rgba(0,0,0,0.2);border:1px solid var(--border-glow);border-radius:var(--radius-sm);color:var(--text-secondary);font-size:0.8rem;font-weight:500;font-family:'Inter',sans-serif;cursor:pointer;transition:var(--transition-fast);position:relative;z-index:1;margin-top:10px;text-align:center;text-decoration:none;display:block}
-        .login-box .btn-secondary:hover{background:rgba(0,0,0,0.4);color:var(--text-primary);border-color:rgba(0,212,255,0.1)}
-        .login-box .error-msg{color:var(--neon-pink);font-size:0.75rem;text-align:center;margin-top:10px;min-height:20px;position:relative;z-index:1}
-        .login-box .error-msg i{margin-right:6px}
-        .login-box .success-msg{color:var(--neon-green);font-size:0.75rem;text-align:center;margin-top:10px;min-height:20px;position:relative;z-index:1}
-        .login-box .success-msg i{margin-right:6px}
-        .login-box .auth-switch{text-align:center;margin-top:16px;color:var(--text-secondary);font-size:0.8rem;position:relative;z-index:1}
-        .login-box .auth-switch a{color:var(--neon-blue);text-decoration:none;font-weight:600;cursor:pointer;transition:var(--transition-fast)}
-        .login-box .auth-switch a:hover{color:var(--neon-purple)}
-        .login-box .hidden{display:none !important}
-        .file-upload-area{border:2px dashed var(--border-glow);border-radius:var(--radius-sm);padding:18px;text-align:center;cursor:pointer;transition:var(--transition-fast);background:rgba(0,0,0,0.15)}
-        .file-upload-area:hover{border-color:var(--neon-blue);background:rgba(0,212,255,0.02)}
-        .file-upload-area i{font-size:1.4rem;color:var(--text-muted);display:block;margin-bottom:4px}
-        .file-upload-area p{color:var(--text-secondary);font-size:0.75rem}
-        .file-upload-area .hint{color:var(--text-muted);font-size:0.55rem;margin-top:2px}
-        .file-upload-area input[type=file]{display:none}
-        .file-preview{margin-top:8px;padding:8px 12px;background:rgba(0,212,255,0.04);border-radius:var(--radius-xs);border:1px solid rgba(0,212,255,0.06);display:flex;align-items:center;gap:10px}
-        .file-preview i{color:var(--neon-blue);font-size:0.9rem}
-        .file-preview .name{flex:1;font-size:0.7rem;color:var(--text-primary);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-        .file-preview .remove{color:var(--neon-pink);cursor:pointer;font-size:0.8rem;padding:2px 6px}
-        .file-preview .remove:active{transform:scale(0.85)}
-        .bank-data{background:rgba(0,0,0,0.2);border-radius:var(--radius-sm);padding:12px 14px;border:1px solid rgba(0,212,255,0.04);margin-top:8px}
-        .bank-data .row{display:grid;grid-template-columns:80px 1fr;gap:2px 10px;font-size:0.7rem;padding:2px 0}
-        .bank-data .row .label{color:var(--text-muted);font-size:0.6rem;text-transform:uppercase;letter-spacing:0.5px}
-        .bank-data .row .value{color:var(--text-secondary);font-weight:500}
-        .bank-data .row .value.highlight{color:var(--neon-blue);font-weight:700}
-        .bank-data .row .value.highlight-green{color:var(--neon-green);font-weight:700}
-        .bank-data .alert{margin-top:8px;padding:8px 12px;background:rgba(255,106,0,0.04);border:1px solid rgba(255,106,0,0.06);border-radius:var(--radius-xs);font-size:0.65rem;color:var(--neon-orange)}
-        .bank-data .alert i{margin-right:6px}
-        .payment-method-info{margin-top:8px;padding:12px 14px;background:rgba(0,0,0,0.15);border-radius:var(--radius-sm);border:1px solid rgba(0,212,255,0.04)}
-        .payment-method-info p{color:var(--text-secondary);font-size:0.75rem;margin:4px 0}
-        .payment-method-info strong{color:var(--neon-blue)}
-        @media(max-width:480px){.login-box{padding:24px 18px;border-radius:var(--radius-sm)}.login-box .logo h1{font-size:1.8rem}.login-box .form-group input,.login-box .form-group select{font-size:0.85rem;padding:10px 12px}.login-box .form-group label{font-size:0.6rem}.login-box .btn-primary{font-size:0.8rem;padding:13px}.bank-data .row{grid-template-columns:1fr;gap:0}.bank-data .row .label{font-size:0.55rem}.file-upload-area{padding:14px}}
-        @media(max-width:380px){.login-box{padding:18px 14px}.login-box .logo h1{font-size:1.5rem}.login-box .form-group input,.login-box .form-group select{font-size:0.8rem;padding:8px 10px}.login-box .btn-primary{font-size:0.75rem;padding:11px}}
-        .toast{position:fixed;bottom:20px;right:20px;left:20px;max-width:400px;margin:0 auto;padding:14px 20px;background:rgba(6,6,14,0.96);border:1px solid var(--border-glow);border-radius:var(--radius-sm);color:var(--text-primary);z-index:9999;animation:fadeInUp 0.3s ease;box-shadow:var(--shadow-card);backdrop-filter:blur(16px);display:flex;align-items:center;gap:12px;font-size:0.85rem}
+        @keyframes pulse-dot{0%,100%{transform:scale(1);box-shadow:0 0 8px rgba(0,255,127,0.15)}50%{transform:scale(1.3);box-shadow:0 0 20px rgba(0,255,127,0.25)}}
+        .weather-icon{font-size:clamp(0.7rem, 1.2vw, 0.9rem);margin-left:2px}
+        
+        /* ===== BOTONES ===== */
+        .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:10px 18px;min-height:44px;border:none;border-radius:var(--radius-sm);font-family:'Inter',sans-serif;font-weight:600;font-size:clamp(0.6rem, 1.2vw, 0.75rem);cursor:pointer;transition:var(--transition-fast);text-transform:uppercase;letter-spacing:0.5px;-webkit-tap-highlight-color:transparent;touch-action:manipulation;white-space:nowrap}
+        .btn:active{transform:scale(0.95)}
+        .btn-primary{background:var(--gradient-primary);color:#fff;box-shadow:0 0 30px rgba(0,212,255,0.04)}
+        .btn-secondary{background:rgba(0,0,0,0.2);color:var(--text-secondary);border:1px solid var(--border-glow)}
+        .btn-secondary:hover{background:rgba(0,0,0,0.4);color:var(--text-primary);border-color:rgba(0,212,255,0.08)}
+        .btn-sm{padding:6px 12px;min-height:32px;font-size:clamp(0.45rem, 1vw, 0.55rem)}
+        .btn:disabled{opacity:0.5;cursor:not-allowed;transform:none !important}
+        
+        /* ===== MAIN ===== */
+        .socio-main{position:relative;z-index:1;max-width:1200px;margin:0 auto;padding:16px;width:100%}
+        .glass-card{background:var(--bg-card);border:1px solid var(--border-glow);border-radius:var(--radius);padding:20px;transition:var(--transition-fast);margin-bottom:16px;position:relative;overflow:hidden}
+        .glass-card::before{content:'';position:absolute;inset:-1px;border-radius:var(--radius);padding:1px;background:var(--gradient-primary);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;opacity:0.04;pointer-events:none}
+        .glass-card:active{transform:scale(0.99)}
+        
+        /* ===== PERFIL ===== */
+        .profile-header{display:flex;align-items:center;gap:20px;flex-wrap:wrap}
+        .profile-avatar{position:relative;flex-shrink:0}
+        .profile-avatar img{width:clamp(64px, 10vw, 80px);height:clamp(64px, 10vw, 80px);border-radius:50%;object-fit:cover;border:2px solid var(--neon-blue);box-shadow:0 0 30px rgba(0,212,255,0.06)}
+        .profile-avatar .edit-btn{position:absolute;bottom:0;right:0;background:var(--gradient-primary);border:none;border-radius:50%;width:26px;height:26px;color:#fff;font-size:0.55rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:var(--transition-fast);box-shadow:0 0 20px rgba(0,212,255,0.08)}
+        .profile-avatar .edit-btn:active{transform:scale(0.85)}
+        .profile-info h1{font-size:clamp(1.1rem, 2.5vw, 1.4rem);font-weight:700;color:var(--text-primary)}
+        .profile-info p{color:var(--text-secondary);font-size:clamp(0.7rem, 1.2vw, 0.85rem);margin:2px 0}
+        .profile-info p strong{color:var(--text-primary)}
+        
+        /* ===== BADGES ===== */
+        .badge{display:inline-block;padding:2px 10px;border-radius:12px;font-size:clamp(0.45rem, 1vw, 0.6rem);font-weight:600;text-transform:uppercase;letter-spacing:0.5px}
+        .badge-active{background:rgba(0,255,127,0.06);color:var(--neon-green);border:1px solid rgba(0,255,127,0.06)}
+        .badge-pending{background:rgba(255,106,0,0.06);color:var(--neon-orange);border:1px solid rgba(255,106,0,0.06)}
+        .badge-suspended{background:rgba(255,45,138,0.06);color:var(--neon-pink);border:1px solid rgba(255,45,138,0.06)}
+        .badge-expired{background:rgba(255,45,138,0.06);color:var(--neon-pink);border:1px solid rgba(255,45,138,0.06)}
+        
+        /* ===== PLAN ===== */
+        .plan-section{padding:18px 20px;margin-bottom:16px}
+        .plan-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:8px}
+        .plan-header h3{font-size:clamp(0.85rem, 1.8vw, 1.1rem);font-weight:600;color:var(--text-primary)}
+        .plan-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px}
+        .plan-item{padding:8px 12px;background:rgba(0,0,0,0.2);border-radius:var(--radius-xs);border:1px solid var(--border-glow)}
+        .plan-item label{display:block;font-size:0.5rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px}
+        .plan-item span{font-size:clamp(0.75rem, 1.2vw, 0.9rem);font-weight:600;color:var(--text-primary)}
+        .plan-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;padding-top:14px;border-top:1px solid var(--border-glow)}
+        
+        /* ===== TABLA ===== */
+        .socio-table{width:100%;border-collapse:collapse;font-size:clamp(0.6rem, 1.1vw, 0.75rem)}
+        .socio-table th{padding:8px 10px;text-align:left;color:var(--text-secondary);font-weight:500;font-size:clamp(0.45rem, 0.9vw, 0.6rem);text-transform:uppercase;letter-spacing:0.5px;border-bottom:1px solid var(--border-glow)}
+        .socio-table td{padding:6px 10px;border-bottom:1px solid rgba(255,255,255,0.015);vertical-align:middle;color:var(--text-secondary)}
+        .table-container{overflow-x:auto;-webkit-overflow-scrolling:touch}
+        
+        /* ===== RECORDATORIO ===== */
+        .recordatorio{padding:14px 18px;border:1px solid rgba(255,106,0,0.12);background:rgba(255,106,0,0.02);border-radius:var(--radius);margin-bottom:16px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+        .recordatorio i{color:var(--neon-orange);font-size:1.3rem;flex-shrink:0}
+        .recordatorio .content h4{color:var(--neon-orange);font-size:clamp(0.75rem, 1.2vw, 0.9rem)}
+        .recordatorio .content p{color:var(--text-secondary);font-size:clamp(0.65rem, 1vw, 0.8rem)}
+        
+        /* ===== MODAL ===== */
+        .modal{position:fixed;inset:0;background:rgba(0,0,0,0.85);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);z-index:2000;display:none;align-items:center;justify-content:center;padding:16px}
+        .modal.active{display:flex}
+        .modal-content{width:100%;max-width:500px;max-height:90vh;overflow-y:auto;background:rgba(6,6,14,0.98);border:1px solid var(--border-glow);border-radius:var(--radius);padding:0;animation:fadeInUp 0.3s ease;box-shadow:var(--shadow-card)}
+        .modal-header{display:flex;justify-content:space-between;align-items:center;padding:14px 18px;border-bottom:1px solid var(--border-glow);position:sticky;top:0;background:rgba(6,6,14,0.95);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);z-index:10;border-radius:var(--radius) var(--radius) 0 0}
+        .modal-header h2{font-size:clamp(0.85rem, 1.8vw, 1rem);font-weight:600;color:var(--text-primary)}
+        .modal-close{background:none;border:none;color:var(--text-secondary);font-size:1.2rem;cursor:pointer;transition:var(--transition-fast);padding:4px}
+        .modal-close:hover{color:var(--neon-pink)}
+        .modal-body{padding:16px 18px}
+        .modal-body .file-upload-area{border:2px dashed var(--border-glow);border-radius:var(--radius-sm);padding:24px 16px;text-align:center;cursor:pointer;transition:var(--transition-fast);background:rgba(0,0,0,0.15)}
+        .modal-body .file-upload-area:hover{border-color:var(--neon-blue);background:rgba(0,212,255,0.02)}
+        .modal-body .file-upload-area i{font-size:1.8rem;color:var(--text-muted);display:block;margin-bottom:6px}
+        .modal-body .file-upload-area p{color:var(--text-secondary);font-size:clamp(0.65rem, 1vw, 0.8rem)}
+        .modal-body .file-upload-area input[type=file]{display:none}
+        .modal-body .file-preview{margin-top:8px;padding:8px 12px;background:rgba(0,212,255,0.04);border-radius:var(--radius-xs);border:1px solid rgba(0,212,255,0.06);display:flex;align-items:center;gap:10px}
+        .modal-body .file-preview i{color:var(--neon-blue);font-size:0.9rem}
+        .modal-body .file-preview .name{flex:1;font-size:0.7rem;color:var(--text-primary);word-break:break-all}
+        .modal-body .file-preview .remove{color:var(--neon-pink);cursor:pointer;font-size:0.8rem;padding:4px}
+        
+        @keyframes fadeInUp{from{opacity:0;transform:translateY(16px) scale(0.96)}to{opacity:1;transform:translateY(0) scale(1)}}
+        
+        /* ===== TOAST ===== */
+        .toast{position:fixed;bottom:calc(var(--bottom-nav-height)+16px);right:20px;left:20px;max-width:400px;margin:0 auto;padding:14px 20px;background:rgba(6,6,14,0.96);border:1px solid var(--border-glow);border-radius:var(--radius-sm);color:var(--text-primary);z-index:9999;animation:fadeInUp 0.3s ease;box-shadow:var(--shadow-card);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);display:flex;align-items:center;gap:12px;font-size:clamp(0.7rem, 1.2vw, 0.85rem)}
         .toast .icon{font-size:1.1rem;flex-shrink:0}
         .toast .icon.success{color:var(--neon-green)}
         .toast .icon.error{color:var(--neon-pink)}
         .toast .icon.warning{color:var(--neon-orange)}
         .toast .icon.info{color:var(--neon-blue)}
-        @keyframes fadeInUp{from{opacity:0;transform:translateY(20px) scale(0.96)}to{opacity:1;transform:translateY(0) scale(1)}}
-        @media(max-width:480px){.toast{font-size:0.75rem;padding:12px 16px;bottom:12px;left:12px;right:12px}}
-        .spinner{display:inline-block;width:16px;height:16px;border:2px solid rgba(255,255,255,0.06);border-top-color:var(--neon-blue);border-radius:50%;animation:spin 0.8s linear infinite;vertical-align:middle}
-        @keyframes spin{to{transform:rotate(360deg)}}
-        .weather-icon{font-size:1rem;margin-left:2px}
+        
+        /* ===== NAVEGACIÓN ===== */
+        .hidden{display:none !important}
+        .section-page{display:none;animation:slideIn 0.4s ease}
+        .section-page.active{display:block}
+        @keyframes slideIn{from{opacity:0;transform:translateX(30px)}to{opacity:1;transform:translateX(0)}}
+        
+        /* ===== BOTTOM NAV ===== */
+        .bottom-nav{position:fixed;bottom:0;left:0;right:0;z-index:500;background:rgba(6,6,14,0.95);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-top:1px solid var(--border-glow);height:var(--bottom-nav-height);display:flex;align-items:center;justify-content:space-around;padding:0 8px;box-shadow:0 -8px 40px rgba(0,0,0,0.5)}
+        .bottom-nav .nav-item{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:6px 12px;border:none;background:none;color:var(--text-muted);cursor:pointer;transition:var(--transition-fast);min-width:56px;min-height:48px;position:relative;-webkit-tap-highlight-color:transparent;touch-action:manipulation;border-radius:var(--radius-xs)}
+        .bottom-nav .nav-item:active{transform:scale(0.92)}
+        .bottom-nav .nav-item i{font-size:clamp(1rem, 2vw, 1.2rem);transition:var(--transition-fast)}
+        .bottom-nav .nav-item span{font-size:clamp(0.4rem, 0.8vw, 0.5rem);font-weight:500;text-transform:uppercase;letter-spacing:0.5px;transition:var(--transition-fast)}
+        .bottom-nav .nav-item.active{color:var(--neon-blue)}
+        .bottom-nav .nav-item .nav-badge{position:absolute;top:2px;right:4px;background:var(--neon-pink);color:#fff;font-size:0.45rem;font-weight:700;padding:1px 6px;border-radius:10px;min-width:16px;text-align:center;box-shadow:0 0 20px rgba(255,45,138,0.2)}
+        
+        /* ===== RESPONSIVE ===== */
+        @media(max-width:768px){
+            .profile-header{flex-direction:column;text-align:center}
+            .plan-grid{grid-template-columns:1fr 1fr}
+            .recordatorio{flex-direction:column;text-align:center;justify-content:center}
+            .socio-header .header-content{flex-direction:column;align-items:stretch;text-align:center}
+            .socio-header .header-actions{justify-content:center}
+            .socio-main{padding:12px}
+            .glass-card{padding:16px}
+            .btn{width:100%;justify-content:center}
+            .btn-sm{width:auto}
+        }
+        @media(max-width:480px){
+            .plan-grid{grid-template-columns:1fr}
+            .glass-card{padding:14px}
+            .socio-main{padding:10px}
+            .profile-info h1{font-size:1.1rem}
+            .plan-section{padding:14px}
+            .plan-header h3{font-size:0.9rem}
+            .plan-item{padding:6px 10px}
+            .plan-item span{font-size:0.8rem}
+            .recordatorio{padding:12px 14px}
+            .recordatorio i{font-size:1.1rem}
+            .status-bar{font-size:0.5rem;gap:4px;padding:2px 8px}
+            .status-bar .sep{display:none}
+            .bottom-nav .nav-item{padding:4px 8px;min-width:48px;min-height:40px}
+            .bottom-nav .nav-item i{font-size:1rem}
+            .bottom-nav .nav-item span{font-size:0.45rem}
+            .toast{font-size:0.75rem;padding:12px 16px;bottom:calc(var(--bottom-nav-height)+12px);left:12px;right:12px}
+        }
+        @media(max-width:380px){
+            .glass-card{padding:12px 10px}
+            .profile-avatar img{width:56px;height:56px}
+            .profile-info h1{font-size:1rem}
+        }
+        @media(min-width:769px){
+            .btn{width:auto}
+        }
     </style>
 </head>
 <body>
 
     <div id="particles"></div>
 
-    <div class="login-screen" id="loginScreen">
-        <div class="login-box">
+    <header class="socio-header">
+        <div class="header-content">
             <div class="logo">
-                <h1>⚡ FLY</h1>
-                <p>FUTBOLEROS</p>
+                <h2>⚡ FLY FUTBOLEROS</h2>
+                <span class="badge badge-active">SOCIO</span>
             </div>
-
-            <div class="status-bar">
-                <span class="dot"></span>
-                <span class="time" id="clockDisplay">00:00</span>
-                <span class="sep">·</span>
-                <span id="tempDisplay">--°C</span>
-                <span class="sep">·</span>
-                <span>PYG</span>
-                <span class="sep">·</span>
-                <span class="weather-icon" id="weatherIcon">☀️</span>
+            <div class="header-actions">
+                <div class="status-bar">
+                    <span class="dot"></span>
+                    <span class="time" id="clockDisplay">00:00</span>
+                    <span class="sep">·</span>
+                    <span id="tempDisplay">--°C</span>
+                    <span class="sep">·</span>
+                    <span>PYG</span>
+                    <span class="weather-icon" id="weatherIcon">🌙</span>
+                </div>
+                <button class="btn btn-secondary btn-sm" onclick="handleLogout()">
+                    <i class="fas fa-sign-out-alt"></i> Salir
+                </button>
             </div>
+        </div>
+    </header>
 
-            <!-- ===== LOGIN ===== -->
-            <form id="loginForm">
-                <div class="form-group">
-                    <label>👤 Usuario <span class="required">*</span></label>
-                    <input type="text" id="loginUsername" placeholder="Ej: elcrack_10" required>
-                    <div class="hint"><i class="fas fa-info-circle"></i> Usa tu nickname</div>
-                </div>
-                <div class="form-group">
-                    <label>🔒 Contraseña <span class="required">*</span></label>
-                    <input type="password" id="loginPassword" placeholder="••••••••" required>
-                </div>
-                <button type="submit" class="btn-primary" id="loginBtn">
-                    <i class="fas fa-sign-in-alt"></i> Iniciar Sesión
-                </button>
-                <div class="error-msg" id="loginError"></div>
-                <div class="auth-switch">
-                    ¿No tienes cuenta? <a onclick="showRegister()">Regístrate aquí</a>
-                </div>
-            </form>
+    <main class="socio-main" id="socioMain">
 
-            <!-- ===== REGISTRO ===== -->
-            <form id="registerForm" class="hidden">
-                <div class="form-group">
-                    <label>📸 Foto de Perfil</label>
-                    <div class="file-upload-area" onclick="document.getElementById('profilePhoto').click()">
-                        <i class="fas fa-camera"></i>
-                        <p>Subir foto de perfil</p>
-                        <div class="hint">JPG, PNG · Recomendado 200x200</div>
-                        <input type="file" id="profilePhoto" accept="image/*">
+        <div class="section-page active" id="section-perfil">
+            <div class="glass-card">
+                <div class="profile-header">
+                    <div class="profile-avatar">
+                        <img id="socioAvatar" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Ccircle cx='40' cy='40' r='40' fill='%23111122'/%3E%3Ccircle cx='40' cy='26' r='12' fill='%23222244'/%3E%3Cpath d='M10 72c0-12 16-20 30-20s30 8 30 20' fill='%23222244'/%3E%3C/svg%3E" alt="Foto">
+                        <button class="edit-btn" onclick="editarFotoPerfil()"><i class="fas fa-camera"></i></button>
                     </div>
-                    <div id="profilePhotoPreview" class="file-preview" style="display:none;">
-                        <i class="fas fa-image"></i>
-                        <span class="name" id="profilePhotoName">archivo.jpg</span>
-                        <span class="remove" onclick="document.getElementById('profilePhoto').value='';this.parentElement.style.display='none';">✕</span>
+                    <div class="profile-info">
+                        <h1 id="socioNombre">Cargando...</h1>
+                        <p><strong>Usuario:</strong> <span id="socioUsername">@cargando</span></p>
+                        <p><strong>ID:</strong> <span id="socioId">#0000</span></p>
+                        <p><strong>Plan:</strong> <span id="socioPlan" class="badge badge-active">Sabatero</span> <strong>Estado:</strong> <span id="socioEstado" class="badge badge-active">Activo</span></p>
                     </div>
                 </div>
+            </div>
+        </div>
 
-                <div class="form-group">
-                    <label>👤 Nickname <span class="required">*</span></label>
-                    <input type="text" id="registerUsername" placeholder="Ej: elcrack_10" required>
-                    <div class="hint"><i class="fas fa-info-circle"></i> Solo letras, números, _ y . (mínimo 3)</div>
+        <div class="section-page" id="section-plan">
+            <div id="planSabateroContainer" class="plan-section glass-card">
+                <div class="plan-header"><h3>📋 Plan Sabatero</h3><span class="badge badge-active">Mensual</span></div>
+                <div class="plan-grid">
+                    <div class="plan-item"><label>Inicio</label><span id="sabateroInicio">-</span></div>
+                    <div class="plan-item"><label>Vencimiento</label><span id="sabateroVencimiento">-</span></div>
+                    <div class="plan-item"><label>Días Restantes</label><span id="sabateroDias">-</span></div>
+                    <div class="plan-item"><label>Cuota</label><span>Gs. 20.000</span></div>
+                    <div class="plan-item"><label>Método</label><span id="sabateroMetodo">-</span></div>
+                    <div class="plan-item"><label>Pagos</label><span id="sabateroPagos">0</span></div>
                 </div>
-
-                <div class="form-group">
-                    <label>👤 Nombre y Apellido <span class="required">*</span></label>
-                    <input type="text" id="registerName" placeholder="Juan Pérez" required>
+                <div class="plan-actions">
+                    <button class="btn btn-primary" onclick="renovarMembresia()"><i class="fas fa-sync"></i> Renovar</button>
+                    <button class="btn btn-secondary" onclick="subirComprobante()"><i class="fas fa-upload"></i> Subir Comprobante</button>
+                    <button class="btn btn-secondary" onclick="descargarComprobantes()"><i class="fas fa-download"></i> Descargar</button>
                 </div>
-
-                <div class="form-group">
-                    <label>📱 Celular <span class="required">*</span></label>
-                    <input type="tel" id="registerPhone" placeholder="+595 981 123456" required>
+            </div>
+            <div id="planFinderContainer" class="plan-section glass-card hidden">
+                <div class="plan-header"><h3>🏃 Plan Finder</h3><span class="badge badge-pending">Por Partido</span></div>
+                <div class="plan-grid">
+                    <div class="plan-item"><label>Valor</label><span>Gs. 5.000</span></div>
+                    <div class="plan-item"><label>Método</label><span id="finderMetodo">-</span></div>
+                    <div class="plan-item"><label>Pagos</label><span id="finderPagos">0</span></div>
                 </div>
-
-                <div class="form-group">
-                    <label>🔒 Contraseña <span class="required">*</span></label>
-                    <input type="password" id="registerPassword" placeholder="••••••••" required minlength="6">
-                    <div class="hint"><i class="fas fa-info-circle"></i> Mínimo 6 caracteres</div>
+                <div class="plan-actions">
+                    <button class="btn btn-secondary" onclick="subirComprobante()"><i class="fas fa-upload"></i> Subir Comprobante</button>
+                    <button class="btn btn-secondary" onclick="descargarComprobantes()"><i class="fas fa-download"></i> Descargar</button>
                 </div>
+            </div>
+            <div id="recordatorioContainer" class="recordatorio hidden">
+                <i class="fas fa-exclamation-triangle"></i>
+                <div class="content"><h4>⚠️ Recordatorio</h4><p id="recordatorioMensaje">Tu membresía está próxima a vencer.</p></div>
+                <button class="btn btn-primary btn-sm" onclick="renovarMembresia()">Renovar Ahora</button>
+            </div>
+        </div>
 
-                <div class="form-group">
-                    <label>📋 Plan <span class="required">*</span></label>
-                    <select id="registerPlan" required>
-                        <option value="">Selecciona un plan</option>
-                        <option value="Sabatero">⚡ Plan Sabatero · Gs. 20.000/mes</option>
-                        <option value="Finder">🏃 Plan Finder · Gs. 5.000/partido</option>
-                    </select>
+        <div class="section-page" id="section-historial">
+            <div class="glass-card">
+                <h3 style="margin-bottom:14px;font-size:clamp(0.85rem, 1.8vw, 1rem);">📜 Historial de Pagos</h3>
+                <div class="table-container">
+                    <table class="socio-table">
+                        <thead><tr><th>Fecha</th><th>Monto</th><th>Método</th><th>Estado</th><th>Comprobante</th></tr></thead>
+                        <tbody id="historialTableBody"><tr><td colspan="5" style="text-align:center;padding:24px;color:var(--text-muted);font-size:0.75rem;"><i class="fas fa-inbox" style="font-size:1.2rem;display:block;margin-bottom:6px;opacity:0.5;"></i>No hay pagos registrados</td></tr></tbody>
+                    </table>
                 </div>
+            </div>
+        </div>
 
-                <div class="form-group">
-                    <label>💳 Método de Pago <span class="required">*</span></label>
-                    <select id="registerPaymentMethod" required>
-                        <option value="">Selecciona método</option>
-                        <option value="Transferencia">💻 Transferencia</option>
-                        <option value="Efectivo">💰 Efectivo</option>
-                    </select>
+    </main>
+
+    <div class="modal" id="uploadModal">
+        <div class="modal-content">
+            <div class="modal-header"><h2>📎 Subir Comprobante</h2><button class="modal-close" onclick="closeModal('uploadModal')">&times;</button></div>
+            <div class="modal-body">
+                <p style="margin-bottom:14px;color:var(--text-secondary);font-size:clamp(0.75rem, 1.2vw, 0.85rem);">Sube tu comprobante de pago. Formatos: JPG, PNG, PDF.</p>
+                <div class="file-upload-area" onclick="document.getElementById('uploadReceipt').click()">
+                    <i class="fas fa-upload"></i><p>Seleccionar archivo</p>
+                    <div style="font-size:0.6rem;color:var(--text-muted);margin-top:4px;">Captura de pantalla o foto</div>
+                    <input type="file" id="uploadReceipt" accept=".jpg,.jpeg,.png,.pdf">
                 </div>
-
-                <div id="transferenciaInfo" class="hidden payment-method-info">
-                    <p><i class="fas fa-info-circle"></i> <strong>Transferencia Bancaria</strong></p>
-                    <div class="bank-data">
-                        <div class="row"><span class="label">Titular:</span><span class="value">Alberto Mariano Ramirez Zarate</span></div>
-                        <div class="row"><span class="label">CI:</span><span class="value">3.652.362</span></div>
-                        <div class="row"><span class="label">Entidad:</span><span class="value">Ueno Bank</span></div>
-                        <div class="row"><span class="label">N° Cuenta:</span><span class="value highlight">619315284</span></div>
-                        <div class="row"><span class="label">Moneda:</span><span class="value">Guaraníes (Gs.)</span></div>
-                        <div class="row"><span class="label">Alias:</span><span class="value highlight-green">+595961101538</span></div>
-                    </div>
-                    <div class="alert">
-                        <i class="fas fa-lightbulb"></i> Usa el alias <strong>+595961101538</strong> para transferencias rápidas por Ueno.
-                    </div>
-                    <div class="form-group" style="margin-top:12px;">
-                        <label>📎 Subir Comprobante <span class="required">*</span></label>
-                        <div class="file-upload-area" onclick="document.getElementById('receipt').click()">
-                            <i class="fas fa-upload"></i>
-                            <p>JPG, PNG, PDF</p>
-                            <div class="hint">Captura de pantalla o foto</div>
-                            <input type="file" id="receipt" accept=".jpg,.jpeg,.png,.pdf">
-                        </div>
-                        <div id="receiptPreview" class="file-preview" style="display:none;">
-                            <i class="fas fa-file"></i>
-                            <span class="name" id="receiptName">archivo.pdf</span>
-                            <span class="remove" onclick="document.getElementById('receipt').value='';this.parentElement.style.display='none';">✕</span>
-                        </div>
-                    </div>
+                <div id="uploadPreview" class="file-preview" style="display:none;">
+                    <i class="fas fa-file"></i><span class="name" id="uploadFileName">archivo.jpg</span>
+                    <span class="remove" onclick="document.getElementById('uploadReceipt').value='';this.parentElement.style.display='none';">✕</span>
                 </div>
-
-                <div id="efectivoInfo" class="hidden payment-method-info">
-                    <p><i class="fas fa-info-circle"></i> <strong>Pago en Efectivo</strong></p>
-                    <p>Tu pago quedará en estado <strong>Pendiente</strong> hasta que el administrador confirme.</p>
-                </div>
-
-                <button type="submit" class="btn-primary" id="registerBtn">
-                    <i class="fas fa-user-plus"></i> Registrarse
-                </button>
-
-                <div class="error-msg" id="registerError"></div>
-                <div class="success-msg" id="registerSuccess"></div>
-
-                <div class="auth-switch">
-                    ¿Ya tienes cuenta? <a onclick="showLogin()">Inicia sesión aquí</a>
-                </div>
-            </form>
-
+                <button class="btn btn-primary" onclick="enviarComprobante()" style="margin-top:14px;width:100%;justify-content:center;"><i class="fas fa-paper-plane"></i> Enviar</button>
+            </div>
         </div>
     </div>
+
+    <nav class="bottom-nav" id="bottomNav">
+        <button class="nav-item active" data-section="perfil" onclick="navigateTo('perfil')"><i class="fas fa-user"></i><span>Perfil</span></button>
+        <button class="nav-item" data-section="plan" onclick="navigateTo('plan')"><i class="fas fa-futbol"></i><span>Plan</span><span class="nav-badge" id="navBadge" style="display:none;">!</span></button>
+        <button class="nav-item" data-section="historial" onclick="navigateTo('historial')"><i class="fas fa-history"></i><span>Historial</span></button>
+    </nav>
 
     <script>
         // ================================================================
@@ -248,14 +301,15 @@
         // ================================================================
         (function createParticles() {
             var container = document.getElementById('particles');
-            for (var i = 0; i < 45; i++) {
+            if (!container) return;
+            for (var i = 0; i < 35; i++) {
                 var p = document.createElement('div');
                 p.className = 'particle';
-                var s = Math.random() * 4 + 2;
+                var s = Math.random() * 3 + 2;
                 p.style.width = s + 'px';
                 p.style.height = s + 'px';
                 p.style.left = Math.random() * 100 + '%';
-                p.style.animationDuration = (Math.random() * 18 + 10) + 's';
+                p.style.animationDuration = (Math.random() * 16 + 12) + 's';
                 p.style.animationDelay = (Math.random() * 12) + 's';
                 container.appendChild(p);
             }
@@ -267,58 +321,132 @@
         function updateClock() {
             var now = new Date();
             var time = now.toLocaleTimeString('es', { hour: '2-digit', minute: '2-digit' });
-            document.getElementById('clockDisplay').textContent = time;
+            var clock = document.getElementById('clockDisplay');
+            if (clock) clock.textContent = time;
         }
         setInterval(updateClock, 1000);
         updateClock();
 
         // ================================================================
-        // 3. TEMPERATURA REAL
+        // 3. TEMPERATURA CON CACHÉ Y DÍA/NOCHE POR HORA LOCAL
         // ================================================================
-        async function obtenerTemperatura() {
-            try {
-                // Usar ipapi.co para obtener ubicación
-                const geoResponse = await fetch('https://ipapi.co/json/');
-                if (!geoResponse.ok) throw new Error('Error geo');
-                const geoData = await geoResponse.json();
+        const CACHE_KEY = 'fly_weather_cache';
+        const CACHE_TTL = 10 * 60 * 1000; // 10 minutos
 
-                if (geoData && geoData.city) {
-                    // Usar OpenWeatherMap (API gratuita)
-                    const weatherResponse = await fetch(
-                        `https://api.openweathermap.org/data/2.5/weather?q=${geoData.city}&appid=bd5e378503939ddaee76f12ad7a97608&units=metric&lang=es`
-                    );
-                    
-                    if (weatherResponse.ok) {
-                        const weatherData = await weatherResponse.json();
-                        if (weatherData && weatherData.main) {
-                            const temp = Math.round(weatherData.main.temp);
-                            const desc = weatherData.weather[0].description;
-                            const icon = weatherData.weather[0].icon;
-                            const iconMap = {
-                                '01d': '☀️', '01n': '🌙',
-                                '02d': '⛅', '02n': '☁️',
-                                '03d': '☁️', '03n': '☁️',
-                                '04d': '☁️', '04n': '☁️',
-                                '09d': '🌧️', '09n': '🌧️',
-                                '10d': '🌦️', '10n': '🌧️',
-                                '11d': '⛈️', '11n': '⛈️',
-                                '13d': '❄️', '13n': '❄️',
-                                '50d': '🌫️', '50n': '🌫️'
-                            };
-                            return { temperatura: temp, descripcion: desc, icono: iconMap[icon] || '☀️' };
+        // Determina si es de día o noche según la hora local
+        function getDayNightIcon() {
+            const now = new Date();
+            const hour = now.getHours();
+            // Día: 6:00 AM - 6:59 PM (6-18)
+            const isDay = hour >= 6 && hour < 19;
+            return isDay ? '☀️' : '🌙';
+        }
+
+        // Obtiene el ícono climático según el código de OpenWeatherMap
+        function getWeatherIcon(code) {
+            const map = {
+                '01d': '☀️', '01n': '🌙',
+                '02d': '⛅', '02n': '☁️',
+                '03d': '☁️', '03n': '☁️',
+                '04d': '☁️', '04n': '☁️',
+                '09d': '🌧️', '09n': '🌧️',
+                '10d': '🌦️', '10n': '🌧️',
+                '11d': '⛈️', '11n': '⛈️',
+                '13d': '❄️', '13n': '❄️',
+                '50d': '🌫️', '50n': '🌫️'
+            };
+            return map[code] || getDayNightIcon();
+        }
+
+        async function obtenerTemperatura() {
+            // 1. Intentar leer caché
+            const cached = localStorage.getItem(CACHE_KEY);
+            if (cached) {
+                try {
+                    const data = JSON.parse(cached);
+                    const age = Date.now() - data.timestamp;
+                    if (age < CACHE_TTL) {
+                        // Si la caché tiene temperatura, pero el ícono puede estar desactualizado
+                        // Recalculamos el ícono según la hora actual para asegurar día/noche correcto
+                        const icon = getDayNightIcon();
+                        return { temperatura: data.temperatura, icono: icon };
+                    }
+                } catch (e) { /* ignorar */ }
+            }
+
+            // 2. Intentar obtener clima real
+            let temperatura = null;
+            let icono = getDayNightIcon(); // Por defecto según hora local
+
+            try {
+                // Usar geolocalización si está disponible
+                let lat, lon;
+                try {
+                    const position = await new Promise((resolve, reject) => {
+                        if (!navigator.geolocation) reject(new Error('Geolocation not supported'));
+                        navigator.geolocation.getCurrentPosition(resolve, reject, { timeout: 5000 });
+                    });
+                    lat = position.coords.latitude;
+                    lon = position.coords.longitude;
+                } catch (geoError) {
+                    // Fallback a IP
+                    try {
+                        const ipResponse = await fetch('https://ipapi.co/json/');
+                        if (ipResponse.ok) {
+                            const ipData = await ipResponse.json();
+                            if (ipData && ipData.latitude && ipData.longitude) {
+                                lat = ipData.latitude;
+                                lon = ipData.longitude;
+                            }
+                        }
+                    } catch (ipError) {
+                        console.warn('Error obteniendo ubicación por IP:', ipError);
+                    }
+                }
+
+                if (lat && lon) {
+                    const weatherUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=bd5e378503939ddaee76f12ad7a97608&units=metric&lang=es`;
+                    const response = await fetch(weatherUrl);
+                    if (response.ok) {
+                        const data = await response.json();
+                        if (data.main && data.main.temp) {
+                            temperatura = Math.round(data.main.temp);
+                        }
+                        if (data.weather && data.weather[0] && data.weather[0].icon) {
+                            // Usar el ícono de la API solo si es válido
+                            const apiIcon = getWeatherIcon(data.weather[0].icon);
+                            // Pero priorizamos el día/noche según hora local para consistencia
+                            icono = apiIcon;
                         }
                     }
                 }
-                
-                // Fallback: simular temperatura
-                const simulatedTemp = Math.round(17 + Math.random() * 6 - 3);
-                return { temperatura: simulatedTemp, descripcion: 'Estimado', icono: '☀️' };
-                
             } catch (error) {
-                console.warn('Error obteniendo temperatura:', error);
-                const simulatedTemp = Math.round(17 + Math.random() * 6 - 3);
-                return { temperatura: simulatedTemp, descripcion: 'Estimado', icono: '☀️' };
+                console.warn('Error obteniendo clima real:', error);
             }
+
+            // Si no obtuvimos temperatura, usar caché o valor por defecto
+            if (temperatura === null) {
+                if (cached) {
+                    try {
+                        const old = JSON.parse(cached);
+                        temperatura = old.temperatura || 22;
+                    } catch (e) {
+                        temperatura = 22;
+                    }
+                } else {
+                    temperatura = 22;
+                }
+                // El ícono ya lo tenemos por hora local
+                icono = getDayNightIcon();
+            }
+
+            // Guardar en caché (solo temperatura, el ícono se calcula en tiempo real)
+            localStorage.setItem(CACHE_KEY, JSON.stringify({
+                temperatura: temperatura,
+                timestamp: Date.now()
+            }));
+
+            return { temperatura: temperatura, icono: icono };
         }
 
         async function actualizarClima() {
@@ -326,7 +454,7 @@
                 const clima = await obtenerTemperatura();
                 const tempDisplay = document.getElementById('tempDisplay');
                 const iconDisplay = document.getElementById('weatherIcon');
-                if (tempDisplay && clima.temperatura !== null) {
+                if (tempDisplay && clima.temperatura !== undefined) {
                     tempDisplay.textContent = `${clima.temperatura}°C`;
                 }
                 if (iconDisplay && clima.icono) {
@@ -334,90 +462,44 @@
                 }
             } catch (error) {
                 console.warn('Error actualizando clima:', error);
+                // Fallback de emergencia
+                const icon = getDayNightIcon();
+                const tempDisplay = document.getElementById('tempDisplay');
+                const iconDisplay = document.getElementById('weatherIcon');
+                if (tempDisplay) tempDisplay.textContent = '22°C';
+                if (iconDisplay) iconDisplay.textContent = icon;
             }
         }
 
-        // Actualizar clima al inicio y cada 5 minutos
+        // Actualizar clima al cargar y cada 10 minutos
         actualizarClima();
-        setInterval(actualizarClima, 300000);
+        setInterval(actualizarClima, 600000);
+
+        // También actualizar el ícono si cambia la hora (cada 30 minutos)
+        setInterval(function() {
+            const icon = getDayNightIcon();
+            const iconDisplay = document.getElementById('weatherIcon');
+            if (iconDisplay) iconDisplay.textContent = icon;
+        }, 1800000); // 30 minutos
 
         // ================================================================
         // 4. NAVEGACIÓN
         // ================================================================
-        function showRegister() {
-            document.getElementById('loginForm').classList.add('hidden');
-            document.getElementById('registerForm').classList.remove('hidden');
-            document.getElementById('loginError').textContent = '';
-            document.getElementById('registerError').textContent = '';
-            document.getElementById('registerSuccess').textContent = '';
-        }
+        function navigateTo(section) {
+            document.querySelectorAll('.section-page').forEach(function(el) {
+                el.classList.remove('active');
+            });
+            var target = document.getElementById('section-' + section);
+            if (target) target.classList.add('active');
 
-        function showLogin() {
-            document.getElementById('registerForm').classList.add('hidden');
-            document.getElementById('loginForm').classList.remove('hidden');
-            document.getElementById('loginError').textContent = '';
-            document.getElementById('registerError').textContent = '';
-            document.getElementById('registerSuccess').textContent = '';
+            document.querySelectorAll('.bottom-nav .nav-item').forEach(function(el) {
+                el.classList.remove('active');
+                if (el.dataset.section === section) el.classList.add('active');
+            });
         }
 
         // ================================================================
-        // 5. VALIDACIONES
-        // ================================================================
-        document.getElementById('registerUsername').addEventListener('input', function() {
-            this.value = this.value.toLowerCase().replace(/[^a-z0-9_.]/g, '');
-        });
-
-        document.getElementById('registerPaymentMethod').addEventListener('change', function() {
-            var t = document.getElementById('transferenciaInfo');
-            var e = document.getElementById('efectivoInfo');
-            if (this.value === 'Transferencia') { t.classList.remove('hidden');
-                e.classList.add('hidden'); } else if (this.value === 'Efectivo') { t.classList.add('hidden');
-                e.classList.remove('hidden'); } else { t.classList.add('hidden');
-                e.classList.add('hidden'); }
-        });
-
-        // ================================================================
-        // 6. PREVISUALIZACIÓN
-        // ================================================================
-        document.getElementById('profilePhoto').addEventListener('change', function() {
-            var preview = document.getElementById('profilePhotoPreview');
-            var name = document.getElementById('profilePhotoName');
-            if (this.files && this.files[0]) { name.textContent = this.files[0].name;
-                preview.style.display = 'flex'; } else { preview.style.display = 'none'; }
-        });
-
-        document.getElementById('receipt').addEventListener('change', function() {
-            var preview = document.getElementById('receiptPreview');
-            var name = document.getElementById('receiptName');
-            if (this.files && this.files[0]) { name.textContent = this.files[0].name;
-                preview.style.display = 'flex'; } else { preview.style.display = 'none'; }
-        });
-
-        // ================================================================
-        // 7. TOAST
-        // ================================================================
-        function showToast(message, type) {
-            if (type === undefined) type = 'info';
-            var colors = { success: '#00ff7f', error: '#ff2d8a', warning: '#ff6a00', info: '#00d4ff' };
-            var icons = { success: 'fa-check-circle', error: 'fa-exclamation-circle', warning: 'fa-exclamation-triangle',
-                info: 'fa-info-circle' };
-            var existing = document.querySelector('.toast');
-            if (existing) existing.remove();
-            var el = document.createElement('div');
-            el.className = 'toast';
-            el.innerHTML =
-                '<i class="fas ' + icons[type] + ' icon ' + type + '"></i><span>' + message + '</span>';
-            el.style.borderColor = colors[type];
-            document.body.appendChild(el);
-            setTimeout(function() {
-                el.style.opacity = '0';
-                el.style.transform = 'translateY(20px)';
-                setTimeout(function() { el.remove(); }, 300);
-            }, 4000);
-        }
-
-        // ================================================================
-        // 8. SUPABASE CONFIG
+        // 5. SUPABASE CONFIG
         // ================================================================
         const SUPABASE_URL = 'https://abgtdybklkfozoazfmiw.supabase.co';
         const SUPABASE_ANON_KEY =
@@ -426,260 +508,353 @@
         const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
         // ================================================================
-        // 9. LOGIN
+        // 6. GESTIÓN DE USUARIO
         // ================================================================
-        document.getElementById('loginForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
+        var currentUser = null;
+        var socioData = null;
+        var historialPagos = [];
 
-            var username = document.getElementById('loginUsername').value.trim();
-            var password = document.getElementById('loginPassword').value;
-            var errorEl = document.getElementById('loginError');
-            var btn = document.getElementById('loginBtn');
+        function getCurrentUser() {
+            try {
+                var session = localStorage.getItem('fly_user_session');
+                if (session) {
+                    currentUser = JSON.parse(session);
+                    return currentUser;
+                }
+            } catch (e) {
+                console.warn('Error parsing session:', e);
+            }
+            return null;
+        }
 
-            if (!username || !password) {
-                errorEl.textContent = '⚠️ Completa todos los campos';
+        // ================================================================
+        // 7. CARGAR DATOS
+        // ================================================================
+        async function loadSocioData() {
+            var sessionUser = getCurrentUser();
+
+            if (!sessionUser) {
+                showToast('⚠️ Sesión no encontrada. Redirigiendo...', 'warning');
+                setTimeout(function() { window.location.href = 'index.html'; }, 1500);
                 return;
             }
 
-            btn.disabled = true;
-            btn.innerHTML = '<span class="spinner"></span> Ingresando...';
-
             try {
-                const { data: socio, error: socioError } = await supabaseClient
+                const { data: socio, error } = await supabaseClient
                     .from('socios')
                     .select('*')
-                    .eq('username', username.toLowerCase())
+                    .eq('id', sessionUser.id)
                     .single();
 
-                if (socioError || !socio) {
-                    throw new Error('Usuario no encontrado');
+                if (error || !socio) {
+                    showToast('⚠️ Usuario no encontrado. Redirigiendo...', 'warning');
+                    setTimeout(function() { window.location.href = 'index.html'; }, 1500);
+                    return;
                 }
 
-                if (socio.password_hash !== password) {
-                    throw new Error('Contraseña incorrecta');
+                socioData = socio;
+
+                const { data: pagos, error: pagosError } = await supabaseClient
+                    .from('pagos')
+                    .select('*')
+                    .eq('socio_id', socio.id)
+                    .order('fecha', { ascending: false });
+
+                if (!pagosError) {
+                    historialPagos = pagos || [];
+                } else {
+                    console.warn('Error cargando pagos:', pagosError);
                 }
 
-                errorEl.textContent = '';
-                showToast('✅ ¡Bienvenido ' + socio.nombre + '!', 'success');
+                renderProfile(socio);
+                renderPlan(socio);
+                renderHistorial();
+                checkVencimiento(socio);
 
-                localStorage.setItem('fly_user_session', JSON.stringify({
-                    id: socio.id,
-                    username: socio.username,
-                    nombre: socio.nombre,
-                    role: socio.role || 'socio'
-                }));
+                var badge = document.getElementById('navBadge');
+                var pendientes = historialPagos.filter(function(p) { return p.estado === 'Pendiente'; });
+                if (pendientes.length > 0) {
+                    badge.style.display = 'block';
+                    badge.textContent = pendientes.length;
+                } else {
+                    badge.style.display = 'none';
+                }
 
-                setTimeout(function() {
-                    if (socio.role === 'admin') {
-                        window.location.href = 'admin.html';
-                    } else {
-                        window.location.href = 'socio.html';
-                    }
-                }, 1200);
+                if (socio.role === 'admin') {
+                    var headerActions = document.querySelector('.socio-header .header-actions');
+                    var adminBtn = document.createElement('button');
+                    adminBtn.className = 'btn btn-primary btn-sm';
+                    adminBtn.innerHTML = '<i class="fas fa-crown"></i> Admin';
+                    adminBtn.onclick = function() { window.location.href = 'admin.html'; };
+                    headerActions.prepend(adminBtn);
+                }
 
             } catch (error) {
-                errorEl.textContent = '❌ ' + (error.message || 'Error al iniciar sesión');
-                btn.disabled = false;
-                btn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Iniciar Sesión';
+                console.error('Error loading data:', error);
+                showToast('Error al cargar datos', 'error');
+            }
+        }
+
+        // ================================================================
+        // 8. RENDER PERFIL
+        // ================================================================
+        function renderProfile(user) {
+            document.getElementById('socioNombre').textContent = user.nombre || 'Sin nombre';
+            document.getElementById('socioUsername').textContent = '@' + user.username;
+            document.getElementById('socioId').textContent = '#' + user.id;
+
+            var planEl = document.getElementById('socioPlan');
+            planEl.textContent = user.plan || 'Sin plan';
+            planEl.className = 'badge ' + (user.plan === 'Sabatero' ? 'badge-active' : 'badge-pending');
+
+            var estadoEl = document.getElementById('socioEstado');
+            estadoEl.textContent = user.estado || 'Pendiente';
+            estadoEl.className = 'badge ' + getStatusClass(user.estado);
+
+            if (user.foto_url) {
+                document.getElementById('socioAvatar').src = user.foto_url;
+            }
+        }
+
+        function getStatusClass(estado) {
+            var map = { 
+                'Activo': 'badge-active', 
+                'Pendiente': 'badge-pending', 
+                'Suspendido': 'badge-suspended',
+                'Vencido': 'badge-expired' 
+            };
+            return map[estado] || 'badge-pending';
+        }
+
+        // ================================================================
+        // 9. RENDER PLAN
+        // ================================================================
+        function renderPlan(user) {
+            var sabatero = document.getElementById('planSabateroContainer');
+            var finder = document.getElementById('planFinderContainer');
+
+            sabatero.classList.add('hidden');
+            finder.classList.add('hidden');
+
+            if (user.plan === 'Sabatero') {
+                sabatero.classList.remove('hidden');
+                document.getElementById('sabateroInicio').textContent = user.fecha_inicio ? new Date(user.fecha_inicio)
+                    .toLocaleDateString() : 'No definida';
+                document.getElementById('sabateroVencimiento').textContent = user.fecha_vencimiento ? new Date(user
+                    .fecha_vencimiento).toLocaleDateString() : 'No definida';
+                document.getElementById('sabateroDias').textContent = user.fecha_vencimiento ? calcularDias(user
+                    .fecha_vencimiento) : 'N/A';
+                document.getElementById('sabateroMetodo').textContent = user.metodo_pago || 'N/A';
+
+                var pagosCount = historialPagos.filter(function(p) { return p.estado === 'Aprobado'; }).length;
+                document.getElementById('sabateroPagos').textContent = pagosCount;
+
+            } else if (user.plan === 'Finder') {
+                finder.classList.remove('hidden');
+                document.getElementById('finderMetodo').textContent = user.metodo_pago || 'N/A';
+                var pagosCountFinder = historialPagos.filter(function(p) { return p.estado === 'Aprobado'; }).length;
+                document.getElementById('finderPagos').textContent = pagosCountFinder;
+            }
+        }
+
+        function calcularDias(fechaVencimiento) {
+            var hoy = new Date();
+            var venc = new Date(fechaVencimiento);
+            var diff = Math.ceil((venc - hoy) / (1000 * 60 * 60 * 24));
+            return diff > 0 ? diff + ' días' : 'Vencido';
+        }
+
+        // ================================================================
+        // 10. RENDER HISTORIAL
+        // ================================================================
+        function renderHistorial() {
+            var tbody = document.getElementById('historialTableBody');
+
+            if (!historialPagos || historialPagos.length === 0) {
+                tbody.innerHTML =
+                    '<tr><td colspan="5" style="text-align:center;padding:24px;color:var(--text-muted);font-size:0.75rem;"><i class="fas fa-inbox" style="font-size:1.2rem;display:block;margin-bottom:6px;opacity:0.5;"></i>No hay pagos registrados</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = historialPagos.map(function(p) {
+                return '<tr>' +
+                    '<td>' + new Date(p.fecha).toLocaleDateString() + '</td>' +
+                    '<td>Gs. ' + p.monto.toLocaleString() + '</td>' +
+                    '<td>' + p.metodo + '</td>' +
+                    '<td><span class="badge ' + getStatusClass(p.estado) + '">' + p.estado + '</span></td>' +
+                    '<td>' + (p.comprobante_url ?
+                        '<button class="btn btn-secondary btn-sm" onclick="showToast(\'Ver comprobante\',\'info\')"><i class="fas fa-eye"></i></button>' :
+                        '-') +
+                    '</td>' +
+                    '</tr>';
+            }).join('');
+        }
+
+        // ================================================================
+        // 11. VENCIMIENTO
+        // ================================================================
+        function checkVencimiento(user) {
+            var container = document.getElementById('recordatorioContainer');
+
+            if (user.plan === 'Sabatero' && user.fecha_vencimiento) {
+                var dias = calcularDias(user.fecha_vencimiento);
+                var diasNum = parseInt(dias);
+
+                if (!isNaN(diasNum) && diasNum <= 7 && diasNum > 0) {
+                    container.classList.remove('hidden');
+                    document.getElementById('recordatorioMensaje').textContent =
+                        'Tu membresía vence en ' + dias + '. Te recomendamos renovar.';
+                } else if (!isNaN(diasNum) && diasNum <= 0) {
+                    container.classList.remove('hidden');
+                    document.getElementById('recordatorioMensaje').textContent =
+                        'Tu membresía ha vencido. Renueva para seguir disfrutando.';
+                } else {
+                    container.classList.add('hidden');
+                }
+            } else {
+                container.classList.add('hidden');
+            }
+        }
+
+        // ================================================================
+        // 12. ACCIONES
+        // ================================================================
+        function editarFotoPerfil() {
+            var input = document.createElement('input');
+            input.type = 'file';
+            input.accept = 'image/*';
+            input.onchange = async function(e) {
+                var file = e.target.files[0];
+                if (!file) return;
+
+                try {
+                    var reader = new FileReader();
+                    reader.onload = function(ev) {
+                        document.getElementById('socioAvatar').src = ev.target.result;
+                        showToast('✅ Foto actualizada (simulación)', 'success');
+                    };
+                    reader.readAsDataURL(file);
+                    showToast('📤 Subiendo foto...', 'info');
+                } catch (error) {
+                    showToast('Error al subir foto', 'error');
+                }
+            };
+            input.click();
+        }
+
+        function renovarMembresia() {
+            if (!confirm('¿Renovar tu membresía por 30 días más?')) return;
+            showToast('✅ Renovación solicitada. Espera confirmación del administrador.', 'success');
+        }
+
+        function subirComprobante() {
+            if (socioData && socioData.metodo_pago !== 'Transferencia') {
+                showToast('⚠️ Tu método de pago es Efectivo. No necesitas subir comprobante.', 'warning');
+                return;
+            }
+            document.getElementById('uploadModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function enviarComprobante() {
+            var file = document.getElementById('uploadReceipt').files[0];
+            if (!file) {
+                showToast('⚠️ Por favor selecciona un archivo', 'warning');
+                return;
+            }
+            showToast('✅ Comprobante enviado exitosamente', 'success');
+            closeModal('uploadModal');
+            document.getElementById('uploadReceipt').value = '';
+            document.getElementById('uploadPreview').style.display = 'none';
+        }
+
+        function descargarComprobantes() {
+            var pagos = historialPagos.filter(function(p) { return p.comprobante_url; });
+            if (pagos.length === 0) {
+                showToast('⚠️ No hay comprobantes disponibles', 'warning');
+                return;
+            }
+            showToast('📎 Descargando ' + pagos.length + ' comprobantes...', 'info');
+            setTimeout(function() {
+                showToast('✅ Comprobantes descargados (simulación)', 'success');
+            }, 1000);
+        }
+
+        function closeModal(id) {
+            document.getElementById(id).classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        // Event listeners para el modal
+        document.getElementById('uploadModal').addEventListener('click', function(e) {
+            if (e.target === this) closeModal('uploadModal');
+        });
+
+        document.getElementById('uploadReceipt').addEventListener('change', function() {
+            var preview = document.getElementById('uploadPreview');
+            var name = document.getElementById('uploadFileName');
+            if (this.files && this.files[0]) {
+                name.textContent = this.files[0].name;
+                preview.style.display = 'flex';
+            } else {
+                preview.style.display = 'none';
             }
         });
 
         // ================================================================
-        // 10. REGISTRO
+        // 13. TOAST
         // ================================================================
-        document.getElementById('registerForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
+        function showToast(message, type) {
+            if (type === undefined) type = 'info';
+            var colors = { success: '#00ff7f', error: '#ff2d8a', warning: '#ff6a00', info: '#00d4ff' };
+            var icons = { success: 'fa-check-circle', error: 'fa-exclamation-circle', warning: 'fa-exclamation-triangle',
+                info: 'fa-info-circle' };
 
-            var username = document.getElementById('registerUsername').value.trim();
-            var nombre = document.getElementById('registerName').value.trim();
-            var telefono = document.getElementById('registerPhone').value.trim();
-            var password = document.getElementById('registerPassword').value;
-            var plan = document.getElementById('registerPlan').value;
-            var metodo = document.getElementById('registerPaymentMethod').value;
-            var foto = document.getElementById('profilePhoto').files[0];
-            var comprobante = document.getElementById('receipt').files[0];
+            var existing = document.querySelector('.toast');
+            if (existing) existing.remove();
 
-            var errorEl = document.getElementById('registerError');
-            var successEl = document.getElementById('registerSuccess');
-            var btn = document.getElementById('registerBtn');
+            var el = document.createElement('div');
+            el.className = 'toast';
+            el.innerHTML =
+                '<i class="fas ' + icons[type] + ' icon ' + type + '"></i><span>' + message + '</span>';
+            el.style.borderColor = colors[type];
+            document.body.appendChild(el);
 
-            if (!username || username.length < 3) {
-                errorEl.textContent = '⚠️ El usuario debe tener al menos 3 caracteres';
-                return;
-            }
-            if (!nombre) {
-                errorEl.textContent = '⚠️ Ingresa tu nombre completo';
-                return;
-            }
-            if (!telefono) {
-                errorEl.textContent = '⚠️ Ingresa tu número de celular';
-                return;
-            }
-            if (password.length < 6) {
-                errorEl.textContent = '⚠️ La contraseña debe tener al menos 6 caracteres';
-                return;
-            }
-            if (!plan) {
-                errorEl.textContent = '⚠️ Selecciona un plan';
-                return;
-            }
-            if (!metodo) {
-                errorEl.textContent = '⚠️ Selecciona un método de pago';
-                return;
-            }
-            if (metodo === 'Transferencia' && !comprobante) {
-                errorEl.textContent = '⚠️ Debes subir el comprobante de transferencia';
-                return;
-            }
+            setTimeout(function() {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(20px)';
+                setTimeout(function() { el.remove(); }, 300);
+            }, 4000);
+        }
 
-            const { data: existing } = await supabaseClient
-                .from('socios')
-                .select('username')
-                .eq('username', username.toLowerCase())
-                .single();
-
-            if (existing) {
-                errorEl.textContent = '⚠️ El nombre de usuario ya está en uso';
-                return;
-            }
-
-            errorEl.textContent = '';
-            successEl.textContent = '';
-
-            btn.disabled = true;
-            btn.innerHTML = '<span class="spinner"></span> Registrando...';
-
+        // ================================================================
+        // 14. CERRAR SESIÓN
+        // ================================================================
+        function handleLogout() {
+            if (!confirm('¿Cerrar sesión?')) return;
             try {
-                const authEmail = `${username.toLowerCase()}@flyfutboleros.com`;
+                localStorage.removeItem('fly_user_session');
+            } catch (e) { /* ignorar */ }
+            showToast('🔒 Sesión cerrada', 'info');
+            setTimeout(function() {
+                window.location.href = 'index.html';
+            }, 1000);
+        }
 
-                const { data: authData, error: authError } = await supabaseClient.auth.signUp({
-                    email: authEmail,
-                    password: password,
-                    options: {
-                        data: {
-                            nombre: nombre,
-                            username: username.toLowerCase(),
-                            rol: 'socio'
-                        }
-                    }
-                });
-
-                if (authError) throw authError;
-
-                const socioData = {
-                    username: username.toLowerCase(),
-                    nombre: nombre,
-                    telefono: telefono,
-                    email: null,
-                    password_hash: password,
-                    plan: plan,
-                    metodo_pago: metodo,
-                    estado: 'Pendiente',
-                    fecha_registro: new Date().toISOString(),
-                    role: 'socio',
-                    user_id: authData.user.id
-                };
-
-                const { data: socio, error: socioError } = await supabaseClient
-                    .from('socios')
-                    .insert([socioData])
-                    .select()
-                    .single();
-
-                if (socioError) {
-                    await supabaseClient.auth.admin.deleteUser(authData.user.id);
-                    throw socioError;
-                }
-
-                if (foto) {
-                    try {
-                        const ext = foto.name.split('.').pop();
-                        const path = `${authData.user.id}/perfil.${ext}`;
-                        await supabaseClient.storage.from('perfiles').upload(path, foto);
-                        const url = supabaseClient.storage.from('perfiles').getPublicUrl(path).data.publicUrl;
-                        await supabaseClient.from('socios').update({ foto_url: url }).eq('id', socio.id);
-                    } catch (e) { console.warn('Error subiendo foto:', e); }
-                }
-
-                if (metodo === 'Transferencia' && comprobante) {
-                    try {
-                        const ext = comprobante.name.split('.').pop();
-                        const path = `${authData.user.id}/comprobante_${Date.now()}.${ext}`;
-                        await supabaseClient.storage.from('comprobantes').upload(path, comprobante);
-                        const url = supabaseClient.storage.from('comprobantes').getPublicUrl(path).data.publicUrl;
-                        await supabaseClient.from('socios').update({ comprobante_url: url }).eq('id', socio.id);
-
-                        await supabaseClient.from('comprobantes').insert([{
-                            socio_id: socio.id,
-                            archivo_url: url,
-                            tipo: 'transferencia',
-                            estado: 'Pendiente',
-                            fecha_subida: new Date().toISOString()
-                        }]);
-                    } catch (e) { console.warn('Error subiendo comprobante:', e); }
-                }
-
-                await supabaseClient.from('notificaciones').insert([{
-                    tipo: 'nuevo_socio',
-                    mensaje: `Nuevo socio: @${username} - ${nombre}`,
-                    leida: false,
-                    data: { socio_id: socio.id, username: username }
-                }]);
-
-                successEl.textContent = '✅ ¡Registro exitoso! Serás redirigido...';
-                showToast('✅ ¡Registro exitoso ' + nombre + '!', 'success');
-
-                btn.disabled = false;
-                btn.innerHTML = '<i class="fas fa-user-plus"></i> Registrarse';
-
-                document.getElementById('registerUsername').value = '';
-                document.getElementById('registerName').value = '';
-                document.getElementById('registerPhone').value = '';
-                document.getElementById('registerPassword').value = '';
-                document.getElementById('registerPlan').value = '';
-                document.getElementById('registerPaymentMethod').value = '';
-                document.getElementById('profilePhoto').value = '';
-                document.getElementById('profilePhotoPreview').style.display = 'none';
-                document.getElementById('receipt').value = '';
-                document.getElementById('receiptPreview').style.display = 'none';
-                document.getElementById('transferenciaInfo').classList.add('hidden');
-                document.getElementById('efectivoInfo').classList.add('hidden');
-
-                setTimeout(function() {
-                    showLogin();
-                    showToast('🔐 Inicia sesión con tu usuario y contraseña', 'info');
-                }, 2000);
-
-            } catch (error) {
-                errorEl.textContent = '❌ ' + (error.message || 'Error al registrarse');
-                btn.disabled = false;
-                btn.innerHTML = '<i class="fas fa-user-plus"></i> Registrarse';
-            }
+        // ================================================================
+        // 15. INICIALIZAR
+        // ================================================================
+        document.addEventListener('DOMContentLoaded', function() {
+            loadSocioData();
         });
 
-        // ================================================================
-        // 11. ENTER PARA LOGIN
-        // ================================================================
-        document.getElementById('loginPassword').addEventListener('keydown', function(e) {
-            if (e.key === 'Enter') {
-                document.getElementById('loginForm').dispatchEvent(new Event('submit'));
-            }
+        // Ocultar badge al hacer clic en la pestaña Plan
+        document.querySelector('.bottom-nav .nav-item[data-section="plan"]').addEventListener('click', function() {
+            document.getElementById('navBadge').style.display = 'none';
         });
 
-        document.getElementById('registerPassword').addEventListener('keydown', function(e) {
-            if (e.key === 'Enter') {
-                document.getElementById('registerForm').dispatchEvent(new Event('submit'));
-            }
-        });
-
-        // ================================================================
-        // 12. MOSTRAR LOGIN POR DEFECTO
-        // ================================================================
-        showLogin();
-
-        console.log('🔐 FLY FUTBOLEROS · Registro sin email visible');
-        console.log('🌡️ Temperatura en tiempo real');
-        console.log('👤 Usuario admin: admin / fly2026');
+        console.log('👤 FLY FUTBOLEROS · Panel del Socio');
+        console.log('🌡️ Clima con día/noche según hora local');
     </script>
 
 </body>
