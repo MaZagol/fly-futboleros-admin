@@ -10,7 +10,7 @@
     <style>
         /* ===== RESET & BASE ===== */
         *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-        :root{--bg-deep:#06060e;--bg-card:rgba(12,12,26,0.6);--bg-card-hover:rgba(12,12,26,0.8);--border-glow:rgba(0,212,255,0.06);--text-primary:#e8e8f0;--text-secondary:#9a9ab0;--text-muted:#5a5a7a;--neon-blue:#00d4ff;--neon-purple:#8b3cff;--neon-pink:#ff2d8a;--neon-green:#00ff7f;--neon-orange:#ff6a00;--gradient-primary:linear-gradient(135deg,#00d4ff,#8b3cff);--shadow-card:0 8px 48px rgba(0,0,0,0.9);--radius:18px;--radius-sm:12px;--radius-xs:8px;--transition:all 0.4s cubic-bezier(0.25,0.46,0.45,0.94);--transition-fast:all 0.2s ease;--bottom-nav-height:64px}
+        :root{--bg-deep:#06060e;--bg-card:rgba(12,12,26,0.6);--bg-card-hover:rgba(12,12,26,0.8);--border-glow:rgba(0,212,255,0.06);--text-primary:#f0f0ff;--text-secondary:#b8b8d0;--text-muted:#7a7a9a;--neon-blue:#00d4ff;--neon-purple:#8b3cff;--neon-pink:#ff2d8a;--neon-green:#00ff7f;--neon-orange:#ff6a00;--gradient-primary:linear-gradient(135deg,#00d4ff,#8b3cff);--shadow-card:0 8px 48px rgba(0,0,0,0.9);--radius:18px;--radius-sm:12px;--radius-xs:8px;--transition:all 0.4s cubic-bezier(0.25,0.46,0.45,0.94);--transition-fast:all 0.2s ease;--bottom-nav-height:72px}
         html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased;font-size:16px}
         body{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg-deep);color:var(--text-primary);min-height:100vh;overflow-x:hidden;position:relative;padding-bottom:calc(var(--bottom-nav-height)+24px)}
         ::-webkit-scrollbar{width:3px;height:3px}
@@ -57,45 +57,45 @@
         .profile-avatar img{width:clamp(64px, 10vw, 80px);height:clamp(64px, 10vw, 80px);border-radius:50%;object-fit:cover;border:2px solid var(--neon-blue);box-shadow:0 0 30px rgba(0,212,255,0.06)}
         .profile-avatar .edit-btn{position:absolute;bottom:0;right:0;background:var(--gradient-primary);border:none;border-radius:50%;width:26px;height:26px;color:#fff;font-size:0.55rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:var(--transition-fast);box-shadow:0 0 20px rgba(0,212,255,0.08)}
         .profile-avatar .edit-btn:active{transform:scale(0.85)}
-        .profile-info h1{font-size:clamp(1.1rem, 2.5vw, 1.4rem);font-weight:700;color:var(--text-primary)}
+        .profile-info h1{font-size:clamp(1.1rem, 2.5vw, 1.4rem);font-weight:700;color:#ffffff}
         .profile-info p{color:var(--text-secondary);font-size:clamp(0.7rem, 1.2vw, 0.85rem);margin:2px 0}
-        .profile-info p strong{color:var(--text-primary)}
+        .profile-info p strong{color:#d0d0e8;font-weight:600}
         
         /* ===== BADGES ===== */
-        .badge{display:inline-block;padding:2px 10px;border-radius:12px;font-size:clamp(0.45rem, 1vw, 0.6rem);font-weight:600;text-transform:uppercase;letter-spacing:0.5px}
-        .badge-active{background:rgba(0,255,127,0.06);color:var(--neon-green);border:1px solid rgba(0,255,127,0.06)}
-        .badge-pending{background:rgba(255,106,0,0.06);color:var(--neon-orange);border:1px solid rgba(255,106,0,0.06)}
-        .badge-suspended{background:rgba(255,45,138,0.06);color:var(--neon-pink);border:1px solid rgba(255,45,138,0.06)}
-        .badge-expired{background:rgba(255,45,138,0.06);color:var(--neon-pink);border:1px solid rgba(255,45,138,0.06)}
+        .badge{display:inline-block;padding:2px 10px;border-radius:12px;font-size:clamp(0.45rem, 1vw, 0.6rem);font-weight:700;text-transform:uppercase;letter-spacing:0.5px}
+        .badge-active{background:rgba(0,255,127,0.1);color:#33ffaa;border:1px solid rgba(0,255,127,0.15)}
+        .badge-pending{background:rgba(255,106,0,0.1);color:#ff8833;border:1px solid rgba(255,106,0,0.15)}
+        .badge-suspended{background:rgba(255,45,138,0.1);color:#ff5599;border:1px solid rgba(255,45,138,0.15)}
+        .badge-expired{background:rgba(255,45,138,0.1);color:#ff5599;border:1px solid rgba(255,45,138,0.15)}
         
         /* ===== PLAN ===== */
         .plan-section{padding:18px 20px;margin-bottom:16px}
         .plan-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:8px}
-        .plan-header h3{font-size:clamp(0.85rem, 1.8vw, 1.1rem);font-weight:600;color:var(--text-primary)}
+        .plan-header h3{font-size:clamp(0.85rem, 1.8vw, 1.1rem);font-weight:700;color:#ffffff}
         .plan-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px}
         .plan-item{padding:8px 12px;background:rgba(0,0,0,0.2);border-radius:var(--radius-xs);border:1px solid var(--border-glow)}
         .plan-item label{display:block;font-size:0.5rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px}
-        .plan-item span{font-size:clamp(0.75rem, 1.2vw, 0.9rem);font-weight:600;color:var(--text-primary)}
+        .plan-item span{font-size:clamp(0.75rem, 1.2vw, 0.9rem);font-weight:700;color:#e8e8f0}
         .plan-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;padding-top:14px;border-top:1px solid var(--border-glow)}
         
         /* ===== TABLA ===== */
         .socio-table{width:100%;border-collapse:collapse;font-size:clamp(0.6rem, 1.1vw, 0.75rem)}
-        .socio-table th{padding:8px 10px;text-align:left;color:var(--text-secondary);font-weight:500;font-size:clamp(0.45rem, 0.9vw, 0.6rem);text-transform:uppercase;letter-spacing:0.5px;border-bottom:1px solid var(--border-glow)}
-        .socio-table td{padding:6px 10px;border-bottom:1px solid rgba(255,255,255,0.015);vertical-align:middle;color:var(--text-secondary)}
+        .socio-table th{padding:8px 10px;text-align:left;color:var(--text-secondary);font-weight:600;font-size:clamp(0.45rem, 0.9vw, 0.6rem);text-transform:uppercase;letter-spacing:0.5px;border-bottom:1px solid var(--border-glow)}
+        .socio-table td{padding:6px 10px;border-bottom:1px solid rgba(255,255,255,0.015);vertical-align:middle;color:#c8c8dd}
         .table-container{overflow-x:auto;-webkit-overflow-scrolling:touch}
         
         /* ===== RECORDATORIO ===== */
         .recordatorio{padding:14px 18px;border:1px solid rgba(255,106,0,0.12);background:rgba(255,106,0,0.02);border-radius:var(--radius);margin-bottom:16px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
         .recordatorio i{color:var(--neon-orange);font-size:1.3rem;flex-shrink:0}
-        .recordatorio .content h4{color:var(--neon-orange);font-size:clamp(0.75rem, 1.2vw, 0.9rem)}
-        .recordatorio .content p{color:var(--text-secondary);font-size:clamp(0.65rem, 1vw, 0.8rem)}
+        .recordatorio .content h4{color:#ff8833;font-size:clamp(0.75rem, 1.2vw, 0.9rem)}
+        .recordatorio .content p{color:#d0d0e0;font-size:clamp(0.65rem, 1vw, 0.8rem)}
         
         /* ===== MODAL ===== */
         .modal{position:fixed;inset:0;background:rgba(0,0,0,0.85);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);z-index:2000;display:none;align-items:center;justify-content:center;padding:16px}
         .modal.active{display:flex}
         .modal-content{width:100%;max-width:500px;max-height:90vh;overflow-y:auto;background:rgba(6,6,14,0.98);border:1px solid var(--border-glow);border-radius:var(--radius);padding:0;animation:fadeInUp 0.3s ease;box-shadow:var(--shadow-card)}
         .modal-header{display:flex;justify-content:space-between;align-items:center;padding:14px 18px;border-bottom:1px solid var(--border-glow);position:sticky;top:0;background:rgba(6,6,14,0.95);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);z-index:10;border-radius:var(--radius) var(--radius) 0 0}
-        .modal-header h2{font-size:clamp(0.85rem, 1.8vw, 1rem);font-weight:600;color:var(--text-primary)}
+        .modal-header h2{font-size:clamp(0.85rem, 1.8vw, 1rem);font-weight:700;color:#ffffff}
         .modal-close{background:none;border:none;color:var(--text-secondary);font-size:1.2rem;cursor:pointer;transition:var(--transition-fast);padding:4px}
         .modal-close:hover{color:var(--neon-pink)}
         .modal-body{padding:16px 18px}
@@ -112,7 +112,7 @@
         @keyframes fadeInUp{from{opacity:0;transform:translateY(16px) scale(0.96)}to{opacity:1;transform:translateY(0) scale(1)}}
         
         /* ===== TOAST ===== */
-        .toast{position:fixed;bottom:calc(var(--bottom-nav-height)+16px);right:20px;left:20px;max-width:400px;margin:0 auto;padding:14px 20px;background:rgba(6,6,14,0.96);border:1px solid var(--border-glow);border-radius:var(--radius-sm);color:var(--text-primary);z-index:9999;animation:fadeInUp 0.3s ease;box-shadow:var(--shadow-card);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);display:flex;align-items:center;gap:12px;font-size:clamp(0.7rem, 1.2vw, 0.85rem)}
+        .toast{position:fixed;bottom:calc(var(--bottom-nav-height)+20px);right:20px;left:20px;max-width:400px;margin:0 auto;padding:14px 20px;background:rgba(6,6,14,0.96);border:1px solid var(--border-glow);border-radius:var(--radius-sm);color:var(--text-primary);z-index:9999;animation:fadeInUp 0.3s ease;box-shadow:var(--shadow-card);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);display:flex;align-items:center;gap:12px;font-size:clamp(0.7rem, 1.2vw, 0.85rem)}
         .toast .icon{font-size:1.1rem;flex-shrink:0}
         .toast .icon.success{color:var(--neon-green)}
         .toast .icon.error{color:var(--neon-pink)}
@@ -125,16 +125,37 @@
         .section-page.active{display:block}
         @keyframes slideIn{from{opacity:0;transform:translateX(30px)}to{opacity:1;transform:translateX(0)}}
         
-        /* ===== BOTTOM NAV ===== */
-        .bottom-nav{position:fixed;bottom:0;left:0;right:0;z-index:500;background:rgba(6,6,14,0.95);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-top:1px solid var(--border-glow);height:var(--bottom-nav-height);display:flex;align-items:center;justify-content:space-around;padding:0 8px;box-shadow:0 -8px 40px rgba(0,0,0,0.5)}
-        .bottom-nav .nav-item{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:6px 12px;border:none;background:none;color:var(--text-muted);cursor:pointer;transition:var(--transition-fast);min-width:56px;min-height:48px;position:relative;-webkit-tap-highlight-color:transparent;touch-action:manipulation;border-radius:var(--radius-xs)}
+        /* ===== BOTTOM NAV - MEJORADO ===== */
+        .bottom-nav{position:fixed;bottom:0;left:0;right:0;z-index:500;background:rgba(6,6,14,0.96);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-top:1px solid var(--border-glow);height:var(--bottom-nav-height);display:flex;align-items:center;justify-content:space-around;padding:6px 4px;box-shadow:0 -8px 40px rgba(0,0,0,0.6)}
+        .bottom-nav .nav-item{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:6px 12px;border:none;background:none;color:var(--text-muted);cursor:pointer;transition:var(--transition-fast);min-width:64px;min-height:56px;position:relative;-webkit-tap-highlight-color:transparent;touch-action:manipulation;border-radius:var(--radius-sm);flex:1;max-width:100px}
         .bottom-nav .nav-item:active{transform:scale(0.92)}
-        .bottom-nav .nav-item i{font-size:clamp(1rem, 2vw, 1.2rem);transition:var(--transition-fast)}
-        .bottom-nav .nav-item span{font-size:clamp(0.4rem, 0.8vw, 0.5rem);font-weight:500;text-transform:uppercase;letter-spacing:0.5px;transition:var(--transition-fast)}
-        .bottom-nav .nav-item.active{color:var(--neon-blue)}
-        .bottom-nav .nav-item .nav-badge{position:absolute;top:2px;right:4px;background:var(--neon-pink);color:#fff;font-size:0.45rem;font-weight:700;padding:1px 6px;border-radius:10px;min-width:16px;text-align:center;box-shadow:0 0 20px rgba(255,45,138,0.2)}
+        .bottom-nav .nav-item i{font-size:clamp(1.2rem, 2.2vw, 1.4rem);transition:var(--transition-fast);margin-bottom:1px}
+        .bottom-nav .nav-item span{font-size:clamp(0.45rem, 0.9vw, 0.55rem);font-weight:600;text-transform:uppercase;letter-spacing:0.8px;transition:var(--transition-fast);white-space:nowrap}
+        .bottom-nav .nav-item.active{color:var(--neon-blue);background:rgba(0,212,255,0.04);border-radius:var(--radius-sm)}
+        .bottom-nav .nav-item.active i{text-shadow:0 0 20px rgba(0,212,255,0.15)}
+        .bottom-nav .nav-item .nav-badge{position:absolute;top:4px;right:8px;background:var(--neon-pink);color:#fff;font-size:0.5rem;font-weight:800;padding:1px 7px;border-radius:12px;min-width:20px;text-align:center;box-shadow:0 0 20px rgba(255,45,138,0.25);line-height:1.4}
         
-        /* ===== RESPONSIVE ===== */
+        /* ===== RESPONSIVE BOTTOM NAV ===== */
+        @media(max-width:480px){
+            .bottom-nav{height:68px;padding:4px 2px}
+            .bottom-nav .nav-item{min-width:50px;min-height:48px;padding:4px 6px;gap:2px}
+            .bottom-nav .nav-item i{font-size:1.1rem}
+            .bottom-nav .nav-item span{font-size:0.4rem;letter-spacing:0.5px}
+            .bottom-nav .nav-item .nav-badge{font-size:0.4rem;padding:0px 5px;min-width:16px;top:2px;right:4px}
+            .toast{bottom:calc(var(--bottom-nav-height)+12px)}
+        }
+        @media(max-width:380px){
+            .bottom-nav .nav-item{min-width:44px;min-height:42px;padding:3px 4px}
+            .bottom-nav .nav-item i{font-size:0.95rem}
+            .bottom-nav .nav-item span{font-size:0.35rem;letter-spacing:0.3px}
+        }
+        @media(min-width:768px){
+            .bottom-nav .nav-item{max-width:120px}
+            .bottom-nav .nav-item i{font-size:1.4rem}
+            .bottom-nav .nav-item span{font-size:0.6rem}
+        }
+        
+        /* ===== RESPONSIVE GENERAL ===== */
         @media(max-width:768px){
             .profile-header{flex-direction:column;text-align:center}
             .plan-grid{grid-template-columns:1fr 1fr}
@@ -159,10 +180,6 @@
             .recordatorio i{font-size:1.1rem}
             .status-bar{font-size:0.5rem;gap:4px;padding:2px 8px}
             .status-bar .sep{display:none}
-            .bottom-nav .nav-item{padding:4px 8px;min-width:48px;min-height:40px}
-            .bottom-nav .nav-item i{font-size:1rem}
-            .bottom-nav .nav-item span{font-size:0.45rem}
-            .toast{font-size:0.75rem;padding:12px 16px;bottom:calc(var(--bottom-nav-height)+12px);left:12px;right:12px}
         }
         @media(max-width:380px){
             .glass-card{padding:12px 10px}
@@ -172,6 +189,28 @@
         @media(min-width:769px){
             .btn{width:auto}
         }
+        
+        /* ===== SOBRE NOSOTROS ===== */
+        .fly-info-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px}
+        .fly-info-grid .info-card{background:rgba(0,0,0,0.2);border-radius:var(--radius-xs);padding:12px 10px;text-align:center;border:1px solid var(--border-glow)}
+        .fly-info-grid .info-card .icon{font-size:1.4rem;margin-bottom:2px}
+        .fly-info-grid .info-card .title{font-size:0.55rem;font-weight:700;color:#e8e8f0}
+        .fly-info-grid .info-card .sub{font-size:0.45rem;color:#9a9ab8}
+        @media(max-width:480px){.fly-info-grid{grid-template-columns:1fr 1fr}}
+        
+        .fly-descripcion{font-size:0.75rem;color:#c8c8dd;line-height:1.7;margin-bottom:10px}
+        .fly-descripcion .highlight{color:#44ddff;font-weight:600}
+        .fly-cita{background:rgba(0,212,255,0.02);border-left:2px solid var(--neon-blue);border-radius:var(--radius-xs);padding:10px 14px;margin-bottom:14px}
+        .fly-cita p{font-size:0.65rem;color:#b8b8d0;font-style:italic;line-height:1.6}
+        .fly-tags span{font-size:0.5rem;color:#8a8aaa}
+        .fly-tags span .tag-text{color:#c8c8dd;font-weight:500}
+        .fly-fechas{display:grid;grid-template-columns:repeat(auto-fit,minmax(80px,1fr));gap:10px;text-align:center}
+        .fly-fechas .fecha-item .numero{font-size:1.2rem;font-weight:800}
+        .fly-fechas .fecha-item .label{font-size:0.5rem;color:#8a8aaa;text-transform:uppercase;letter-spacing:0.5px}
+        .fly-fechas .fecha-item .numero.azul{color:var(--neon-blue)}
+        .fly-fechas .fecha-item .numero.verde{color:var(--neon-green)}
+        .fly-fechas .fecha-item .numero.morado{color:var(--neon-purple)}
+        .fly-fechas .fecha-item .numero.naranja{color:var(--neon-orange)}
     </style>
 </head>
 <body>
@@ -192,7 +231,7 @@
                     <span id="tempDisplay">--°C</span>
                     <span class="sep">·</span>
                     <span>PYG</span>
-                    <span class="weather-icon" id="weatherIcon">🌙</span>
+                    <span class="weather-icon" id="weatherIcon">☀️</span>
                 </div>
                 <button class="btn btn-secondary btn-sm" onclick="handleLogout()">
                     <i class="fas fa-sign-out-alt"></i> Salir
@@ -203,6 +242,7 @@
 
     <main class="socio-main" id="socioMain">
 
+        <!-- ===== SECCIÓN PERFIL ===== -->
         <div class="section-page active" id="section-perfil">
             <div class="glass-card">
                 <div class="profile-header">
@@ -218,8 +258,93 @@
                     </div>
                 </div>
             </div>
+
+            <!-- ===== SOBRE FLY FUTBOLEROS ===== -->
+            <div class="glass-card" style="padding:0;overflow:hidden;border-color:rgba(0,212,255,0.06);">
+                <div style="background:linear-gradient(135deg,rgba(0,212,255,0.08),rgba(139,60,255,0.04));padding:18px 20px 12px 20px;border-bottom:1px solid var(--border-glow);">
+                    <div style="display:flex;align-items:center;gap:12px;">
+                        <span style="font-size:1.6rem;">⚡</span>
+                        <div>
+                            <h3 style="font-size:1rem;font-weight:800;color:#ffffff;">FLY FUTBOLEROS</h3>
+                            <p style="font-size:0.55rem;color:#9a9ab8;letter-spacing:2px;text-transform:uppercase;font-weight:500;">Asociación Amateur de Fútbol 6 vs 6 · Desde 2012</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="padding:16px 20px 20px 20px;">
+                    <div style="display:grid;grid-template-columns:1fr auto;gap:16px;align-items:start;margin-bottom:16px;">
+                        <div>
+                            <p class="fly-descripcion">
+                                <span class="highlight">Fly Futboleros</span> es una asociación amateur de fútbol 6 vs 6 que comenzó sus actividades a mediados del año 2012. 
+                                Con más de una década de trayectoria, nos hemos consolidado como un espacio donde la pasión por el deporte y la camaradería se unen fecha tras fecha.
+                            </p>
+                        </div>
+                        <div style="flex-shrink:0;width:56px;height:56px;border-radius:50%;background:var(--gradient-primary);display:flex;align-items:center;justify-content:center;box-shadow:0 0 30px rgba(0,212,255,0.06);">
+                            <span style="font-size:1.8rem;">⚡</span>
+                        </div>
+                    </div>
+
+                    <div class="fly-info-grid">
+                        <div class="info-card">
+                            <div class="icon">🏆</div>
+                            <div class="title">Tradición</div>
+                            <div class="sub">Más de 10 años</div>
+                        </div>
+                        <div class="info-card">
+                            <div class="icon">🤝</div>
+                            <div class="title">Compromiso</div>
+                            <div class="sub">Causas benéficas</div>
+                        </div>
+                        <div class="info-card">
+                            <div class="icon">⚡</div>
+                            <div class="title">Pasión</div>
+                            <div class="sub">Juego limpio</div>
+                        </div>
+                    </div>
+
+                    <div class="fly-cita">
+                        <p>"Reconocida y altamente valorada por sus socios, promovemos la integración de nuevos valores y la organización semanal de partidos sin complicaciones."</p>
+                    </div>
+
+                    <div style="display:flex;flex-wrap:wrap;gap:6px 12px;justify-content:space-between;align-items:center;padding-top:12px;border-top:1px solid var(--border-glow);">
+                        <div class="fly-tags" style="display:flex;flex-wrap:wrap;gap:4px 12px;">
+                            <span style="font-size:0.5rem;color:#8a8aaa;">🤝 <span class="tag-text">Ayuda social</span></span>
+                            <span style="font-size:0.5rem;color:#8a8aaa;">🎯 <span class="tag-text">Juego limpio</span></span>
+                            <span style="font-size:0.5rem;color:#8a8aaa;">🏅 <span class="tag-text">Integración</span></span>
+                        </div>
+                        <span style="font-size:0.45rem;color:#7a7a9a;font-weight:500;">© 2026 FLY FUTBOLEROS</span>
+                    </div>
+
+                    <button onclick="showToast('📖 Más información en la página principal', 'info')" style="width:100%;margin-top:10px;padding:8px;background:rgba(0,0,0,0.15);border:1px solid var(--border-glow);border-radius:var(--radius-xs);color:#b8b8d0;font-size:0.55rem;font-family:'Inter',sans-serif;cursor:pointer;transition:var(--transition-fast);">
+                        <i class="fas fa-chevron-down" style="font-size:0.4rem;margin-right:6px;"></i> Conocer más sobre la asociación
+                    </button>
+                </div>
+            </div>
+
+            <!-- ===== FECHAS CLAVE ===== -->
+            <div class="glass-card" style="padding:14px 18px;">
+                <div class="fly-fechas">
+                    <div class="fecha-item">
+                        <div class="numero azul">2012</div>
+                        <div class="label">Fundación</div>
+                    </div>
+                    <div class="fecha-item">
+                        <div class="numero verde">6v6</div>
+                        <div class="label">Formato</div>
+                    </div>
+                    <div class="fecha-item">
+                        <div class="numero morado">+10</div>
+                        <div class="label">Años</div>
+                    </div>
+                    <div class="fecha-item">
+                        <div class="numero naranja">⚡</div>
+                        <div class="label">Pasión</div>
+                    </div>
+                </div>
+            </div>
         </div>
 
+        <!-- ===== SECCIÓN PLAN ===== -->
         <div class="section-page" id="section-plan">
             <div id="planSabateroContainer" class="plan-section glass-card">
                 <div class="plan-header"><h3>📋 Plan Sabatero</h3><span class="badge badge-active">Mensual</span></div>
@@ -256,13 +381,14 @@
             </div>
         </div>
 
+        <!-- ===== SECCIÓN HISTORIAL ===== -->
         <div class="section-page" id="section-historial">
             <div class="glass-card">
-                <h3 style="margin-bottom:14px;font-size:clamp(0.85rem, 1.8vw, 1rem);">📜 Historial de Pagos</h3>
+                <h3 style="margin-bottom:14px;font-size:clamp(0.85rem, 1.8vw, 1rem);font-weight:700;color:#ffffff;">📜 Historial de Pagos</h3>
                 <div class="table-container">
                     <table class="socio-table">
                         <thead><tr><th>Fecha</th><th>Monto</th><th>Método</th><th>Estado</th><th>Comprobante</th></tr></thead>
-                        <tbody id="historialTableBody"><tr><td colspan="5" style="text-align:center;padding:24px;color:var(--text-muted);font-size:0.75rem;"><i class="fas fa-inbox" style="font-size:1.2rem;display:block;margin-bottom:6px;opacity:0.5;"></i>No hay pagos registrados</td></tr></tbody>
+                        <tbody id="historialTableBody"><tr><td colspan="5" style="text-align:center;padding:24px;color:#8a8aaa;font-size:0.75rem;"><i class="fas fa-inbox" style="font-size:1.2rem;display:block;margin-bottom:6px;opacity:0.5;"></i>No hay pagos registrados</td></tr></tbody>
                     </table>
                 </div>
             </div>
@@ -270,14 +396,15 @@
 
     </main>
 
+    <!-- ===== MODAL ===== -->
     <div class="modal" id="uploadModal">
         <div class="modal-content">
             <div class="modal-header"><h2>📎 Subir Comprobante</h2><button class="modal-close" onclick="closeModal('uploadModal')">&times;</button></div>
             <div class="modal-body">
-                <p style="margin-bottom:14px;color:var(--text-secondary);font-size:clamp(0.75rem, 1.2vw, 0.85rem);">Sube tu comprobante de pago. Formatos: JPG, PNG, PDF.</p>
+                <p style="margin-bottom:14px;color:#b8b8d0;font-size:clamp(0.75rem, 1.2vw, 0.85rem);">Sube tu comprobante de pago. Formatos: JPG, PNG, PDF.</p>
                 <div class="file-upload-area" onclick="document.getElementById('uploadReceipt').click()">
                     <i class="fas fa-upload"></i><p>Seleccionar archivo</p>
-                    <div style="font-size:0.6rem;color:var(--text-muted);margin-top:4px;">Captura de pantalla o foto</div>
+                    <div style="font-size:0.6rem;color:#7a7a9a;margin-top:4px;">Captura de pantalla o foto</div>
                     <input type="file" id="uploadReceipt" accept=".jpg,.jpeg,.png,.pdf">
                 </div>
                 <div id="uploadPreview" class="file-preview" style="display:none;">
@@ -289,10 +416,25 @@
         </div>
     </div>
 
+    <!-- ===== BOTTOM NAV - MEJORADO ===== -->
     <nav class="bottom-nav" id="bottomNav">
-        <button class="nav-item active" data-section="perfil" onclick="navigateTo('perfil')"><i class="fas fa-user"></i><span>Perfil</span></button>
-        <button class="nav-item" data-section="plan" onclick="navigateTo('plan')"><i class="fas fa-futbol"></i><span>Plan</span><span class="nav-badge" id="navBadge" style="display:none;">!</span></button>
-        <button class="nav-item" data-section="historial" onclick="navigateTo('historial')"><i class="fas fa-history"></i><span>Historial</span></button>
+        <button class="nav-item active" data-section="perfil" onclick="navigateTo('perfil')">
+            <i class="fas fa-user"></i>
+            <span>Perfil</span>
+        </button>
+        <button class="nav-item" data-section="plan" onclick="navigateTo('plan')">
+            <i class="fas fa-futbol"></i>
+            <span>Plan</span>
+            <span class="nav-badge" id="navBadge" style="display:none;">!</span>
+        </button>
+        <button class="nav-item" data-section="historial" onclick="navigateTo('historial')">
+            <i class="fas fa-history"></i>
+            <span>Historial</span>
+        </button>
+        <button class="nav-item" onclick="handleLogout()">
+            <i class="fas fa-sign-out-alt"></i>
+            <span>Salir</span>
+        </button>
     </nav>
 
     <script>
@@ -328,21 +470,18 @@
         updateClock();
 
         // ================================================================
-        // 3. TEMPERATURA CON CACHÉ Y DÍA/NOCHE POR HORA LOCAL
+        // 3. CLIMA CON CACHÉ Y DÍA/NOCHE
         // ================================================================
         const CACHE_KEY = 'fly_weather_cache';
-        const CACHE_TTL = 10 * 60 * 1000; // 10 minutos
+        const CACHE_TTL = 10 * 60 * 1000;
 
-        // Determina si es de día o noche según la hora local
         function getDayNightIcon() {
             const now = new Date();
             const hour = now.getHours();
-            // Día: 6:00 AM - 6:59 PM (6-18)
             const isDay = hour >= 6 && hour < 19;
             return isDay ? '☀️' : '🌙';
         }
 
-        // Obtiene el ícono climático según el código de OpenWeatherMap
         function getWeatherIcon(code) {
             const map = {
                 '01d': '☀️', '01n': '🌙',
@@ -359,72 +498,43 @@
         }
 
         async function obtenerTemperatura() {
-            // 1. Intentar leer caché
             const cached = localStorage.getItem(CACHE_KEY);
             if (cached) {
                 try {
                     const data = JSON.parse(cached);
                     const age = Date.now() - data.timestamp;
                     if (age < CACHE_TTL) {
-                        // Si la caché tiene temperatura, pero el ícono puede estar desactualizado
-                        // Recalculamos el ícono según la hora actual para asegurar día/noche correcto
                         const icon = getDayNightIcon();
                         return { temperatura: data.temperatura, icono: icon };
                     }
-                } catch (e) { /* ignorar */ }
+                } catch (e) {}
             }
 
-            // 2. Intentar obtener clima real
             let temperatura = null;
-            let icono = getDayNightIcon(); // Por defecto según hora local
+            let icono = getDayNightIcon();
 
             try {
-                // Usar geolocalización si está disponible
-                let lat, lon;
-                try {
-                    const position = await new Promise((resolve, reject) => {
-                        if (!navigator.geolocation) reject(new Error('Geolocation not supported'));
-                        navigator.geolocation.getCurrentPosition(resolve, reject, { timeout: 5000 });
-                    });
-                    lat = position.coords.latitude;
-                    lon = position.coords.longitude;
-                } catch (geoError) {
-                    // Fallback a IP
-                    try {
-                        const ipResponse = await fetch('https://ipapi.co/json/');
-                        if (ipResponse.ok) {
-                            const ipData = await ipResponse.json();
-                            if (ipData && ipData.latitude && ipData.longitude) {
-                                lat = ipData.latitude;
-                                lon = ipData.longitude;
+                const geoResponse = await fetch('https://ipapi.co/json/');
+                if (geoResponse.ok) {
+                    const geoData = await geoResponse.json();
+                    if (geoData && geoData.city) {
+                        const weatherUrl = 'https://api.openweathermap.org/data/2.5/weather?q=' + encodeURIComponent(geoData.city) + '&appid=bd5e378503939ddaee76f12ad7a97608&units=metric&lang=es';
+                        const weatherResponse = await fetch(weatherUrl);
+                        if (weatherResponse.ok) {
+                            const weatherData = await weatherResponse.json();
+                            if (weatherData.main && weatherData.main.temp !== undefined) {
+                                temperatura = Math.round(weatherData.main.temp);
                             }
-                        }
-                    } catch (ipError) {
-                        console.warn('Error obteniendo ubicación por IP:', ipError);
-                    }
-                }
-
-                if (lat && lon) {
-                    const weatherUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=bd5e378503939ddaee76f12ad7a97608&units=metric&lang=es`;
-                    const response = await fetch(weatherUrl);
-                    if (response.ok) {
-                        const data = await response.json();
-                        if (data.main && data.main.temp) {
-                            temperatura = Math.round(data.main.temp);
-                        }
-                        if (data.weather && data.weather[0] && data.weather[0].icon) {
-                            // Usar el ícono de la API solo si es válido
-                            const apiIcon = getWeatherIcon(data.weather[0].icon);
-                            // Pero priorizamos el día/noche según hora local para consistencia
-                            icono = apiIcon;
+                            if (weatherData.weather && weatherData.weather[0] && weatherData.weather[0].icon) {
+                                icono = getWeatherIcon(weatherData.weather[0].icon);
+                            }
                         }
                     }
                 }
             } catch (error) {
-                console.warn('Error obteniendo clima real:', error);
+                console.warn('Error obteniendo clima:', error);
             }
 
-            // Si no obtuvimos temperatura, usar caché o valor por defecto
             if (temperatura === null) {
                 if (cached) {
                     try {
@@ -436,11 +546,9 @@
                 } else {
                     temperatura = 22;
                 }
-                // El ícono ya lo tenemos por hora local
                 icono = getDayNightIcon();
             }
 
-            // Guardar en caché (solo temperatura, el ícono se calcula en tiempo real)
             localStorage.setItem(CACHE_KEY, JSON.stringify({
                 temperatura: temperatura,
                 timestamp: Date.now()
@@ -455,14 +563,13 @@
                 const tempDisplay = document.getElementById('tempDisplay');
                 const iconDisplay = document.getElementById('weatherIcon');
                 if (tempDisplay && clima.temperatura !== undefined) {
-                    tempDisplay.textContent = `${clima.temperatura}°C`;
+                    tempDisplay.textContent = clima.temperatura + '°C';
                 }
                 if (iconDisplay && clima.icono) {
                     iconDisplay.textContent = clima.icono;
                 }
             } catch (error) {
                 console.warn('Error actualizando clima:', error);
-                // Fallback de emergencia
                 const icon = getDayNightIcon();
                 const tempDisplay = document.getElementById('tempDisplay');
                 const iconDisplay = document.getElementById('weatherIcon');
@@ -471,16 +578,14 @@
             }
         }
 
-        // Actualizar clima al cargar y cada 10 minutos
         actualizarClima();
         setInterval(actualizarClima, 600000);
 
-        // También actualizar el ícono si cambia la hora (cada 30 minutos)
         setInterval(function() {
             const icon = getDayNightIcon();
             const iconDisplay = document.getElementById('weatherIcon');
             if (iconDisplay) iconDisplay.textContent = icon;
-        }, 1800000); // 30 minutos
+        }, 1800000);
 
         // ================================================================
         // 4. NAVEGACIÓN
@@ -499,7 +604,7 @@
         }
 
         // ================================================================
-        // 5. SUPABASE CONFIG
+        // 5. SUPABASE
         // ================================================================
         const SUPABASE_URL = 'https://abgtdybklkfozoazfmiw.supabase.co';
         const SUPABASE_ANON_KEY =
@@ -508,7 +613,7 @@
         const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
         // ================================================================
-        // 6. GESTIÓN DE USUARIO
+        // 6. USUARIO
         // ================================================================
         var currentUser = null;
         var socioData = null;
@@ -672,7 +777,7 @@
 
             if (!historialPagos || historialPagos.length === 0) {
                 tbody.innerHTML =
-                    '<tr><td colspan="5" style="text-align:center;padding:24px;color:var(--text-muted);font-size:0.75rem;"><i class="fas fa-inbox" style="font-size:1.2rem;display:block;margin-bottom:6px;opacity:0.5;"></i>No hay pagos registrados</td></tr>';
+                    '<tr><td colspan="5" style="text-align:center;padding:24px;color:#8a8aaa;font-size:0.75rem;"><i class="fas fa-inbox" style="font-size:1.2rem;display:block;margin-bottom:6px;opacity:0.5;"></i>No hay pagos registrados</td></tr>';
                 return;
             }
 
@@ -723,21 +828,16 @@
             var input = document.createElement('input');
             input.type = 'file';
             input.accept = 'image/*';
-            input.onchange = async function(e) {
+            input.onchange = function(e) {
                 var file = e.target.files[0];
                 if (!file) return;
-
-                try {
-                    var reader = new FileReader();
-                    reader.onload = function(ev) {
-                        document.getElementById('socioAvatar').src = ev.target.result;
-                        showToast('✅ Foto actualizada (simulación)', 'success');
-                    };
-                    reader.readAsDataURL(file);
-                    showToast('📤 Subiendo foto...', 'info');
-                } catch (error) {
-                    showToast('Error al subir foto', 'error');
-                }
+                var reader = new FileReader();
+                reader.onload = function(ev) {
+                    document.getElementById('socioAvatar').src = ev.target.result;
+                    showToast('✅ Foto actualizada (simulación)', 'success');
+                };
+                reader.readAsDataURL(file);
+                showToast('📤 Subiendo foto...', 'info');
             };
             input.click();
         }
@@ -785,7 +885,6 @@
             document.body.style.overflow = '';
         }
 
-        // Event listeners para el modal
         document.getElementById('uploadModal').addEventListener('click', function(e) {
             if (e.target === this) closeModal('uploadModal');
         });
@@ -834,7 +933,7 @@
             if (!confirm('¿Cerrar sesión?')) return;
             try {
                 localStorage.removeItem('fly_user_session');
-            } catch (e) { /* ignorar */ }
+            } catch (e) {}
             showToast('🔒 Sesión cerrada', 'info');
             setTimeout(function() {
                 window.location.href = 'index.html';
@@ -848,13 +947,12 @@
             loadSocioData();
         });
 
-        // Ocultar badge al hacer clic en la pestaña Plan
         document.querySelector('.bottom-nav .nav-item[data-section="plan"]').addEventListener('click', function() {
             document.getElementById('navBadge').style.display = 'none';
         });
 
         console.log('👤 FLY FUTBOLEROS · Panel del Socio');
-        console.log('🌡️ Clima con día/noche según hora local');
+        console.log('🌡️ Clima con caché y día/noche según hora local');
     </script>
 
 </body>
