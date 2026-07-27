@@ -2389,22 +2389,19 @@
         }
 
         // ================================================================
-        // 8. ACTIVIDADES RECIENTES - CORREGIDO
+        // 8. ACTIVIDADES RECIENTES
         // ================================================================
         function renderActividades(pagos, socios) {
             var container = document.getElementById('activityList');
 
-            // Crear un mapa de socios por ID
             var sociosMap = {};
             socios.forEach(function(s) { sociosMap[s.id] = s; });
 
-            // Obtener las 5 actividades más recientes (pagos)
             var actividades = pagos.slice(0, 5).map(function(p) {
                 var socio = sociosMap[p.socio_id];
                 var nombre = socio ? socio.nombre : 'Socio desconocido';
                 var username = socio ? '@' + socio.username : '';
 
-                // Determinar el estado real del pago
                 var statusClass = 'pending';
                 var statusLabel = 'Pendiente';
 
@@ -2419,7 +2416,6 @@
                     statusLabel = 'Rechazado';
                 }
 
-                // Si el socio está Activo pero el pago dice Pendiente, corregir
                 if (socio && socio.estado === 'Activo' && p.estado === 'Pendiente') {
                     statusClass = 'success';
                     statusLabel = 'Aprobado';
@@ -2489,7 +2485,7 @@
         }
 
         // ================================================================
-        // 10. NOTIFICACIONES DROPDOWN - CORREGIDO (CLICKEABLE)
+        // 10. NOTIFICACIONES DROPDOWN - CORREGIDO (CLICKEABLE + MARCAR TODAS)
         // ================================================================
         function renderNotificacionesDropdown(notificaciones) {
             var container = document.getElementById('notificationList');
@@ -2512,12 +2508,9 @@
                 var label = n.tipo === 'nuevo_socio' ? 'Ver Socio' : n.tipo === 'nuevo_comprobante' ?
                     'Ver Comprobante' : 'Ver Detalle';
 
-                // Acción al hacer clic en la notificación
                 var onclickAction = '';
-                if (n.tipo === 'nuevo_socio' && n.data && n.data.socio_id) {
-                    onclickAction = 'viewSocio(' + n.data.socio_id + ')';
-                } else if (n.tipo === 'nuevo_comprobante' && n.data && n.data.socio_id) {
-                    onclickAction = 'viewSocio(' + n.data.socio_id + ')';
+                if (n.data && n.data.socio_id) {
+                    onclickAction = 'verSocioDesdeNotificacion(' + n.data.socio_id + ')';
                 } else {
                     onclickAction = 'showToast("📋 Notificación: ' + n.mensaje + '", "info")';
                 }
@@ -2533,13 +2526,58 @@
             }).join('');
         }
 
-        function marcarTodasLeidas() {
-            showToast('✅ Todas las notificaciones marcadas como leídas', 'success');
+        // Función para ver socio desde notificación
+        function verSocioDesdeNotificacion(socioId) {
+            // Cerrar el dropdown
             document.getElementById('notificationDropdown').classList.remove('open');
+            // Abrir el socio
+            viewSocio(socioId);
         }
 
         // ================================================================
-        // 11. NOTIFICACIONES FULL - CORREGIDO (CLICKEABLE)
+        // 11. MARCAR TODAS LAS NOTIFICACIONES COMO LEÍDAS
+        // ================================================================
+        async function marcarTodasLeidas() {
+            try {
+                // Obtener todas las notificaciones no leídas
+                const { data: notifs, error: fetchError } = await supabaseClient
+                    .from('notificaciones')
+                    .select('id')
+                    .eq('leida', false);
+
+                if (fetchError) throw fetchError;
+
+                if (!notifs || notifs.length === 0) {
+                    showToast('✅ No hay notificaciones pendientes', 'info');
+                    document.getElementById('notificationDropdown').classList.remove('open');
+                    return;
+                }
+
+                // Actualizar todas a leídas
+                const { error: updateError } = await supabaseClient
+                    .from('notificaciones')
+                    .update({ leida: true })
+                    .eq('leida', false);
+
+                if (updateError) throw updateError;
+
+                showToast('✅ ' + notifs.length + ' notificaciones marcadas como leídas', 'success');
+
+                // Cerrar dropdown
+                document.getElementById('notificationDropdown').classList.remove('open');
+
+                // Recargar datos
+                await loadDashboardData();
+                await loadNotificationsFull();
+
+            } catch (error) {
+                console.error('Error al marcar notificaciones como leídas:', error);
+                showToast('❌ Error al marcar notificaciones', 'error');
+            }
+        }
+
+        // ================================================================
+        // 12. NOTIFICACIONES FULL - CORREGIDO
         // ================================================================
         async function loadNotificationsFull() {
             try {
@@ -2569,9 +2607,7 @@
                         'Ver Comprobante' : 'Ver Detalle';
 
                     var onclickAction = '';
-                    if (n.tipo === 'nuevo_socio' && n.data && n.data.socio_id) {
-                        onclickAction = 'viewSocio(' + n.data.socio_id + ')';
-                    } else if (n.tipo === 'nuevo_comprobante' && n.data && n.data.socio_id) {
+                    if (n.data && n.data.socio_id) {
                         onclickAction = 'viewSocio(' + n.data.socio_id + ')';
                     } else {
                         onclickAction = 'showToast("📋 Notificación: ' + n.mensaje + '", "info")';
@@ -2593,7 +2629,7 @@
         }
 
         // ================================================================
-        // 12. SOCIOS
+        // 13. SOCIOS
         // ================================================================
         var sociosPage = 1;
         var sociosPageSize = 10;
@@ -2637,7 +2673,7 @@
 
             if (socios.length === 0) {
                 tbody.innerHTML =
-                    '<tr><td colspan="8" style="text-align:center;padding:40px;color:var(--text-muted);"><i class="fas fa-inbox" style="font-size:2rem;display:block;margin-bottom:10px;"></i>No hay socios</td></tr>';
+                    '<tr><td colspan="8" style="text-align:center;padding:40px;color:var(--text-muted);;"><i class="fas fa-inbox" style="font-size:2rem;display:block;margin-bottom:10px;"></i>No hay socios</td></tr>';
                 renderPagination(total);
                 return;
             }
@@ -2709,7 +2745,7 @@
         });
 
         // ================================================================
-        // 13. ACCIONES DE SOCIOS
+        // 14. ACCIONES DE SOCIOS
         // ================================================================
         async function viewSocio(id) {
             try {
@@ -2800,13 +2836,12 @@
         }
 
         // ================================================================
-        // 14. APROBAR PAGO (CORREGIDO)
+        // 15. APROBAR PAGO
         // ================================================================
         async function approvePayment(id) {
             if (!confirm('¿Confirmar que el pago ha sido recibido?')) return;
 
             try {
-                // 1. Actualizar estado del socio a Activo
                 const { error: updateError } = await supabaseClient
                     .from('socios')
                     .update({ estado: 'Activo' })
@@ -2814,7 +2849,6 @@
 
                 if (updateError) throw updateError;
 
-                // 2. Buscar el socio para obtener su nombre
                 const { data: socio, error: socioError } = await supabaseClient
                     .from('socios')
                     .select('nombre, username')
@@ -2822,7 +2856,6 @@
                     .single();
 
                 if (!socioError && socio) {
-                    // 3. Crear notificación de pago confirmado
                     await supabaseClient.from('notificaciones').insert([{
                         tipo: 'pago_confirmado',
                         mensaje: 'Pago de ' + socio.nombre + ' confirmado',
@@ -2833,7 +2866,6 @@
 
                 showToast('✅ Pago aprobado y socio activado', 'success');
 
-                // 4. Recargar datos
                 await loadDashboardData();
                 await loadSocios();
                 closeModal('socioModal');
@@ -2958,7 +2990,7 @@
         }
 
         // ================================================================
-        // 15. PAGOS
+        // 16. PAGOS
         // ================================================================
         async function loadPagos() {
             try {
@@ -2988,7 +3020,6 @@
                     var nombre = socio ? socio.nombre : 'N/A';
                     var username = socio ? socio.username : 'sin usuario';
 
-                    // Estado real del pago
                     var estadoPago = p.estado || 'Pendiente';
                     if (socio && socio.estado === 'Activo' && estadoPago === 'Pendiente') {
                         estadoPago = 'Aprobado';
@@ -3013,7 +3044,7 @@
         }
 
         // ================================================================
-        // 16. COMPROBANTES
+        // 17. COMPROBANTES
         // ================================================================
         async function loadComprobantes() {
             try {
@@ -3059,7 +3090,7 @@
         }
 
         // ================================================================
-        // 17. OTRAS FUNCIONES
+        // 18. OTRAS FUNCIONES
         // ================================================================
         function copiarDatosAdmin() {
             var datos =
@@ -3091,7 +3122,7 @@
         }
 
         // ================================================================
-        // 18. CERRAR SESIÓN
+        // 19. CERRAR SESIÓN
         // ================================================================
         function handleLogout() {
             if (!confirm('¿Cerrar sesión?')) return;
@@ -3105,7 +3136,7 @@
         }
 
         // ================================================================
-        // 19. INICIALIZAR
+        // 20. INICIALIZAR
         // ================================================================
         async function initAdmin() {
             console.log('🚀 Iniciando panel de administración...');
@@ -3145,7 +3176,7 @@
         }
 
         // ================================================================
-        // 20. EVENTOS DE NOTIFICACIONES
+        // 21. EVENTOS DE NOTIFICACIONES
         // ================================================================
         document.getElementById('notificationBell').addEventListener('click', function(e) {
             e.stopPropagation();
@@ -3157,14 +3188,15 @@
         });
 
         // ================================================================
-        // 21. INICIALIZAR
+        // 22. INICIALIZAR
         // ================================================================
         document.addEventListener('DOMContentLoaded', initAdmin);
 
         console.log('📦 FLY FUTBOLEROS · Panel de Administración (Supabase)');
         console.log('🌡️ Clima con caché y día/noche');
         console.log('📸 Soporte para avatars en lista de socios');
-        console.log('🔔 Notificaciones clickeables');
+        console.log('🔔 Notificaciones clickeables con acciones reales');
+        console.log('✅ Marcar todas las notificaciones como leídas funciona');
         console.log('📋 Actividades recientes con estado real');
         console.log('🔗 Conectado a:', SUPABASE_URL);
     </script>
