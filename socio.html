@@ -292,12 +292,13 @@
             flex-shrink: 0
         }
         .profile-avatar img {
-            width: clamp(64px, 10vw, 80px);
-            height: clamp(64px, 10vw, 80px);
+            width: clamp(80px, 12vw, 100px);
+            height: clamp(80px, 12vw, 100px);
             border-radius: 50%;
             object-fit: cover;
             border: 2px solid var(--neon-blue);
-            box-shadow: 0 0 30px rgba(0, 212, 255, 0.06)
+            box-shadow: 0 0 30px rgba(0, 212, 255, 0.06);
+            background: #111122;
         }
         .profile-avatar .edit-btn {
             position: absolute;
@@ -306,10 +307,10 @@
             background: var(--gradient-primary);
             border: none;
             border-radius: 50%;
-            width: 26px;
-            height: 26px;
+            width: 32px;
+            height: 32px;
             color: #fff;
-            font-size: 0.55rem;
+            font-size: 0.7rem;
             cursor: pointer;
             display: flex;
             align-items: center;
@@ -319,6 +320,10 @@
         }
         .profile-avatar .edit-btn:active {
             transform: scale(0.85)
+        }
+        .profile-avatar .edit-btn.loading {
+            opacity: 0.5;
+            pointer-events: none;
         }
         .profile-info h1 {
             font-size: clamp(1.1rem, 2.5vw, 1.4rem);
@@ -1123,6 +1128,22 @@
             text-transform: uppercase;
             font-weight: 500;
         }
+
+        /* ===== MODAL PARA SUBIR FOTO DE PERFIL ===== */
+        #uploadAvatarModal .modal-body .avatar-preview-container {
+            display: flex;
+            justify-content: center;
+            margin: 16px 0;
+        }
+        #uploadAvatarModal .modal-body .avatar-preview-container img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--neon-blue);
+            box-shadow: 0 0 40px rgba(0, 212, 255, 0.1);
+            background: #111122;
+        }
     </style>
 </head>
 <body>
@@ -1159,8 +1180,10 @@
             <div class="glass-card">
                 <div class="profile-header">
                     <div class="profile-avatar">
-                        <img id="socioAvatar" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Ccircle cx='40' cy='40' r='40' fill='%23111122'/%3E%3Ccircle cx='40' cy='26' r='12' fill='%23222244'/%3E%3Cpath d='M10 72c0-12 16-20 30-20s30 8 30 20' fill='%23222244'/%3E%3C/svg%3E" alt="Foto">
-                        <button class="edit-btn" onclick="editarFotoPerfil()"><i class="fas fa-camera"></i></button>
+                        <img id="socioAvatar" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Ccircle cx='40' cy='40' r='40' fill='%23111122'/%3E%3Ccircle cx='40' cy='26' r='12' fill='%23222244'/%3E%3Cpath d='M10 72c0-12 16-20 30-20s30 8 30 20' fill='%23222244'/%3E%3C/svg%3E" alt="Foto de perfil">
+                        <button class="edit-btn" id="avatarEditBtn" onclick="abrirModalAvatar()">
+                            <i class="fas fa-camera"></i>
+                        </button>
                     </div>
                     <div class="profile-info">
                         <h1 id="socioNombre">Cargando...</h1>
@@ -1171,7 +1194,7 @@
                 </div>
             </div>
 
-            <!-- ===== FECHAS CLAVE (ahora independiente en perfil) ===== -->
+            <!-- ===== FECHAS CLAVE ===== -->
             <div class="glass-card" style="padding:14px 18px;">
                 <div class="fly-fechas">
                     <div class="fecha-item">
@@ -1192,8 +1215,6 @@
                     </div>
                 </div>
             </div>
-
-            <!-- Espacio libre para futuras adiciones -->
         </div>
 
         <!-- ===== SECCIÓN PLAN ===== -->
@@ -1246,7 +1267,7 @@
             </div>
         </div>
 
-        <!-- ===== NUEVA SECCIÓN FUTBOLEROS ===== -->
+        <!-- ===== SECCIÓN FUTBOLEROS ===== -->
         <div class="section-page" id="section-futboleros">
             <div class="glass-card" style="padding:0;overflow:hidden;border-color:rgba(0,212,255,0.06);">
                 <div style="background:linear-gradient(135deg,rgba(0,212,255,0.08),rgba(139,60,255,0.04));padding:18px 20px 12px 20px;border-bottom:1px solid var(--border-glow);">
@@ -1272,7 +1293,6 @@
                         </div>
                     </div>
 
-                    <!-- Grid de iconos mejorados con círculos neón -->
                     <div class="fly-info-grid">
                         <div class="info-card">
                             <div class="icon-circle trophy">
@@ -1319,7 +1339,7 @@
 
     </main>
 
-    <!-- ===== MODAL ===== -->
+    <!-- ===== MODAL PARA SUBIR COMPROBANTE ===== -->
     <div class="modal" id="uploadModal">
         <div class="modal-content">
             <div class="modal-header"><h2>📎 Subir Comprobante</h2><button class="modal-close" onclick="closeModal('uploadModal')">&times;</button></div>
@@ -1335,6 +1355,42 @@
                     <span class="remove" onclick="document.getElementById('uploadReceipt').value='';this.parentElement.style.display='none';">✕</span>
                 </div>
                 <button class="btn btn-primary" onclick="enviarComprobante()" style="margin-top:14px;width:100%;justify-content:center;"><i class="fas fa-paper-plane"></i> Enviar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== NUEVO MODAL PARA SUBIR FOTO DE PERFIL ===== -->
+    <div class="modal" id="uploadAvatarModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>📸 Cambiar Foto de Perfil</h2>
+                <button class="modal-close" onclick="closeModal('uploadAvatarModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p style="margin-bottom:14px;color:#b8b8d0;font-size:clamp(0.75rem, 1.2vw, 0.85rem);">Sube una nueva foto de perfil. Formatos: JPG, PNG.</p>
+                
+                <div class="avatar-preview-container">
+                    <img id="avatarPreview" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Ccircle cx='40' cy='40' r='40' fill='%23111122'/%3E%3Ccircle cx='40' cy='26' r='12' fill='%23222244'/%3E%3Cpath d='M10 72c0-12 16-20 30-20s30 8 30 20' fill='%23222244'/%3E%3C/svg%3E" alt="Vista previa">
+                </div>
+
+                <div class="file-upload-area" onclick="document.getElementById('uploadAvatarInput').click()">
+                    <i class="fas fa-image"></i>
+                    <p>Seleccionar imagen</p>
+                    <div style="font-size:0.6rem;color:#7a7a9a;margin-top:4px;">Recomendado: 400x400px</div>
+                    <input type="file" id="uploadAvatarInput" accept=".jpg,.jpeg,.png">
+                </div>
+                <div id="avatarPreviewFile" class="file-preview" style="display:none;">
+                    <i class="fas fa-file-image"></i>
+                    <span class="name" id="avatarFileName">archivo.jpg</span>
+                    <span class="remove" onclick="document.getElementById('uploadAvatarInput').value='';this.parentElement.style.display='none';document.getElementById('avatarPreview').src=document.getElementById('socioAvatar').src;">✕</span>
+                </div>
+
+                <div style="display:flex;gap:8px;margin-top:14px;">
+                    <button class="btn btn-primary" onclick="subirFotoPerfil()" style="flex:1;justify-content:center;" id="uploadAvatarBtn">
+                        <i class="fas fa-cloud-upload-alt"></i> Subir Foto
+                    </button>
+                    <button class="btn btn-secondary" onclick="closeModal('uploadAvatarModal')" style="flex:0.5;">Cancelar</button>
+                </div>
             </div>
         </div>
     </div>
@@ -1411,24 +1467,15 @@
 
         function getWeatherIcon(code) {
             const map = {
-                '01d': '☀️',
-                '01n': '🌙',
-                '02d': '⛅',
-                '02n': '☁️',
-                '03d': '☁️',
-                '03n': '☁️',
-                '04d': '☁️',
-                '04n': '☁️',
-                '09d': '🌧️',
-                '09n': '🌧️',
-                '10d': '🌦️',
-                '10n': '🌧️',
-                '11d': '⛈️',
-                '11n': '⛈️',
-                '13d': '❄️',
-                '13n': '❄️',
-                '50d': '🌫️',
-                '50n': '🌫️'
+                '01d': '☀️', '01n': '🌙',
+                '02d': '⛅', '02n': '☁️',
+                '03d': '☁️', '03n': '☁️',
+                '04d': '☁️', '04n': '☁️',
+                '09d': '🌧️', '09n': '🌧️',
+                '10d': '🌦️', '10n': '🌧️',
+                '11d': '⛈️', '11n': '⛈️',
+                '13d': '❄️', '13n': '❄️',
+                '50d': '🌫️', '50n': '🌫️'
             };
             return map[code] || getDayNightIcon();
         }
@@ -1544,7 +1591,6 @@
                 }
             });
 
-            // Ocultar badge al navegar a la sección de plan
             if (section === 'plan') {
                 document.getElementById('navBadge').style.display = 'none';
             }
@@ -1769,26 +1815,151 @@
         }
 
         // ================================================================
-        // 12. ACCIONES
+        // 12. ACCIONES DE PERFIL - SUBIR FOTO
         // ================================================================
-        function editarFotoPerfil() {
-            var input = document.createElement('input');
-            input.type = 'file';
-            input.accept = 'image/*';
-            input.onchange = function(e) {
-                var file = e.target.files[0];
-                if (!file) return;
-                var reader = new FileReader();
-                reader.onload = function(ev) {
-                    document.getElementById('socioAvatar').src = ev.target.result;
-                    showToast('✅ Foto actualizada (simulación)', 'success');
-                };
-                reader.readAsDataURL(file);
-                showToast('📤 Subiendo foto...', 'info');
-            };
-            input.click();
+        var avatarFile = null;
+
+        function abrirModalAvatar() {
+            if (!socioData) {
+                showToast('⚠️ Espera a que carguen los datos', 'warning');
+                return;
+            }
+            // Resetear el input y vista previa
+            document.getElementById('uploadAvatarInput').value = '';
+            document.getElementById('avatarPreviewFile').style.display = 'none';
+            document.getElementById('avatarPreview').src = document.getElementById('socioAvatar').src;
+            document.getElementById('uploadAvatarBtn').disabled = false;
+            document.getElementById('uploadAvatarBtn').innerHTML = '<i class="fas fa-cloud-upload-alt"></i> Subir Foto';
+            avatarFile = null;
+            document.getElementById('uploadAvatarModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
         }
 
+        // Vista previa de la imagen seleccionada
+        document.getElementById('uploadAvatarInput').addEventListener('change', function() {
+            var file = this.files[0];
+            if (!file) {
+                document.getElementById('avatarPreviewFile').style.display = 'none';
+                avatarFile = null;
+                return;
+            }
+
+            // Validar tipo de archivo
+            if (!file.type.startsWith('image/')) {
+                showToast('⚠️ Por favor selecciona una imagen', 'warning');
+                this.value = '';
+                return;
+            }
+
+            // Validar tamaño (máximo 2MB)
+            if (file.size > 2 * 1024 * 1024) {
+                showToast('⚠️ La imagen no debe superar los 2MB', 'warning');
+                this.value = '';
+                return;
+            }
+
+            avatarFile = file;
+
+            // Mostrar vista previa
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById('avatarPreview').src = e.target.result;
+                document.getElementById('avatarFileName').textContent = file.name;
+                document.getElementById('avatarPreviewFile').style.display = 'flex';
+            };
+            reader.readAsDataURL(file);
+        });
+
+        async function subirFotoPerfil() {
+            if (!avatarFile) {
+                showToast('⚠️ Selecciona una imagen primero', 'warning');
+                return;
+            }
+
+            var btn = document.getElementById('uploadAvatarBtn');
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Subiendo...';
+
+            try {
+                var sessionUser = getCurrentUser();
+                if (!sessionUser) {
+                    showToast('⚠️ Sesión no encontrada', 'error');
+                    btn.disabled = false;
+                    btn.innerHTML = '<i class="fas fa-cloud-upload-alt"></i> Subir Foto';
+                    return;
+                }
+
+                // Generar nombre único para el archivo
+                var fileExt = avatarFile.name.split('.').pop();
+                var fileName = 'avatars/' + sessionUser.id + '_' + Date.now() + '.' + fileExt;
+
+                // Subir a Supabase Storage
+                const { data: uploadData, error: uploadError } = await supabaseClient.storage
+                    .from('avatars')
+                    .upload(fileName, avatarFile, {
+                        cacheControl: '3600',
+                        upsert: false
+                    });
+
+                if (uploadError) {
+                    console.error('Error al subir:', uploadError);
+                    
+                    // Si el error es por bucket, intentar crear el bucket o usar otro método
+                    if (uploadError.message.includes('bucket not found')) {
+                        showToast('⚠️ Error: el bucket de almacenamiento no está configurado. Contacta al administrador.', 'error');
+                    } else {
+                        showToast('❌ Error al subir la imagen: ' + uploadError.message, 'error');
+                    }
+                    btn.disabled = false;
+                    btn.innerHTML = '<i class="fas fa-cloud-upload-alt"></i> Subir Foto';
+                    return;
+                }
+
+                // Obtener URL pública
+                const { data: urlData } = supabaseClient.storage
+                    .from('avatars')
+                    .getPublicUrl(fileName);
+
+                var publicUrl = urlData.publicUrl;
+
+                // Actualizar la foto en la tabla de socios
+                const { error: updateError } = await supabaseClient
+                    .from('socios')
+                    .update({ foto_url: publicUrl })
+                    .eq('id', sessionUser.id);
+
+                if (updateError) {
+                    console.error('Error al actualizar perfil:', updateError);
+                    showToast('❌ Error al actualizar la foto de perfil', 'error');
+                    btn.disabled = false;
+                    btn.innerHTML = '<i class="fas fa-cloud-upload-alt"></i> Subir Foto';
+                    return;
+                }
+
+                // Actualizar la vista
+                document.getElementById('socioAvatar').src = publicUrl;
+                
+                // Actualizar los datos locales
+                if (socioData) {
+                    socioData.foto_url = publicUrl;
+                }
+
+                showToast('✅ Foto de perfil actualizada exitosamente', 'success');
+                closeModal('uploadAvatarModal');
+
+            } catch (error) {
+                console.error('Error:', error);
+                showToast('❌ Error al subir la imagen', 'error');
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-cloud-upload-alt"></i> Subir Foto';
+                avatarFile = null;
+            }
+        }
+
+        // ================================================================
+        // 13. OTRAS ACCIONES
+        // ================================================================
         function renovarMembresia() {
             if (!confirm('¿Renovar tu membresía por 30 días más?')) return;
             showToast('✅ Renovación solicitada. Espera confirmación del administrador.', 'success');
@@ -1832,10 +2003,21 @@
         function closeModal(id) {
             document.getElementById(id).classList.remove('active');
             document.body.style.overflow = '';
+            // Resetear el estado del botón de subir foto
+            if (id === 'uploadAvatarModal') {
+                var btn = document.getElementById('uploadAvatarBtn');
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-cloud-upload-alt"></i> Subir Foto';
+                avatarFile = null;
+            }
         }
 
-        document.getElementById('uploadModal').addEventListener('click', function(e) {
-            if (e.target === this) closeModal('uploadModal');
+        document.querySelectorAll('.modal').forEach(function(modal) {
+            modal.addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closeModal(this.id);
+                }
+            });
         });
 
         document.getElementById('uploadReceipt').addEventListener('change', function() {
@@ -1850,7 +2032,7 @@
         });
 
         // ================================================================
-        // 13. TOAST
+        // 14. TOAST
         // ================================================================
         function showToast(message, type) {
             if (type === undefined) type = 'info';
@@ -1876,7 +2058,7 @@
         }
 
         // ================================================================
-        // 14. CERRAR SESIÓN
+        // 15. CERRAR SESIÓN
         // ================================================================
         function handleLogout() {
             if (!confirm('¿Cerrar sesión?')) return;
@@ -1891,23 +2073,18 @@
         }
 
         // ================================================================
-        // 15. INICIALIZAR
+        // 16. INICIALIZAR
         // ================================================================
         document.addEventListener('DOMContentLoaded', function() {
             loadSocioData();
-
-            // Por defecto, mostrar perfil (ya tiene active)
-            // Si hay badge en plan, mostrarlo
         });
 
-        // Cuando se navega a plan, ocultar badge
         document.querySelector('.bottom-nav .nav-item[data-section="plan"]').addEventListener('click', function() {
             document.getElementById('navBadge').style.display = 'none';
         });
 
         console.log('👤 FLY FUTBOLEROS · Panel del Socio');
-        console.log('🌡️ Clima con caché y día/noche según hora local');
-        console.log('🔄 Los datos se actualizan automáticamente');
+        console.log('📸 Ahora puedes subir tu foto de perfil');
         console.log('⚡ Sección "Futboleros" agregada al menú inferior');
     </script>
 
