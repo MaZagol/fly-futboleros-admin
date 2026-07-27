@@ -548,7 +548,7 @@
         });
 
         // ================================================================
-        // 10. REGISTRO - VERSIÓN CORREGIDA (SIN AUTH DE SUPABASE)
+        // 10. REGISTRO - USANDO BUCKET 'avatars'
         // ================================================================
         document.getElementById('registerForm').addEventListener('submit', async function(e) {
             e.preventDefault();
@@ -644,17 +644,17 @@
                     throw new Error(socioError.message || 'Error al registrar usuario');
                 }
 
-                // 2. Subir foto de perfil si existe
+                // 2. Subir foto de perfil al bucket 'avatars' (antes era 'perfiles')
                 if (foto) {
                     try {
                         const ext = foto.name.split('.').pop();
                         const path = `${socio.id}/perfil.${ext}`;
                         const { error: uploadError } = await supabaseClient.storage
-                            .from('perfiles')
+                            .from('avatars')  // ← AHORA USA 'avatars'
                             .upload(path, foto);
 
                         if (!uploadError) {
-                            const url = supabaseClient.storage.from('perfiles').getPublicUrl(path).data.publicUrl;
+                            const url = supabaseClient.storage.from('avatars').getPublicUrl(path).data.publicUrl;
                             await supabaseClient.from('socios').update({ foto_url: url }).eq('id', socio.id);
                         } else {
                             console.warn('Error subiendo foto:', uploadError);
@@ -759,9 +759,9 @@
         // ================================================================
         showLogin();
 
-        console.log('🔐 FLY FUTBOLEROS · Registro sin Auth de Supabase');
+        console.log('🔐 FLY FUTBOLEROS · Registro usando bucket "avatars"');
         console.log('🌡️ Clima con caché y día/noche según hora local');
-        console.log('👤 Usuario admin: admin / fly2026');
+        console.log('📸 Las fotos de perfil se guardan en "avatars"');
     </script>
 
 </body>
