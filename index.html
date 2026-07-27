@@ -273,52 +273,103 @@
         updateClock();
 
         // ================================================================
-        // 3. TEMPERATURA REAL
+        // 3. TEMPERATURA CON CACHÉ Y DÍA/NOCHE POR HORA LOCAL
         // ================================================================
+        const CACHE_KEY = 'fly_weather_cache';
+        const CACHE_TTL = 10 * 60 * 1000; // 10 minutos
+
+        // Determina si es de día o noche según la hora local
+        function getDayNightIcon() {
+            const now = new Date();
+            const hour = now.getHours();
+            // Día: 6:00 AM - 6:59 PM (6-18)
+            const isDay = hour >= 6 && hour < 19;
+            return isDay ? '☀️' : '🌙';
+        }
+
+        // Obtiene el ícono climático según el código de OpenWeatherMap
+        function getWeatherIcon(code) {
+            const map = {
+                '01d': '☀️', '01n': '🌙',
+                '02d': '⛅', '02n': '☁️',
+                '03d': '☁️', '03n': '☁️',
+                '04d': '☁️', '04n': '☁️',
+                '09d': '🌧️', '09n': '🌧️',
+                '10d': '🌦️', '10n': '🌧️',
+                '11d': '⛈️', '11n': '⛈️',
+                '13d': '❄️', '13n': '❄️',
+                '50d': '🌫️', '50n': '🌫️'
+            };
+            return map[code] || getDayNightIcon();
+        }
+
         async function obtenerTemperatura() {
+            // 1. Intentar leer caché
+            const cached = localStorage.getItem(CACHE_KEY);
+            if (cached) {
+                try {
+                    const data = JSON.parse(cached);
+                    const age = Date.now() - data.timestamp;
+                    if (age < CACHE_TTL) {
+                        // Si la caché tiene temperatura, pero el ícono puede estar desactualizado
+                        // Recalculamos el ícono según la hora actual para asegurar día/noche correcto
+                        const icon = getDayNightIcon();
+                        return { temperatura: data.temperatura, icono: icon };
+                    }
+                } catch (e) { /* ignorar */ }
+            }
+
+            // 2. Intentar obtener clima real
+            let temperatura = null;
+            let icono = getDayNightIcon(); // Por defecto según hora local
+
             try {
                 // Usar ipapi.co para obtener ubicación
                 const geoResponse = await fetch('https://ipapi.co/json/');
-                if (!geoResponse.ok) throw new Error('Error geo');
-                const geoData = await geoResponse.json();
-
-                if (geoData && geoData.city) {
-                    // Usar OpenWeatherMap (API gratuita)
-                    const weatherResponse = await fetch(
-                        `https://api.openweathermap.org/data/2.5/weather?q=${geoData.city}&appid=bd5e378503939ddaee76f12ad7a97608&units=metric&lang=es`
-                    );
-                    
-                    if (weatherResponse.ok) {
-                        const weatherData = await weatherResponse.json();
-                        if (weatherData && weatherData.main) {
-                            const temp = Math.round(weatherData.main.temp);
-                            const desc = weatherData.weather[0].description;
-                            const icon = weatherData.weather[0].icon;
-                            const iconMap = {
-                                '01d': '☀️', '01n': '🌙',
-                                '02d': '⛅', '02n': '☁️',
-                                '03d': '☁️', '03n': '☁️',
-                                '04d': '☁️', '04n': '☁️',
-                                '09d': '🌧️', '09n': '🌧️',
-                                '10d': '🌦️', '10n': '🌧️',
-                                '11d': '⛈️', '11n': '⛈️',
-                                '13d': '❄️', '13n': '❄️',
-                                '50d': '🌫️', '50n': '🌫️'
-                            };
-                            return { temperatura: temp, descripcion: desc, icono: iconMap[icon] || '☀️' };
+                if (geoResponse.ok) {
+                    const geoData = await geoResponse.json();
+                    if (geoData && geoData.city) {
+                        const weatherUrl = `https://api.openweathermap.org/data/2.5/weather?q=${geoData.city}&appid=bd5e378503939ddaee76f12ad7a97608&units=metric&lang=es`;
+                        const weatherResponse = await fetch(weatherUrl);
+                        if (weatherResponse.ok) {
+                            const weatherData = await weatherResponse.json();
+                            if (weatherData.main && weatherData.main.temp) {
+                                temperatura = Math.round(weatherData.main.temp);
+                            }
+                            if (weatherData.weather && weatherData.weather[0] && weatherData.weather[0].icon) {
+                                const apiIcon = getWeatherIcon(weatherData.weather[0].icon);
+                                icono = apiIcon;
+                            }
                         }
                     }
                 }
-                
-                // Fallback: simular temperatura
-                const simulatedTemp = Math.round(17 + Math.random() * 6 - 3);
-                return { temperatura: simulatedTemp, descripcion: 'Estimado', icono: '☀️' };
-                
             } catch (error) {
-                console.warn('Error obteniendo temperatura:', error);
-                const simulatedTemp = Math.round(17 + Math.random() * 6 - 3);
-                return { temperatura: simulatedTemp, descripcion: 'Estimado', icono: '☀️' };
+                console.warn('Error obteniendo clima real:', error);
             }
+
+            // Si no obtuvimos temperatura, usar caché o valor por defecto
+            if (temperatura === null) {
+                if (cached) {
+                    try {
+                        const old = JSON.parse(cached);
+                        temperatura = old.temperatura || 22;
+                    } catch (e) {
+                        temperatura = 22;
+                    }
+                } else {
+                    temperatura = 22;
+                }
+                // El ícono ya lo tenemos por hora local
+                icono = getDayNightIcon();
+            }
+
+            // Guardar en caché (solo temperatura, el ícono se calcula en tiempo real)
+            localStorage.setItem(CACHE_KEY, JSON.stringify({
+                temperatura: temperatura,
+                timestamp: Date.now()
+            }));
+
+            return { temperatura: temperatura, icono: icono };
         }
 
         async function actualizarClima() {
@@ -326,7 +377,7 @@
                 const clima = await obtenerTemperatura();
                 const tempDisplay = document.getElementById('tempDisplay');
                 const iconDisplay = document.getElementById('weatherIcon');
-                if (tempDisplay && clima.temperatura !== null) {
+                if (tempDisplay && clima.temperatura !== undefined) {
                     tempDisplay.textContent = `${clima.temperatura}°C`;
                 }
                 if (iconDisplay && clima.icono) {
@@ -334,12 +385,25 @@
                 }
             } catch (error) {
                 console.warn('Error actualizando clima:', error);
+                // Fallback de emergencia
+                const icon = getDayNightIcon();
+                const tempDisplay = document.getElementById('tempDisplay');
+                const iconDisplay = document.getElementById('weatherIcon');
+                if (tempDisplay) tempDisplay.textContent = '22°C';
+                if (iconDisplay) iconDisplay.textContent = icon;
             }
         }
 
-        // Actualizar clima al inicio y cada 5 minutos
+        // Actualizar clima al cargar y cada 10 minutos
         actualizarClima();
-        setInterval(actualizarClima, 300000);
+        setInterval(actualizarClima, 600000);
+
+        // También actualizar el ícono si cambia la hora (cada 30 minutos)
+        setInterval(function() {
+            const icon = getDayNightIcon();
+            const iconDisplay = document.getElementById('weatherIcon');
+            if (iconDisplay) iconDisplay.textContent = icon;
+        }, 1800000); // 30 minutos
 
         // ================================================================
         // 4. NAVEGACIÓN
@@ -678,7 +742,7 @@
         showLogin();
 
         console.log('🔐 FLY FUTBOLEROS · Registro sin email visible');
-        console.log('🌡️ Temperatura en tiempo real');
+        console.log('🌡️ Clima con caché y día/noche según hora local');
         console.log('👤 Usuario admin: admin / fly2026');
     </script>
 
