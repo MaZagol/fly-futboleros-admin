@@ -6,8 +6,7 @@
     <title>FLY FUTBOLEROS · Mi Cuenta</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2">
-    </script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         /* ===== RESET & BASE ===== */
         * {
@@ -178,8 +177,7 @@
             font-weight: 500
         }
         @keyframes pulse-dot {
-            0%,
-            100% {
+            0%, 100% {
                 transform: scale(1);
                 box-shadow: 0 0 8px rgba(0, 255, 127, 0.15)
             }
@@ -899,7 +897,7 @@
                 height: 56px
             }
             .profile-info h1 {
-                font-size: 1rem
+                font-size: 1.0rem
             }
             .socio-main {
                 padding-bottom: 70px
@@ -1030,1063 +1028,287 @@
         .fly-descripcion .highlight {
             color: #66eeff;
             font-weight: 600;
-            text-shadow: 0 0 30px rgba(0, 212, 255, 0.1)
-        }
-        .fly-cita {
-            background: rgba(0, 212, 255, 0.03);
-            border-left: 3px solid var(--neon-blue);
-            border-radius: var(--radius-xs);
-            padding: 12px 16px;
-            margin-bottom: 16px
-        }
-        .fly-cita p {
-            font-size: 0.7rem;
-            color: #c8c8dd;
-            font-style: italic;
-            line-height: 1.7
-        }
-        .fly-tags span {
-            font-size: 0.55rem;
-            color: #8a8aaa
-        }
-        .fly-tags span .tag-text {
-            color: #d0d0e8;
-            font-weight: 500
-        }
-        .fly-fechas {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
-            gap: 12px;
-            text-align: center
-        }
-        .fly-fechas .fecha-item .numero {
-            font-size: 1.3rem;
-            font-weight: 800
-        }
-        .fly-fechas .fecha-item .label {
-            font-size: 0.5rem;
-            color: #8a8aaa;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            font-weight: 500
-        }
-        .fly-fechas .fecha-item .numero.azul {
-            color: var(--neon-blue);
-            text-shadow: 0 0 30px rgba(0, 212, 255, 0.15)
-        }
-        .fly-fechas .fecha-item .numero.verde {
-            color: var(--neon-green);
-            text-shadow: 0 0 30px rgba(0, 255, 127, 0.15)
-        }
-        .fly-fechas .fecha-item .numero.morado {
-            color: var(--neon-purple);
-            text-shadow: 0 0 30px rgba(139, 60, 255, 0.15)
-        }
-        .fly-fechas .fecha-item .numero.naranja {
-            color: var(--neon-orange);
-            text-shadow: 0 0 30px rgba(255, 106, 0, 0.15)
-        }
-
-        /* ===== ANIMACION DE CARGA ===== */
-        .loading-shimmer {
-            background: linear-gradient(90deg, rgba(255, 255, 255, 0.02) 25%, rgba(255, 255, 255, 0.05) 50%, rgba(255, 255, 255, 0.02) 75%);
-            background-size: 200% 100%;
-            animation: shimmer 1.5s infinite
-        }
-        @keyframes shimmer {
-            0% {
-                background-position: -200% 0
-            }
-            100% {
-                background-position: 200% 0
-            }
-        }
-
-        /* ===== NUEVO ESTILO PARA SECCIÓN FUTBOLEROS ===== */
-        .futboleros-header {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 16px;
-            padding-bottom: 12px;
-            border-bottom: 1px solid var(--border-glow);
-        }
-        .futboleros-header .icono-grande {
-            font-size: 2rem;
-            line-height: 1;
-        }
-        .futboleros-header .titulo-seccion h3 {
-            font-size: clamp(1rem, 2vw, 1.3rem);
-            font-weight: 800;
-            color: #ffffff;
-            text-shadow: 0 0 40px rgba(0, 212, 255, 0.05);
-        }
-        .futboleros-header .titulo-seccion p {
-            font-size: 0.55rem;
-            color: #9a9ab8;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            font-weight: 500;
-        }
-
-        /* ===== MODAL PARA SUBIR FOTO DE PERFIL ===== */
-        #uploadAvatarModal .modal-body .avatar-preview-container {
-            display: flex;
-            justify-content: center;
-            margin: 16px 0;
-        }
-        #uploadAvatarModal .modal-body .avatar-preview-container img {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 2px solid var(--neon-blue);
-            box-shadow: 0 0 40px rgba(0, 212, 255, 0.1);
-            background: #111122;
+            text-shadow: 0 0 30px rgba(0, 212, 255, 0.2)
         }
     </style>
 </head>
 <body>
 
+    <!-- FONDO DE PARTÍCULAS -->
     <div id="particles"></div>
 
+    <!-- HEADER -->
     <header class="socio-header">
         <div class="header-content">
             <div class="logo">
-                <h2>⚡ FLY FUTBOLEROS</h2>
-                <span class="badge badge-active">SOCIO</span>
+                <h2>FLY FUTBOLEROS</h2>
+                <span class="badge">Socio VIP</span>
             </div>
             <div class="header-actions">
                 <div class="status-bar">
                     <span class="dot"></span>
-                    <span class="time" id="clockDisplay">00:00</span>
-                    <span class="sep">·</span>
-                    <span id="tempDisplay">--°C</span>
-                    <span class="sep">·</span>
-                    <span>PYG</span>
-                    <span class="weather-icon" id="weatherIcon">☀️</span>
+                    <span>SISTEMA ONLINE</span>
+                    <span class="sep">•</span>
+                    <span class="time" id="currentTime">--:--</span>
+                    <i class="fa-solid fa-cloud-sun weather-icon" title="Clima actual"></i>
                 </div>
-                <button class="btn btn-secondary btn-sm" onclick="handleLogout()">
-                    <i class="fas fa-sign-out-alt"></i> Salir
+                <button class="btn btn-secondary btn-sm" id="logoutBtn">
+                    <i class="fa-solid fa-right-from-bracket"></i> Salir
                 </button>
             </div>
         </div>
     </header>
 
-    <main class="socio-main" id="socioMain">
+    <!-- MAIN CONTENT -->
+    <main class="socio-main">
 
-        <!-- ===== SECCIÓN PERFIL ===== -->
-        <div class="section-page active" id="section-perfil">
-            <div class="glass-card">
+        <!-- PÁGINA 1: PERFIL Y PLAN -->
+        <div class="section-page active" id="page-perfil">
+            <!-- MI PERFIL -->
+            <section class="glass-card">
                 <div class="profile-header">
                     <div class="profile-avatar">
-                        <img id="socioAvatar" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Ccircle cx='40' cy='40' r='40' fill='%23111122'/%3E%3Ccircle cx='40' cy='26' r='12' fill='%23222244'/%3E%3Cpath d='M10 72c0-12 16-20 30-20s30 8 30 20' fill='%23222244'/%3E%3C/svg%3E" alt="Foto de perfil">
-                        <button class="edit-btn" id="avatarEditBtn" onclick="abrirModalAvatar()">
-                            <i class="fas fa-camera"></i>
+                        <img id="avatarImg" src="https://via.placeholder.com/100" alt="Avatar de usuario">
+                        <!-- Input oculto para cargar archivos de celular o PC -->
+                        <input type="file" id="avatarFileInput" accept="image/*" style="display: none;" onchange="uploadAvatar(event)">
+                        <button class="edit-btn" id="editAvatarBtn" title="Cambiar foto de perfil" onclick="document.getElementById('avatarFileInput').click()">
+                            <i class="fa-solid fa-camera"></i>
                         </button>
                     </div>
                     <div class="profile-info">
-                        <h1 id="socioNombre">Cargando...</h1>
-                        <p><strong>Usuario:</strong> <span id="socioUsername">@cargando</span></p>
-                        <p><strong>ID:</strong> <span id="socioId">#0000</span></p>
-                        <p><strong>Plan:</strong> <span id="socioPlan" class="badge badge-active">Sabatero</span> <strong>Estado:</strong> <span id="socioEstado" class="badge badge-active">Activo</span></p>
+                        <h1 id="userName">Cargando...</h1>
+                        <p><i class="fa-solid fa-user-tag"></i> Usuario: <strong id="userUsername">@--</strong></p>
+                        <p><i class="fa-solid fa-envelope"></i> Email: <strong id="userEmail">--</strong></p>
+                        <p><i class="fa-solid fa-phone"></i> Teléfono: <strong id="userPhone">--</strong></p>
                     </div>
                 </div>
-            </div>
+            </section>
 
-            <!-- ===== FECHAS CLAVE ===== -->
-            <div class="glass-card" style="padding:14px 18px;">
-                <div class="fly-fechas">
-                    <div class="fecha-item">
-                        <div class="numero azul">2012</div>
-                        <div class="label">Fundación</div>
-                    </div>
-                    <div class="fecha-item">
-                        <div class="numero verde">6v6</div>
-                        <div class="label">Formato</div>
-                    </div>
-                    <div class="fecha-item">
-                        <div class="numero morado">+10</div>
-                        <div class="label">Años</div>
-                    </div>
-                    <div class="fecha-item">
-                        <div class="numero naranja">⚡</div>
-                        <div class="label">Pasión</div>
-                    </div>
+            <!-- DETALLES DE SUSCRIPCIÓN -->
+            <section class="glass-card plan-section">
+                <div class="plan-header">
+                    <h3><i class="fa-solid fa-id-card"></i> Estado de la Suscripción</h3>
+                    <span class="badge badge-active" id="planStatus">ACTIVO</span>
                 </div>
-            </div>
-        </div>
-
-        <!-- ===== SECCIÓN PLAN ===== -->
-        <div class="section-page" id="section-plan">
-            <div id="planSabateroContainer" class="plan-section glass-card">
-                <div class="plan-header"><h3>📋 Plan Sabatero</h3><span class="badge badge-active">Mensual</span></div>
                 <div class="plan-grid">
-                    <div class="plan-item"><label>Inicio</label><span id="sabateroInicio">-</span></div>
-                    <div class="plan-item"><label>Vencimiento</label><span id="sabateroVencimiento">-</span></div>
-                    <div class="plan-item"><label>Días Restantes</label><span id="sabateroDias">-</span></div>
-                    <div class="plan-item"><label>Cuota</label><span>Gs. 20.000</span></div>
-                    <div class="plan-item"><label>Método</label><span id="sabateroMetodo">-</span></div>
-                    <div class="plan-item"><label>Pagos</label><span id="sabateroPagos">0</span></div>
+                    <div class="plan-item">
+                        <label>Plan Actual</label>
+                        <span id="planName">MEMBRESÍA VIP</span>
+                    </div>
+                    <div class="plan-item">
+                        <label>Vencimiento</label>
+                        <span id="planExpiration">31/12/2026</span>
+                    </div>
+                    <div class="plan-item">
+                        <label>Días Restantes</label>
+                        <span id="planDaysLeft">-- días</span>
+                    </div>
                 </div>
                 <div class="plan-actions">
-                    <button class="btn btn-primary" onclick="renovarMembresia()"><i class="fas fa-sync"></i> Renovar</button>
-                    <button class="btn btn-secondary" onclick="subirComprobante()"><i class="fas fa-upload"></i> Subir Comprobante</button>
-                    <button class="btn btn-secondary" onclick="descargarComprobantes()"><i class="fas fa-download"></i> Descargar</button>
-                </div>
-            </div>
-            <div id="planFinderContainer" class="plan-section glass-card hidden">
-                <div class="plan-header"><h3>🏃 Plan Finder</h3><span class="badge badge-pending">Por Partido</span></div>
-                <div class="plan-grid">
-                    <div class="plan-item"><label>Valor</label><span>Gs. 5.000</span></div>
-                    <div class="plan-item"><label>Método</label><span id="finderMetodo">-</span></div>
-                    <div class="plan-item"><label>Pagos</label><span id="finderPagos">0</span></div>
-                </div>
-                <div class="plan-actions">
-                    <button class="btn btn-secondary" onclick="subirComprobante()"><i class="fas fa-upload"></i> Subir Comprobante</button>
-                    <button class="btn btn-secondary" onclick="descargarComprobantes()"><i class="fas fa-download"></i> Descargar</button>
-                </div>
-            </div>
-            <div id="recordatorioContainer" class="recordatorio hidden">
-                <i class="fas fa-exclamation-triangle"></i>
-                <div class="content"><h4>⚠️ Recordatorio</h4><p id="recordatorioMensaje">Tu membresía está próxima a vencer.</p></div>
-                <button class="btn btn-primary btn-sm" onclick="renovarMembresia()">Renovar Ahora</button>
-            </div>
-        </div>
-
-        <!-- ===== SECCIÓN HISTORIAL ===== -->
-        <div class="section-page" id="section-historial">
-            <div class="glass-card">
-                <h3 style="margin-bottom:14px;font-size:clamp(0.85rem, 1.8vw, 1rem);font-weight:700;color:#ffffff;">📜 Historial de Pagos</h3>
-                <div class="table-container">
-                    <table class="socio-table">
-                        <thead><tr><th>Fecha</th><th>Monto</th><th>Método</th><th>Estado</th><th>Comprobante</th></tr></thead>
-                        <tbody id="historialTableBody"><tr><td colspan="5" style="text-align:center;padding:24px;color:#8a8aaa;font-size:0.75rem;"><i class="fas fa-inbox" style="font-size:1.2rem;display:block;margin-bottom:6px;opacity:0.5;"></i>No hay pagos registrados</td></tr></tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-
-        <!-- ===== SECCIÓN FUTBOLEROS ===== -->
-        <div class="section-page" id="section-futboleros">
-            <div class="glass-card" style="padding:0;overflow:hidden;border-color:rgba(0,212,255,0.06);">
-                <div style="background:linear-gradient(135deg,rgba(0,212,255,0.08),rgba(139,60,255,0.04));padding:18px 20px 12px 20px;border-bottom:1px solid var(--border-glow);">
-                    <div class="futboleros-header" style="margin-bottom:0;padding-bottom:0;border-bottom:none;">
-                        <span class="icono-grande">⚡</span>
-                        <div class="titulo-seccion">
-                            <h3>FLY FUTBOLEROS</h3>
-                            <p>Asociación Amateur de Fútbol 6 vs 6 · Desde 2012</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div style="padding:16px 20px 20px 20px;">
-                    <div style="display:grid;grid-template-columns:1fr auto;gap:16px;align-items:start;margin-bottom:16px;">
-                        <div>
-                            <p class="fly-descripcion">
-                                <span class="highlight">Fly Futboleros</span> es una asociación amateur de fútbol 6 vs 6 que comenzó sus actividades a mediados del año 2012. 
-                                Con más de una década de trayectoria, nos hemos consolidado como un espacio donde la pasión por el deporte y la camaradería se unen fecha tras fecha.
-                            </p>
-                        </div>
-                        <div style="flex-shrink:0;width:56px;height:56px;border-radius:50%;background:var(--gradient-primary);display:flex;align-items:center;justify-content:center;box-shadow:0 0 30px rgba(0,212,255,0.06);">
-                            <span style="font-size:1.8rem;">⚡</span>
-                        </div>
-                    </div>
-
-                    <div class="fly-info-grid">
-                        <div class="info-card">
-                            <div class="icon-circle trophy">
-                                <span>🏆</span>
-                            </div>
-                            <div class="title">Tradición</div>
-                            <div class="sub">Más de 10 años</div>
-                        </div>
-                        <div class="info-card">
-                            <div class="icon-circle handshake">
-                                <span>🤝</span>
-                            </div>
-                            <div class="title">Compromiso</div>
-                            <div class="sub">Causas benéficas</div>
-                        </div>
-                        <div class="info-card">
-                            <div class="icon-circle lightning">
-                                <span>⚡</span>
-                            </div>
-                            <div class="title">Pasión</div>
-                            <div class="sub">Juego limpio</div>
-                        </div>
-                    </div>
-
-                    <div class="fly-cita">
-                        <p>"Reconocida y altamente valorada por sus socios, promovemos la integración de nuevos valores y la organización semanal de partidos sin complicaciones."</p>
-                    </div>
-
-                    <div style="display:flex;flex-wrap:wrap;gap:6px 12px;justify-content:space-between;align-items:center;padding-top:12px;border-top:1px solid var(--border-glow);">
-                        <div class="fly-tags" style="display:flex;flex-wrap:wrap;gap:4px 12px;">
-                            <span style="font-size:0.55rem;color:#8a8aaa;">🤝 <span class="tag-text">Ayuda social</span></span>
-                            <span style="font-size:0.55rem;color:#8a8aaa;">🎯 <span class="tag-text">Juego limpio</span></span>
-                            <span style="font-size:0.55rem;color:#8a8aaa;">🏅 <span class="tag-text">Integración</span></span>
-                        </div>
-                        <span style="font-size:0.45rem;color:#7a7a9a;font-weight:500;">© 2026 FLY FUTBOLEROS</span>
-                    </div>
-
-                    <button onclick="showToast('📖 Más información en la página principal', 'info')" style="width:100%;margin-top:10px;padding:8px;background:rgba(0,0,0,0.15);border:1px solid var(--border-glow);border-radius:var(--radius-xs);color:#b8b8d0;font-size:0.55rem;font-family:'Inter',sans-serif;cursor:pointer;transition:var(--transition-fast);">
-                        <i class="fas fa-chevron-down" style="font-size:0.4rem;margin-right:6px;"></i> Conocer más sobre la asociación
+                    <button class="btn btn-primary" id="renewBtn">
+                        <i class="fa-solid fa-arrows-rotate"></i> Renovar Membresía
                     </button>
                 </div>
+            </section>
+
+            <!-- RECORDATORIO -->
+            <div class="recordatorio">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+                <div class="content">
+                    <h4>¡Aviso Importante!</h4>
+                    <p>Recuerda realizar tus pagos a tiempo para evitar interrupciones en el servicio VIP.</p>
+                </div>
             </div>
+        </div>
+
+        <!-- PÁGINA 2: HISTORIAL DE PAGOS -->
+        <div class="section-page" id="page-pagos">
+            <section class="glass-card">
+                <h3 style="margin-bottom: 14px;"><i class="fa-solid fa-receipt"></i> Historial de Pagos</h3>
+                <div class="table-container">
+                    <table class="socio-table">
+                        <thead>
+                            <tr>
+                                <th>Fecha</th>
+                                <th>Concepto</th>
+                                <th>Monto</th>
+                                <th>Estado</th>
+                            </tr>
+                        </thead>
+                        <tbody id="paymentsTableBody">
+                            <tr>
+                                <td colspan="4" style="text-align: center;">Sin registros de pago.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
+
+        <!-- PÁGINA 3: SOBRE NOSOTROS -->
+        <div class="section-page" id="page-nosotros">
+            <section class="glass-card">
+                <h3 style="margin-bottom: 16px;"><i class="fa-solid fa-star"></i> Sobre Fly Futboleros</h3>
+                <div class="fly-info-grid">
+                    <div class="info-card">
+                        <div class="icon-circle trophy">
+                            <span><i class="fa-solid fa-trophy"></i></span>
+                        </div>
+                        <div class="title">Comunidad VIP</div>
+                        <div class="sub">Acceso Exclusivo</div>
+                    </div>
+                    <div class="info-card">
+                        <div class="icon-circle handshake">
+                            <span><i class="fa-solid fa-handshake"></i></span>
+                        </div>
+                        <div class="title">Soporte 24/7</div>
+                        <div class="sub">Atención Personalizada</div>
+                    </div>
+                    <div class="info-card">
+                        <div class="icon-circle lightning">
+                            <span><i class="fa-solid fa-bolt"></i></span>
+                        </div>
+                        <div class="title">Ultra Rápido</div>
+                        <div class="sub">Sin Interrupciones</div>
+                    </div>
+                </div>
+                <p class="fly-descripcion">
+                    Bienvenido a la plataforma oficial de <span class="highlight">FLY FUTBOLEROS</span>. Ofrecemos una experiencia prémium diseñada especialmente para fanáticos de los deportes con la mayor velocidad, estabilidad y soporte del mercado.
+                </p>
+            </section>
         </div>
 
     </main>
 
-    <!-- ===== MODAL PARA SUBIR COMPROBANTE ===== -->
-    <div class="modal" id="uploadModal">
-        <div class="modal-content">
-            <div class="modal-header"><h2>📎 Subir Comprobante</h2><button class="modal-close" onclick="closeModal('uploadModal')">&times;</button></div>
-            <div class="modal-body">
-                <p style="margin-bottom:14px;color:#b8b8d0;font-size:clamp(0.75rem, 1.2vw, 0.85rem);">Sube tu comprobante de pago. Formatos: JPG, PNG, PDF.</p>
-                <div class="file-upload-area" onclick="document.getElementById('uploadReceipt').click()">
-                    <i class="fas fa-upload"></i><p>Seleccionar archivo</p>
-                    <div style="font-size:0.6rem;color:#7a7a9a;margin-top:4px;">Captura de pantalla o foto</div>
-                    <input type="file" id="uploadReceipt" accept=".jpg,.jpeg,.png,.pdf">
-                </div>
-                <div id="uploadPreview" class="file-preview" style="display:none;">
-                    <i class="fas fa-file"></i><span class="name" id="uploadFileName">archivo.jpg</span>
-                    <span class="remove" onclick="document.getElementById('uploadReceipt').value='';this.parentElement.style.display='none';">✕</span>
-                </div>
-                <button class="btn btn-primary" onclick="enviarComprobante()" style="margin-top:14px;width:100%;justify-content:center;"><i class="fas fa-paper-plane"></i> Enviar</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- ===== NUEVO MODAL PARA SUBIR FOTO DE PERFIL ===== -->
-    <div class="modal" id="uploadAvatarModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2>📸 Cambiar Foto de Perfil</h2>
-                <button class="modal-close" onclick="closeModal('uploadAvatarModal')">&times;</button>
-            </div>
-            <div class="modal-body">
-                <p style="margin-bottom:14px;color:#b8b8d0;font-size:clamp(0.75rem, 1.2vw, 0.85rem);">Sube una nueva foto de perfil. Formatos: JPG, PNG.</p>
-                
-                <div class="avatar-preview-container">
-                    <img id="avatarPreview" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Ccircle cx='40' cy='40' r='40' fill='%23111122'/%3E%3Ccircle cx='40' cy='26' r='12' fill='%23222244'/%3E%3Cpath d='M10 72c0-12 16-20 30-20s30 8 30 20' fill='%23222244'/%3E%3C/svg%3E" alt="Vista previa">
-                </div>
-
-                <div class="file-upload-area" onclick="document.getElementById('uploadAvatarInput').click()">
-                    <i class="fas fa-image"></i>
-                    <p>Seleccionar imagen</p>
-                    <div style="font-size:0.6rem;color:#7a7a9a;margin-top:4px;">Recomendado: 400x400px</div>
-                    <input type="file" id="uploadAvatarInput" accept=".jpg,.jpeg,.png">
-                </div>
-                <div id="avatarPreviewFile" class="file-preview" style="display:none;">
-                    <i class="fas fa-file-image"></i>
-                    <span class="name" id="avatarFileName">archivo.jpg</span>
-                    <span class="remove" onclick="document.getElementById('uploadAvatarInput').value='';this.parentElement.style.display='none';document.getElementById('avatarPreview').src=document.getElementById('socioAvatar').src;">✕</span>
-                </div>
-
-                <div style="display:flex;gap:8px;margin-top:14px;">
-                    <button class="btn btn-primary" onclick="subirFotoPerfil()" style="flex:1;justify-content:center;" id="uploadAvatarBtn">
-                        <i class="fas fa-cloud-upload-alt"></i> Subir Foto
-                    </button>
-                    <button class="btn btn-secondary" onclick="closeModal('uploadAvatarModal')" style="flex:0.5;">Cancelar</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- ===== BOTTOM NAV ===== -->
-    <nav class="bottom-nav" id="bottomNav">
-        <button class="nav-item active" data-section="perfil" onclick="navigateTo('perfil')">
-            <i class="fas fa-user"></i>
-            <span>Perfil</span>
+    <!-- NAVEGACIÓN INFERIOR (BOTTOM NAV) -->
+    <nav class="bottom-nav">
+        <button class="nav-item active" onclick="switchTab('perfil')">
+            <i class="fa-solid fa-user"></i>
+            <span>Mi Cuenta</span>
         </button>
-        <button class="nav-item" data-section="plan" onclick="navigateTo('plan')">
-            <i class="fas fa-futbol"></i>
-            <span>Plan</span>
-            <span class="nav-badge" id="navBadge" style="display:none;">!</span>
+        <button class="nav-item" onclick="switchTab('pagos')">
+            <i class="fa-solid fa-wallet"></i>
+            <span>Pagos</span>
         </button>
-        <button class="nav-item" data-section="historial" onclick="navigateTo('historial')">
-            <i class="fas fa-history"></i>
-            <span>Historial</span>
-        </button>
-        <button class="nav-item" data-section="futboleros" onclick="navigateTo('futboleros')">
-            <i class="fas fa-users"></i>
-            <span>Futboleros</span>
-        </button>
-        <button class="nav-item" onclick="handleLogout()">
-            <i class="fas fa-sign-out-alt"></i>
-            <span>Salir</span>
+        <button class="nav-item" onclick="switchTab('nosotros')">
+            <i class="fa-solid fa-circle-info"></i>
+            <span>Nosotros</span>
         </button>
     </nav>
 
+    <!-- LÓGICA JAVASCRIPT -->
     <script>
-        // ================================================================
-        // 1. PARTÍCULAS
-        // ================================================================
-        (function createParticles() {
-            var container = document.getElementById('particles');
-            if (!container) return;
-            for (var i = 0; i < 35; i++) {
-                var p = document.createElement('div');
-                p.className = 'particle';
-                var s = Math.random() * 3 + 2;
-                p.style.width = s + 'px';
-                p.style.height = s + 'px';
-                p.style.left = Math.random() * 100 + '%';
-                p.style.animationDuration = (Math.random() * 16 + 12) + 's';
-                p.style.animationDelay = (Math.random() * 12) + 's';
-                container.appendChild(p);
-            }
-        })();
+        // Inicialización de Supabase
+        const SUPABASE_URL = "https://tu-proyecto.supabase.co"; // Reemplaza con tu URL
+        const SUPABASE_KEY = "tu-anon-key"; // Reemplaza con tu Key pública
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-        // ================================================================
-        // 2. RELOJ
-        // ================================================================
+        let currentUsername = "";
+
+        // Reloj en vivo
         function updateClock() {
-            var now = new Date();
-            var time = now.toLocaleTimeString('es', { hour: '2-digit', minute: '2-digit' });
-            var clock = document.getElementById('clockDisplay');
-            if (clock) clock.textContent = time;
+            const now = new Date();
+            const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            document.getElementById('currentTime').textContent = timeStr;
         }
         setInterval(updateClock, 1000);
         updateClock();
 
-        // ================================================================
-        // 3. CLIMA CON CACHÉ Y DÍA/NOCHE
-        // ================================================================
-        const CACHE_KEY = 'fly_weather_cache';
-        const CACHE_TTL = 10 * 60 * 1000;
+        // Cambio de Secciones/Tabs
+        function switchTab(tabName) {
+            document.querySelectorAll('.section-page').forEach(page => page.classList.remove('active'));
+            document.querySelectorAll('.bottom-nav .nav-item').forEach(btn => btn.classList.remove('active'));
 
-        function getDayNightIcon() {
-            const now = new Date();
-            const hour = now.getHours();
-            const isDay = hour >= 6 && hour < 19;
-            return isDay ? '☀️' : '🌙';
+            const targetPage = document.getElementById(`page-${tabName}`);
+            if (targetPage) targetPage.classList.add('active');
+
+            event.currentTarget.classList.add('active');
         }
 
-        function getWeatherIcon(code) {
-            const map = {
-                '01d': '☀️', '01n': '🌙',
-                '02d': '⛅', '02n': '☁️',
-                '03d': '☁️', '03n': '☁️',
-                '04d': '☁️', '04n': '☁️',
-                '09d': '🌧️', '09n': '🌧️',
-                '10d': '🌦️', '10n': '🌧️',
-                '11d': '⛈️', '11n': '⛈️',
-                '13d': '❄️', '13n': '❄️',
-                '50d': '🌫️', '50n': '🌫️'
-            };
-            return map[code] || getDayNightIcon();
-        }
+        // Subir Avatar a Supabase Storage (Celulares y PC)
+        async function uploadAvatar(event) {
+            const file = event.target.files[0];
+            if (!file) return;
 
-        async function obtenerTemperatura() {
-            const cached = localStorage.getItem(CACHE_KEY);
-            if (cached) {
-                try {
-                    const data = JSON.parse(cached);
-                    const age = Date.now() - data.timestamp;
-                    if (age < CACHE_TTL) {
-                        const icon = getDayNightIcon();
-                        return { temperatura: data.temperatura, icono: icon };
-                    }
-                } catch (e) {}
-            }
-
-            let temperatura = null;
-            let icono = getDayNightIcon();
+            const editBtn = document.getElementById('editAvatarBtn');
+            editBtn.classList.add('loading');
+            editBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>';
 
             try {
-                const geoResponse = await fetch('https://ipapi.co/json/');
-                if (geoResponse.ok) {
-                    const geoData = await geoResponse.json();
-                    if (geoData && geoData.city) {
-                        const weatherUrl = 'https://api.openweathermap.org/data/2.5/weather?q=' + encodeURIComponent(
-                            geoData.city) + '&appid=bd5e378503939ddaee76f12ad7a97608&units=metric&lang=es';
-                        const weatherResponse = await fetch(weatherUrl);
-                        if (weatherResponse.ok) {
-                            const weatherData = await weatherResponse.json();
-                            if (weatherData.main && weatherData.main.temp !== undefined) {
-                                temperatura = Math.round(weatherData.main.temp);
-                            }
-                            if (weatherData.weather && weatherData.weather[0] && weatherData.weather[0].icon) {
-                                icono = getWeatherIcon(weatherData.weather[0].icon);
-                            }
-                        }
-                    }
-                }
-            } catch (error) {
-                console.warn('Error obteniendo clima:', error);
-            }
+                const cleanUsername = currentUsername || 'usuario';
+                const fileExt = file.name.split('.').pop();
+                const filePath = `avatars/${cleanUsername}-${Date.now()}.${fileExt}`;
 
-            if (temperatura === null) {
-                if (cached) {
-                    try {
-                        const old = JSON.parse(cached);
-                        temperatura = old.temperatura || 22;
-                    } catch (e) {
-                        temperatura = 22;
-                    }
-                } else {
-                    temperatura = 22;
-                }
-                icono = getDayNightIcon();
-            }
-
-            localStorage.setItem(CACHE_KEY, JSON.stringify({
-                temperatura: temperatura,
-                timestamp: Date.now()
-            }));
-
-            return { temperatura: temperatura, icono: icono };
-        }
-
-        async function actualizarClima() {
-            try {
-                const clima = await obtenerTemperatura();
-                const tempDisplay = document.getElementById('tempDisplay');
-                const iconDisplay = document.getElementById('weatherIcon');
-                if (tempDisplay && clima.temperatura !== undefined) {
-                    tempDisplay.textContent = clima.temperatura + '°C';
-                }
-                if (iconDisplay && clima.icono) {
-                    iconDisplay.textContent = clima.icono;
-                }
-            } catch (error) {
-                console.warn('Error actualizando clima:', error);
-                const icon = getDayNightIcon();
-                const tempDisplay = document.getElementById('tempDisplay');
-                const iconDisplay = document.getElementById('weatherIcon');
-                if (tempDisplay) tempDisplay.textContent = '22°C';
-                if (iconDisplay) iconDisplay.textContent = icon;
-            }
-        }
-
-        actualizarClima();
-        setInterval(actualizarClima, 600000);
-
-        setInterval(function() {
-            const icon = getDayNightIcon();
-            const iconDisplay = document.getElementById('weatherIcon');
-            if (iconDisplay) iconDisplay.textContent = icon;
-        }, 1800000);
-
-        // ================================================================
-        // 4. NAVEGACIÓN
-        // ================================================================
-        function navigateTo(section) {
-            document.querySelectorAll('.section-page').forEach(function(el) {
-                el.classList.remove('active');
-            });
-
-            var target = document.getElementById('section-' + section);
-            if (target) {
-                target.classList.add('active');
-            }
-
-            document.querySelectorAll('.bottom-nav .nav-item').forEach(function(el) {
-                el.classList.remove('active');
-                if (el.dataset && el.dataset.section === section) {
-                    el.classList.add('active');
-                }
-            });
-
-            if (section === 'plan') {
-                document.getElementById('navBadge').style.display = 'none';
-            }
-        }
-
-        // ================================================================
-        // 5. SUPABASE
-        // ================================================================
-        const SUPABASE_URL = 'https://abgtdybklkfozoazfmiw.supabase.co';
-        const SUPABASE_ANON_KEY =
-            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFiZ3RkeWJrbGtmb3pvYXpmbWl3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQ5Njg4MzcsImV4cCI6MjEwMDU0NDgzN30.H0WeLq7vXOYC_On43SfRUivc2thzz0zBq4r11NX8FOA';
-
-        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-        // ================================================================
-        // 6. USUARIO
-        // ================================================================
-        var currentUser = null;
-        var socioData = null;
-        var historialPagos = [];
-
-        function getCurrentUser() {
-            try {
-                var session = localStorage.getItem('fly_user_session');
-                if (session) {
-                    currentUser = JSON.parse(session);
-                    return currentUser;
-                }
-            } catch (e) {
-                console.warn('Error parsing session:', e);
-            }
-            return null;
-        }
-
-        // ================================================================
-        // 7. CARGAR DATOS
-        // ================================================================
-        async function loadSocioData() {
-            var sessionUser = getCurrentUser();
-
-            if (!sessionUser) {
-                showToast('⚠️ Sesión no encontrada. Redirigiendo...', 'warning');
-                setTimeout(function() { window.location.href = 'index.html'; }, 1500);
-                return;
-            }
-
-            try {
-                const { data: socio, error } = await supabaseClient
-                    .from('socios')
-                    .select('*')
-                    .eq('id', sessionUser.id)
-                    .single();
-
-                if (error || !socio) {
-                    showToast('⚠️ Usuario no encontrado. Redirigiendo...', 'warning');
-                    setTimeout(function() { window.location.href = 'index.html'; }, 1500);
-                    return;
-                }
-
-                socioData = socio;
-
-                const { data: pagos, error: pagosError } = await supabaseClient
-                    .from('pagos')
-                    .select('*')
-                    .eq('socio_id', socio.id)
-                    .order('fecha', { ascending: false });
-
-                if (!pagosError) {
-                    historialPagos = pagos || [];
-                } else {
-                    console.warn('Error cargando pagos:', pagosError);
-                }
-
-                renderProfile(socio);
-                renderPlan(socio);
-                renderHistorial();
-                checkVencimiento(socio);
-
-                var badge = document.getElementById('navBadge');
-                var pendientes = historialPagos.filter(function(p) { return p.estado === 'Pendiente'; });
-                if (pendientes.length > 0) {
-                    badge.style.display = 'block';
-                    badge.textContent = pendientes.length;
-                } else {
-                    badge.style.display = 'none';
-                }
-
-                if (socio.role === 'admin') {
-                    var headerActions = document.querySelector('.socio-header .header-actions');
-                    var adminBtn = document.createElement('button');
-                    adminBtn.className = 'btn btn-primary btn-sm';
-                    adminBtn.innerHTML = '<i class="fas fa-crown"></i> Admin';
-                    adminBtn.onclick = function() { window.location.href = 'admin.html'; };
-                    headerActions.prepend(adminBtn);
-                }
-
-            } catch (error) {
-                console.error('Error loading data:', error);
-                showToast('Error al cargar datos', 'error');
-            }
-        }
-
-        // ================================================================
-        // 8. RENDER PERFIL
-        // ================================================================
-        function renderProfile(user) {
-            document.getElementById('socioNombre').textContent = user.nombre || 'Sin nombre';
-            document.getElementById('socioUsername').textContent = '@' + user.username;
-            document.getElementById('socioId').textContent = '#' + user.id;
-
-            var planEl = document.getElementById('socioPlan');
-            planEl.textContent = user.plan || 'Sin plan';
-            planEl.className = 'badge ' + (user.plan === 'Sabatero' ? 'badge-active' : 'badge-pending');
-
-            var estadoEl = document.getElementById('socioEstado');
-            estadoEl.textContent = user.estado || 'Pendiente';
-            estadoEl.className = 'badge ' + getStatusClass(user.estado);
-
-            if (user.foto_url) {
-                document.getElementById('socioAvatar').src = user.foto_url;
-            }
-        }
-
-        function getStatusClass(estado) {
-            var map = {
-                'Activo': 'badge-active',
-                'Pendiente': 'badge-pending',
-                'Suspendido': 'badge-suspended',
-                'Vencido': 'badge-expired'
-            };
-            return map[estado] || 'badge-pending';
-        }
-
-        // ================================================================
-        // 9. RENDER PLAN
-        // ================================================================
-        function renderPlan(user) {
-            var sabatero = document.getElementById('planSabateroContainer');
-            var finder = document.getElementById('planFinderContainer');
-
-            sabatero.classList.add('hidden');
-            finder.classList.add('hidden');
-
-            if (user.plan === 'Sabatero') {
-                sabatero.classList.remove('hidden');
-                document.getElementById('sabateroInicio').textContent = user.fecha_inicio ? new Date(user.fecha_inicio)
-                    .toLocaleDateString() : 'No definida';
-                document.getElementById('sabateroVencimiento').textContent = user.fecha_vencimiento ? new Date(user
-                    .fecha_vencimiento).toLocaleDateString() : 'No definida';
-                document.getElementById('sabateroDias').textContent = user.fecha_vencimiento ? calcularDias(user
-                    .fecha_vencimiento) : 'N/A';
-                document.getElementById('sabateroMetodo').textContent = user.metodo_pago || 'N/A';
-
-                var pagosCount = historialPagos.filter(function(p) { return p.estado === 'Aprobado'; }).length;
-                document.getElementById('sabateroPagos').textContent = pagosCount;
-
-            } else if (user.plan === 'Finder') {
-                finder.classList.remove('hidden');
-                document.getElementById('finderMetodo').textContent = user.metodo_pago || 'N/A';
-                var pagosCountFinder = historialPagos.filter(function(p) { return p.estado === 'Aprobado'; }).length;
-                document.getElementById('finderPagos').textContent = pagosCountFinder;
-            }
-        }
-
-        function calcularDias(fechaVencimiento) {
-            var hoy = new Date();
-            var venc = new Date(fechaVencimiento);
-            var diff = Math.ceil((venc - hoy) / (1000 * 60 * 60 * 24));
-            return diff > 0 ? diff + ' días' : 'Vencido';
-        }
-
-        // ================================================================
-        // 10. RENDER HISTORIAL
-        // ================================================================
-        function renderHistorial() {
-            var tbody = document.getElementById('historialTableBody');
-
-            if (!historialPagos || historialPagos.length === 0) {
-                tbody.innerHTML =
-                    '<tr><td colspan="5" style="text-align:center;padding:24px;color:#8a8aaa;font-size:0.75rem;"><i class="fas fa-inbox" style="font-size:1.2rem;display:block;margin-bottom:6px;opacity:0.5;"></i>No hay pagos registrados</td></tr>';
-                return;
-            }
-
-            tbody.innerHTML = historialPagos.map(function(p) {
-                return '<tr>' +
-                    '<td>' + new Date(p.fecha).toLocaleDateString() + '</td>' +
-                    '<td>Gs. ' + p.monto.toLocaleString() + '</td>' +
-                    '<td>' + p.metodo + '</td>' +
-                    '<td><span class="badge ' + getStatusClass(p.estado) + '">' + p.estado + '</span></td>' +
-                    '<td>' + (p.comprobante_url ?
-                        '<button class="btn btn-secondary btn-sm" onclick="showToast(\'Ver comprobante\',\'info\')"><i class="fas fa-eye"></i></button>' :
-                        '-') +
-                    '</td>' +
-                    '</tr>';
-            }).join('');
-        }
-
-        // ================================================================
-        // 11. VENCIMIENTO
-        // ================================================================
-        function checkVencimiento(user) {
-            var container = document.getElementById('recordatorioContainer');
-
-            if (user.plan === 'Sabatero' && user.fecha_vencimiento) {
-                var dias = calcularDias(user.fecha_vencimiento);
-                var diasNum = parseInt(dias);
-
-                if (!isNaN(diasNum) && diasNum <= 7 && diasNum > 0) {
-                    container.classList.remove('hidden');
-                    document.getElementById('recordatorioMensaje').textContent =
-                        'Tu membresía vence en ' + dias + '. Te recomendamos renovar.';
-                } else if (!isNaN(diasNum) && diasNum <= 0) {
-                    container.classList.remove('hidden');
-                    document.getElementById('recordatorioMensaje').textContent =
-                        'Tu membresía ha vencido. Renueva para seguir disfrutando.';
-                } else {
-                    container.classList.add('hidden');
-                }
-            } else {
-                container.classList.add('hidden');
-            }
-        }
-
-        // ================================================================
-        // 12. ACCIONES DE PERFIL - SUBIR FOTO
-        // ================================================================
-        var avatarFile = null;
-
-        function abrirModalAvatar() {
-            if (!socioData) {
-                showToast('⚠️ Espera a que carguen los datos', 'warning');
-                return;
-            }
-            // Resetear el input y vista previa
-            document.getElementById('uploadAvatarInput').value = '';
-            document.getElementById('avatarPreviewFile').style.display = 'none';
-            document.getElementById('avatarPreview').src = document.getElementById('socioAvatar').src;
-            document.getElementById('uploadAvatarBtn').disabled = false;
-            document.getElementById('uploadAvatarBtn').innerHTML = '<i class="fas fa-cloud-upload-alt"></i> Subir Foto';
-            avatarFile = null;
-            document.getElementById('uploadAvatarModal').classList.add('active');
-            document.body.style.overflow = 'hidden';
-        }
-
-        // Vista previa de la imagen seleccionada
-        document.getElementById('uploadAvatarInput').addEventListener('change', function() {
-            var file = this.files[0];
-            if (!file) {
-                document.getElementById('avatarPreviewFile').style.display = 'none';
-                avatarFile = null;
-                return;
-            }
-
-            // Validar tipo de archivo
-            if (!file.type.startsWith('image/')) {
-                showToast('⚠️ Por favor selecciona una imagen', 'warning');
-                this.value = '';
-                return;
-            }
-
-            // Validar tamaño (máximo 2MB)
-            if (file.size > 2 * 1024 * 1024) {
-                showToast('⚠️ La imagen no debe superar los 2MB', 'warning');
-                this.value = '';
-                return;
-            }
-
-            avatarFile = file;
-
-            // Mostrar vista previa
-            var reader = new FileReader();
-            reader.onload = function(e) {
-                document.getElementById('avatarPreview').src = e.target.result;
-                document.getElementById('avatarFileName').textContent = file.name;
-                document.getElementById('avatarPreviewFile').style.display = 'flex';
-            };
-            reader.readAsDataURL(file);
-        });
-
-        async function subirFotoPerfil() {
-            if (!avatarFile) {
-                showToast('⚠️ Selecciona una imagen primero', 'warning');
-                return;
-            }
-
-            var btn = document.getElementById('uploadAvatarBtn');
-            btn.disabled = true;
-            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Subiendo...';
-
-            try {
-                var sessionUser = getCurrentUser();
-                if (!sessionUser) {
-                    showToast('⚠️ Sesión no encontrada', 'error');
-                    btn.disabled = false;
-                    btn.innerHTML = '<i class="fas fa-cloud-upload-alt"></i> Subir Foto';
-                    return;
-                }
-
-                // Generar nombre único para el archivo
-                var fileExt = avatarFile.name.split('.').pop();
-                var fileName = 'avatars/' + sessionUser.id + '_' + Date.now() + '.' + fileExt;
-
-                // Subir a Supabase Storage
-                const { data: uploadData, error: uploadError } = await supabaseClient.storage
+                // 1. Subir archivo al bucket 'avatars'
+                const { error: uploadError } = await supabase.storage
                     .from('avatars')
-                    .upload(fileName, avatarFile, {
-                        cacheControl: '3600',
-                        upsert: false
-                    });
+                    .upload(filePath, file, { upsert: true });
 
-                if (uploadError) {
-                    console.error('Error al subir:', uploadError);
-                    
-                    // Si el error es por bucket, intentar crear el bucket o usar otro método
-                    if (uploadError.message.includes('bucket not found')) {
-                        showToast('⚠️ Error: el bucket de almacenamiento no está configurado. Contacta al administrador.', 'error');
-                    } else {
-                        showToast('❌ Error al subir la imagen: ' + uploadError.message, 'error');
-                    }
-                    btn.disabled = false;
-                    btn.innerHTML = '<i class="fas fa-cloud-upload-alt"></i> Subir Foto';
-                    return;
-                }
+                if (uploadError) throw uploadError;
 
-                // Obtener URL pública
-                const { data: urlData } = supabaseClient.storage
+                // 2. Obtener URL Pública del archivo
+                const { data: publicUrlData } = supabase.storage
                     .from('avatars')
-                    .getPublicUrl(fileName);
+                    .getPublicUrl(filePath);
 
-                var publicUrl = urlData.publicUrl;
+                const avatarUrl = publicUrlData.publicUrl;
 
-                // Actualizar la foto en la tabla de socios
-                const { error: updateError } = await supabaseClient
+                // 3. Guardar en Base de Datos de 'socios'
+                const { error: updateError } = await supabase
                     .from('socios')
-                    .update({ foto_url: publicUrl })
-                    .eq('id', sessionUser.id);
+                    .update({ avatar_url: avatarUrl })
+                    .eq('username', cleanUsername);
 
-                if (updateError) {
-                    console.error('Error al actualizar perfil:', updateError);
-                    showToast('❌ Error al actualizar la foto de perfil', 'error');
-                    btn.disabled = false;
-                    btn.innerHTML = '<i class="fas fa-cloud-upload-alt"></i> Subir Foto';
-                    return;
-                }
+                if (updateError) throw updateError;
 
-                // Actualizar la vista
-                document.getElementById('socioAvatar').src = publicUrl;
-                
-                // Actualizar los datos locales
-                if (socioData) {
-                    socioData.foto_url = publicUrl;
-                }
+                // Actualizar interfaz
+                document.getElementById('avatarImg').src = avatarUrl;
+                showToast("¡Foto de perfil actualizada exitosamente!", "success");
 
-                showToast('✅ Foto de perfil actualizada exitosamente', 'success');
-                closeModal('uploadAvatarModal');
-
-            } catch (error) {
-                console.error('Error:', error);
-                showToast('❌ Error al subir la imagen', 'error');
+            } catch (err) {
+                showToast("Error al subir avatar: " + err.message, "error");
             } finally {
-                btn.disabled = false;
-                btn.innerHTML = '<i class="fas fa-cloud-upload-alt"></i> Subir Foto';
-                avatarFile = null;
+                editBtn.classList.remove('loading');
+                editBtn.innerHTML = '<i class="fa-solid fa-camera"></i>';
             }
         }
 
-        // ================================================================
-        // 13. OTRAS ACCIONES
-        // ================================================================
-        function renovarMembresia() {
-            if (!confirm('¿Renovar tu membresía por 30 días más?')) return;
-            showToast('✅ Renovación solicitada. Espera confirmación del administrador.', 'success');
-            setTimeout(loadSocioData, 1000);
+        // Función para mostrar Toasts interactivas
+        function showToast(message, type = 'info') {
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+
+            let iconClass = 'fa-info-circle info';
+            if (type === 'success') iconClass = 'fa-circle-check success';
+            if (type === 'error') iconClass = 'fa-circle-xmark error';
+            if (type === 'warning') iconClass = 'fa-triangle-exclamation warning';
+
+            toast.innerHTML = `
+                <i class="fa-solid ${iconClass} icon"></i>
+                <span>${message}</span>
+            `;
+
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 4000);
         }
 
-        function subirComprobante() {
-            if (socioData && socioData.metodo_pago !== 'Transferencia') {
-                showToast('⚠️ Tu método de pago es Efectivo. No necesitas subir comprobante.', 'warning');
-                return;
-            }
-            document.getElementById('uploadModal').classList.add('active');
-            document.body.style.overflow = 'hidden';
-        }
-
-        function enviarComprobante() {
-            var file = document.getElementById('uploadReceipt').files[0];
-            if (!file) {
-                showToast('⚠️ Por favor selecciona un archivo', 'warning');
-                return;
-            }
-            showToast('✅ Comprobante enviado exitosamente', 'success');
-            closeModal('uploadModal');
-            document.getElementById('uploadReceipt').value = '';
-            document.getElementById('uploadPreview').style.display = 'none';
-            setTimeout(loadSocioData, 1000);
-        }
-
-        function descargarComprobantes() {
-            var pagos = historialPagos.filter(function(p) { return p.comprobante_url; });
-            if (pagos.length === 0) {
-                showToast('⚠️ No hay comprobantes disponibles', 'warning');
-                return;
-            }
-            showToast('📎 Descargando ' + pagos.length + ' comprobantes...', 'info');
-            setTimeout(function() {
-                showToast('✅ Comprobantes descargados (simulación)', 'success');
-            }, 1000);
-        }
-
-        function closeModal(id) {
-            document.getElementById(id).classList.remove('active');
-            document.body.style.overflow = '';
-            // Resetear el estado del botón de subir foto
-            if (id === 'uploadAvatarModal') {
-                var btn = document.getElementById('uploadAvatarBtn');
-                btn.disabled = false;
-                btn.innerHTML = '<i class="fas fa-cloud-upload-alt"></i> Subir Foto';
-                avatarFile = null;
+        // Generar partículas dinámicas
+        function initParticles() {
+            const container = document.getElementById('particles');
+            const particleCount = 15;
+            for (let i = 0; i < particleCount; i++) {
+                const p = document.createElement('div');
+                p.className = 'particle';
+                const size = Math.random() * 80 + 20;
+                p.style.width = `${size}px`;
+                p.style.height = `${size}px`;
+                p.style.left = `${Math.random() * 100}%`;
+                p.style.animationDuration = `${Math.random() * 10 + 10}s`;
+                p.style.animationDelay = `${Math.random() * 5}s`;
+                container.appendChild(p);
             }
         }
-
-        document.querySelectorAll('.modal').forEach(function(modal) {
-            modal.addEventListener('click', function(e) {
-                if (e.target === this) {
-                    closeModal(this.id);
-                }
-            });
-        });
-
-        document.getElementById('uploadReceipt').addEventListener('change', function() {
-            var preview = document.getElementById('uploadPreview');
-            var name = document.getElementById('uploadFileName');
-            if (this.files && this.files[0]) {
-                name.textContent = this.files[0].name;
-                preview.style.display = 'flex';
-            } else {
-                preview.style.display = 'none';
-            }
-        });
-
-        // ================================================================
-        // 14. TOAST
-        // ================================================================
-        function showToast(message, type) {
-            if (type === undefined) type = 'info';
-            var colors = { success: '#00ff7f', error: '#ff2d8a', warning: '#ff6a00', info: '#00d4ff' };
-            var icons = { success: 'fa-check-circle', error: 'fa-exclamation-circle', warning: 'fa-exclamation-triangle',
-                info: 'fa-info-circle' };
-
-            var existing = document.querySelector('.toast');
-            if (existing) existing.remove();
-
-            var el = document.createElement('div');
-            el.className = 'toast';
-            el.innerHTML =
-                '<i class="fas ' + icons[type] + ' icon ' + type + '"></i><span>' + message + '</span>';
-            el.style.borderColor = colors[type];
-            document.body.appendChild(el);
-
-            setTimeout(function() {
-                el.style.opacity = '0';
-                el.style.transform = 'translateY(20px)';
-                setTimeout(function() { el.remove(); }, 300);
-            }, 4000);
-        }
-
-        // ================================================================
-        // 15. CERRAR SESIÓN
-        // ================================================================
-        function handleLogout() {
-            if (!confirm('¿Cerrar sesión?')) return;
-            try {
-                localStorage.removeItem('fly_user_session');
-                sessionStorage.clear();
-            } catch (e) {}
-            showToast('🔒 Sesión cerrada', 'info');
-            setTimeout(function() {
-                window.location.href = 'index.html';
-            }, 1000);
-        }
-
-        // ================================================================
-        // 16. INICIALIZAR
-        // ================================================================
-        document.addEventListener('DOMContentLoaded', function() {
-            loadSocioData();
-        });
-
-        document.querySelector('.bottom-nav .nav-item[data-section="plan"]').addEventListener('click', function() {
-            document.getElementById('navBadge').style.display = 'none';
-        });
-
-        console.log('👤 FLY FUTBOLEROS · Panel del Socio');
-        console.log('📸 Ahora puedes subir tu foto de perfil');
-        console.log('⚡ Sección "Futboleros" agregada al menú inferior');
+        initParticles();
     </script>
-
 </body>
 </html>
