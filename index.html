@@ -6,7 +6,8 @@
     <title>FLY FUTBOLEROS · Registro</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2">
+    </script>
     <style>
         *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
         :root{--bg-deep:#06060e;--bg-card:rgba(12,12,26,0.6);--border-glow:rgba(0,212,255,0.08);--text-primary:#e8e8f0;--text-secondary:#9a9ab0;--text-muted:#5a5a7a;--neon-blue:#00d4ff;--neon-purple:#8b3cff;--neon-pink:#ff2d8a;--neon-green:#00ff7f;--neon-orange:#ff6a00;--gradient-primary:linear-gradient(135deg,#00d4ff,#8b3cff);--shadow-card:0 8px 48px rgba(0,0,0,0.9);--radius:20px;--radius-sm:12px;--transition:all 0.4s cubic-bezier(0.25,0.46,0.45,0.94);--transition-fast:all 0.2s ease}
@@ -51,7 +52,6 @@
         .login-box .error-msg{color:var(--neon-pink);font-size:0.75rem;text-align:center;margin-top:10px;min-height:20px;position:relative;z-index:1}
         .login-box .error-msg i{margin-right:6px}
         .login-box .success-msg{color:var(--neon-green);font-size:0.75rem;text-align:center;margin-top:10px;min-height:20px;position:relative;z-index:1}
-        .login-box .success-msg i{margin-right:6px}
         .login-box .auth-switch{text-align:center;margin-top:16px;color:var(--text-secondary);font-size:0.8rem;position:relative;z-index:1}
         .login-box .auth-switch a{color:var(--neon-blue);text-decoration:none;font-weight:600;cursor:pointer;transition:var(--transition-fast)}
         .login-box .auth-switch a:hover{color:var(--neon-purple)}
@@ -115,7 +115,7 @@
                 <span class="weather-icon" id="weatherIcon">☀️</span>
             </div>
 
-            <!-- ===== LOGIN ===== -->
+            <!-- LOGIN -->
             <form id="loginForm">
                 <div class="form-group">
                     <label>👤 Usuario <span class="required">*</span></label>
@@ -135,7 +135,7 @@
                 </div>
             </form>
 
-            <!-- ===== REGISTRO ===== -->
+            <!-- REGISTRO -->
             <form id="registerForm" class="hidden">
                 <div class="form-group">
                     <label>📸 Foto de Perfil</label>
@@ -272,7 +272,7 @@
         updateClock();
 
         // ================================================================
-        // 3. TEMPERATURA CON CACHÉ Y DÍA/NOCHE POR HORA LOCAL
+        // 3. CLIMA CON CACHÉ Y DÍA/NOCHE
         // ================================================================
         const CACHE_KEY = 'fly_weather_cache';
         const CACHE_TTL = 10 * 60 * 1000;
@@ -309,7 +309,7 @@
                         const icon = getDayNightIcon();
                         return { temperatura: data.temperatura, icono: icon };
                     }
-                } catch (e) { /* ignorar */ }
+                } catch (e) {}
             }
 
             let temperatura = null;
@@ -325,7 +325,7 @@
                         const weatherResponse = await fetch(weatherUrl);
                         if (weatherResponse.ok) {
                             const weatherData = await weatherResponse.json();
-                            if (weatherData.main && weatherData.main.temp) {
+                            if (weatherData.main && weatherData.main.temp !== undefined) {
                                 temperatura = Math.round(weatherData.main.temp);
                             }
                             if (weatherData.weather && weatherData.weather[0] && weatherData.weather[0].icon) {
@@ -366,7 +366,7 @@
                 const tempDisplay = document.getElementById('tempDisplay');
                 const iconDisplay = document.getElementById('weatherIcon');
                 if (tempDisplay && clima.temperatura !== undefined) {
-                    tempDisplay.textContent = `${clima.temperatura}°C`;
+                    tempDisplay.textContent = clima.temperatura + '°C';
                 }
                 if (iconDisplay && clima.icono) {
                     iconDisplay.textContent = clima.icono;
@@ -548,7 +548,7 @@
         });
 
         // ================================================================
-        // 10. REGISTRO - USANDO BUCKET 'avatars'
+        // 10. REGISTRO - VERSIÓN CORREGIDA Y FUNCIONAL
         // ================================================================
         document.getElementById('registerForm').addEventListener('submit', async function(e) {
             e.preventDefault();
@@ -619,7 +619,7 @@
             btn.innerHTML = '<span class="spinner"></span> Registrando...';
 
             try {
-                // 1. Insertar el socio directamente en la tabla (sin Auth)
+                // 1. Insertar el socio
                 const socioData = {
                     username: username.toLowerCase(),
                     nombre: nombre,
@@ -644,18 +644,21 @@
                     throw new Error(socioError.message || 'Error al registrar usuario');
                 }
 
-                // 2. Subir foto de perfil al bucket 'avatars' (antes era 'perfiles')
+                console.log('✅ Socio creado:', socio.id, socio.nombre);
+
+                // 2. Subir foto de perfil
                 if (foto) {
                     try {
                         const ext = foto.name.split('.').pop();
                         const path = `${socio.id}/perfil.${ext}`;
                         const { error: uploadError } = await supabaseClient.storage
-                            .from('avatars')  // ← AHORA USA 'avatars'
+                            .from('avatars')
                             .upload(path, foto);
 
                         if (!uploadError) {
                             const url = supabaseClient.storage.from('avatars').getPublicUrl(path).data.publicUrl;
                             await supabaseClient.from('socios').update({ foto_url: url }).eq('id', socio.id);
+                            console.log('✅ Foto subida:', url);
                         } else {
                             console.warn('Error subiendo foto:', uploadError);
                         }
@@ -664,26 +667,52 @@
                     }
                 }
 
-                // 3. Subir comprobante si es Transferencia
+                // 3. Subir comprobante y guardar en tabla comprobantes
                 if (metodo === 'Transferencia' && comprobante) {
                     try {
                         const ext = comprobante.name.split('.').pop();
                         const path = `${socio.id}/comprobante_${Date.now()}.${ext}`;
+                        console.log('📤 Subiendo comprobante a:', path);
+
                         const { error: uploadError } = await supabaseClient.storage
                             .from('comprobantes')
                             .upload(path, comprobante);
 
                         if (!uploadError) {
                             const url = supabaseClient.storage.from('comprobantes').getPublicUrl(path).data.publicUrl;
+                            console.log('✅ Comprobante subido:', url);
+
+                            // Guardar URL en el socio
                             await supabaseClient.from('socios').update({ comprobante_url: url }).eq('id', socio.id);
 
-                            await supabaseClient.from('comprobantes').insert([{
+                            // Guardar en la tabla comprobantes
+                            const { error: comprobanteError } = await supabaseClient.from('comprobantes').insert([{
                                 socio_id: socio.id,
                                 archivo_url: url,
                                 tipo: 'transferencia',
                                 estado: 'Pendiente',
-                                fecha_subida: new Date().toISOString()
+                                fecha_subida: new Date().toISOString(),
+                                nombre_archivo: comprobante.name
                             }]);
+
+                            if (comprobanteError) {
+                                console.warn('Error guardando comprobante en tabla:', comprobanteError);
+                            } else {
+                                console.log('✅ Comprobante registrado en tabla');
+                            }
+
+                            // Crear notificación para el admin
+                            await supabaseClient.from('notificaciones').insert([{
+                                tipo: 'nuevo_comprobante',
+                                mensaje: `📎 Nuevo comprobante de ${nombre} (@${username})`,
+                                leida: false,
+                                data: {
+                                    socio_id: socio.id,
+                                    username: username,
+                                    comprobante_url: url
+                                }
+                            }]);
+
                         } else {
                             console.warn('Error subiendo comprobante:', uploadError);
                         }
@@ -692,11 +721,11 @@
                     }
                 }
 
-                // 4. Crear notificación para el admin
+                // 4. Crear notificación de nuevo socio
                 try {
                     await supabaseClient.from('notificaciones').insert([{
                         tipo: 'nuevo_socio',
-                        mensaje: `Nuevo socio: @${username} - ${nombre}`,
+                        mensaje: `👤 Nuevo socio: ${nombre} (@${username})`,
                         leida: false,
                         data: { socio_id: socio.id, username: username }
                     }]);
@@ -725,7 +754,7 @@
                 document.getElementById('transferenciaInfo').classList.add('hidden');
                 document.getElementById('efectivoInfo').classList.add('hidden');
 
-                // Redirigir al login después de 2 segundos
+                // Redirigir al login
                 setTimeout(function() {
                     showLogin();
                     showToast('🔐 Inicia sesión con tu usuario y contraseña', 'info');
@@ -759,9 +788,9 @@
         // ================================================================
         showLogin();
 
-        console.log('🔐 FLY FUTBOLEROS · Registro usando bucket "avatars"');
-        console.log('🌡️ Clima con caché y día/noche según hora local');
-        console.log('📸 Las fotos de perfil se guardan en "avatars"');
+        console.log('🔐 FLY FUTBOLEROS · Registro con comprobantes');
+        console.log('📸 Los comprobantes se guardan en la tabla comprobantes');
+        console.log('📎 Notificaciones creadas para el admin');
     </script>
 
 </body>
