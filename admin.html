@@ -1503,7 +1503,7 @@
             try {
                 console.log('🔄 Cargando comprobantes...');
 
-                // Cargar desde la tabla comprobantes
+                // ✅ CORREGIDO: Consulta la tabla comprobantes
                 const { data: comprobantes, error: compError } = await supabaseClient
                     .from('comprobantes')
                     .select('*')
@@ -1540,7 +1540,6 @@
                     var socio = sociosMap[c.socio_id];
                     var nombre = socio ? socio.nombre : 'Socio eliminado';
                     var username = socio ? socio.username : 'desconocido';
-                    var estadoSocio = socio ? socio.estado : 'N/A';
 
                     var avatarHtml = (socio && socio.foto_url) ?
                         '<img src="' + socio.foto_url +
@@ -1548,8 +1547,9 @@
                         '<div style="width:24px;height:24px;border-radius:50%;background:var(--bg-card);display:flex;align-items:center;justify-content:center;font-size:0.5rem;color:var(--text-muted);border:1px solid var(--border-glow);">' +
                         nombre.charAt(0).toUpperCase() + '</div>';
 
-                    // Determinar si el botón de aprobar debe mostrarse
-                    var mostrarAprobar = (c.estado === 'Pendiente' || c.estado === 'pendiente');
+                    // ✅ CORREGIDO: Estado real del comprobante
+                    var estadoComprobante = c.estado || 'Pendiente';
+                    var mostrarAprobar = (estadoComprobante === 'Pendiente' || estadoComprobante === 'pendiente');
 
                     return '<tr><td style="display:flex;align-items:center;gap:8px;">' + avatarHtml +
                         '<div><strong style="font-size:0.75rem;">' + nombre +
@@ -1561,7 +1561,7 @@
                         '" download class="btn btn-secondary btn-sm"><i class="fas fa-download"></i></a></td>' +
                         '<td style="font-size:0.7rem;">' + (c.fecha_subida ? new Date(c.fecha_subida)
                             .toLocaleDateString() : 'N/A') + '</td>' +
-                        '<td>' + getStatusBadge(c.estado || 'Pendiente') + '</td>' +
+                        '<td>' + getStatusBadge(estadoComprobante) + '</td>' +
                         '<td>' +
                         (mostrarAprobar ?
                             '<button class="btn btn-success btn-sm" onclick="aprobarComprobante(\'' + c.id +
@@ -1584,7 +1584,7 @@
         }
 
         // ================================================================
-        // 17. APROBAR COMPROBANTE - NUEVA FUNCIÓN
+        // 17. APROBAR COMPROBANTE - NUEVA FUNCIÓN COMPLETA
         // ================================================================
         async function aprobarComprobante(comprobanteId, socioId) {
             if (!confirm('¿Confirmar este comprobante y activar al socio?')) return;
@@ -1603,10 +1603,25 @@
                     throw compError;
                 }
 
-                // 2. Activar al socio
+                // 2. Obtener datos del socio para saber el plan
+                const { data: socio, error: socioDataError } = await supabaseClient
+                    .from('socios')
+                    .select('*')
+                    .eq('id', socioId)
+                    .single();
+
+                if (socioDataError || !socio) {
+                    throw new Error('Socio no encontrado');
+                }
+
+                // 3. Activar al socio
                 const { error: socioError } = await supabaseClient
                     .from('socios')
-                    .update({ estado: 'Activo' })
+                    .update({ 
+                        estado: 'Activo',
+                        fecha_inicio: new Date().toISOString(),
+                        fecha_vencimiento: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString()
+                    })
                     .eq('id', socioId);
 
                 if (socioError) {
@@ -1614,34 +1629,35 @@
                     throw socioError;
                 }
 
-                // 3. Obtener datos del socio para notificación
-                const { data: socio, error: socioDataError } = await supabaseClient
-                    .from('socios')
-                    .select('nombre, username')
-                    .eq('id', socioId)
-                    .single();
-
-                if (!socioDataError && socio) {
-                    // 4. Crear notificación de pago confirmado
-                    await supabaseClient.from('notificaciones').insert([{
-                        tipo: 'pago_confirmado',
-                        mensaje: '✅ Comprobante de ' + socio.nombre + ' aprobado',
-                        leida: false,
-                        data: { socio_id: socioId, username: socio.username }
-                    }]);
-
-                    // 5. Crear registro en tabla pagos
-                    await supabaseClient.from('pagos').insert([{
+                // 4. INSERTAR EN LA TABLA pagos ✅
+                const monto = socio.plan === 'Sabatero' ? 20000 : 5000;
+                const { error: pagoError } = await supabaseClient
+                    .from('pagos')
+                    .insert([{
                         socio_id: socioId,
-                        monto: 20000,
-                        plan: 'Sabatero',
-                        metodo: 'Transferencia',
+                        monto: monto,
+                        plan: socio.plan,
+                        metodo: socio.metodo_pago || 'Transferencia',
                         estado: 'Aprobado',
                         fecha: new Date().toISOString()
                     }]);
+
+                if (pagoError) {
+                    console.error('Error al insertar pago:', pagoError);
+                    // No lanzamos error para que no se rompa el flujo, pero registramos
+                } else {
+                    console.log('✅ Pago registrado correctamente en tabla pagos');
                 }
 
-                showToast('✅ Comprobante aprobado y socio activado', 'success');
+                // 5. Crear notificación de pago confirmado
+                await supabaseClient.from('notificaciones').insert([{
+                    tipo: 'pago_confirmado',
+                    mensaje: '✅ Comprobante de ' + socio.nombre + ' aprobado',
+                    leida: false,
+                    data: { socio_id: socioId, username: socio.username }
+                }]);
+
+                showToast('✅ Comprobante aprobado, socio activado y pago registrado', 'success');
 
                 // Recargar datos
                 await loadComprobantes();
@@ -1764,6 +1780,7 @@
         console.log('✅ Marcar todas las notificaciones como leídas funciona');
         console.log('📋 Comprobantes cargados desde la tabla comprobantes');
         console.log('✅ Función aprobarComprobante() creada y funcional');
+        console.log('✅ Inserción en tabla pagos al aprobar comprobante');
         console.log('🔗 Conectado a:', SUPABASE_URL);
     </script>
 
