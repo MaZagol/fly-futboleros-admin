@@ -856,20 +856,12 @@
                 var statusClass = 'pending';
                 var statusLabel = 'Pendiente';
 
-                if (p.estado === 'Aprobado' || p.estado === 'Activo') {
+                if (p.estado === 'Aprobado') {
                     statusClass = 'success';
                     statusLabel = 'Aprobado';
                 } else if (p.estado === 'Pendiente') {
                     statusClass = 'pending';
                     statusLabel = 'Pendiente';
-                } else if (p.estado === 'Rechazado') {
-                    statusClass = 'warning';
-                    statusLabel = 'Rechazado';
-                }
-
-                if (socio && socio.estado === 'Activo' && p.estado === 'Pendiente') {
-                    statusClass = 'success';
-                    statusLabel = 'Aprobado';
                 }
 
                 return {
@@ -946,9 +938,11 @@
             }
 
             var icons = { 'nuevo_socio': 'fa-user-plus', 'nuevo_comprobante': 'fa-file-invoice', 'pago_efectivo': 'fa-money-bill-wave',
-                'proximo_vencer': 'fa-clock', 'pago_confirmado': 'fa-check-circle' };
+                'proximo_vencer': 'fa-clock', 'pago_confirmado': 'fa-check-circle', 'cambio_plan': 'fa-sync',
+                'cambio_metodo': 'fa-exchange-alt' };
             var colors = { 'nuevo_socio': 'blue', 'nuevo_comprobante': 'orange', 'pago_efectivo': 'green',
-                'proximo_vencer': 'pink', 'pago_confirmado': 'green' };
+                'proximo_vencer': 'pink', 'pago_confirmado': 'green', 'cambio_plan': 'purple',
+                'cambio_metodo': 'blue' };
 
             container.innerHTML = displayNotifs.map(function(n) {
                 var icon = icons[n.tipo] || 'fa-bell';
@@ -1040,9 +1034,11 @@
                 }
 
                 var icons = { 'nuevo_socio': 'fa-user-plus', 'nuevo_comprobante': 'fa-file-invoice',
-                    'pago_efectivo': 'fa-money-bill-wave', 'proximo_vencer': 'fa-clock', 'pago_confirmado': 'fa-check-circle' };
+                    'pago_efectivo': 'fa-money-bill-wave', 'proximo_vencer': 'fa-clock', 'pago_confirmado': 'fa-check-circle',
+                    'cambio_plan': 'fa-sync', 'cambio_metodo': 'fa-exchange-alt' };
                 var colors = { 'nuevo_socio': 'blue', 'nuevo_comprobante': 'orange', 'pago_efectivo': 'green',
-                    'proximo_vencer': 'pink', 'pago_confirmado': 'green' };
+                    'proximo_vencer': 'pink', 'pago_confirmado': 'green', 'cambio_plan': 'purple',
+                    'cambio_metodo': 'blue' };
 
                 container.innerHTML = data.map(function(n) {
                     var icon = icons[n.tipo] || 'fa-bell';
@@ -1129,18 +1125,18 @@
                     '</strong><div style="font-size:0.6rem;color:var(--text-muted);">@' + s.username +
                     '</div></td><td style="font-size:0.7rem;">#' + s.id +
                     '</td><td><span class="badge-status ' + (s.plan === 'Sabatero' ? 'active' : 'pending') +
-                    '">' + s.plan +
+                    '">' + (s.plan || 'Sin plan') +
                     '</span></td><td>' + getStatusBadge(s.estado) +
-                    '</td><td style="font-size:0.7rem;">' + s.metodo_pago +
-                    '</td><td style="font-size:0.7rem;">Gs. ' + (s.plan === 'Sabatero' ? 20000 : 5000)
-                    .toLocaleString() +
+                    '</td><td style="font-size:0.7rem;">' + (s.metodo_pago || 'Sin método') +
+                    '</td><td style="font-size:0.7rem;">Gs. ' + (s.plan === 'Sabatero' ? 20000 : s.plan ===
+                        'Finder' ? 5000 : 0).toLocaleString() +
                     '</td><td><div class="action-buttons"><button class="btn btn-secondary btn-sm" onclick="viewSocio(' +
                     s.id + ')"><i class="fas fa-eye"></i></button>' +
                     '<button class="btn btn-primary btn-sm" onclick="editSocio(' + s.id +
                     ')"><i class="fas fa-edit"></i></button>' +
-                    (s.estado === 'Pendiente' ?
-                        '<button class="btn btn-success btn-sm" onclick="approvePayment(' + s.id +
-                        ')"><i class="fas fa-check"></i></button>' : '') +
+                    (s.estado === 'Pendiente' && s.plan && s.metodo_pago ?
+                        '<button class="btn btn-success btn-sm" onclick="aprobarSocio(' + s.id +
+                        ')"><i class="fas fa-check"></i> Aprobar</button>' : '') +
                     (s.estado === 'Activo' ?
                         '<button class="btn btn-warning btn-sm" onclick="suspendSocio(' + s.id +
                         ')"><i class="fas fa-pause"></i></button>' : '') +
@@ -1232,16 +1228,17 @@
                     '</p></div></div>' +
                     '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:8px;margin:12px 0;">' +
                     '<div class="stat-card" style="padding:8px 12px;"><label style="font-size:0.5rem;color:var(--text-muted);text-transform:uppercase;">Plan</label><div style="font-size:0.75rem;font-weight:600;">' +
-                    socio.plan + '</div></div>' +
+                    (socio.plan || 'Sin plan') + '</div></div>' +
                     '<div class="stat-card" style="padding:8px 12px;"><label style="font-size:0.5rem;color:var(--text-muted);text-transform:uppercase;">Estado</label><div>' +
                     getStatusBadge(socio.estado) + '</div></div>' +
                     '<div class="stat-card" style="padding:8px 12px;"><label style="font-size:0.5rem;color:var(--text-muted);text-transform:uppercase;">Método</label><div style="font-size:0.75rem;font-weight:600;">' +
-                    socio.metodo_pago + '</div></div>' +
+                    (socio.metodo_pago || 'Sin método') + '</div></div>' +
                     '<div class="stat-card" style="padding:8px 12px;"><label style="font-size:0.5rem;color:var(--text-muted);text-transform:uppercase;">Importe</label><div style="font-size:0.75rem;font-weight:600;">Gs. ' +
-                    (socio.plan === 'Sabatero' ? 20000 : 5000).toLocaleString() + '</div></div>' +
-                    (socio.plan === 'Sabatero' ?
+                    (socio.plan === 'Sabatero' ? 20000 : socio.plan === 'Finder' ? 5000 : 0).toLocaleString() +
+                    '</div></div>' +
+                    (socio.plan === 'Sabatero' && socio.fecha_inicio ?
                         '<div class="stat-card" style="padding:8px 12px;"><label style="font-size:0.5rem;color:var(--text-muted);text-transform:uppercase;">Inicio</label><div style="font-size:0.75rem;">' +
-                        (socio.fecha_inicio ? new Date(socio.fecha_inicio).toLocaleDateString() : 'N/A') +
+                        new Date(socio.fecha_inicio).toLocaleDateString() +
                         '</div></div><div class="stat-card" style="padding:8px 12px;"><label style="font-size:0.5rem;color:var(--text-muted);text-transform:uppercase;">Vencimiento</label><div style="font-size:0.75rem;">' +
                         (socio.fecha_vencimiento ? new Date(socio.fecha_vencimiento).toLocaleDateString() :
                             'N/A') + '</div></div>' : '') +
@@ -1251,18 +1248,14 @@
                         '<p style="color:var(--text-muted);font-size:0.75rem;">No hay pagos registrados</p>' :
                         '<table class="admin-table" style="font-size:0.65rem;min-width:auto;"><thead><tr><th>Fecha</th><th>Monto</th><th>Método</th><th>Estado</th></tr></thead><tbody>' +
                         pagos.map(function(p) {
-                            var estadoPago = p.estado || 'Pendiente';
-                            if (socio.estado === 'Activo' && estadoPago === 'Pendiente') {
-                                estadoPago = 'Aprobado';
-                            }
                             return '<tr><td>' + new Date(p.fecha).toLocaleDateString() +
                                 '</td><td>Gs. ' + p.monto.toLocaleString() + '</td><td>' + p
-                                .metodo + '</td><td>' + getStatusBadge(estadoPago) + '</td></tr>';
+                                .metodo + '</td><td>' + getStatusBadge(p.estado) + '</td></tr>';
                         }).join('') + '</tbody></table>') +
                     '</div>' +
                     '<div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:12px;padding-top:12px;border-top:1px solid var(--border-glow);">' +
-                    (socio.estado === 'Pendiente' ?
-                        '<button class="btn btn-success btn-sm" onclick="approvePayment(' + socio.id +
+                    (socio.estado === 'Pendiente' && socio.plan && socio.metodo_pago ?
+                        '<button class="btn btn-success btn-sm" onclick="aprobarSocio(' + socio.id +
                         ')"><i class="fas fa-check"></i> Aprobar</button>' : '') +
                     (socio.estado === 'Activo' ?
                         '<button class="btn btn-warning btn-sm" onclick="suspendSocio(' + socio.id +
@@ -1282,215 +1275,97 @@
         }
 
         // ================================================================
-        // 14. APROBAR PAGO
+        // 14. APROBAR SOCIO (NUEVO FLUJO)
         // ================================================================
-        async function approvePayment(id) {
-            if (!confirm('¿Confirmar que el pago ha sido recibido?')) return;
+        async function aprobarSocio(id) {
+            if (!confirm('¿Confirmar que este socio ha completado su perfil y puede ser activado?')) return;
 
             try {
+                // 1. Obtener datos del socio
+                const { data: socio, error: socioError } = await supabaseClient
+                    .from('socios')
+                    .select('*')
+                    .eq('id', id)
+                    .single();
+
+                if (socioError || !socio) {
+                    showToast('❌ Socio no encontrado', 'error');
+                    return;
+                }
+
+                // 2. Verificar que tiene plan y método
+                if (!socio.plan || !socio.metodo_pago) {
+                    showToast('⚠️ El socio debe seleccionar plan y método antes de activar', 'warning');
+                    return;
+                }
+
+                // 3. Si es Transferencia, verificar que tiene comprobante
+                if (socio.metodo_pago === 'Transferencia' && !socio.comprobante_url) {
+                    showToast('⚠️ El socio debe subir un comprobante de transferencia', 'warning');
+                    return;
+                }
+
+                // 4. Calcular fechas
+                const hoy = new Date();
+                const fechaVencimiento = new Date(hoy);
+                fechaVencimiento.setDate(fechaVencimiento.getDate() + 30);
+
+                // 5. Activar socio
                 const { error: updateError } = await supabaseClient
                     .from('socios')
-                    .update({ estado: 'Activo' })
+                    .update({
+                        estado: 'Activo',
+                        fecha_inicio: hoy.toISOString().split('T')[0],
+                        fecha_vencimiento: fechaVencimiento.toISOString().split('T')[0]
+                    })
                     .eq('id', id);
 
                 if (updateError) throw updateError;
 
-                const { data: socio, error: socioError } = await supabaseClient
-                    .from('socios')
-                    .select('nombre, username')
-                    .eq('id', id)
-                    .single();
-
-                if (!socioError && socio) {
-                    await supabaseClient.from('notificaciones').insert([{
-                        tipo: 'pago_confirmado',
-                        mensaje: '✅ Pago de ' + socio.nombre + ' confirmado',
-                        leida: false,
-                        data: { socio_id: id, username: socio.username }
-                    }]);
-                }
-
-                showToast('✅ Pago aprobado y socio activado', 'success');
-
-                await loadDashboardData();
-                await loadSocios();
-                closeModal('socioModal');
-
-            } catch (error) {
-                console.error('Error al aprobar pago:', error);
-                showToast('❌ Error al aprobar pago: ' + error.message, 'error');
-            }
-        }
-
-        async function suspendSocio(id) {
-            if (!confirm('¿Suspender este socio?')) return;
-            try {
-                await supabaseClient.from('socios').update({ estado: 'Suspendido' }).eq('id', id);
-                showToast('✅ Socio suspendido', 'success');
-                await loadDashboardData();
-                await loadSocios();
-                closeModal('socioModal');
-            } catch (error) {
-                showToast('Error al suspender', 'error');
-            }
-        }
-
-        async function activateSocio(id) {
-            if (!confirm('¿Activar este socio?')) return;
-            try {
-                await supabaseClient.from('socios').update({ estado: 'Activo' }).eq('id', id);
-                showToast('✅ Socio activado', 'success');
-                await loadDashboardData();
-                await loadSocios();
-                closeModal('socioModal');
-            } catch (error) {
-                showToast('Error al activar', 'error');
-            }
-        }
-
-        async function deleteSocio(id) {
-            if (!confirm('¿Eliminar permanentemente?')) return;
-            try {
-                await supabaseClient.from('socios').delete().eq('id', id);
-                showToast('✅ Socio eliminado', 'success');
-                await loadDashboardData();
-                await loadSocios();
-                closeModal('socioModal');
-            } catch (error) {
-                showToast('Error al eliminar', 'error');
-            }
-        }
-
-        async function editSocio(id) {
-            try {
-                const { data: socio, error } = await supabaseClient
-                    .from('socios')
-                    .select('*')
-                    .eq('id', id)
-                    .single();
-
-                if (error || !socio) {
-                    showToast('Socio no encontrado', 'error');
-                    return;
-                }
-
-                document.getElementById('editModalTitle').textContent = 'Editar: @' + socio.username;
-                document.getElementById('editModalBody').innerHTML =
-                    '<form id="editSocioForm"><div class="form-group"><label>Nombre</label><input type="text" id="editNombre" value="' +
-                    socio.nombre + '" required></div>' +
-                    '<div class="form-group"><label>Teléfono</label><input type="text" id="editTelefono" value="' +
-                    socio.telefono + '" required></div>' +
-                    '<div class="form-group"><label>Email</label><input type="email" id="editEmail" value="' + (socio
-                        .email || '') + '"></div>' +
-                    '<div class="form-group"><label>Plan</label><select id="editPlan"><option value="Sabatero"' +
-                    (socio.plan === 'Sabatero' ? ' selected' : '') + '>Sabatero</option><option value="Finder"' +
-                    (socio.plan === 'Finder' ? ' selected' : '') + '>Finder</option></select></div>' +
-                    '<div class="form-group"><label>Estado</label><select id="editEstado"><option value="Activo"' +
-                    (socio.estado === 'Activo' ? ' selected' : '') + '>Activo</option><option value="Pendiente"' +
-                    (socio.estado === 'Pendiente' ? ' selected' : '') +
-                    '>Pendiente</option><option value="Suspendido"' + (socio.estado === 'Suspendido' ?
-                        ' selected' : '') +
-                    '>Suspendido</option><option value="Vencido"' + (socio.estado === 'Vencido' ? ' selected' :
-                        '') + '>Vencido</option></select></div>' +
-                    '<div class="form-group"><label>Método</label><select id="editMetodo"><option value="Transferencia"' +
-                    (socio.metodo_pago === 'Transferencia' ? ' selected' : '') +
-                    '>Transferencia</option><option value="Efectivo"' + (socio.metodo_pago === 'Efectivo' ?
-                        ' selected' : '') + '>Efectivo</option></select></div>' +
-                    (socio.plan === 'Sabatero' ?
-                        '<div class="form-group"><label>Inicio</label><input type="date" id="editInicio" value="' +
-                        (socio.fecha_inicio || '') + '"></div><div class="form-group"><label>Vencimiento</label><input type="date" id="editVencimiento" value="' +
-                        (socio.fecha_vencimiento || '') + '"></div>' : '') +
-                    '<div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap;"><button type="submit" class="btn btn-primary btn-sm"><i class="fas fa-save"></i> Guardar</button><button type="button" class="btn btn-secondary btn-sm" onclick="closeModal(\'editModal\')">Cancelar</button></div></form>';
-
-                openModal('editModal');
-
-                document.getElementById('editSocioForm').addEventListener('submit', async function(e) {
-                    e.preventDefault();
-                    var updates = {
-                        nombre: document.getElementById('editNombre').value.trim(),
-                        telefono: document.getElementById('editTelefono').value.trim(),
-                        email: document.getElementById('editEmail').value.trim() || null,
-                        plan: document.getElementById('editPlan').value,
-                        estado: document.getElementById('editEstado').value,
-                        metodo_pago: document.getElementById('editMetodo').value
-                    };
-                    var inicio = document.getElementById('editInicio');
-                    var venc = document.getElementById('editVencimiento');
-                    if (inicio) updates.fecha_inicio = inicio.value || null;
-                    if (venc) updates.fecha_vencimiento = venc.value || null;
-
-                    try {
-                        await supabaseClient.from('socios').update(updates).eq('id', id);
-                        showToast('✅ Socio actualizado', 'success');
-                        closeModal('editModal');
-                        await loadDashboardData();
-                        await loadSocios();
-                    } catch (error) {
-                        showToast('Error al actualizar', 'error');
-                    }
-                });
-
-            } catch (error) {
-                showToast('Error al cargar datos', 'error');
-            }
-        }
-
-        // ================================================================
-        // 15. PAGOS
-        // ================================================================
-        async function loadPagos() {
-            try {
-                const { data, error } = await supabaseClient
+                // 6. Registrar pago
+                const monto = socio.plan === 'Sabatero' ? 20000 : 5000;
+                const { error: pagoError } = await supabaseClient
                     .from('pagos')
-                    .select('*')
-                    .order('fecha', { ascending: false });
+                    .insert([{
+                        socio_id: id,
+                        monto: monto,
+                        plan: socio.plan,
+                        metodo: socio.metodo_pago,
+                        estado: 'Aprobado',
+                        fecha: new Date().toISOString(),
+                        comprobante_url: socio.comprobante_url || null
+                    }]);
 
-                if (error) throw error;
-
-                const { data: socios } = await supabaseClient
-                    .from('socios')
-                    .select('id, nombre, username, estado');
-
-                var sociosMap = {};
-                (socios || []).forEach(function(s) { sociosMap[s.id] = s; });
-
-                var tbody = document.getElementById('pagosTableBody');
-                if (!data || data.length === 0) {
-                    tbody.innerHTML =
-                        '<tr><td colspan="7" style="text-align:center;padding:40px;color:var(--text-muted);;"><i class="fas fa-credit-card" style="font-size:1.5rem;display:block;margin-bottom:8px;"></i>No hay pagos</td></tr>';
-                    return;
+                if (pagoError) {
+                    console.error('Error al registrar pago:', pagoError);
+                } else {
+                    console.log('✅ Pago registrado correctamente');
                 }
 
-                tbody.innerHTML = data.slice(0, 50).map(function(p) {
-                    var socio = sociosMap[p.socio_id];
-                    var nombre = socio ? socio.nombre : 'N/A';
-                    var username = socio ? socio.username : 'sin usuario';
+                // 7. Crear notificación
+                await supabaseClient.from('notificaciones').insert([{
+                    tipo: 'pago_confirmado',
+                    mensaje: '✅ ' + socio.nombre + ' ha sido activado con plan ' + socio.plan,
+                    leida: false,
+                    data: { socio_id: id, username: socio.username }
+                }]);
 
-                    var estadoPago = p.estado || 'Pendiente';
-                    if (socio && socio.estado === 'Activo' && estadoPago === 'Pendiente') {
-                        estadoPago = 'Aprobado';
-                    }
+                showToast('✅ Socio activado y pago registrado correctamente', 'success');
 
-                    return '<tr><td><strong style="font-size:0.75rem;">' + nombre +
-                        '</strong><div style="font-size:0.6rem;color:var(--text-muted);">@' + username +
-                        '</div></td><td><span class="badge-status ' + (p.plan === 'Sabatero' ? 'active' :
-                            'pending') + '">' + p.plan +
-                        '</span></td><td style="font-size:0.7rem;">Gs. ' + (p.monto || 0).toLocaleString() +
-                        '</td><td style="font-size:0.7rem;">' + (p.fecha ? new Date(p.fecha)
-                            .toLocaleDateString() : 'N/A') +
-                        '</td><td style="font-size:0.7rem;">' + (p.metodo || 'N/A') +
-                        '</td><td>' + getStatusBadge(estadoPago) +
-                        '</td><td><button class="btn btn-secondary btn-sm" onclick="showToast(\'Pago #' + p
-                        .id + '\',\'info\')"><i class="fas fa-eye"></i></button></td></tr>';
-                }).join('');
+                // 8. Recargar datos
+                await loadDashboardData();
+                await loadSocios();
+                await loadComprobantes();
+                closeModal('socioModal');
 
             } catch (error) {
-                console.error('Error loading pagos:', error);
+                console.error('Error al aprobar socio:', error);
+                showToast('❌ Error al aprobar socio: ' + error.message, 'error');
             }
         }
 
         // ================================================================
-        // 16. COMPROBANTES - VERSIÓN CORREGIDA
+        // 15. COMPROBANTES - NUEVA VERSIÓN
         // ================================================================
         async function loadComprobantes() {
             try {
@@ -1508,7 +1383,7 @@
 
                 const { data: socios, error: sociosError } = await supabaseClient
                     .from('socios')
-                    .select('id, nombre, username, foto_url');
+                    .select('id, nombre, username, foto_url, plan, metodo_pago, estado');
 
                 if (sociosError) {
                     console.warn('Error al cargar socios:', sociosError);
@@ -1574,7 +1449,7 @@
         }
 
         // ================================================================
-        // 17. APROBAR COMPROBANTE - VERSIÓN CORREGIDA
+        // 16. APROBAR COMPROBANTE
         // ================================================================
         async function aprobarComprobante(comprobanteId, socioId) {
             if (!confirm('¿Confirmar este comprobante y activar al socio?')) return;
@@ -1582,7 +1457,15 @@
             try {
                 console.log('🔄 Aprobando comprobante:', comprobanteId, 'para socio:', socioId);
 
-                // 1. Verificar que el socio existe
+                // 1. Actualizar el comprobante
+                const { error: compError } = await supabaseClient
+                    .from('comprobantes')
+                    .update({ estado: 'Aprobado' })
+                    .eq('id', comprobanteId);
+
+                if (compError) throw compError;
+
+                // 2. Obtener datos del socio
                 const { data: socio, error: socioDataError } = await supabaseClient
                     .from('socios')
                     .select('*')
@@ -1594,24 +1477,19 @@
                     return;
                 }
 
-                // 2. Actualizar el comprobante
-                const { error: compError } = await supabaseClient
-                    .from('comprobantes')
-                    .update({ estado: 'Aprobado' })
-                    .eq('id', comprobanteId);
-
-                if (compError) {
-                    console.error('❌ Error al actualizar comprobante:', compError);
-                    throw compError;
+                // 3. Verificar que tiene plan
+                if (!socio.plan) {
+                    showToast('⚠️ El socio debe seleccionar un plan primero', 'warning');
+                    return;
                 }
 
-                // 3. Calcular fecha de vencimiento (30 días)
+                // 4. Calcular fechas
                 const hoy = new Date();
                 const fechaVencimiento = new Date(hoy);
                 fechaVencimiento.setDate(fechaVencimiento.getDate() + 30);
 
-                // 4. Activar al socio con fechas
-                const { error: socioError } = await supabaseClient
+                // 5. Activar socio
+                const { error: updateError } = await supabaseClient
                     .from('socios')
                     .update({
                         estado: 'Activo',
@@ -1620,34 +1498,29 @@
                     })
                     .eq('id', socioId);
 
-                if (socioError) {
-                    console.error('❌ Error al activar socio:', socioError);
-                    throw socioError;
-                }
+                if (updateError) throw updateError;
 
-                // 5. Insertar en pagos SOLO si el socio es Sabatero (los Finder no tienen pago mensual)
-                if (socio.plan === 'Sabatero') {
-                    const { error: pagoError } = await supabaseClient
-                        .from('pagos')
-                        .insert([{
-                            socio_id: socioId,
-                            monto: 20000,
-                            plan: socio.plan,
-                            metodo: socio.metodo_pago || 'Transferencia',
-                            estado: 'Aprobado',
-                            fecha: new Date().toISOString()
-                        }]);
+                // 6. Registrar pago
+                const monto = socio.plan === 'Sabatero' ? 20000 : 5000;
+                const { error: pagoError } = await supabaseClient
+                    .from('pagos')
+                    .insert([{
+                        socio_id: socioId,
+                        monto: monto,
+                        plan: socio.plan,
+                        metodo: socio.metodo_pago || 'Transferencia',
+                        estado: 'Aprobado',
+                        fecha: new Date().toISOString(),
+                        comprobante_url: socio.comprobante_url || null
+                    }]);
 
-                    if (pagoError) {
-                        console.error('❌ Error al insertar pago:', pagoError);
-                    } else {
-                        console.log('✅ Pago registrado correctamente en tabla pagos');
-                    }
+                if (pagoError) {
+                    console.error('Error al registrar pago:', pagoError);
                 } else {
-                    console.log('ℹ️ Socio Finder - no se registra pago mensual');
+                    console.log('✅ Pago registrado correctamente');
                 }
 
-                // 6. Crear notificación
+                // 7. Crear notificación
                 await supabaseClient.from('notificaciones').insert([{
                     tipo: 'pago_confirmado',
                     mensaje: '✅ Comprobante de ' + socio.nombre + ' aprobado',
@@ -1655,9 +1528,9 @@
                     data: { socio_id: socioId, username: socio.username }
                 }]);
 
-                showToast('✅ Comprobante aprobado, socio activado y pago registrado', 'success');
+                showToast('✅ Comprobante aprobado y socio activado', 'success');
 
-                // 7. Recargar datos
+                // 8. Recargar datos
                 await loadComprobantes();
                 await loadDashboardData();
                 await loadSocios();
@@ -1669,7 +1542,174 @@
         }
 
         // ================================================================
-        // 18. OTRAS FUNCIONES
+        // 17. OTRAS FUNCIONES DE SOCIOS
+        // ================================================================
+        async function suspendSocio(id) {
+            if (!confirm('¿Suspender este socio?')) return;
+            try {
+                await supabaseClient.from('socios').update({ estado: 'Suspendido' }).eq('id', id);
+                showToast('✅ Socio suspendido', 'success');
+                await loadDashboardData();
+                await loadSocios();
+                closeModal('socioModal');
+            } catch (error) {
+                showToast('Error al suspender', 'error');
+            }
+        }
+
+        async function activateSocio(id) {
+            if (!confirm('¿Activar este socio?')) return;
+            try {
+                await supabaseClient.from('socios').update({ estado: 'Activo' }).eq('id', id);
+                showToast('✅ Socio activado', 'success');
+                await loadDashboardData();
+                await loadSocios();
+                closeModal('socioModal');
+            } catch (error) {
+                showToast('Error al activar', 'error');
+            }
+        }
+
+        async function deleteSocio(id) {
+            if (!confirm('¿Eliminar permanentemente?')) return;
+            try {
+                await supabaseClient.from('socios').delete().eq('id', id);
+                showToast('✅ Socio eliminado', 'success');
+                await loadDashboardData();
+                await loadSocios();
+                closeModal('socioModal');
+            } catch (error) {
+                showToast('Error al eliminar', 'error');
+            }
+        }
+
+        async function editSocio(id) {
+            try {
+                const { data: socio, error } = await supabaseClient
+                    .from('socios')
+                    .select('*')
+                    .eq('id', id)
+                    .single();
+
+                if (error || !socio) {
+                    showToast('Socio no encontrado', 'error');
+                    return;
+                }
+
+                document.getElementById('editModalTitle').textContent = 'Editar: @' + socio.username;
+                document.getElementById('editModalBody').innerHTML =
+                    '<form id="editSocioForm"><div class="form-group"><label>Nombre</label><input type="text" id="editNombre" value="' +
+                    socio.nombre + '" required></div>' +
+                    '<div class="form-group"><label>Teléfono</label><input type="text" id="editTelefono" value="' +
+                    socio.telefono + '" required></div>' +
+                    '<div class="form-group"><label>Email</label><input type="email" id="editEmail" value="' + (socio
+                        .email || '') + '"></div>' +
+                    '<div class="form-group"><label>Plan</label><select id="editPlan"><option value="Sabatero"' +
+                    (socio.plan === 'Sabatero' ? ' selected' : '') + '>Sabatero</option><option value="Finder"' +
+                    (socio.plan === 'Finder' ? ' selected' : '') + '>Finder</option><option value=""' + (!socio
+                        .plan ? ' selected' : '') + '>Sin plan</option></select></div>' +
+                    '<div class="form-group"><label>Estado</label><select id="editEstado"><option value="Activo"' +
+                    (socio.estado === 'Activo' ? ' selected' : '') + '>Activo</option><option value="Pendiente"' +
+                    (socio.estado === 'Pendiente' ? ' selected' : '') +
+                    '>Pendiente</option><option value="Suspendido"' + (socio.estado === 'Suspendido' ?
+                        ' selected' : '') +
+                    '>Suspendido</option><option value="Vencido"' + (socio.estado === 'Vencido' ? ' selected' :
+                        '') + '>Vencido</option></select></div>' +
+                    '<div class="form-group"><label>Método</label><select id="editMetodo"><option value="Transferencia"' +
+                    (socio.metodo_pago === 'Transferencia' ? ' selected' : '') +
+                    '>Transferencia</option><option value="Efectivo"' + (socio.metodo_pago === 'Efectivo' ?
+                        ' selected' : '') + '>Efectivo</option><option value=""' + (!socio.metodo_pago ?
+                        ' selected' : '') + '>Sin método</option></select></div>' +
+                    (socio.plan === 'Sabatero' ?
+                        '<div class="form-group"><label>Inicio</label><input type="date" id="editInicio" value="' +
+                        (socio.fecha_inicio || '') + '"></div><div class="form-group"><label>Vencimiento</label><input type="date" id="editVencimiento" value="' +
+                        (socio.fecha_vencimiento || '') + '"></div>' : '') +
+                    '<div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap;"><button type="submit" class="btn btn-primary btn-sm"><i class="fas fa-save"></i> Guardar</button><button type="button" class="btn btn-secondary btn-sm" onclick="closeModal(\'editModal\')">Cancelar</button></div></form>';
+
+                openModal('editModal');
+
+                document.getElementById('editSocioForm').addEventListener('submit', async function(e) {
+                    e.preventDefault();
+                    var updates = {
+                        nombre: document.getElementById('editNombre').value.trim(),
+                        telefono: document.getElementById('editTelefono').value.trim(),
+                        email: document.getElementById('editEmail').value.trim() || null,
+                        plan: document.getElementById('editPlan').value || null,
+                        estado: document.getElementById('editEstado').value,
+                        metodo_pago: document.getElementById('editMetodo').value || null
+                    };
+                    var inicio = document.getElementById('editInicio');
+                    var venc = document.getElementById('editVencimiento');
+                    if (inicio) updates.fecha_inicio = inicio.value || null;
+                    if (venc) updates.fecha_vencimiento = venc.value || null;
+
+                    try {
+                        await supabaseClient.from('socios').update(updates).eq('id', id);
+                        showToast('✅ Socio actualizado', 'success');
+                        closeModal('editModal');
+                        await loadDashboardData();
+                        await loadSocios();
+                    } catch (error) {
+                        showToast('Error al actualizar', 'error');
+                    }
+                });
+
+            } catch (error) {
+                showToast('Error al cargar datos', 'error');
+            }
+        }
+
+        // ================================================================
+        // 18. PAGOS
+        // ================================================================
+        async function loadPagos() {
+            try {
+                const { data, error } = await supabaseClient
+                    .from('pagos')
+                    .select('*')
+                    .order('fecha', { ascending: false });
+
+                if (error) throw error;
+
+                const { data: socios } = await supabaseClient
+                    .from('socios')
+                    .select('id, nombre, username');
+
+                var sociosMap = {};
+                (socios || []).forEach(function(s) { sociosMap[s.id] = s; });
+
+                var tbody = document.getElementById('pagosTableBody');
+                if (!data || data.length === 0) {
+                    tbody.innerHTML =
+                        '<tr><td colspan="7" style="text-align:center;padding:40px;color:var(--text-muted);;"><i class="fas fa-credit-card" style="font-size:1.5rem;display:block;margin-bottom:8px;"></i>No hay pagos</td></tr>';
+                    return;
+                }
+
+                tbody.innerHTML = data.slice(0, 50).map(function(p) {
+                    var socio = sociosMap[p.socio_id];
+                    var nombre = socio ? socio.nombre : 'N/A';
+                    var username = socio ? socio.username : 'sin usuario';
+
+                    return '<tr><td><strong style="font-size:0.75rem;">' + nombre +
+                        '</strong><div style="font-size:0.6rem;color:var(--text-muted);">@' + username +
+                        '</div></td><td><span class="badge-status ' + (p.plan === 'Sabatero' ? 'active' :
+                            'pending') + '">' + p.plan +
+                        '</span></td><td style="font-size:0.7rem;">Gs. ' + (p.monto || 0).toLocaleString() +
+                        '</td><td style="font-size:0.7rem;">' + (p.fecha ? new Date(p.fecha)
+                            .toLocaleDateString() : 'N/A') +
+                        '</td><td style="font-size:0.7rem;">' + (p.metodo || 'N/A') +
+                        '</td><td>' + getStatusBadge(p.estado) +
+                        '</td><td><button class="btn btn-secondary btn-sm" onclick="showToast(\'Pago #' + p
+                        .id + '\',\'info\')"><i class="fas fa-eye"></i></button></td></tr>';
+                }).join('');
+
+            } catch (error) {
+                console.error('Error loading pagos:', error);
+            }
+        }
+
+        // ================================================================
+        // 19. OTRAS FUNCIONES
         // ================================================================
         function copiarDatosAdmin() {
             var datos =
@@ -1701,7 +1741,7 @@
         }
 
         // ================================================================
-        // 19. CERRAR SESIÓN
+        // 20. CERRAR SESIÓN
         // ================================================================
         function handleLogout() {
             if (!confirm('¿Cerrar sesión?')) return;
@@ -1715,7 +1755,7 @@
         }
 
         // ================================================================
-        // 20. INICIALIZAR
+        // 21. INICIALIZAR
         // ================================================================
         async function initAdmin() {
             console.log('🚀 Iniciando panel de administración...');
@@ -1755,7 +1795,7 @@
         }
 
         // ================================================================
-        // 21. EVENTOS DE NOTIFICACIONES
+        // 22. EVENTOS DE NOTIFICACIONES
         // ================================================================
         document.getElementById('notificationBell').addEventListener('click', function(e) {
             e.stopPropagation();
@@ -1767,18 +1807,18 @@
         });
 
         // ================================================================
-        // 22. INICIALIZAR
+        // 23. INICIALIZAR
         // ================================================================
         document.addEventListener('DOMContentLoaded', initAdmin);
 
-        console.log('📦 FLY FUTBOLEROS · Panel de Administración (VERSIÓN FINAL)');
+        console.log('📦 FLY FUTBOLEROS · Panel de Administración (VERSIÓN NUEVO FLUJO)');
         console.log('🌡️ Clima con caché y día/noche');
         console.log('📸 Soporte para avatars en lista de socios');
         console.log('🔔 Notificaciones clickeables con acciones reales');
         console.log('✅ Marcar todas las notificaciones como leídas funciona');
         console.log('📋 Comprobantes cargados desde la tabla comprobantes');
-        console.log('✅ Función aprobarComprobante() con validación de socio');
-        console.log('✅ Inserción en tabla pagos SOLO para Sabatero');
+        console.log('✅ Nueva función aprobarSocio() para activar socios');
+        console.log('✅ Inserción en tabla pagos al aprobar comprobante');
         console.log('✅ Fechas de inicio y vencimiento guardadas');
         console.log('🔗 Conectado a:', SUPABASE_URL);
     </script>
