@@ -25,7 +25,8 @@
         .socio-header .logo h2{font-size:clamp(0.9rem,2.5vw,1.2rem);font-weight:900;background:var(--gradient-primary);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
         .socio-header .logo .badge{font-size:0.45rem;padding:2px 10px;border-radius:12px;background:rgba(0,255,127,0.06);color:var(--neon-green);border:1px solid rgba(0,255,127,0.06);text-transform:uppercase;letter-spacing:1px}
         .socio-header .header-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
-        .status-bar{display:flex;align-items:center;gap:6px;font-size:clamp(0.45rem,1.2vw,0.6rem);color:var(--text-muted);padding:3px 10px;background:rgba(0,0,0,0.3);border-radius:20px;border:1px solid var(--border-glow);flex-wrap:nowrap}
+        .status-bar{display:flex;align-items:center;gap:6px;font-size:clamp(0.45rem,1.2vw,0.6rem);color:var(--text-muted);padding:3px 10px;background:rgba(0,0,0,0.3);border-radius:20px;border:1px solid var(--border-glow);flex-wrap:nowrap;transition:var(--transition-fast)}
+        .status-bar:hover{border-color:rgba(0,212,255,0.1)}
         .status-bar .dot{width:4px;height:4px;border-radius:50%;background:var(--neon-green);display:inline-block;animation:pulse-dot 2s infinite;box-shadow:0 0 10px rgba(0,255,127,0.15)}
         .status-bar .sep{opacity:0.15}
         .status-bar .time{color:var(--text-primary);font-weight:500}
@@ -35,6 +36,7 @@
         .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:10px 18px;min-height:44px;border:none;border-radius:var(--radius-sm);font-family:'Inter',sans-serif;font-weight:600;font-size:clamp(0.6rem,1.2vw,0.75rem);cursor:pointer;transition:var(--transition-fast);text-transform:uppercase;letter-spacing:0.5px;-webkit-tap-highlight-color:transparent;touch-action:manipulation;white-space:nowrap}
         .btn:active{transform:scale(0.95)}
         .btn-primary{background:var(--gradient-primary);color:#fff;box-shadow:0 0 30px rgba(0,212,255,0.04)}
+        .btn-primary:hover{box-shadow:0 4px 40px rgba(0,212,255,0.12);transform:translateY(-1px)}
         .btn-secondary{background:rgba(0,0,0,0.2);color:var(--text-secondary);border:1px solid var(--border-glow)}
         .btn-secondary:hover{background:rgba(0,0,0,0.4);color:var(--text-primary);border-color:rgba(0,212,255,0.08)}
         .btn-success{background:var(--neon-green);color:#fff}
@@ -42,13 +44,16 @@
         .btn:disabled{opacity:0.5;cursor:not-allowed;transform:none !important}
         .socio-main{position:relative;z-index:1;max-width:1200px;margin:0 auto;padding:16px;padding-bottom:140px;width:100%}
         .glass-card{background:var(--bg-card);border:1px solid var(--border-glow);border-radius:var(--radius);padding:20px;transition:var(--transition-fast);margin-bottom:16px;position:relative;overflow:hidden}
+        .glass-card:hover{border-color:rgba(0,212,255,0.1)}
         .glass-card::before{content:'';position:absolute;inset:-1px;border-radius:var(--radius);padding:1px;background:var(--gradient-primary);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;opacity:0.04;pointer-events:none}
         .glass-card:active{transform:scale(0.99)}
         .profile-header{display:flex;align-items:center;gap:20px;flex-wrap:wrap}
         .profile-avatar{position:relative;flex-shrink:0}
-        .profile-avatar img{width:clamp(80px,12vw,100px);height:clamp(80px,12vw,100px);border-radius:50%;object-fit:cover;border:2px solid var(--neon-blue);box-shadow:0 0 30px rgba(0,212,255,0.06);background:#111122;}
+        .profile-avatar img{width:clamp(80px,12vw,100px);height:clamp(80px,12vw,100px);border-radius:50%;object-fit:cover;border:2px solid var(--neon-blue);box-shadow:0 0 30px rgba(0,212,255,0.06);background:#111122;transition:var(--transition-fast)}
+        .profile-avatar img:hover{border-color:var(--neon-purple)}
         .profile-avatar .edit-btn{position:absolute;bottom:0;right:0;background:var(--gradient-primary);border:none;border-radius:50%;width:32px;height:32px;color:#fff;font-size:0.7rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:var(--transition-fast);box-shadow:0 0 20px rgba(0,212,255,0.08);z-index:2}
         .profile-avatar .edit-btn:active{transform:scale(0.85)}
+        .profile-avatar .edit-btn:hover{transform:scale(1.05)}
         .profile-avatar .edit-btn.loading{opacity:0.5;pointer-events:none}
         .profile-info h1{font-size:clamp(1.1rem,2.5vw,1.4rem);font-weight:700;color:#ffffff;text-shadow:0 0 40px rgba(0,212,255,0.05)}
         .profile-info p{color:var(--text-secondary);font-size:clamp(0.7rem,1.2vw,0.85rem);margin:2px 0}
@@ -58,11 +63,13 @@
         .badge-pending{background:rgba(255,106,0,0.12);color:#ff9944;border:1px solid rgba(255,106,0,0.2);box-shadow:0 0 20px rgba(255,106,0,0.04)}
         .badge-suspended{background:rgba(255,45,138,0.12);color:#ff6699;border:1px solid rgba(255,45,138,0.2);box-shadow:0 0 20px rgba(255,45,138,0.04)}
         .badge-expired{background:rgba(255,45,138,0.12);color:#ff6699;border:1px solid rgba(255,45,138,0.2);box-shadow:0 0 20px rgba(255,45,138,0.04)}
+        .badge-warning{background:rgba(255,106,0,0.12);color:#ff9944;border:1px solid rgba(255,106,0,0.2)}
         .socio-table{width:100%;border-collapse:collapse;font-size:clamp(0.6rem,1.1vw,0.75rem)}
         .socio-table th{padding:8px 10px;text-align:left;color:var(--text-secondary);font-weight:600;font-size:clamp(0.45rem,0.9vw,0.6rem);text-transform:uppercase;letter-spacing:0.5px;border-bottom:1px solid var(--border-glow)}
         .socio-table td{padding:6px 10px;border-bottom:1px solid rgba(255,255,255,0.015);vertical-align:middle;color:#c8c8dd}
         .table-container{overflow-x:auto;-webkit-overflow-scrolling:touch}
-        .recordatorio{padding:14px 18px;border:1px solid rgba(255,106,0,0.12);background:rgba(255,106,0,0.02);border-radius:var(--radius);margin-bottom:16px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+        .recordatorio{padding:14px 18px;border:1px solid rgba(255,106,0,0.12);background:rgba(255,106,0,0.02);border-radius:var(--radius);margin-bottom:16px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;transition:var(--transition-fast)}
+        .recordatorio:hover{border-color:rgba(255,106,0,0.2)}
         .recordatorio i{color:var(--neon-orange);font-size:1.3rem;flex-shrink:0}
         .recordatorio .content h4{color:#ff8833;font-size:clamp(0.75rem,1.2vw,0.9rem)}
         .recordatorio .content p{color:#d0d0e0;font-size:clamp(0.65rem,1vw,0.8rem)}
@@ -84,7 +91,7 @@
         .modal-body .file-preview .name{flex:1;font-size:0.7rem;color:var(--text-primary);word-break:break-all}
         .modal-body .file-preview .remove{color:var(--neon-pink);cursor:pointer;font-size:0.8rem;padding:4px}
         @keyframes fadeInUp{from{opacity:0;transform:translateY(16px) scale(0.96)}to{opacity:1;transform:translateY(0) scale(1)}}
-        .toast{position:fixed;bottom:calc(var(--bottom-nav-height)+30px);right:20px;left:20px;max-width:400px;margin:0 auto;padding:14px 20px;background:rgba(6,6,14,0.96);border:1px solid var(--border-glow);border-radius:var(--radius-sm);color:var(--text-primary);z-index:9999;animation:fadeInUp 0.3s ease;box-shadow:var(--shadow-card);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);display:flex;align-items:center;gap:12px;font-size:clamp(0.7rem,1.2vw,0.85rem)}
+        .toast{position:fixed;bottom:calc(var(--bottom-nav-height)+30px);right:20px;left:20px;max-width:400px;margin:0 auto;padding:14px 20px;background:rgba(6,6,14,0.96);border:1px solid var(--border-glow);border-radius:var(--radius-sm);color:var(--text-primary);z-index:9999;animation:fadeInUp 0.3s ease;box-shadow:var(--shadow-card);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);display:flex;align-items:center;gap:12px;font-size:clamp(0.7rem,1.2vw,0.85rem);transition:var(--transition-fast)}
         .toast .icon{font-size:1.1rem;flex-shrink:0}
         .toast .icon.success{color:var(--neon-green)}
         .toast .icon.error{color:var(--neon-pink)}
@@ -111,6 +118,7 @@
         .fly-fechas .fecha-item .numero.naranja{color:var(--neon-orange);text-shadow:0 0 30px rgba(255,106,0,0.15)}
         .selector-group{display:flex;flex-wrap:wrap;gap:10px;margin:8px 0}
         .selector-group .option{flex:1;min-width:120px;padding:12px 16px;background:rgba(0,0,0,0.2);border:2px solid var(--border-glow);border-radius:var(--radius-sm);text-align:center;cursor:pointer;transition:var(--transition-fast)}
+        .selector-group .option:hover{border-color:rgba(0,212,255,0.2);background:rgba(0,212,255,0.03);transform:translateY(-2px)}
         .selector-group .option:active{transform:scale(0.96)}
         .selector-group .option.selected{border-color:var(--neon-blue);background:rgba(0,212,255,0.06);box-shadow:0 0 30px rgba(0,212,255,0.04)}
         .selector-group .option .icon{font-size:1.3rem;display:block;margin-bottom:4px}
@@ -124,6 +132,8 @@
         .plan-status .item .value{color:var(--text-primary);font-weight:600}
         .plan-status .item .value.active{color:var(--neon-green)}
         .plan-status .item .value.pending{color:var(--neon-orange)}
+        .plan-status .item .value.suspended{color:var(--neon-pink)}
+        .plan-status .item .value.expired{color:var(--neon-pink)}
         .bank-data{background:rgba(0,0,0,0.2);border-radius:var(--radius-sm);padding:12px 14px;border:1px solid rgba(0,212,255,0.04);margin-top:8px}
         .bank-data .row{display:grid;grid-template-columns:80px 1fr;gap:2px 10px;font-size:0.7rem;padding:2px 0}
         .bank-data .row .label{color:var(--text-muted);font-size:0.6rem;text-transform:uppercase;letter-spacing:0.5px}
@@ -138,6 +148,7 @@
         .futboleros-header .titulo-seccion p{font-size:0.55rem;color:#9a9ab8;letter-spacing:2px;text-transform:uppercase;font-weight:500}
         .fly-info-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:16px}
         .fly-info-grid .info-card{background:var(--gradient-glow);border-radius:var(--radius-sm);padding:16px 12px;text-align:center;border:1px solid rgba(0,212,255,0.08);transition:var(--transition-fast);position:relative;overflow:hidden}
+        .fly-info-grid .info-card:hover{border-color:rgba(0,212,255,0.15);transform:translateY(-2px)}
         .fly-info-grid .info-card::before{content:'';position:absolute;inset:0;background:var(--gradient-primary);opacity:0.04;border-radius:inherit}
         .fly-info-grid .info-card .icon-circle{display:flex;align-items:center;justify-content:center;width:56px;height:56px;border-radius:50%;margin:0 auto 8px auto;font-size:1.6rem;transition:var(--transition-fast)}
         .fly-info-grid .info-card .icon-circle.trophy{background:rgba(255,215,0,0.12);border:2px solid rgba(255,215,0,0.2);box-shadow:0 0 30px rgba(255,215,0,0.08)}
@@ -150,14 +161,18 @@
         .fly-info-grid .info-card .sub{font-size:0.55rem;color:#9a9ab8;margin-top:2px;font-weight:400}
         .fly-descripcion{font-size:0.8rem;color:#d0d0e8;line-height:1.8;margin-bottom:12px;font-weight:400}
         .fly-descripcion .highlight{color:#66eeff;font-weight:600;text-shadow:0 0 30px rgba(0,212,255,0.1)}
-        .fly-cita{background:rgba(0,212,255,0.03);border-left:3px solid var(--neon-blue);border-radius:var(--radius-xs);padding:12px 16px;margin-bottom:16px}
+        .fly-cita{background:rgba(0,212,255,0.03);border-left:3px solid var(--neon-blue);border-radius:var(--radius-xs);padding:12px 16px;margin-bottom:16px;transition:var(--transition-fast)}
+        .fly-cita:hover{border-left-color:var(--neon-purple)}
         .fly-cita p{font-size:0.7rem;color:#c8c8dd;font-style:italic;line-height:1.7}
         .fly-tags span{font-size:0.55rem;color:#8a8aaa}
         .fly-tags span .tag-text{color:#d0d0e8;font-weight:500}
         .fly-footer{text-align:center;padding-top:12px;border-top:1px solid var(--border-glow);font-size:0.45rem;color:#7a7a9a;font-weight:500;letter-spacing:0.5px}
         .avatar-preview-container{display:flex;justify-content:center;margin:16px 0}
         .avatar-preview-container img{width:120px;height:120px;border-radius:50%;object-fit:cover;border:2px solid var(--neon-blue);box-shadow:0 0 40px rgba(0,212,255,0.1);background:#111122;}
-        @media(max-width:480px){.fly-fechas{grid-template-columns:repeat(2,1fr);gap:10px}.fly-info-grid{grid-template-columns:1fr 1fr;gap:10px}.fly-info-grid .info-card .icon-circle{width:48px;height:48px;font-size:1.3rem}.fly-info-grid .info-card .icon-circle.lightning span{font-size:1.5rem}.fly-info-grid .info-card .title{font-size:0.6rem}.fly-info-grid .info-card .sub{font-size:0.5rem}.bottom-nav{height:68px;padding:4px 2px}.bottom-nav .nav-item{min-width:50px;min-height:48px;padding:4px 6px;gap:2px}.bottom-nav .nav-item i{font-size:1.1rem}.bottom-nav .nav-item span{font-size:0.4rem;letter-spacing:0.5px}.bottom-nav .nav-item .nav-badge{font-size:0.4rem;padding:0px 5px;min-width:16px;top:2px;right:4px}.toast{bottom:calc(var(--bottom-nav-height)+12px)}.socio-main{padding-bottom:140px;padding:10px;padding-bottom:140px}.glass-card{padding:14px}.profile-info h1{font-size:1.1rem}.plan-section{padding:14px}.plan-header h3{font-size:0.9rem}.plan-item{padding:6px 10px}.plan-item span{font-size:0.8rem}.recordatorio{padding:12px 14px}.recordatorio i{font-size:1.1rem}.status-bar{font-size:0.5rem;gap:4px;padding:2px 8px}.status-bar .sep{display:none}.profile-header{flex-direction:column;text-align:center}.recordatorio{flex-direction:column;text-align:center;justify-content:center}.socio-header .header-content{flex-direction:column;align-items:stretch;text-align:center}.socio-header .header-actions{justify-content:center}.btn{width:100%;justify-content:center}.btn-sm{width:auto}.selector-group .option{min-width:100px;padding:10px 12px}.selector-group .option .icon{font-size:1.1rem}}
+        .avatar-iniciales{width:clamp(80px,12vw,100px);height:clamp(80px,12vw,100px);border-radius:50%;display:flex;align-items:center;justify-content:center;background:var(--gradient-primary);color:#fff;font-size:clamp(2rem,3vw,2.5rem);font-weight:700;border:2px solid var(--neon-blue);box-shadow:0 0 30px rgba(0,212,255,0.06)}
+        .avatar-iniciales-small{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:var(--gradient-primary);color:#fff;font-size:0.7rem;font-weight:700}
+        .spinner-small{display:inline-block;width:14px;height:14px;border:2px solid rgba(255,255,255,0.06);border-top-color:var(--neon-blue);border-radius:50%;animation:spin 0.8s linear infinite;vertical-align:middle}
+        @media(max-width:480px){.fly-fechas{grid-template-columns:repeat(2,1fr);gap:10px}.fly-info-grid{grid-template-columns:1fr 1fr;gap:10px}.fly-info-grid .info-card .icon-circle{width:48px;height:48px;font-size:1.3rem}.fly-info-grid .info-card .icon-circle.lightning span{font-size:1.5rem}.fly-info-grid .info-card .title{font-size:0.6rem}.fly-info-grid .info-card .sub{font-size:0.5rem}.bottom-nav{height:68px;padding:4px 2px}.bottom-nav .nav-item{min-width:50px;min-height:48px;padding:4px 6px;gap:2px}.bottom-nav .nav-item i{font-size:1.1rem}.bottom-nav .nav-item span{font-size:0.4rem;letter-spacing:0.5px}.bottom-nav .nav-item .nav-badge{font-size:0.4rem;padding:0px 5px;min-width:16px;top:2px;right:4px}.toast{bottom:calc(var(--bottom-nav-height)+12px)}.socio-main{padding-bottom:140px;padding:10px;padding-bottom:140px}.glass-card{padding:14px}.profile-info h1{font-size:1.1rem}.recordatorio{padding:12px 14px}.recordatorio i{font-size:1.1rem}.status-bar{font-size:0.5rem;gap:4px;padding:2px 8px}.status-bar .sep{display:none}.profile-header{flex-direction:column;text-align:center}.recordatorio{flex-direction:column;text-align:center;justify-content:center}.socio-header .header-content{flex-direction:column;align-items:stretch;text-align:center}.socio-header .header-actions{justify-content:center}.btn{width:100%;justify-content:center}.btn-sm{width:auto}.selector-group .option{min-width:100px;padding:10px 12px}.selector-group .option .icon{font-size:1.1rem}}
         @media(max-width:380px){.bottom-nav .nav-item{min-width:44px;min-height:42px;padding:3px 4px}.bottom-nav .nav-item i{font-size:0.95rem}.bottom-nav .nav-item span{font-size:0.35rem;letter-spacing:0.3px}.socio-main{padding-bottom:130px}.glass-card{padding:12px 10px}.profile-avatar img{width:56px;height:56px}.profile-info h1{font-size:1rem}.fly-fechas{grid-template-columns:repeat(2,1fr);gap:8px}.fly-fechas .fecha-item .numero{font-size:1.1rem}.fly-fechas .fecha-item .label{font-size:0.45rem}}
         @media(min-width:768px){.bottom-nav .nav-item{max-width:120px}.bottom-nav .nav-item i{font-size:1.4rem}.bottom-nav .nav-item span{font-size:0.6rem}.socio-main{padding-bottom:140px}.btn{width:auto}}
         @media(min-width:769px) and (max-width:1024px){.socio-main{padding:20px 30px;padding-bottom:140px}}
@@ -197,7 +212,9 @@
             <div class="glass-card">
                 <div class="profile-header">
                     <div class="profile-avatar">
-                        <img id="socioAvatar" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Ccircle cx='40' cy='40' r='40' fill='%23111122'/%3E%3Ccircle cx='40' cy='26' r='12' fill='%23222244'/%3E%3Cpath d='M10 72c0-12 16-20 30-20s30 8 30 20' fill='%23222244'/%3E%3C/svg%3E" alt="Foto de perfil">
+                        <div id="avatarContainer">
+                            <img id="socioAvatar" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Ccircle cx='40' cy='40' r='40' fill='%23111122'/%3E%3Ccircle cx='40' cy='26' r='12' fill='%23222244'/%3E%3Cpath d='M10 72c0-12 16-20 30-20s30 8 30 20' fill='%23222244'/%3E%3C/svg%3E" alt="Foto de perfil">
+                        </div>
                         <button class="edit-btn" id="avatarEditBtn" onclick="abrirModalAvatar()">
                             <i class="fas fa-camera"></i>
                         </button>
@@ -369,7 +386,6 @@
                             <span style="font-size:0.55rem;color:#8a8aaa;">🏅 <span class="tag-text">Integración</span></span>
                         </div>
                     </div>
-                    <!-- Footer con derechos reservados -->
                     <div class="fly-footer">
                         © 2026 FLY FUTBOLEROS · Todos los derechos reservados
                     </div>
@@ -604,7 +620,33 @@
         }, 1800000);
 
         // ================================================================
-        // 4. NAVEGACIÓN
+        // 4. TOASTS MEJORADOS
+        // ================================================================
+        function showToast(message, type) {
+            if (type === undefined) type = 'info';
+            var colors = { success: '#00ff7f', error: '#ff2d8a', warning: '#ff6a00', info: '#00d4ff' };
+            var icons = { success: 'fa-check-circle', error: 'fa-exclamation-circle', warning: 'fa-exclamation-triangle',
+                info: 'fa-info-circle' };
+
+            var existing = document.querySelector('.toast');
+            if (existing) existing.remove();
+
+            var el = document.createElement('div');
+            el.className = 'toast';
+            el.innerHTML =
+                '<i class="fas ' + icons[type] + ' icon ' + type + '"></i><span>' + message + '</span>';
+            el.style.borderColor = colors[type];
+            document.body.appendChild(el);
+
+            setTimeout(function() {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(20px)';
+                setTimeout(function() { el.remove(); }, 300);
+            }, 4000);
+        }
+
+        // ================================================================
+        // 5. NAVEGACIÓN
         // ================================================================
         function navigateTo(section) {
             document.querySelectorAll('.section-page').forEach(function(el) {
@@ -623,7 +665,7 @@
         }
 
         // ================================================================
-        // 5. SUPABASE
+        // 6. SUPABASE
         // ================================================================
         const SUPABASE_URL = 'https://abgtdybklkfozoazfmiw.supabase.co';
         const SUPABASE_ANON_KEY =
@@ -632,7 +674,7 @@
         const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
         // ================================================================
-        // 6. USUARIO
+        // 7. USUARIO
         // ================================================================
         var currentUser = null;
         var socioData = null;
@@ -652,7 +694,7 @@
         }
 
         // ================================================================
-        // 7. CARGAR DATOS
+        // 8. CARGAR DATOS
         // ================================================================
         async function loadSocioData() {
             var sessionUser = getCurrentUser();
@@ -711,39 +753,54 @@
         }
 
         // ================================================================
-        // 8. RENDER PERFIL
+        // 9. RENDER PERFIL
         // ================================================================
         function renderProfile(user) {
             document.getElementById('socioNombre').textContent = user.nombre || 'Sin nombre';
             document.getElementById('socioUsername').textContent = '@' + user.username;
             document.getElementById('socioId').textContent = '#' + user.id;
 
+            // Plan
             var planEl = document.getElementById('socioPlan');
             if (user.plan) {
                 planEl.textContent = user.plan;
-                planEl.className = 'badge ' + (user.plan === 'Sabatero' ? 'badge-active' : 'badge-pending');
+                planEl.className = 'badge ' + (user.plan === 'Sabatero' ? 'badge-active' : 'badge-warning');
             } else {
                 planEl.textContent = 'Sin plan';
                 planEl.className = 'badge badge-pending';
             }
 
+            // Estado
             var estadoEl = document.getElementById('socioEstado');
             estadoEl.textContent = user.estado || 'Pendiente';
             estadoEl.className = 'badge ' + getStatusClass(user.estado);
 
+            // Avatar con iniciales si no tiene foto
+            var avatarContainer = document.getElementById('avatarContainer');
             if (user.foto_url) {
-                document.getElementById('socioAvatar').src = user.foto_url;
+                avatarContainer.innerHTML = '<img id="socioAvatar" src="' + user.foto_url + '" alt="Foto de perfil">';
+            } else if (user.nombre) {
+                var iniciales = user.nombre.split(' ').map(function(n) { return n.charAt(0); }).join('').substring(0, 2)
+                .toUpperCase();
+                avatarContainer.innerHTML = '<div class="avatar-iniciales">' + iniciales + '</div>';
+            } else {
+                avatarContainer.innerHTML =
+                    '<img id="socioAvatar" src="data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'80\' height=\'80\' viewBox=\'0 0 80 80\'%3E%3Ccircle cx=\'40\' cy=\'40\' r=\'40\' fill=\'%23111122\'/%3E%3Ccircle cx=\'40\' cy=\'26\' r=\'12\' fill=\'%23222244\'/%3E%3Cpath d=\'M10 72c0-12 16-20 30-20s30 8 30 20\' fill=\'%23222244\'/%3E%3C/svg%3E" alt="Foto de perfil">';
             }
         }
 
         function getStatusClass(estado) {
-            var map = { 'Activo': 'badge-active', 'Pendiente': 'badge-pending', 'Suspendido': 'badge-suspended',
-                'Vencido': 'badge-expired' };
+            var map = {
+                'Activo': 'badge-active',
+                'Pendiente': 'badge-warning',
+                'Suspendido': 'badge-suspended',
+                'Vencido': 'badge-expired'
+            };
             return map[estado] || 'badge-pending';
         }
 
         // ================================================================
-        // 9. RENDER SELECCIÓN DE PLAN Y MÉTODO
+        // 10. RENDER SELECCIÓN DE PLAN Y MÉTODO
         // ================================================================
         function renderSeleccionPlan(user) {
             // Plan
@@ -775,11 +832,11 @@
             document.getElementById('statusMetodo').textContent = user.metodo_pago || 'No seleccionado';
             document.getElementById('statusMetodo').className = 'value' + (user.metodo_pago ? ' active' : '');
             document.getElementById('statusEstado').textContent = user.estado || 'Pendiente';
-            document.getElementById('statusEstado').className = 'value ' + (user.estado === 'Activo' ? 'active' : 'pending');
+            document.getElementById('statusEstado').className = 'value ' + getStatusClass(user.estado).replace('badge-', '');
         }
 
         // ================================================================
-        // 10. SELECCIONAR PLAN
+        // 11. SELECCIONAR PLAN - SIN CONFIRMACIÓN (INSTANTÁNEO)
         // ================================================================
         async function seleccionarPlan(plan) {
             if (!socioData) {
@@ -792,11 +849,17 @@
                 return;
             }
 
-            if (!confirm('¿Cambiar al plan ' + plan + '? Esto pondrá tu cuenta en estado Pendiente para revisión.')) {
-                return;
-            }
+            // Mostrar spinner en el plan seleccionado
+            var options = document.querySelectorAll('#planSelector .option');
+            options.forEach(function(el) {
+                if (el.dataset.plan === plan) {
+                    el.innerHTML = '<span class="icon">⚡</span><span class="name">' + (plan === 'Sabatero' ?
+                        'Plan Sabatero' : 'Plan Finder') + '</span><span class="price"><span class="spinner-small"></span> Actualizando...</span>';
+                }
+            });
 
             try {
+                // Actualizar el plan en la base de datos
                 const updates = {
                     plan: plan,
                     estado: 'Pendiente',
@@ -812,17 +875,21 @@
                 if (error) {
                     console.error('Error al actualizar plan:', error);
                     showToast('❌ Error al cambiar de plan', 'error');
+                    renderSeleccionPlan(socioData);
                     return;
                 }
 
+                // Actualizar datos locales
                 socioData.plan = plan;
                 socioData.estado = 'Pendiente';
                 socioData.fecha_inicio = null;
                 socioData.fecha_vencimiento = null;
 
+                // Actualizar UI
                 renderSeleccionPlan(socioData);
                 renderProfile(socioData);
 
+                // Crear notificación para el admin
                 await supabaseClient.from('notificaciones').insert([{
                     tipo: 'cambio_plan',
                     mensaje: `🔄 ${socioData.nombre} cambió a plan ${plan}`,
@@ -834,16 +901,17 @@
                     }
                 }]);
 
-                showToast('✅ Plan actualizado a ' + plan + '. Espera aprobación del administrador.', 'success');
+                showToast('✅ Plan cambiado a ' + plan + '. Espera aprobación del administrador.', 'success');
 
             } catch (error) {
                 console.error('Error:', error);
                 showToast('❌ Error al cambiar de plan', 'error');
+                renderSeleccionPlan(socioData);
             }
         }
 
         // ================================================================
-        // 11. SELECCIONAR MÉTODO DE PAGO
+        // 12. SELECCIONAR MÉTODO - SIN CONFIRMACIÓN (INSTANTÁNEO)
         // ================================================================
         async function seleccionarMetodo(metodo) {
             if (!socioData) {
@@ -856,10 +924,14 @@
                 return;
             }
 
-            if (!confirm('¿Cambiar a ' + metodo + '? ' + (metodo === 'Transferencia' ? 'Deberás subir un comprobante.' :
-                'El pago se confirma en persona.'))) {
-                return;
-            }
+            // Mostrar spinner en el método seleccionado
+            var options = document.querySelectorAll('#metodoSelector .option');
+            options.forEach(function(el) {
+                if (el.dataset.metodo === metodo) {
+                    el.innerHTML = '<span class="icon">' + (metodo === 'Transferencia' ? '💻' : '💰') +
+                        '</span><span class="name">' + metodo + '</span><span class="price"><span class="spinner-small"></span> Actualizando...</span>';
+                }
+            });
 
             try {
                 const updates = {
@@ -876,6 +948,7 @@
                 if (error) {
                     console.error('Error al actualizar método:', error);
                     showToast('❌ Error al cambiar método de pago', 'error');
+                    renderSeleccionPlan(socioData);
                     return;
                 }
 
@@ -899,7 +972,7 @@
                             metodo: metodo
                         }
                     }]);
-                    showToast('✅ Método actualizado. Sube tu comprobante para completar el proceso.', 'success');
+                    showToast('✅ Método actualizado a Transferencia. Sube tu comprobante.', 'success');
                 } else {
                     showToast('✅ Método actualizado a ' + metodo, 'success');
                 }
@@ -907,11 +980,12 @@
             } catch (error) {
                 console.error('Error:', error);
                 showToast('❌ Error al cambiar método de pago', 'error');
+                renderSeleccionPlan(socioData);
             }
         }
 
         // ================================================================
-        // 12. SUBIR COMPROBANTE
+        // 13. SUBIR COMPROBANTE
         // ================================================================
         function subirComprobante() {
             if (!socioData) {
@@ -1041,7 +1115,7 @@
         }
 
         // ================================================================
-        // 13. RENDER HISTORIAL
+        // 14. RENDER HISTORIAL
         // ================================================================
         function renderHistorial() {
             var tbody = document.getElementById('historialTableBody');
@@ -1080,7 +1154,7 @@
         }
 
         // ================================================================
-        // 14. VENCIMIENTO
+        // 15. VENCIMIENTO
         // ================================================================
         function checkVencimiento(user) {
             var container = document.getElementById('recordatorioContainer');
@@ -1133,7 +1207,7 @@
         }
 
         // ================================================================
-        // 15. AVATAR
+        // 16. AVATAR
         // ================================================================
         function abrirModalAvatar() {
             if (!socioData) {
@@ -1142,7 +1216,9 @@
             }
             document.getElementById('uploadAvatarInput').value = '';
             document.getElementById('avatarPreviewFile').style.display = 'none';
-            document.getElementById('avatarPreview').src = document.getElementById('socioAvatar').src;
+            document.getElementById('avatarPreview').src = document.getElementById('socioAvatar') ? document
+                .getElementById('socioAvatar').src :
+                'data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'80\' height=\'80\' viewBox=\'0 0 80 80\'%3E%3Ccircle cx=\'40\' cy=\'40\' r=\'40\' fill=\'%23111122\'/%3E%3Ccircle cx=\'40\' cy=\'26\' r=\'12\' fill=\'%23222244\'/%3E%3Cpath d=\'M10 72c0-12 16-20 30-20s30 8 30 20\' fill=\'%23222244\'/%3E%3C/svg%3E';
             document.getElementById('uploadAvatarBtn').disabled = false;
             document.getElementById('uploadAvatarBtn').innerHTML = '<i class="fas fa-cloud-upload-alt"></i> Subir Foto';
             avatarFile = null;
@@ -1252,10 +1328,8 @@
                     return;
                 }
 
-                document.getElementById('socioAvatar').src = url;
-                if (socioData) {
-                    socioData.foto_url = url;
-                }
+                socioData.foto_url = url;
+                renderProfile(socioData);
 
                 showToast('✅ Foto de perfil actualizada exitosamente', 'success');
                 closeModal('uploadAvatarModal');
@@ -1271,7 +1345,7 @@
         }
 
         // ================================================================
-        // 16. MODAL
+        // 17. MODAL
         // ================================================================
         function closeModal(id) {
             document.getElementById(id).classList.remove('active');
@@ -1300,32 +1374,6 @@
         });
 
         // ================================================================
-        // 17. TOAST
-        // ================================================================
-        function showToast(message, type) {
-            if (type === undefined) type = 'info';
-            var colors = { success: '#00ff7f', error: '#ff2d8a', warning: '#ff6a00', info: '#00d4ff' };
-            var icons = { success: 'fa-check-circle', error: 'fa-exclamation-circle', warning: 'fa-exclamation-triangle',
-                info: 'fa-info-circle' };
-
-            var existing = document.querySelector('.toast');
-            if (existing) existing.remove();
-
-            var el = document.createElement('div');
-            el.className = 'toast';
-            el.innerHTML =
-                '<i class="fas ' + icons[type] + ' icon ' + type + '"></i><span>' + message + '</span>';
-            el.style.borderColor = colors[type];
-            document.body.appendChild(el);
-
-            setTimeout(function() {
-                el.style.opacity = '0';
-                el.style.transform = 'translateY(20px)';
-                setTimeout(function() { el.remove(); }, 300);
-            }, 4000);
-        }
-
-        // ================================================================
         // 18. CERRAR SESIÓN
         // ================================================================
         function handleLogout() {
@@ -1347,12 +1395,13 @@
             loadSocioData();
         });
 
-        console.log('👤 FLY FUTBOLEROS · Panel del Socio (VERSIÓN REORGANIZADA)');
-        console.log('📋 Plan y método integrados en el perfil');
-        console.log('📸 Subida de avatar funcional');
-        console.log('📎 Subida de comprobante funcional');
-        console.log('🗑️ Sección Plan eliminada del menú');
-        console.log('✅ Footer actualizado con derechos reservados');
+        console.log('👤 FLY FUTBOLEROS · Panel del Socio (VERSIÓN MEJORADA)');
+        console.log('✅ Selección de plan y método SIN confirmación (instantáneo)');
+        console.log('✅ Toasts en lugar de alertas');
+        console.log('✅ Spinners al cargar');
+        console.log('✅ Avatar con iniciales');
+        console.log('✅ Badges de estado más visibles');
+        console.log('✅ Efectos hover y animaciones');
     </script>
 
 </body>
