@@ -985,7 +985,7 @@
         }
 
         // ================================================================
-        // 13. SUBIR COMPROBANTE - VERSIÓN CORREGIDA
+        // 13. SUBIR COMPROBANTE - VERSIÓN CORREGIDA (CON TABLA comprobantes)
         // ================================================================
         function subirComprobante() {
             if (!socioData) {
@@ -1021,6 +1021,7 @@
             }
         });
 
+        // ✅ FUNCIÓN CORREGIDA - INSERCIÓN EN TABLA comprobantes
         async function enviarComprobante() {
             var file = document.getElementById('uploadReceipt').files[0];
             if (!file) {
@@ -1045,6 +1046,8 @@
                 const ext = file.name.split('.').pop();
                 const path = `${sessionUser.id}/comprobante_${Date.now()}.${ext}`;
 
+                console.log('📤 Subiendo comprobante a:', path);
+
                 const { error: uploadError } = await supabaseClient.storage
                     .from('comprobantes')
                     .upload(path, file, {
@@ -1054,7 +1057,7 @@
                     });
 
                 if (uploadError) {
-                    console.error('Error al subir comprobante:', uploadError);
+                    console.error('❌ Error al subir comprobante:', uploadError);
                     showToast('❌ Error al subir comprobante: ' + uploadError.message, 'error');
                     btn.disabled = false;
                     btn.innerHTML = '<i class="fas fa-paper-plane"></i> Enviar';
@@ -1065,26 +1068,35 @@
                 console.log('✅ Comprobante subido:', url);
 
                 // ✅ 2. Insertar en la tabla comprobantes
-                const { error: compError } = await supabaseClient.from('comprobantes').insert([{
+                console.log('📝 Insertando en tabla comprobantes...');
+
+                const comprobanteData = {
                     socio_id: sessionUser.id,
                     archivo_url: url,
                     tipo: 'transferencia',
                     estado: 'Pendiente',
                     fecha_subida: new Date().toISOString(),
                     nombre_archivo: file.name
-                }]);
+                };
+
+                console.log('📊 Datos a insertar:', comprobanteData);
+
+                const { data: compData, error: compError } = await supabaseClient
+                    .from('comprobantes')
+                    .insert([comprobanteData])
+                    .select();
 
                 if (compError) {
                     console.error('❌ Error guardando comprobante en tabla:', compError);
-                    showToast('❌ Error al guardar el comprobante', 'error');
+                    showToast('❌ Error al guardar el comprobante: ' + compError.message, 'error');
                     btn.disabled = false;
                     btn.innerHTML = '<i class="fas fa-paper-plane"></i> Enviar';
                     return;
                 }
 
-                console.log('✅ Comprobante registrado en tabla comprobantes');
+                console.log('✅ Comprobante registrado en tabla:', compData);
 
-                // ✅ 3. Actualizar el socio con la URL del comprobante y estado Pendiente
+                // ✅ 3. Actualizar el socio con la URL del comprobante
                 const { error: updateError } = await supabaseClient
                     .from('socios')
                     .update({
@@ -1127,7 +1139,7 @@
                 setTimeout(loadSocioData, 1000);
 
             } catch (error) {
-                console.error('❌ Error:', error);
+                console.error('❌ Error general:', error);
                 showToast('❌ Error al enviar comprobante: ' + error.message, 'error');
             } finally {
                 btn.disabled = false;
@@ -1420,9 +1432,6 @@
         console.log('✅ Subida de comprobante con inserción en tabla comprobantes');
         console.log('✅ Actualización de socio con comprobante_url');
         console.log('✅ Notificación creada para el admin');
-        console.log('✅ Selección de plan y método instantánea');
-        console.log('✅ Toasts en lugar de alertas');
-        console.log('✅ Avatar con iniciales');
     </script>
 
 </body>
