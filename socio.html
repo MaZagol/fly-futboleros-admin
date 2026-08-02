@@ -176,6 +176,13 @@
         @media(max-width:380px){.bottom-nav .nav-item{min-width:44px;min-height:42px;padding:3px 4px}.bottom-nav .nav-item i{font-size:0.95rem}.bottom-nav .nav-item span{font-size:0.35rem;letter-spacing:0.3px}.socio-main{padding-bottom:130px}.glass-card{padding:12px 10px}.profile-avatar img{width:56px;height:56px}.profile-info h1{font-size:1rem}.fly-fechas{grid-template-columns:repeat(2,1fr);gap:8px}.fly-fechas .fecha-item .numero{font-size:1.1rem}.fly-fechas .fecha-item .label{font-size:0.45rem}}
         @media(min-width:768px){.bottom-nav .nav-item{max-width:120px}.bottom-nav .nav-item i{font-size:1.4rem}.bottom-nav .nav-item span{font-size:0.6rem}.socio-main{padding-bottom:140px}.btn{width:auto}}
         @media(min-width:769px) and (max-width:1024px){.socio-main{padding:20px 30px;padding-bottom:140px}}
+        .mensaje-vencimiento-card{border-color:rgba(255,45,138,0.2);background:rgba(255,45,138,0.04)}
+        .mensaje-vencimiento-card i{color:var(--neon-pink);font-size:1.5rem}
+        .mensaje-vencimiento-card h4{color:var(--neon-pink);font-size:clamp(0.8rem,1.2vw,0.95rem)}
+        .mensaje-vencimiento-card p{color:#d0d0e0;font-size:clamp(0.7rem,1vw,0.8rem)}
+        .dias-verde{color:var(--neon-green)}
+        .dias-naranja{color:var(--neon-orange)}
+        .dias-rojo{color:var(--neon-pink)}
     </style>
 </head>
 <body>
@@ -225,6 +232,25 @@
                         <p><strong>ID:</strong> <span id="socioId">#0000</span></p>
                         <p><strong>Plan:</strong> <span id="socioPlan" class="badge badge-pending">Sin plan</span></p>
                         <p><strong>Estado:</strong> <span id="socioEstado" class="badge badge-pending">Pendiente</span></p>
+                        <p><strong>Inicio:</strong> <span id="socioInicio">No definida</span></p>
+                        <p><strong>Vencimiento:</strong> <span id="socioVencimiento">No definida</span></p>
+                        <p><strong>Días restantes:</strong> <span id="socioDias">-</span></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===== MENSAJE DE VENCIMIENTO (SOLO DESPUÉS DE VENCER) ===== -->
+            <div id="mensajeVencimiento" class="hidden" style="margin-bottom:16px;">
+                <div class="glass-card mensaje-vencimiento-card">
+                    <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;">
+                        <i class="fas fa-exclamation-circle"></i>
+                        <div style="flex:1;">
+                            <h4 id="mensajeVencimientoTitulo">❌ Tu membresía ha vencido</h4>
+                            <p id="mensajeVencimientoTexto">Renueva ahora para seguir disfrutando de los beneficios.</p>
+                        </div>
+                        <button class="btn btn-primary" onclick="renovarMembresia()" style="flex-shrink:0;">
+                            <i class="fas fa-sync"></i> Renovar Ahora
+                        </button>
                     </div>
                 </div>
             </div>
@@ -735,7 +761,7 @@
                 renderProfile(socio);
                 renderHistorial();
                 renderSeleccionPlan(socio);
-                checkVencimiento(socio);
+                verificarVencimiento(socio);
 
                 if (socio.role === 'admin') {
                     var headerActions = document.querySelector('.socio-header .header-actions');
@@ -753,7 +779,7 @@
         }
 
         // ================================================================
-        // 9. RENDER PERFIL
+        // 9. RENDER PERFIL (CON FECHAS)
         // ================================================================
         function renderProfile(user) {
             document.getElementById('socioNombre').textContent = user.nombre || 'Sin nombre';
@@ -775,17 +801,31 @@
             estadoEl.textContent = user.estado || 'Pendiente';
             estadoEl.className = 'badge ' + getStatusClass(user.estado);
 
-            // Avatar con iniciales si no tiene foto
+            // ✅ Fechas de inicio y vencimiento
+            var inicioEl = document.getElementById('socioInicio');
+            var vencEl = document.getElementById('socioVencimiento');
+            
+            if (user.fecha_inicio) {
+                inicioEl.textContent = new Date(user.fecha_inicio).toLocaleDateString();
+            } else {
+                inicioEl.textContent = 'No definida';
+            }
+            
+            if (user.fecha_vencimiento) {
+                vencEl.textContent = new Date(user.fecha_vencimiento).toLocaleDateString();
+            } else {
+                vencEl.textContent = 'No definida';
+            }
+
+            // Avatar
             var avatarContainer = document.getElementById('avatarContainer');
             if (user.foto_url) {
                 avatarContainer.innerHTML = '<img id="socioAvatar" src="' + user.foto_url + '" alt="Foto de perfil">';
             } else if (user.nombre) {
-                var iniciales = user.nombre.split(' ').map(function(n) { return n.charAt(0); }).join('').substring(0, 2)
-                .toUpperCase();
+                var iniciales = user.nombre.split(' ').map(function(n) { return n.charAt(0); }).join('').substring(0, 2).toUpperCase();
                 avatarContainer.innerHTML = '<div class="avatar-iniciales">' + iniciales + '</div>';
             } else {
-                avatarContainer.innerHTML =
-                    '<img id="socioAvatar" src="data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'80\' height=\'80\' viewBox=\'0 0 80 80\'%3E%3Ccircle cx=\'40\' cy=\'40\' r=\'40\' fill=\'%23111122\'/%3E%3Ccircle cx=\'40\' cy=\'26\' r=\'12\' fill=\'%23222244\'/%3E%3Cpath d=\'M10 72c0-12 16-20 30-20s30 8 30 20\' fill=\'%23222244\'/%3E%3C/svg%3E" alt="Foto de perfil">';
+                avatarContainer.innerHTML = '<img id="socioAvatar" src="data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'80\' height=\'80\' viewBox=\'0 0 80 80\'%3E%3Ccircle cx=\'40\' cy=\'40\' r=\'40\' fill=\'%23111122\'/%3E%3Ccircle cx=\'40\' cy=\'26\' r=\'12\' fill=\'%23222244\'/%3E%3Cpath d=\'M10 72c0-12 16-20 30-20s30 8 30 20\' fill=\'%23222244\'/%3E%3C/svg%3E" alt="Foto de perfil">';
             }
         }
 
@@ -836,7 +876,48 @@
         }
 
         // ================================================================
-        // 11. SELECCIONAR PLAN - SIN CONFIRMACIÓN (INSTANTÁNEO)
+        // 11. VERIFICAR VENCIMIENTO (SOLO DESPUÉS DE VENCER)
+        // ================================================================
+        function verificarVencimiento(user) {
+            var mensajeContainer = document.getElementById('mensajeVencimiento');
+            var titulo = document.getElementById('mensajeVencimientoTitulo');
+            var texto = document.getElementById('mensajeVencimientoTexto');
+            var diasEl = document.getElementById('socioDias');
+
+            // Si no tiene plan Sabatero o no tiene fecha de vencimiento, ocultar
+            if (user.plan !== 'Sabatero' || !user.fecha_vencimiento) {
+                mensajeContainer.classList.add('hidden');
+                if (diasEl) {
+                    diasEl.textContent = '-';
+                    diasEl.className = '';
+                }
+                return;
+            }
+
+            var hoy = new Date();
+            var venc = new Date(user.fecha_vencimiento);
+            var diff = Math.ceil((venc - hoy) / (1000 * 60 * 60 * 24));
+
+            // Actualizar días en el perfil (siempre visible)
+            if (diasEl) {
+                diasEl.textContent = diff > 0 ? diff + ' días' : 'Vencido';
+                diasEl.className = diff > 7 ? 'dias-verde' : diff > 0 ? 'dias-naranja' : 'dias-rojo';
+            }
+
+            // ✅ SOLO mostrar mensaje si YA VENCIÓ (diff <= 0)
+            if (diff <= 0) {
+                mensajeContainer.classList.remove('hidden');
+                titulo.textContent = '❌ Tu membresía ha vencido';
+                texto.textContent = 'Renueva ahora para seguir disfrutando de los beneficios.';
+                return;
+            }
+
+            // Si aún no venció, ocultar mensaje
+            mensajeContainer.classList.add('hidden');
+        }
+
+        // ================================================================
+        // 12. SELECCIONAR PLAN - SIN CONFIRMACIÓN (INSTANTÁNEO)
         // ================================================================
         async function seleccionarPlan(plan) {
             if (!socioData) {
@@ -849,7 +930,6 @@
                 return;
             }
 
-            // Mostrar spinner en el plan seleccionado
             var options = document.querySelectorAll('#planSelector .option');
             options.forEach(function(el) {
                 if (el.dataset.plan === plan) {
@@ -859,7 +939,6 @@
             });
 
             try {
-                // Actualizar el plan en la base de datos
                 const updates = {
                     plan: plan,
                     estado: 'Pendiente',
@@ -879,17 +958,15 @@
                     return;
                 }
 
-                // Actualizar datos locales
                 socioData.plan = plan;
                 socioData.estado = 'Pendiente';
                 socioData.fecha_inicio = null;
                 socioData.fecha_vencimiento = null;
 
-                // Actualizar UI
                 renderSeleccionPlan(socioData);
                 renderProfile(socioData);
+                verificarVencimiento(socioData);
 
-                // Crear notificación para el admin
                 await supabaseClient.from('notificaciones').insert([{
                     tipo: 'cambio_plan',
                     mensaje: `🔄 ${socioData.nombre} cambió a plan ${plan}`,
@@ -911,7 +988,7 @@
         }
 
         // ================================================================
-        // 12. SELECCIONAR MÉTODO - SIN CONFIRMACIÓN (INSTANTÁNEO)
+        // 13. SELECCIONAR MÉTODO - SIN CONFIRMACIÓN (INSTANTÁNEO)
         // ================================================================
         async function seleccionarMetodo(metodo) {
             if (!socioData) {
@@ -924,7 +1001,6 @@
                 return;
             }
 
-            // Mostrar spinner en el método seleccionado
             var options = document.querySelectorAll('#metodoSelector .option');
             options.forEach(function(el) {
                 if (el.dataset.metodo === metodo) {
@@ -985,7 +1061,7 @@
         }
 
         // ================================================================
-        // 13. SUBIR COMPROBANTE - VERSIÓN CORREGIDA (CON TABLA comprobantes)
+        // 14. SUBIR COMPROBANTE
         // ================================================================
         function subirComprobante() {
             if (!socioData) {
@@ -1021,7 +1097,6 @@
             }
         });
 
-        // ✅ FUNCIÓN CORREGIDA - INSERCIÓN EN TABLA comprobantes
         async function enviarComprobante() {
             var file = document.getElementById('uploadReceipt').files[0];
             if (!file) {
@@ -1042,7 +1117,6 @@
                     return;
                 }
 
-                // 1. Subir comprobante al bucket
                 const ext = file.name.split('.').pop();
                 const path = `${sessionUser.id}/comprobante_${Date.now()}.${ext}`;
 
@@ -1067,9 +1141,7 @@
                 const url = supabaseClient.storage.from('comprobantes').getPublicUrl(path).data.publicUrl;
                 console.log('✅ Comprobante subido:', url);
 
-                // ✅ 2. Insertar en la tabla comprobantes
-                console.log('📝 Insertando en tabla comprobantes...');
-
+                // Insertar en tabla comprobantes
                 const comprobanteData = {
                     socio_id: sessionUser.id,
                     archivo_url: url,
@@ -1078,8 +1150,6 @@
                     fecha_subida: new Date().toISOString(),
                     nombre_archivo: file.name
                 };
-
-                console.log('📊 Datos a insertar:', comprobanteData);
 
                 const { data: compData, error: compError } = await supabaseClient
                     .from('comprobantes')
@@ -1096,7 +1166,7 @@
 
                 console.log('✅ Comprobante registrado en tabla:', compData);
 
-                // ✅ 3. Actualizar el socio con la URL del comprobante
+                // Actualizar socio
                 const { error: updateError } = await supabaseClient
                     .from('socios')
                     .update({
@@ -1111,7 +1181,7 @@
                     console.log('✅ Socio actualizado con comprobante_url');
                 }
 
-                // ✅ 4. Crear notificación para el admin
+                // Crear notificación
                 await supabaseClient.from('notificaciones').insert([{
                     tipo: 'nuevo_comprobante',
                     mensaje: `📎 Nuevo comprobante de ${socioData.nombre} (@${socioData.username}) - ${socioData.plan || 'Sin plan'}`,
@@ -1124,9 +1194,6 @@
                     }
                 }]);
 
-                console.log('✅ Notificación creada para el admin');
-
-                // ✅ 5. Actualizar datos locales
                 socioData.comprobante_url = url;
                 socioData.estado = 'Pendiente';
 
@@ -1135,7 +1202,6 @@
                 document.getElementById('uploadReceipt').value = '';
                 document.getElementById('uploadPreview').style.display = 'none';
 
-                // ✅ 6. Recargar datos
                 setTimeout(loadSocioData, 1000);
 
             } catch (error) {
@@ -1148,7 +1214,7 @@
         }
 
         // ================================================================
-        // 14. RENDER HISTORIAL
+        // 15. RENDER HISTORIAL
         // ================================================================
         function renderHistorial() {
             var tbody = document.getElementById('historialTableBody');
@@ -1187,40 +1253,24 @@
         }
 
         // ================================================================
-        // 15. VENCIMIENTO
+        // 16. RENOVAR MEMBRESIA
         // ================================================================
-        function checkVencimiento(user) {
-            var container = document.getElementById('recordatorioContainer');
-
-            if (user.plan === 'Sabatero' && user.fecha_vencimiento) {
-                var dias = calcularDias(user.fecha_vencimiento);
-                var diasNum = parseInt(dias);
-
-                if (!isNaN(diasNum) && diasNum <= 7 && diasNum > 0) {
-                    container.classList.remove('hidden');
-                    document.getElementById('recordatorioMensaje').textContent =
-                        'Tu membresía vence en ' + dias + '. Te recomendamos renovar.';
-                } else if (!isNaN(diasNum) && diasNum <= 0) {
-                    container.classList.remove('hidden');
-                    document.getElementById('recordatorioMensaje').textContent =
-                        'Tu membresía ha vencido. Renueva para seguir disfrutando.';
-                } else {
-                    container.classList.add('hidden');
-                }
-            } else {
-                container.classList.add('hidden');
-            }
-        }
-
-        function calcularDias(fechaVencimiento) {
-            var hoy = new Date();
-            var venc = new Date(fechaVencimiento);
-            var diff = Math.ceil((venc - hoy) / (1000 * 60 * 60 * 24));
-            return diff > 0 ? diff + ' días' : 'Vencido';
-        }
-
         function renovarMembresia() {
             if (!confirm('¿Renovar tu membresía por 30 días más?')) return;
+            
+            // Verificar que el socio tiene plan y método
+            if (!socioData.plan || !socioData.metodo_pago) {
+                showToast('⚠️ Primero selecciona un plan y método de pago', 'warning');
+                return;
+            }
+
+            // Si es Transferencia, necesita comprobante
+            if (socioData.metodo_pago === 'Transferencia' && !socioData.comprobante_url) {
+                showToast('⚠️ Debes subir un comprobante de transferencia', 'warning');
+                document.getElementById('comprobanteSection').classList.remove('hidden');
+                return;
+            }
+
             showToast('✅ Renovación solicitada. Espera confirmación del administrador.', 'success');
             setTimeout(loadSocioData, 1000);
         }
@@ -1240,7 +1290,7 @@
         }
 
         // ================================================================
-        // 16. AVATAR
+        // 17. AVATAR
         // ================================================================
         function abrirModalAvatar() {
             if (!socioData) {
@@ -1378,7 +1428,7 @@
         }
 
         // ================================================================
-        // 17. MODAL
+        // 18. MODAL
         // ================================================================
         function closeModal(id) {
             document.getElementById(id).classList.remove('active');
@@ -1407,7 +1457,7 @@
         });
 
         // ================================================================
-        // 18. CERRAR SESIÓN
+        // 19. CERRAR SESIÓN
         // ================================================================
         function handleLogout() {
             if (!confirm('¿Cerrar sesión?')) return;
@@ -1422,16 +1472,17 @@
         }
 
         // ================================================================
-        // 19. INICIALIZAR
+        // 20. INICIALIZAR
         // ================================================================
         document.addEventListener('DOMContentLoaded', function() {
             loadSocioData();
         });
 
-        console.log('👤 FLY FUTBOLEROS · Panel del Socio (VERSIÓN CORREGIDA)');
-        console.log('✅ Subida de comprobante con inserción en tabla comprobantes');
-        console.log('✅ Actualización de socio con comprobante_url');
-        console.log('✅ Notificación creada para el admin');
+        console.log('👤 FLY FUTBOLEROS · Panel del Socio (VERSIÓN COMPLETA)');
+        console.log('✅ Fechas de inicio y vencimiento en el perfil');
+        console.log('✅ Días restantes con colores');
+        console.log('✅ Mensaje de vencimiento SOLO después de vencer');
+        console.log('✅ Subida de comprobante con inserción en tabla');
     </script>
 
 </body>
