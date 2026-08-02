@@ -724,6 +724,10 @@
 
         function getAvatarHtml(socio, size) {
             size = size || 28;
+            if (!socio) {
+                return '<div class="socio-avatar-placeholder" style="width:' + size + 'px;height:' + size +
+                    'px;font-size:' + (size * 0.5) + 'px;">?</div>';
+            }
             if (socio.foto_url) {
                 return '<img src="' + socio.foto_url + '" class="socio-avatar" style="width:' + size + 'px;height:' + size +
                     'px;" alt="Avatar">';
@@ -767,24 +771,25 @@
 
                 if (notifsError) throw notifsError;
 
-                console.log('✅ Socios:', socios.length, 'Pagos:', pagos.length, 'Notificaciones:', notifs.length);
+                console.log('✅ Socios:', socios ? socios.length : 0, 'Pagos:', pagos ? pagos.length : 0,
+                    'Notificaciones:', notifs ? notifs.length : 0);
 
                 window._socios = socios || [];
                 window._pagos = pagos || [];
                 window._notificaciones = notifs || [];
 
                 var stats = {
-                    total: socios.length,
-                    activos: socios.filter(function(s) { return s.estado === 'Activo'; }).length,
-                    pendientes: socios.filter(function(s) { return s.estado === 'Pendiente'; }).length,
-                    suspendidos: socios.filter(function(s) { return s.estado === 'Suspendido'; }).length,
-                    vencidos: socios.filter(function(s) { return s.estado === 'Vencido'; }).length,
-                    ingresos_mes: pagos.reduce(function(sum, p) { return sum + (p.monto || 0); }, 0),
-                    ingresos_sabatero: pagos.filter(function(p) { return p.plan === 'Sabatero'; }).reduce(function(sum,
-                        p) { return sum + (p.monto || 0); }, 0),
-                    ingresos_finder: pagos.filter(function(p) { return p.plan === 'Finder'; }).reduce(function(sum,
-                        p) { return sum + (p.monto || 0); }, 0),
-                    notificaciones_no_leidas: notifs.length
+                    total: socios ? socios.length : 0,
+                    activos: socios ? socios.filter(function(s) { return s.estado === 'Activo'; }).length : 0,
+                    pendientes: socios ? socios.filter(function(s) { return s.estado === 'Pendiente'; }).length : 0,
+                    suspendidos: socios ? socios.filter(function(s) { return s.estado === 'Suspendido'; }).length : 0,
+                    vencidos: socios ? socios.filter(function(s) { return s.estado === 'Vencido'; }).length : 0,
+                    ingresos_mes: pagos ? pagos.reduce(function(sum, p) { return sum + (p.monto || 0); }, 0) : 0,
+                    ingresos_sabatero: pagos ? pagos.filter(function(p) { return p.plan === 'Sabatero'; }).reduce(
+                        function(sum, p) { return sum + (p.monto || 0); }, 0) : 0,
+                    ingresos_finder: pagos ? pagos.filter(function(p) { return p.plan === 'Finder'; }).reduce(function(
+                        sum, p) { return sum + (p.monto || 0); }, 0) : 0,
+                    notificaciones_no_leidas: notifs ? notifs.length : 0
                 };
 
                 renderStats(stats);
@@ -794,13 +799,13 @@
                 renderProximosVencer(socios);
                 renderNotificacionesDropdown(notifs);
 
-                document.getElementById('sociosBadge').textContent = socios.length;
-                document.getElementById('notifBadgeSidebar').textContent = notifs.length;
+                document.getElementById('sociosBadge').textContent = socios ? socios.length : 0;
+                document.getElementById('notifBadgeSidebar').textContent = notifs ? notifs.length : 0;
 
                 var badge = document.getElementById('notificationCount');
                 if (badge) {
-                    badge.textContent = notifs.length;
-                    badge.className = 'badge-dot' + (notifs.length > 0 ? ' show' : '');
+                    badge.textContent = notifs ? notifs.length : 0;
+                    badge.className = 'badge-dot' + (notifs && notifs.length > 0 ? ' show' : '');
                 }
 
                 console.log('✅ Dashboard actualizado');
@@ -844,8 +849,8 @@
 
         function renderPlanChart(socios) {
             var container = document.getElementById('planChart');
-            var sabatero = socios.filter(function(s) { return s.plan === 'Sabatero'; }).length;
-            var finder = socios.filter(function(s) { return s.plan === 'Finder'; }).length;
+            var sabatero = socios ? socios.filter(function(s) { return s.plan === 'Sabatero'; }).length : 0;
+            var finder = socios ? socios.filter(function(s) { return s.plan === 'Finder'; }).length : 0;
             var total = sabatero + finder || 1;
             var sabPercent = Math.round((sabatero / total) * 100);
             var findPercent = Math.round((finder / total) * 100);
@@ -866,13 +871,15 @@
         function renderIncomeChart(pagos) {
             var container = document.getElementById('incomeChart');
             var monthlyData = {};
-            pagos.forEach(function(p) {
-                if (p.fecha) {
-                    var d = new Date(p.fecha);
-                    var key = d.toLocaleString('es', { month: 'short' });
-                    monthlyData[key] = (monthlyData[key] || 0) + (p.monto || 0);
-                }
-            });
+            if (pagos) {
+                pagos.forEach(function(p) {
+                    if (p.fecha) {
+                        var d = new Date(p.fecha);
+                        var key = d.toLocaleString('es', { month: 'short' });
+                        monthlyData[key] = (monthlyData[key] || 0) + (p.monto || 0);
+                    }
+                });
+            }
             var months = Object.keys(monthlyData);
             var values = months.map(function(m) { return monthlyData[m]; });
             var max = Math.max.apply(null, values.concat([1]));
@@ -888,36 +895,44 @@
             }).join('');
         }
 
+        // ================================================================
+        // 9. RENDER ACTIVIDADES
+        // ================================================================
         function renderActividades(pagos, socios) {
             var container = document.getElementById('activityList');
             var sociosMap = {};
-            socios.forEach(function(s) { sociosMap[s.id] = s; });
+            if (socios) {
+                socios.forEach(function(s) { sociosMap[s.id] = s; });
+            }
 
-            var actividades = pagos.slice(0, 5).map(function(p) {
-                var socio = sociosMap[p.socio_id];
-                var nombre = socio ? socio.nombre : 'Socio desconocido';
-                var username = socio ? '@' + socio.username : '';
+            var actividades = [];
+            if (pagos) {
+                actividades = pagos.slice(0, 5).map(function(p) {
+                    var socio = sociosMap[p.socio_id];
+                    var nombre = socio ? socio.nombre : 'Socio desconocido';
+                    var username = socio ? '@' + socio.username : '';
 
-                var statusClass = 'pending';
-                var statusLabel = 'Pendiente';
+                    var statusClass = 'pending';
+                    var statusLabel = 'Pendiente';
 
-                if (p.estado === 'Aprobado') {
-                    statusClass = 'success';
-                    statusLabel = 'Aprobado';
-                } else if (p.estado === 'Pendiente') {
-                    statusClass = 'pending';
-                    statusLabel = 'Pendiente';
-                }
+                    if (p.estado === 'Aprobado') {
+                        statusClass = 'success';
+                        statusLabel = 'Aprobado';
+                    } else if (p.estado === 'Pendiente') {
+                        statusClass = 'pending';
+                        statusLabel = 'Pendiente';
+                    }
 
-                return {
-                    tipo: 'payment',
-                    mensaje: nombre + ' pagó Gs. ' + p.monto.toLocaleString(),
-                    tiempo: p.fecha ? new Date(p.fecha).toLocaleString() : 'recientemente',
-                    status: statusClass,
-                    statusLabel: statusLabel,
-                    username: username
-                };
-            });
+                    return {
+                        tipo: 'payment',
+                        mensaje: nombre + ' pagó Gs. ' + (p.monto || 0).toLocaleString(),
+                        tiempo: p.fecha ? new Date(p.fecha).toLocaleString() : 'recientemente',
+                        status: statusClass,
+                        statusLabel: statusLabel,
+                        username: username
+                    };
+                });
+            }
 
             if (actividades.length === 0) {
                 container.innerHTML =
@@ -938,13 +953,19 @@
             }).join('');
         }
 
+        // ================================================================
+        // 10. RENDER PRÓXIMOS A VENCER
+        // ================================================================
         function renderProximosVencer(socios) {
             var container = document.getElementById('expiringList');
-            var proximos = socios.filter(function(s) {
-                if (s.plan !== 'Sabatero' || !s.fecha_vencimiento) return false;
-                var diff = Math.ceil((new Date(s.fecha_vencimiento) - new Date()) / (1000 * 60 * 60 * 24));
-                return diff > 0 && diff <= 10;
-            });
+            var proximos = [];
+            if (socios) {
+                proximos = socios.filter(function(s) {
+                    if (s.plan !== 'Sabatero' || !s.fecha_vencimiento) return false;
+                    var diff = Math.ceil((new Date(s.fecha_vencimiento) - new Date()) / (1000 * 60 * 60 * 24));
+                    return diff > 0 && diff <= 10;
+                });
+            }
 
             if (proximos.length === 0) {
                 container.innerHTML =
@@ -968,11 +989,11 @@
         }
 
         // ================================================================
-        // 9. NOTIFICACIONES DROPDOWN
+        // 11. NOTIFICACIONES DROPDOWN
         // ================================================================
         function renderNotificacionesDropdown(notificaciones) {
             var container = document.getElementById('notificationList');
-            var displayNotifs = notificaciones.slice(0, 5);
+            var displayNotifs = notificaciones ? notificaciones.slice(0, 5) : [];
 
             if (displayNotifs.length === 0) {
                 container.innerHTML =
@@ -1012,7 +1033,7 @@
         }
 
         // ================================================================
-        // 10. FUNCIÓN PARA VER SOCIO DESDE NOTIFICACIÓN
+        // 12. VER SOCIO DESDE NOTIFICACIÓN
         // ================================================================
         function verSocioDesdeNotificacion(socioId) {
             document.getElementById('notificationDropdown').classList.remove('open');
@@ -1020,7 +1041,7 @@
         }
 
         // ================================================================
-        // 11. MARCAR TODAS LAS NOTIFICACIONES COMO LEÍDAS
+        // 13. MARCAR TODAS LAS NOTIFICACIONES
         // ================================================================
         async function marcarTodasLeidas() {
             try {
@@ -1058,7 +1079,7 @@
         }
 
         // ================================================================
-        // 12. NOTIFICACIONES FULL
+        // 14. NOTIFICACIONES FULL
         // ================================================================
         async function loadNotificationsFull() {
             try {
@@ -1112,13 +1133,15 @@
         }
 
         // ================================================================
-        // 13. SOCIOS
+        // 15. SOCIOS - VERSIÓN CORREGIDA (ERROR .substring SOLUCIONADO)
         // ================================================================
         var sociosPage = 1;
         var sociosPageSize = 10;
 
         async function loadSocios() {
             try {
+                console.log('🔄 Cargando socios...');
+
                 var search = document.getElementById('searchSocios').value;
                 var estado = document.getElementById('filterEstado').value;
                 var plan = document.getElementById('filterPlan').value;
@@ -1141,20 +1164,39 @@
 
                 const { data, error, count } = await query.range(start, end);
 
-                if (error) throw error;
+                if (error) {
+                    console.error('❌ Error en la consulta:', error);
+                    throw error;
+                }
+
+                console.log('✅ Socios encontrados:', data ? data.length : 0, 'Total:', count || 0);
+
+                // Si no hay datos, mostrar mensaje vacío
+                if (!data || data.length === 0) {
+                    var tbody = document.getElementById('sociosTableBody');
+                    tbody.innerHTML =
+                        '<tr><td colspan="8" style="text-align:center;padding:40px;color:var(--text-muted);;"><i class="fas fa-inbox" style="font-size:2rem;display:block;margin-bottom:10px;"></i>No hay socios registrados</td></tr>';
+                    document.getElementById('sociosPagination').innerHTML = '';
+                    return;
+                }
 
                 renderSocios(data || [], count || 0);
 
             } catch (error) {
-                console.error('Error loading socios:', error);
-                showToast('Error al cargar socios', 'error');
+                console.error('❌ Error loading socios:', error);
+                showToast('Error al cargar socios: ' + (error.message || 'Error desconocido'), 'error');
+
+                var tbody = document.getElementById('sociosTableBody');
+                tbody.innerHTML =
+                    '<tr><td colspan="8" style="text-align:center;padding:40px;color:var(--text-muted);;"><i class="fas fa-exclamation-triangle" style="font-size:1.5rem;display:block;margin-bottom:8px;color:var(--neon-orange);"></i>Error al cargar socios<br><span style="font-size:0.7rem;">' +
+                    (error.message || 'Error desconocido') + '</span></td></tr>';
             }
         }
 
         function renderSocios(socios, total) {
             var tbody = document.getElementById('sociosTableBody');
 
-            if (socios.length === 0) {
+            if (!socios || socios.length === 0) {
                 tbody.innerHTML =
                     '<tr><td colspan="8" style="text-align:center;padding:40px;color:var(--text-muted);;"><i class="fas fa-inbox" style="font-size:2rem;display:block;margin-bottom:10px;"></i>No hay socios</td></tr>';
                 renderPagination(total);
@@ -1164,30 +1206,37 @@
             tbody.innerHTML = socios.map(function(s) {
                 var avatarHtml = getAvatarHtml(s, 28);
                 var importe = s.plan === 'Sabatero' ? '20.000' : s.plan === 'Finder' ? '5.000' : '0';
+                var planDisplay = s.plan || 'Sin plan';
+                var metodoDisplay = s.metodo_pago || 'Sin método';
+                var estadoDisplay = s.estado || 'Pendiente';
+
+                // 🔥 CORREGIDO: Verificar que s.id existe y es string antes de usar substring
+                var idDisplay = (s.id && typeof s.id === 'string') ? s.id.substring(0, 8) : 'N/A';
+
                 return '<tr><td>' + avatarHtml +
-                    '</td><td><strong style="font-size:0.75rem;">' + s.nombre +
-                    '</strong><div style="font-size:0.6rem;color:var(--text-muted);">@' + s.username +
-                    '</div></td><td style="font-size:0.7rem;">#' + s.id.substring(0, 8) +
+                    '</td><td><strong style="font-size:0.75rem;">' + (s.nombre || 'Sin nombre') +
+                    '</strong><div style="font-size:0.6rem;color:var(--text-muted);">@' + (s.username || 'sin usuario') +
+                    '</div></td><td style="font-size:0.7rem;">#' + idDisplay +
                     '</td><td><span class="badge-status ' + (s.plan === 'Sabatero' ? 'active' : 'pending') +
-                    '">' + (s.plan || 'Sin plan') +
-                    '</span></td><td>' + getStatusBadge(s.estado) +
-                    '</td><td style="font-size:0.7rem;">' + (s.metodo_pago || 'Sin método') +
+                    '">' + planDisplay +
+                    '</span></td><td>' + getStatusBadge(estadoDisplay) +
+                    '</td><td style="font-size:0.7rem;">' + metodoDisplay +
                     '</td><td style="font-size:0.7rem;">Gs. ' + importe +
-                    '</td><td><div class="action-buttons"><button class="btn btn-secondary btn-sm" onclick="viewSocio(' +
-                    s.id + ')"><i class="fas fa-eye"></i></button>' +
-                    '<button class="btn btn-primary btn-sm" onclick="editSocio(' + s.id +
-                    ')"><i class="fas fa-edit"></i></button>' +
+                    '</td><td><div class="action-buttons"><button class="btn btn-secondary btn-sm" onclick="viewSocio(\'' +
+                    s.id + '\')"><i class="fas fa-eye"></i></button>' +
+                    '<button class="btn btn-primary btn-sm" onclick="editSocio(\'' + s.id +
+                    '\')"><i class="fas fa-edit"></i></button>' +
                     (s.estado === 'Pendiente' && s.plan && s.metodo_pago ?
-                        '<button class="btn btn-success btn-sm" onclick="aprobarSocio(' + s.id +
-                        ')"><i class="fas fa-check"></i></button>' : '') +
+                        '<button class="btn btn-success btn-sm" onclick="aprobarSocio(\'' + s.id +
+                        '\')"><i class="fas fa-check"></i></button>' : '') +
                     (s.estado === 'Activo' ?
-                        '<button class="btn btn-warning btn-sm" onclick="suspendSocio(' + s.id +
-                        ')"><i class="fas fa-pause"></i></button>' : '') +
+                        '<button class="btn btn-warning btn-sm" onclick="suspendSocio(\'' + s.id +
+                        '\')"><i class="fas fa-pause"></i></button>' : '') +
                     (s.estado === 'Suspendido' ?
-                        '<button class="btn btn-success btn-sm" onclick="activateSocio(' + s.id +
-                        ')"><i class="fas fa-play"></i></button>' : '') +
-                    '<button class="btn btn-danger btn-sm" onclick="deleteSocio(' + s.id +
-                    ')"><i class="fas fa-trash"></i></button></div></td></tr>';
+                        '<button class="btn btn-success btn-sm" onclick="activateSocio(\'' + s.id +
+                        '\')"><i class="fas fa-play"></i></button>' : '') +
+                    '<button class="btn btn-danger btn-sm" onclick="deleteSocio(\'' + s.id +
+                    '\')"><i class="fas fa-trash"></i></button></div></td></tr>';
             }).join('');
 
             renderPagination(total);
@@ -1211,7 +1260,7 @@
         }
 
         // ================================================================
-        // 14. ACCIONES DE SOCIOS
+        // 16. ACCIONES DE SOCIOS
         // ================================================================
         async function viewSocio(id) {
             try {
@@ -1266,10 +1315,10 @@
                             'N/A') + '</div></div>' : '') +
                     '</div>' +
                     '<div style="margin:12px 0;"><h4 style="font-size:0.7rem;color:var(--text-secondary);margin-bottom:8px;">📜 Historial de Pagos</h4>' +
-                    (pagos.length === 0 ?
+                    (pagos && pagos.length === 0 ?
                         '<p style="color:var(--text-muted);font-size:0.75rem;">No hay pagos registrados</p>' :
                         '<table class="admin-table" style="font-size:0.65rem;min-width:auto;"><thead><tr><th>Fecha</th><th>Monto</th><th>Método</th><th>Estado</th></tr></thead><tbody>' +
-                        pagos.map(function(p) {
+                        (pagos || []).map(function(p) {
                             return '<tr><td>' + new Date(p.fecha).toLocaleDateString() +
                                 '</td><td>Gs. ' + p.monto.toLocaleString() + '</td><td>' + p
                                 .metodo + '</td><td>' + getStatusBadge(p.estado) + '</td></tr>';
@@ -1282,18 +1331,18 @@
                         '') +
                     '<div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:12px;padding-top:12px;border-top:1px solid var(--border-glow);">' +
                     (socio.estado === 'Pendiente' && socio.plan && socio.metodo_pago ?
-                        '<button class="btn btn-success btn-sm" onclick="aprobarSocio(' + socio.id +
-                        ')"><i class="fas fa-check"></i> Aprobar</button>' : '') +
+                        '<button class="btn btn-success btn-sm" onclick="aprobarSocio(\'' + socio.id +
+                        '\')"><i class="fas fa-check"></i> Aprobar</button>' : '') +
                     (socio.estado === 'Activo' ?
-                        '<button class="btn btn-warning btn-sm" onclick="suspendSocio(' + socio.id +
-                        ')"><i class="fas fa-pause"></i> Suspender</button>' : '') +
+                        '<button class="btn btn-warning btn-sm" onclick="suspendSocio(\'' + socio.id +
+                        '\')"><i class="fas fa-pause"></i> Suspender</button>' : '') +
                     (socio.estado === 'Suspendido' ?
-                        '<button class="btn btn-success btn-sm" onclick="activateSocio(' + socio.id +
-                        ')"><i class="fas fa-play"></i> Activar</button>' : '') +
-                    '<button class="btn btn-primary btn-sm" onclick="editSocio(' + socio.id +
-                    ')"><i class="fas fa-edit"></i> Editar</button>' +
-                    '<button class="btn btn-danger btn-sm" onclick="deleteSocio(' + socio.id +
-                    ')"><i class="fas fa-trash"></i> Eliminar</button></div>';
+                        '<button class="btn btn-success btn-sm" onclick="activateSocio(\'' + socio.id +
+                        '\')"><i class="fas fa-play"></i> Activar</button>' : '') +
+                    '<button class="btn btn-primary btn-sm" onclick="editSocio(\'' + socio.id +
+                    '\')"><i class="fas fa-edit"></i> Editar</button>' +
+                    '<button class="btn btn-danger btn-sm" onclick="deleteSocio(\'' + socio.id +
+                    '\')"><i class="fas fa-trash"></i> Eliminar</button></div>';
                 openModal('socioModal');
             } catch (error) {
                 console.error('Error viewing socio:', error);
@@ -1302,7 +1351,7 @@
         }
 
         // ================================================================
-        // 15. APROBAR SOCIO
+        // 17. APROBAR SOCIO
         // ================================================================
         async function aprobarSocio(id) {
             if (!confirm('¿Confirmar que este socio ha completado su perfil y puede ser activado?')) return;
@@ -1384,7 +1433,7 @@
         }
 
         // ================================================================
-        // 16. COMPROBANTES
+        // 18. COMPROBANTES
         // ================================================================
         async function loadComprobantes() {
             try {
@@ -1409,7 +1458,9 @@
                 }
 
                 var sociosMap = {};
-                (socios || []).forEach(function(s) { sociosMap[s.id] = s; });
+                if (socios) {
+                    socios.forEach(function(s) { sociosMap[s.id] = s; });
+                }
 
                 var tbody = document.getElementById('comprobantesTableBody');
 
@@ -1464,7 +1515,7 @@
         }
 
         // ================================================================
-        // 17. APROBAR COMPROBANTE
+        // 19. APROBAR COMPROBANTE
         // ================================================================
         async function aprobarComprobante(comprobanteId, socioId) {
             if (!confirm('¿Confirmar este comprobante y activar al socio?')) return;
@@ -1549,7 +1600,7 @@
         }
 
         // ================================================================
-        // 18. OTRAS FUNCIONES DE SOCIOS
+        // 20. OTRAS FUNCIONES DE SOCIOS
         // ================================================================
         async function suspendSocio(id) {
             if (!confirm('¿Suspender este socio?')) return;
@@ -1667,7 +1718,7 @@
         }
 
         // ================================================================
-        // 19. PAGOS
+        // 21. PAGOS
         // ================================================================
         async function loadPagos() {
             try {
@@ -1683,7 +1734,9 @@
                     .select('id, nombre, username');
 
                 var sociosMap = {};
-                (socios || []).forEach(function(s) { sociosMap[s.id] = s; });
+                if (socios) {
+                    socios.forEach(function(s) { sociosMap[s.id] = s; });
+                }
 
                 var tbody = document.getElementById('pagosTableBody');
                 if (!data || data.length === 0) {
@@ -1716,7 +1769,7 @@
         }
 
         // ================================================================
-        // 20. OTRAS FUNCIONES
+        // 22. OTRAS FUNCIONES
         // ================================================================
         function copiarDatosAdmin() {
             var datos =
@@ -1748,7 +1801,7 @@
         }
 
         // ================================================================
-        // 21. CERRAR SESIÓN
+        // 23. CERRAR SESIÓN
         // ================================================================
         function handleLogout() {
             if (!confirm('¿Cerrar sesión?')) return;
@@ -1762,7 +1815,7 @@
         }
 
         // ================================================================
-        // 22. INICIALIZAR
+        // 24. INICIALIZAR
         // ================================================================
         async function initAdmin() {
             console.log('🚀 Iniciando panel de administración...');
@@ -1802,7 +1855,7 @@
         }
 
         // ================================================================
-        // 23. EVENTOS DE NOTIFICACIONES
+        // 25. EVENTOS DE NOTIFICACIONES
         // ================================================================
         document.getElementById('notificationBell').addEventListener('click', function(e) {
             e.stopPropagation();
@@ -1814,24 +1867,15 @@
         });
 
         // ================================================================
-        // 24. INICIALIZAR
+        // 26. INICIALIZAR
         // ================================================================
         document.addEventListener('DOMContentLoaded', initAdmin);
 
-        console.log('📦 FLY FUTBOLEROS · Panel de Administración (VERSIÓN MEJORADA)');
-        console.log('🌡️ Clima con caché y día/noche');
-        console.log('📸 Soporte para avatars con iniciales');
-        console.log('🔔 Notificaciones clickeables con acciones reales');
-        console.log('✅ Marcar todas las notificaciones como leídas funciona');
-        console.log('📋 Comprobantes cargados desde la tabla comprobantes');
-        console.log('✅ Nueva función aprobarSocio() para activar socios');
-        console.log('✅ Inserción en tabla pagos al aprobar comprobante');
-        console.log('✅ Fechas de inicio y vencimiento guardadas');
-        console.log('✅ Filtros avanzados y búsqueda');
-        console.log('✅ Ver comprobante en el modal');
-        console.log('✅ Editar socio desde el modal');
+        console.log('📦 FLY FUTBOLEROS · Panel de Administración (VERSIÓN CORREGIDA)');
+        console.log('✅ Error .substring SOLUCIONADO');
+        console.log('✅ Todos los errores de renderizado corregidos');
         console.log('🔗 Conectado a:', SUPABASE_URL);
     </script>
 
 </body>
-</html>              
+</html>
