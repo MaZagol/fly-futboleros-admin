@@ -53,7 +53,8 @@
         .admin-header .page-subtitle{font-size:0.6rem;color:var(--text-secondary);display:block}
         @media(max-width:480px){.admin-header .page-title{font-size:1rem}}
         .admin-header .header-right{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
-        .status-bar{display:flex;align-items:center;gap:8px;font-size:0.55rem;color:var(--text-muted);padding:3px 10px;background:rgba(0,0,0,0.3);border-radius:20px;border:1px solid var(--border-glow);flex-wrap:nowrap}
+        .status-bar{display:flex;align-items:center;gap:8px;font-size:0.55rem;color:var(--text-muted);padding:3px 10px;background:rgba(0,0,0,0.3);border-radius:20px;border:1px solid var(--border-glow);flex-wrap:nowrap;transition:var(--transition-fast)}
+        .status-bar:hover{border-color:rgba(0,212,255,0.1)}
         .status-bar .dot{width:4px;height:4px;border-radius:50%;background:var(--neon-green);display:inline-block;animation:pulse-dot 2s infinite;box-shadow:0 0 10px rgba(0,255,127,0.15)}
         .status-bar .sep{opacity:0.15}
         .status-bar .time{color:var(--text-primary);font-weight:500}
@@ -67,12 +68,13 @@
         .stats-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:12px;margin-bottom:20px}
         @media(max-width:480px){.stats-grid{grid-template-columns:repeat(2,1fr);gap:8px}}
         .stat-card{background:var(--bg-card);border:1px solid var(--border-glow);border-radius:var(--radius);padding:14px 16px;transition:var(--transition-fast);cursor:default;position:relative;overflow:hidden}
+        .stat-card:hover{background:var(--bg-card-hover);border-color:rgba(255,255,255,0.06);transform:translateY(-2px);box-shadow:0 4px 30px rgba(0,0,0,0.3)}
         .stat-card:active{transform:scale(0.98)}
         .stat-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1.5px;background:var(--gradient-primary);opacity:0;transition:var(--transition-fast)}
-        .stat-card:hover{background:var(--bg-card-hover);border-color:rgba(255,255,255,0.06);transform:translateY(-1px)}
         .stat-card:hover::before{opacity:1}
         .stat-card .top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px}
-        .stat-card .top .icon{width:32px;height:32px;border-radius:var(--radius-xs);display:flex;align-items:center;justify-content:center;font-size:0.85rem}
+        .stat-card .top .icon{width:32px;height:32px;border-radius:var(--radius-xs);display:flex;align-items:center;justify-content:center;font-size:0.85rem;transition:var(--transition-fast)}
+        .stat-card:hover .top .icon{transform:scale(1.05)}
         .stat-card .top .icon.blue{background:rgba(0,212,255,0.08);color:var(--neon-blue)}
         .stat-card .top .icon.green{background:rgba(0,255,127,0.08);color:var(--neon-green)}
         .stat-card .top .icon.purple{background:rgba(139,60,255,0.08);color:var(--neon-purple)}
@@ -88,26 +90,28 @@
         .charts-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px}
         @media(max-width:768px){.charts-row{grid-template-columns:1fr;gap:12px}}
         .chart-card{background:var(--bg-card);border:1px solid var(--border-glow);border-radius:var(--radius);padding:16px 18px;transition:var(--transition-fast)}
+        .chart-card:hover{border-color:rgba(0,212,255,0.1)}
         .chart-card .header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
         .chart-card .header h3{font-size:0.75rem;font-weight:600;color:var(--text-secondary);letter-spacing:0.3px}
         .chart-card .header .badge{font-size:0.5rem;padding:1px 10px;border-radius:12px;background:rgba(0,212,255,0.06);color:var(--neon-blue);border:1px solid rgba(0,212,255,0.06)}
         @media(max-width:480px){.chart-card{padding:12px 14px}.chart-card .header h3{font-size:0.65rem}}
         .donut-container{display:flex;align-items:center;justify-content:center;gap:24px;padding:4px 0;flex-wrap:wrap}
-        .donut{width:110px;height:110px;border-radius:50%;position:relative;flex-shrink:0}
+        .donut{width:110px;height:110px;border-radius:50%;position:relative;flex-shrink:0;transition:var(--transition-fast)}
+        .donut:hover{transform:scale(1.02)}
         .donut .center{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:60px;height:60px;border-radius:50%;background:var(--bg-deep);display:flex;flex-direction:column;align-items:center;justify-content:center}
         .donut .center .number{font-size:1.1rem;font-weight:800;color:var(--text-primary)}
         .donut .center .label{font-size:0.45rem;color:var(--text-secondary);text-transform:uppercase;letter-spacing:0.5px}
         @media(max-width:480px){.donut{width:90px;height:90px}.donut .center{width:50px;height:50px}.donut .center .number{font-size:0.9rem}}
         .donut-legend{display:flex;flex-direction:column;gap:4px}
         .donut-legend .item{display:flex;align-items:center;gap:8px;font-size:0.7rem;color:var(--text-secondary)}
-        .donut-legend .item .dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+        .donut-legend .item .dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;transition:var(--transition-fast)}
         .donut-legend .item .dot.blue{background:var(--neon-blue)}
         .donut-legend .item .dot.purple{background:var(--neon-purple)}
         .donut-legend .item .percent{font-weight:600;color:var(--text-primary);margin-left:auto}
         @media(max-width:480px){.donut-legend .item{font-size:0.6rem}.donut-legend .item .dot{width:6px;height:6px}}
         .bar-chart{display:flex;align-items:flex-end;gap:6px;height:120px;padding:6px 0}
         .bar-chart .bar-group{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;height:100%;justify-content:flex-end}
-        .bar-chart .bar-group .bar{width:100%;max-width:28px;border-radius:3px 3px 0 0;background:var(--gradient-primary);min-height:3px;transition:height 0.6s cubic-bezier(0.25,0.46,0.45,0.94);position:relative}
+        .bar-chart .bar-group .bar{width:100%;max-width:28px;border-radius:3px 3px 0 0;background:var(--gradient-primary);min-height:3px;transition:height 0.8s cubic-bezier(0.25,0.46,0.45,0.94);position:relative}
         .bar-chart .bar-group .bar::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:linear-gradient(180deg,rgba(255,255,255,0.15),transparent);border-radius:3px 3px 0 0}
         .bar-chart .bar-group .bar-value{font-size:0.5rem;color:var(--text-secondary);font-weight:600}
         .bar-chart .bar-group .bar-label{font-size:0.45rem;color:var(--text-muted);text-transform:uppercase}
@@ -115,12 +119,15 @@
         .activity-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px}
         @media(max-width:768px){.activity-row{grid-template-columns:1fr;gap:12px}}
         .activity-card{background:var(--bg-card);border:1px solid var(--border-glow);border-radius:var(--radius);padding:16px 18px;transition:var(--transition-fast)}
+        .activity-card:hover{border-color:rgba(0,212,255,0.1)}
         .activity-card .header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
         .activity-card .header h3{font-size:0.75rem;font-weight:600;color:var(--text-secondary);letter-spacing:0.3px}
-        .activity-card .header .action{font-size:0.6rem;color:var(--neon-blue);cursor:pointer}
+        .activity-card .header .action{font-size:0.6rem;color:var(--neon-blue);cursor:pointer;transition:var(--transition-fast)}
+        .activity-card .header .action:hover{color:var(--neon-purple)}
         @media(max-width:480px){.activity-card{padding:12px 14px}.activity-card .header h3{font-size:0.65rem}}
         .activity-list{display:flex;flex-direction:column;gap:6px}
         .activity-item{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:var(--radius-xs);transition:var(--transition-fast);cursor:default}
+        .activity-item:hover{background:rgba(255,255,255,0.02)}
         .activity-item .icon{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.6rem;flex-shrink:0}
         .activity-item .icon.payment{background:rgba(0,212,255,0.08);color:var(--neon-blue)}
         .activity-item .icon.register{background:rgba(0,255,127,0.08);color:var(--neon-green)}
@@ -137,6 +144,7 @@
         @media(max-width:480px){.activity-item{padding:6px 8px;gap:8px}.activity-item .icon{width:24px;height:24px;font-size:0.5rem}.activity-item .info .title{font-size:0.65rem}.activity-item .info .time{font-size:0.5rem}.activity-item .status{font-size:0.45rem;padding:0 6px}}
         .expiring-list{display:flex;flex-direction:column;gap:6px}
         .expiring-item{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:var(--radius-xs);transition:var(--transition-fast)}
+        .expiring-item:hover{background:rgba(255,255,255,0.02)}
         .expiring-item .avatar-img{width:28px;height:28px;border-radius:50%;object-fit:cover;border:1.5px solid var(--border-glow);flex-shrink:0;background:#111122;}
         .expiring-item .avatar-placeholder{width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,0.04);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.6rem;color:var(--text-secondary);flex-shrink:0;border:1px solid var(--border-glow)}
         .expiring-item .info{flex:1;min-width:0}
@@ -159,7 +167,7 @@
         .search-box input::placeholder{color:var(--text-muted)}
         .search-box i{color:var(--text-muted);font-size:0.8rem}
         .filter-group{display:flex;flex-wrap:wrap;gap:6px}
-        .filter-group select{padding:8px 12px;background:var(--bg-card);border:1px solid var(--border-glow);border-radius:var(--radius-sm);color:var(--text-primary);font-size:0.7rem;cursor:pointer;outline:none;-webkit-appearance:none;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%235a5a7a'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center;padding-right:28px}
+        .filter-group select{padding:8px 12px;background:var(--bg-card);border:1px solid var(--border-glow);border-radius:var(--radius-sm);color:var(--text-primary);font-size:0.7rem;cursor:pointer;outline:none;-webkit-appearance:none;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%235a5a7a'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center;padding-right:28px;transition:var(--transition-fast)}
         .filter-group select:focus{border-color:rgba(0,212,255,0.2)}
         .filter-group select option{background:var(--bg-deep)}
         @media(max-width:480px){.table-controls{flex-direction:column;gap:8px}.filter-group select{flex:1;min-width:80px;font-size:0.65rem;padding:6px 10px;padding-right:24px}.search-box input{font-size:0.7rem;padding:6px 6px}}
@@ -176,19 +184,24 @@
         .btn{display:inline-flex;align-items:center;gap:4px;padding:6px 14px;border:none;border-radius:var(--radius-sm);font-family:'Inter',sans-serif;font-weight:600;font-size:0.65rem;cursor:pointer;transition:var(--transition-fast);text-transform:uppercase;letter-spacing:0.3px}
         .btn:active{transform:scale(0.95)}
         .btn-primary{background:var(--gradient-primary);color:#fff}
+        .btn-primary:hover{box-shadow:0 4px 30px rgba(0,212,255,0.15);transform:translateY(-1px)}
         .btn-secondary{background:var(--bg-card);color:var(--text-secondary);border:1px solid var(--border-glow)}
-        .btn-secondary:hover{background:var(--bg-card-hover);color:var(--text-primary)}
+        .btn-secondary:hover{background:var(--bg-card-hover);color:var(--text-primary);border-color:rgba(0,212,255,0.08)}
         .btn-success{background:var(--neon-green);color:#fff}
+        .btn-success:hover{box-shadow:0 4px 30px rgba(0,255,127,0.15);transform:translateY(-1px)}
         .btn-danger{background:var(--neon-pink);color:#fff}
+        .btn-danger:hover{box-shadow:0 4px 30px rgba(255,45,138,0.15);transform:translateY(-1px)}
         .btn-warning{background:var(--neon-orange);color:#fff}
+        .btn-warning:hover{box-shadow:0 4px 30px rgba(255,106,0,0.15);transform:translateY(-1px)}
         .btn-sm{padding:3px 8px;font-size:0.5rem}
         @media(max-width:480px){.btn{padding:4px 10px;font-size:0.55rem}.btn-sm{padding:2px 6px;font-size:0.45rem}}
-        .badge-status{display:inline-block;padding:1px 8px;border-radius:12px;font-size:0.55rem;font-weight:600;text-transform:uppercase;letter-spacing:0.3px}
-        .badge-status.active{background:rgba(0,255,127,0.08);color:var(--neon-green);border:1px solid rgba(0,255,127,0.08)}
-        .badge-status.pending{background:rgba(255,106,0,0.08);color:var(--neon-orange);border:1px solid rgba(255,106,0,0.08)}
-        .badge-status.suspended{background:rgba(255,45,138,0.08);color:var(--neon-pink);border:1px solid rgba(255,45,138,0.08)}
-        .badge-status.expired{background:rgba(255,45,138,0.08);color:var(--neon-pink);border:1px solid rgba(255,45,138,0.08)}
-        @media(max-width:480px){.badge-status{font-size:0.45rem;padding:0 6px}}
+        .badge-status{display:inline-block;padding:2px 10px;border-radius:12px;font-size:0.55rem;font-weight:700;text-transform:uppercase;letter-spacing:0.3px}
+        .badge-status.active{background:rgba(0,255,127,0.12);color:var(--neon-green);border:1px solid rgba(0,255,127,0.15)}
+        .badge-status.pending{background:rgba(255,106,0,0.12);color:var(--neon-orange);border:1px solid rgba(255,106,0,0.15)}
+        .badge-status.suspended{background:rgba(255,45,138,0.12);color:var(--neon-pink);border:1px solid rgba(255,45,138,0.15)}
+        .badge-status.expired{background:rgba(255,45,138,0.12);color:var(--neon-pink);border:1px solid rgba(255,45,138,0.15)}
+        .badge-status.approved{background:rgba(0,255,127,0.12);color:var(--neon-green);border:1px solid rgba(0,255,127,0.15)}
+        @media(max-width:480px){.badge-status{font-size:0.45rem;padding:0 8px}}
         .modal{position:fixed;inset:0;background:rgba(0,0,0,0.75);backdrop-filter:blur(16px);z-index:2000;display:none;align-items:center;justify-content:center;padding:16px}
         .modal.active{display:flex}
         .modal-content{width:100%;max-width:660px;max-height:90vh;overflow-y:auto;background:rgba(6,6,14,0.98);border:1px solid var(--border-glow);border-radius:var(--radius);padding:0;animation:fadeInUp 0.3s ease;box-shadow:var(--shadow-card)}
@@ -197,6 +210,8 @@
         .modal-close{background:none;border:none;color:var(--text-secondary);font-size:1.2rem;cursor:pointer;transition:var(--transition-fast);padding:4px}
         .modal-close:hover{color:var(--neon-pink)}
         .modal-body{padding:16px 20px}
+        .modal-body .comprobante-preview{width:100%;max-height:300px;object-fit:contain;border-radius:var(--radius-xs);margin:8px 0;background:#000}
+        .modal-body .comprobante-link{color:var(--neon-blue);text-decoration:underline;cursor:pointer}
         @media(max-width:480px){.modal-content{max-width:100%;border-radius:var(--radius-sm)}.modal-header{padding:12px 16px}.modal-header h2{font-size:0.9rem}.modal-body{padding:12px 16px}}
         .config-section{margin-top:12px}
         .config-section h4{font-size:0.65rem;color:var(--text-secondary);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:10px}
@@ -207,6 +222,8 @@
         .config-item input:focus{border-color:rgba(0,212,255,0.2)}
         @media(max-width:480px){.config-item label{font-size:0.65rem}.config-item input{width:64px;font-size:0.65rem;padding:4px 8px}}
         .pagination{display:flex;justify-content:center;gap:6px;margin-top:14px;flex-wrap:wrap}
+        .pagination .btn{transition:var(--transition-fast)}
+        .pagination .btn:hover{transform:translateY(-1px)}
         .form-group{margin-bottom:12px}
         .form-group label{display:block;color:var(--text-secondary);margin-bottom:4px;font-size:0.7rem;font-weight:500}
         .form-group input,.form-group select{width:100%;padding:8px 12px;background:var(--bg-card);border:1px solid var(--border-glow);border-radius:var(--radius-xs);color:var(--text-primary);font-size:0.8rem;outline:none;font-family:'Inter',sans-serif}
@@ -214,12 +231,13 @@
         .form-group select option{background:var(--bg-deep)}
         @media(max-width:480px){.form-group input,.form-group select{font-size:0.7rem;padding:6px 10px}}
         .bank-item{padding:12px 16px;background:var(--bg-card);border-radius:var(--radius-sm);border:1px solid var(--border-glow)}
+        .bank-item:hover{border-color:rgba(0,212,255,0.1)}
         .bank-item label{display:block;font-size:0.6rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px}
         .bank-item span{font-size:0.95rem;font-weight:500;color:var(--text-primary);margin-top:2px;display:block}
         .bank-item.highlight{border-color:rgba(0,212,255,0.15);background:rgba(0,212,255,0.03)}
         .bank-item .neon{color:var(--neon-blue);font-weight:700;font-size:1.1rem}
         .bank-item .neon-green{color:var(--neon-green);font-weight:700;font-size:1.1rem}
-        .toast{position:fixed;bottom:20px;right:20px;left:20px;max-width:400px;margin:0 auto;padding:14px 20px;background:rgba(6,6,14,0.96);border:1px solid var(--border-glow);border-radius:var(--radius-sm);color:var(--text-primary);z-index:9999;animation:fadeInUp 0.3s ease;box-shadow:var(--shadow-card);backdrop-filter:blur(16px);display:flex;align-items:center;gap:12px;font-size:0.85rem}
+        .toast{position:fixed;bottom:20px;right:20px;left:20px;max-width:400px;margin:0 auto;padding:14px 20px;background:rgba(6,6,14,0.96);border:1px solid var(--border-glow);border-radius:var(--radius-sm);color:var(--text-primary);z-index:9999;animation:fadeInUp 0.3s ease;box-shadow:var(--shadow-card);backdrop-filter:blur(16px);display:flex;align-items:center;gap:12px;font-size:0.85rem;transition:var(--transition-fast)}
         .toast .icon{font-size:1.1rem;flex-shrink:0}
         .toast .icon.success{color:var(--neon-green)}
         .toast .icon.error{color:var(--neon-pink)}
@@ -231,6 +249,7 @@
         @media(max-width:768px){.sidebar-overlay.active{display:block}}
         .notification-bell{position:relative;cursor:pointer;padding:6px 8px;border-radius:50%;background:var(--bg-card);border:1px solid var(--border-glow);transition:var(--transition-fast);color:var(--text-secondary)}
         .notification-bell:active{transform:scale(0.88)}
+        .notification-bell:hover{border-color:rgba(0,212,255,0.1)}
         .notification-bell .bell-icon{font-size:1rem}
         .notification-bell .badge-dot{position:absolute;top:-2px;right:-2px;min-width:18px;height:18px;background:var(--neon-pink);color:#fff;font-size:0.5rem;font-weight:700;border-radius:50%;display:none;align-items:center;justify-content:center;border:2px solid var(--bg-deep);animation:pulse-dot 2s infinite;box-shadow:0 0 16px rgba(255,45,138,0.2)}
         .notification-bell .badge-dot.show{display:flex}
@@ -240,8 +259,10 @@
         @keyframes fadeInDown{from{opacity:0;transform:translateY(-8px) scale(0.98)}to{opacity:1;transform:translateY(0) scale(1)}}
         .notification-bell .dropdown .header{padding:6px 16px 10px;border-bottom:1px solid var(--border-glow);font-size:0.7rem;font-weight:600;color:var(--text-secondary);display:flex;justify-content:space-between;align-items:center}
         .notification-bell .dropdown .header .mark-all{cursor:pointer;color:var(--neon-blue);font-weight:400;font-size:0.6rem}
+        .notification-bell .dropdown .header .mark-all:hover{color:var(--neon-purple)}
         .notification-bell .dropdown .item{padding:10px 14px;display:flex;align-items:center;gap:10px;cursor:pointer;transition:var(--transition-fast);border-left:2px solid transparent}
         .notification-bell .dropdown .item:active{transform:scale(0.98)}
+        .notification-bell .dropdown .item:hover{background:rgba(255,255,255,0.02)}
         .notification-bell .dropdown .item.unread{border-left-color:var(--neon-blue);background:rgba(0,212,255,0.02)}
         .notification-bell .dropdown .item .icon{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.7rem;flex-shrink:0}
         .notification-bell .dropdown .item .icon.blue{background:rgba(0,212,255,0.1);color:var(--neon-blue)}
@@ -257,8 +278,8 @@
         .notifications-list{display:flex;flex-direction:column;gap:10px}
         .notification-item-full{display:flex;align-items:center;gap:14px;padding:12px 16px;background:var(--bg-card);border-radius:var(--radius-sm);border-left:2px solid transparent;cursor:pointer;transition:var(--transition-fast)}
         .notification-item-full:active{transform:scale(0.98)}
-        .notification-item-full.unread{border-left-color:var(--neon-blue)}
         .notification-item-full:hover{background:var(--bg-card-hover)}
+        .notification-item-full.unread{border-left-color:var(--neon-blue)}
         .notification-item-full .icon{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.7rem;flex-shrink:0}
         .notification-item-full .icon.blue{background:rgba(0,212,255,0.08);color:var(--neon-blue)}
         .notification-item-full .icon.green{background:rgba(0,255,127,0.08);color:var(--neon-green)}
@@ -270,11 +291,8 @@
         .notification-item-full .info .time{font-size:0.6rem;color:var(--text-muted)}
         .notification-item-full .action-label{font-size:0.5rem;padding:1px 8px;border-radius:12px;background:var(--bg-card);color:var(--neon-blue);border:1px solid rgba(0,212,255,0.06);flex-shrink:0}
         .notification-item-full .status-label{font-size:0.5rem;color:var(--text-muted);flex-shrink:0}
-        .text-gradient{background:var(--gradient-primary);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-        .text-muted{color:var(--text-muted)}
-        .hidden{display:none !important}
-        .modal-avatar-img{width:80px;height:80px;border-radius:50%;object-fit:cover;border:2px solid var(--neon-blue);box-shadow:0 0 30px rgba(0,212,255,0.1);background:#111122;}
-        .modal-avatar-placeholder{width:80px;height:80px;border-radius:50%;background:rgba(255,255,255,0.04);display:flex;align-items:center;justify-content:center;font-size:2rem;color:var(--text-muted);border:2px solid var(--border-glow)}
+        .spinner-small{display:inline-block;width:14px;height:14px;border:2px solid rgba(255,255,255,0.06);border-top-color:var(--neon-blue);border-radius:50%;animation:spin 0.8s linear infinite;vertical-align:middle}
+        .avatar-iniciales-small{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:var(--gradient-primary);color:#fff;font-size:0.6rem;font-weight:700;flex-shrink:0}
     </style>
 </head>
 <body>
@@ -353,11 +371,11 @@
             <!-- SOCIOS -->
             <div class="tab-content" id="tab-socios">
                 <div class="table-controls">
-                    <div class="search-box"><i class="fas fa-search"></i><input type="text" id="searchSocios" placeholder="Buscar socio..."></div>
+                    <div class="search-box"><i class="fas fa-search"></i><input type="text" id="searchSocios" placeholder="Buscar socio..." oninput="sociosPage=1;loadSocios();"></div>
                     <div class="filter-group">
-                        <select id="filterEstado"><option value="todos">Todos los estados</option><option value="Activo">Activo</option><option value="Pendiente">Pendiente</option><option value="Suspendido">Suspendido</option><option value="Vencido">Vencido</option></select>
-                        <select id="filterPlan"><option value="todos">Todos los planes</option><option value="Sabatero">Sabatero</option><option value="Finder">Finder</option></select>
-                        <select id="filterMetodo"><option value="todos">Todos los métodos</option><option value="Transferencia">Transferencia</option><option value="Efectivo">Efectivo</option></select>
+                        <select id="filterEstado" onchange="sociosPage=1;loadSocios();"><option value="todos">Todos los estados</option><option value="Activo">Activo</option><option value="Pendiente">Pendiente</option><option value="Suspendido">Suspendido</option><option value="Vencido">Vencido</option></select>
+                        <select id="filterPlan" onchange="sociosPage=1;loadSocios();"><option value="todos">Todos los planes</option><option value="Sabatero">Sabatero</option><option value="Finder">Finder</option></select>
+                        <select id="filterMetodo" onchange="sociosPage=1;loadSocios();"><option value="todos">Todos los métodos</option><option value="Transferencia">Transferencia</option><option value="Efectivo">Efectivo</option></select>
                     </div>
                 </div>
                 <div class="table-container">
@@ -588,7 +606,33 @@
         }, 1800000);
 
         // ================================================================
-        // 4. SUPABASE CONFIG
+        // 4. TOASTS MEJORADOS
+        // ================================================================
+        function showToast(message, type) {
+            if (type === undefined) type = 'info';
+            var colors = { success: '#00ff7f', error: '#ff2d8a', warning: '#ff6a00', info: '#00d4ff' };
+            var icons = { success: 'fa-check-circle', error: 'fa-exclamation-circle', warning: 'fa-exclamation-triangle',
+                info: 'fa-info-circle' };
+
+            var existing = document.querySelector('.toast');
+            if (existing) existing.remove();
+
+            var el = document.createElement('div');
+            el.className = 'toast';
+            el.innerHTML =
+                '<i class="fas ' + icons[type] + ' icon ' + type + '"></i><span>' + message + '</span>';
+            el.style.borderColor = colors[type];
+            document.body.appendChild(el);
+
+            setTimeout(function() {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(20px)';
+                setTimeout(function() { el.remove(); }, 300);
+            }, 4000);
+        }
+
+        // ================================================================
+        // 5. SUPABASE CONFIG
         // ================================================================
         const SUPABASE_URL = 'https://abgtdybklkfozoazfmiw.supabase.co';
         const SUPABASE_ANON_KEY =
@@ -597,7 +641,7 @@
         const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
         // ================================================================
-        // 5. NAVEGACIÓN
+        // 6. NAVEGACIÓN
         // ================================================================
         function switchTab(tab) {
             document.querySelectorAll('.sidebar-nav li').forEach(function(el) {
@@ -631,28 +675,8 @@
         });
 
         // ================================================================
-        // 6. FUNCIONES AUXILIARES
+        // 7. FUNCIONES AUXILIARES
         // ================================================================
-        function showToast(message, type) {
-            if (type === undefined) type = 'info';
-            var colors = { success: '#00ff7f', error: '#ff2d8a', warning: '#ff6a00', info: '#00d4ff' };
-            var icons = { success: 'fa-check-circle', error: 'fa-exclamation-circle', warning: 'fa-exclamation-triangle',
-                info: 'fa-info-circle' };
-            var existing = document.querySelector('.toast');
-            if (existing) existing.remove();
-            var el = document.createElement('div');
-            el.className = 'toast';
-            el.innerHTML =
-                '<i class="fas ' + icons[type] + ' icon ' + type + '"></i><span>' + message + '</span>';
-            el.style.borderColor = colors[type];
-            document.body.appendChild(el);
-            setTimeout(function() {
-                el.style.opacity = '0';
-                el.style.transform = 'translateY(20px)';
-                setTimeout(function() { el.remove(); }, 300);
-            }, 4000);
-        }
-
         function openModal(id) {
             document.getElementById(id).classList.add('active');
             document.body.style.overflow = 'hidden';
@@ -664,8 +688,25 @@
         }
 
         function getStatusBadge(estado) {
-            var map = { 'Activo': 'active', 'Pendiente': 'pending', 'Suspendido': 'suspended', 'Vencido': 'expired' };
+            var map = {
+                'Activo': 'active',
+                'Pendiente': 'pending',
+                'Suspendido': 'suspended',
+                'Vencido': 'expired',
+                'Aprobado': 'approved'
+            };
             return '<span class="badge-status ' + (map[estado] || 'pending') + '">' + (estado || 'Pendiente') + '</span>';
+        }
+
+        function getStatusClass(estado) {
+            var map = {
+                'Activo': 'active',
+                'Pendiente': 'pending',
+                'Suspendido': 'suspended',
+                'Vencido': 'expired',
+                'Aprobado': 'approved'
+            };
+            return map[estado] || 'pending';
         }
 
         function timeAgo(date) {
@@ -686,15 +727,19 @@
             if (socio.foto_url) {
                 return '<img src="' + socio.foto_url + '" class="socio-avatar" style="width:' + size + 'px;height:' + size +
                     'px;" alt="Avatar">';
+            } else if (socio.nombre) {
+                var iniciales = socio.nombre.split(' ').map(function(n) { return n.charAt(0); }).join('').substring(0, 2)
+                    .toUpperCase();
+                return '<div class="avatar-iniciales-small" style="width:' + size + 'px;height:' + size +
+                    'px;font-size:' + (size * 0.4) + 'px;">' + iniciales + '</div>';
             } else {
                 return '<div class="socio-avatar-placeholder" style="width:' + size + 'px;height:' + size +
-                    'px;font-size:' + (size * 0.5) + 'px;">' + (socio.nombre ? socio.nombre.charAt(0).toUpperCase() :
-                    '?') + '</div>';
+                    'px;font-size:' + (size * 0.5) + 'px;">?</div>';
             }
         }
 
         // ================================================================
-        // 7. CARGAR DATOS DEL DASHBOARD
+        // 8. CARGAR DATOS DEL DASHBOARD
         // ================================================================
         async function loadDashboardData() {
             try {
@@ -912,9 +957,7 @@
                 var nivel = diff <= 3 ? 'red' : diff <= 7 ? 'orange' : 'green';
                 var progreso = 100 - (diff / 30) * 100;
 
-                var avatarHtml = s.foto_url ?
-                    '<img src="' + s.foto_url + '" class="avatar-img">' :
-                    '<div class="avatar-placeholder">' + s.nombre.charAt(0).toUpperCase() + '</div>';
+                var avatarHtml = getAvatarHtml(s, 28);
 
                 return '<div class="expiring-item">' + avatarHtml +
                     '<div class="info"><div class="name">' + s.nombre + ' <span>@' + s.username +
@@ -925,7 +968,7 @@
         }
 
         // ================================================================
-        // 8. NOTIFICACIONES DROPDOWN
+        // 9. NOTIFICACIONES DROPDOWN
         // ================================================================
         function renderNotificacionesDropdown(notificaciones) {
             var container = document.getElementById('notificationList');
@@ -969,7 +1012,7 @@
         }
 
         // ================================================================
-        // 9. FUNCIÓN PARA VER SOCIO DESDE NOTIFICACIÓN
+        // 10. FUNCIÓN PARA VER SOCIO DESDE NOTIFICACIÓN
         // ================================================================
         function verSocioDesdeNotificacion(socioId) {
             document.getElementById('notificationDropdown').classList.remove('open');
@@ -977,7 +1020,7 @@
         }
 
         // ================================================================
-        // 10. MARCAR TODAS LAS NOTIFICACIONES COMO LEÍDAS
+        // 11. MARCAR TODAS LAS NOTIFICACIONES COMO LEÍDAS
         // ================================================================
         async function marcarTodasLeidas() {
             try {
@@ -1015,7 +1058,7 @@
         }
 
         // ================================================================
-        // 11. NOTIFICACIONES FULL
+        // 12. NOTIFICACIONES FULL
         // ================================================================
         async function loadNotificationsFull() {
             try {
@@ -1069,7 +1112,7 @@
         }
 
         // ================================================================
-        // 12. SOCIOS
+        // 13. SOCIOS
         // ================================================================
         var sociosPage = 1;
         var sociosPageSize = 10;
@@ -1120,23 +1163,23 @@
 
             tbody.innerHTML = socios.map(function(s) {
                 var avatarHtml = getAvatarHtml(s, 28);
+                var importe = s.plan === 'Sabatero' ? '20.000' : s.plan === 'Finder' ? '5.000' : '0';
                 return '<tr><td>' + avatarHtml +
                     '</td><td><strong style="font-size:0.75rem;">' + s.nombre +
                     '</strong><div style="font-size:0.6rem;color:var(--text-muted);">@' + s.username +
-                    '</div></td><td style="font-size:0.7rem;">#' + s.id +
+                    '</div></td><td style="font-size:0.7rem;">#' + s.id.substring(0, 8) +
                     '</td><td><span class="badge-status ' + (s.plan === 'Sabatero' ? 'active' : 'pending') +
                     '">' + (s.plan || 'Sin plan') +
                     '</span></td><td>' + getStatusBadge(s.estado) +
                     '</td><td style="font-size:0.7rem;">' + (s.metodo_pago || 'Sin método') +
-                    '</td><td style="font-size:0.7rem;">Gs. ' + (s.plan === 'Sabatero' ? 20000 : s.plan ===
-                        'Finder' ? 5000 : 0).toLocaleString() +
+                    '</td><td style="font-size:0.7rem;">Gs. ' + importe +
                     '</td><td><div class="action-buttons"><button class="btn btn-secondary btn-sm" onclick="viewSocio(' +
                     s.id + ')"><i class="fas fa-eye"></i></button>' +
                     '<button class="btn btn-primary btn-sm" onclick="editSocio(' + s.id +
                     ')"><i class="fas fa-edit"></i></button>' +
                     (s.estado === 'Pendiente' && s.plan && s.metodo_pago ?
                         '<button class="btn btn-success btn-sm" onclick="aprobarSocio(' + s.id +
-                        ')"><i class="fas fa-check"></i> Aprobar</button>' : '') +
+                        ')"><i class="fas fa-check"></i></button>' : '') +
                     (s.estado === 'Activo' ?
                         '<button class="btn btn-warning btn-sm" onclick="suspendSocio(' + s.id +
                         ')"><i class="fas fa-pause"></i></button>' : '') +
@@ -1167,25 +1210,8 @@
             loadSocios();
         }
 
-        document.getElementById('searchSocios').addEventListener('input', function() {
-            sociosPage = 1;
-            loadSocios();
-        });
-        document.getElementById('filterEstado').addEventListener('change', function() {
-            sociosPage = 1;
-            loadSocios();
-        });
-        document.getElementById('filterPlan').addEventListener('change', function() {
-            sociosPage = 1;
-            loadSocios();
-        });
-        document.getElementById('filterMetodo').addEventListener('change', function() {
-            sociosPage = 1;
-            loadSocios();
-        });
-
         // ================================================================
-        // 13. ACCIONES DE SOCIOS
+        // 14. ACCIONES DE SOCIOS
         // ================================================================
         async function viewSocio(id) {
             try {
@@ -1212,11 +1238,7 @@
 
                 document.getElementById('modalTitle').textContent = '@' + socio.username + ' · #' + socio.id;
 
-                var avatarHtml = socio.foto_url ?
-                    '<img src="' + socio.foto_url +
-                    '" style="width:56px;height:56px;border-radius:50%;border:2px solid var(--neon-blue);object-fit:cover;background:#111122;">' :
-                    '<div style="width:56px;height:56px;border-radius:50%;border:2px solid var(--border-glow);background:var(--bg-card);display:flex;align-items:center;justify-content:center;font-size:1.5rem;color:var(--text-muted);">' +
-                    socio.nombre.charAt(0).toUpperCase() + '</div>';
+                var avatarHtml = getAvatarHtml(socio, 56);
 
                 document.getElementById('socioModalBody').innerHTML =
                     '<div style="display:flex;gap:16px;align-items:center;margin-bottom:16px;flex-wrap:wrap;">' +
@@ -1253,6 +1275,11 @@
                                 .metodo + '</td><td>' + getStatusBadge(p.estado) + '</td></tr>';
                         }).join('') + '</tbody></table>') +
                     '</div>' +
+                    (socio.comprobante_url ?
+                        '<div style="margin:12px 0;"><h4 style="font-size:0.7rem;color:var(--text-secondary);margin-bottom:8px;">📎 Comprobante</h4><div style="background:rgba(0,0,0,0.2);border-radius:var(--radius-xs);padding:8px;text-align:center;"><a href="' +
+                        socio.comprobante_url +
+                        '" target="_blank" class="comprobante-link"><i class="fas fa-file-invoice"></i> Ver comprobante</a></div></div>' :
+                        '') +
                     '<div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:12px;padding-top:12px;border-top:1px solid var(--border-glow);">' +
                     (socio.estado === 'Pendiente' && socio.plan && socio.metodo_pago ?
                         '<button class="btn btn-success btn-sm" onclick="aprobarSocio(' + socio.id +
@@ -1275,13 +1302,12 @@
         }
 
         // ================================================================
-        // 14. APROBAR SOCIO (NUEVO FLUJO)
+        // 15. APROBAR SOCIO
         // ================================================================
         async function aprobarSocio(id) {
             if (!confirm('¿Confirmar que este socio ha completado su perfil y puede ser activado?')) return;
 
             try {
-                // 1. Obtener datos del socio
                 const { data: socio, error: socioError } = await supabaseClient
                     .from('socios')
                     .select('*')
@@ -1293,24 +1319,20 @@
                     return;
                 }
 
-                // 2. Verificar que tiene plan y método
                 if (!socio.plan || !socio.metodo_pago) {
                     showToast('⚠️ El socio debe seleccionar plan y método antes de activar', 'warning');
                     return;
                 }
 
-                // 3. Si es Transferencia, verificar que tiene comprobante
                 if (socio.metodo_pago === 'Transferencia' && !socio.comprobante_url) {
                     showToast('⚠️ El socio debe subir un comprobante de transferencia', 'warning');
                     return;
                 }
 
-                // 4. Calcular fechas
                 const hoy = new Date();
                 const fechaVencimiento = new Date(hoy);
                 fechaVencimiento.setDate(fechaVencimiento.getDate() + 30);
 
-                // 5. Activar socio
                 const { error: updateError } = await supabaseClient
                     .from('socios')
                     .update({
@@ -1322,7 +1344,6 @@
 
                 if (updateError) throw updateError;
 
-                // 6. Registrar pago
                 const monto = socio.plan === 'Sabatero' ? 20000 : 5000;
                 const { error: pagoError } = await supabaseClient
                     .from('pagos')
@@ -1342,7 +1363,6 @@
                     console.log('✅ Pago registrado correctamente');
                 }
 
-                // 7. Crear notificación
                 await supabaseClient.from('notificaciones').insert([{
                     tipo: 'pago_confirmado',
                     mensaje: '✅ ' + socio.nombre + ' ha sido activado con plan ' + socio.plan,
@@ -1352,7 +1372,6 @@
 
                 showToast('✅ Socio activado y pago registrado correctamente', 'success');
 
-                // 8. Recargar datos
                 await loadDashboardData();
                 await loadSocios();
                 await loadComprobantes();
@@ -1365,7 +1384,7 @@
         }
 
         // ================================================================
-        // 15. COMPROBANTES - NUEVA VERSIÓN
+        // 16. COMPROBANTES
         // ================================================================
         async function loadComprobantes() {
             try {
@@ -1407,11 +1426,7 @@
                     var nombre = socio ? socio.nombre : 'Socio eliminado';
                     var username = socio ? socio.username : 'desconocido';
 
-                    var avatarHtml = (socio && socio.foto_url) ?
-                        '<img src="' + socio.foto_url +
-                        '" style="width:24px;height:24px;border-radius:50%;object-fit:cover;border:1px solid var(--border-glow);background:#111122;">' :
-                        '<div style="width:24px;height:24px;border-radius:50%;background:var(--bg-card);display:flex;align-items:center;justify-content:center;font-size:0.5rem;color:var(--text-muted);border:1px solid var(--border-glow);">' +
-                        nombre.charAt(0).toUpperCase() + '</div>';
+                    var avatarHtml = getAvatarHtml({ nombre: nombre, foto_url: socio ? socio.foto_url : null }, 24);
 
                     var estadoComprobante = c.estado || 'Pendiente';
                     var mostrarAprobar = (estadoComprobante === 'Pendiente' || estadoComprobante === 'pendiente');
@@ -1431,7 +1446,7 @@
                         (mostrarAprobar ?
                             '<button class="btn btn-success btn-sm" onclick="aprobarComprobante(\'' + c.id +
                             '\', ' + c.socio_id + ')"><i class="fas fa-check"></i> Aprobar</button>' :
-                            '<span class="badge-status active">✅ Aprobado</span>') +
+                            '<span class="badge-status approved">✅ Aprobado</span>') +
                         '</td></tr>';
                 }).join('');
 
@@ -1449,7 +1464,7 @@
         }
 
         // ================================================================
-        // 16. APROBAR COMPROBANTE
+        // 17. APROBAR COMPROBANTE
         // ================================================================
         async function aprobarComprobante(comprobanteId, socioId) {
             if (!confirm('¿Confirmar este comprobante y activar al socio?')) return;
@@ -1457,7 +1472,6 @@
             try {
                 console.log('🔄 Aprobando comprobante:', comprobanteId, 'para socio:', socioId);
 
-                // 1. Actualizar el comprobante
                 const { error: compError } = await supabaseClient
                     .from('comprobantes')
                     .update({ estado: 'Aprobado' })
@@ -1465,7 +1479,6 @@
 
                 if (compError) throw compError;
 
-                // 2. Obtener datos del socio
                 const { data: socio, error: socioDataError } = await supabaseClient
                     .from('socios')
                     .select('*')
@@ -1477,18 +1490,15 @@
                     return;
                 }
 
-                // 3. Verificar que tiene plan
                 if (!socio.plan) {
                     showToast('⚠️ El socio debe seleccionar un plan primero', 'warning');
                     return;
                 }
 
-                // 4. Calcular fechas
                 const hoy = new Date();
                 const fechaVencimiento = new Date(hoy);
                 fechaVencimiento.setDate(fechaVencimiento.getDate() + 30);
 
-                // 5. Activar socio
                 const { error: updateError } = await supabaseClient
                     .from('socios')
                     .update({
@@ -1500,7 +1510,6 @@
 
                 if (updateError) throw updateError;
 
-                // 6. Registrar pago
                 const monto = socio.plan === 'Sabatero' ? 20000 : 5000;
                 const { error: pagoError } = await supabaseClient
                     .from('pagos')
@@ -1520,7 +1529,6 @@
                     console.log('✅ Pago registrado correctamente');
                 }
 
-                // 7. Crear notificación
                 await supabaseClient.from('notificaciones').insert([{
                     tipo: 'pago_confirmado',
                     mensaje: '✅ Comprobante de ' + socio.nombre + ' aprobado',
@@ -1530,7 +1538,6 @@
 
                 showToast('✅ Comprobante aprobado y socio activado', 'success');
 
-                // 8. Recargar datos
                 await loadComprobantes();
                 await loadDashboardData();
                 await loadSocios();
@@ -1542,7 +1549,7 @@
         }
 
         // ================================================================
-        // 17. OTRAS FUNCIONES DE SOCIOS
+        // 18. OTRAS FUNCIONES DE SOCIOS
         // ================================================================
         async function suspendSocio(id) {
             if (!confirm('¿Suspender este socio?')) return;
@@ -1660,7 +1667,7 @@
         }
 
         // ================================================================
-        // 18. PAGOS
+        // 19. PAGOS
         // ================================================================
         async function loadPagos() {
             try {
@@ -1709,7 +1716,7 @@
         }
 
         // ================================================================
-        // 19. OTRAS FUNCIONES
+        // 20. OTRAS FUNCIONES
         // ================================================================
         function copiarDatosAdmin() {
             var datos =
@@ -1741,7 +1748,7 @@
         }
 
         // ================================================================
-        // 20. CERRAR SESIÓN
+        // 21. CERRAR SESIÓN
         // ================================================================
         function handleLogout() {
             if (!confirm('¿Cerrar sesión?')) return;
@@ -1755,7 +1762,7 @@
         }
 
         // ================================================================
-        // 21. INICIALIZAR
+        // 22. INICIALIZAR
         // ================================================================
         async function initAdmin() {
             console.log('🚀 Iniciando panel de administración...');
@@ -1795,7 +1802,7 @@
         }
 
         // ================================================================
-        // 22. EVENTOS DE NOTIFICACIONES
+        // 23. EVENTOS DE NOTIFICACIONES
         // ================================================================
         document.getElementById('notificationBell').addEventListener('click', function(e) {
             e.stopPropagation();
@@ -1807,21 +1814,24 @@
         });
 
         // ================================================================
-        // 23. INICIALIZAR
+        // 24. INICIALIZAR
         // ================================================================
         document.addEventListener('DOMContentLoaded', initAdmin);
 
-        console.log('📦 FLY FUTBOLEROS · Panel de Administración (VERSIÓN NUEVO FLUJO)');
+        console.log('📦 FLY FUTBOLEROS · Panel de Administración (VERSIÓN MEJORADA)');
         console.log('🌡️ Clima con caché y día/noche');
-        console.log('📸 Soporte para avatars en lista de socios');
+        console.log('📸 Soporte para avatars con iniciales');
         console.log('🔔 Notificaciones clickeables con acciones reales');
         console.log('✅ Marcar todas las notificaciones como leídas funciona');
         console.log('📋 Comprobantes cargados desde la tabla comprobantes');
         console.log('✅ Nueva función aprobarSocio() para activar socios');
         console.log('✅ Inserción en tabla pagos al aprobar comprobante');
         console.log('✅ Fechas de inicio y vencimiento guardadas');
+        console.log('✅ Filtros avanzados y búsqueda');
+        console.log('✅ Ver comprobante en el modal');
+        console.log('✅ Editar socio desde el modal');
         console.log('🔗 Conectado a:', SUPABASE_URL);
     </script>
 
 </body>
-</html>
+</html>              
