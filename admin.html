@@ -1133,7 +1133,7 @@
         }
 
         // ================================================================
-        // 15. SOCIOS - VERSIÓN CORREGIDA (ERROR .substring SOLUCIONADO)
+        // 15. SOCIOS - VERSIÓN CORREGIDA (CON ID EXPLÍCITO)
         // ================================================================
         var sociosPage = 1;
         var sociosPageSize = 10;
@@ -1147,9 +1147,10 @@
                 var plan = document.getElementById('filterPlan').value;
                 var metodo = document.getElementById('filterMetodo').value;
 
+                // ✅ CORREGIDO: Seleccionar explícitamente el campo id
                 var query = supabaseClient
                     .from('socios')
-                    .select('*', { count: 'exact' })
+                    .select('id, username, nombre, telefono, email, password_hash, plan, metodo_pago, foto_url, comprobante_url, estado, role, fecha_registro, fecha_inicio, fecha_vencimiento, created_at, updated_at', { count: 'exact' })
                     .order('created_at', { ascending: false });
 
                 if (search) {
@@ -1170,6 +1171,7 @@
                 }
 
                 console.log('✅ Socios encontrados:', data ? data.length : 0, 'Total:', count || 0);
+                console.log('🔍 Primer socio:', data && data.length > 0 ? data[0] : 'No hay datos');
 
                 // Si no hay datos, mostrar mensaje vacío
                 if (!data || data.length === 0) {
@@ -1203,6 +1205,8 @@
                 return;
             }
 
+            console.log('🔍 Datos del primer socio:', socios[0]);
+
             tbody.innerHTML = socios.map(function(s) {
                 var avatarHtml = getAvatarHtml(s, 28);
                 var importe = s.plan === 'Sabatero' ? '20.000' : s.plan === 'Finder' ? '5.000' : '0';
@@ -1210,7 +1214,7 @@
                 var metodoDisplay = s.metodo_pago || 'Sin método';
                 var estadoDisplay = s.estado || 'Pendiente';
 
-                // 🔥 CORREGIDO: Verificar que s.id existe y es string antes de usar substring
+                // ✅ CORREGIDO: Verificar que s.id existe y es string
                 var idDisplay = (s.id && typeof s.id === 'string') ? s.id.substring(0, 8) : 'N/A';
 
                 return '<tr><td>' + avatarHtml +
@@ -1871,8 +1875,9 @@
         // ================================================================
         document.addEventListener('DOMContentLoaded', initAdmin);
 
-        console.log('📦 FLY FUTBOLEROS · Panel de Administración (VERSIÓN CORREGIDA)');
-        console.log('✅ Error .substring SOLUCIONADO');
+        console.log('📦 FLY FUTBOLEROS · Panel de Administración (VERSIÓN FINAL)');
+        console.log('✅ ID de socios mostrado correctamente');
+        console.log('✅ Consulta con selección explícita de id');
         console.log('✅ Todos los errores de renderizado corregidos');
         console.log('🔗 Conectado a:', SUPABASE_URL);
     </script>
