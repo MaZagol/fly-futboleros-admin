@@ -985,7 +985,7 @@
         }
 
         // ================================================================
-        // 13. SUBIR COMPROBANTE
+        // 13. SUBIR COMPROBANTE - VERSIÓN CORREGIDA
         // ================================================================
         function subirComprobante() {
             if (!socioData) {
@@ -1041,6 +1041,7 @@
                     return;
                 }
 
+                // 1. Subir comprobante al bucket
                 const ext = file.name.split('.').pop();
                 const path = `${sessionUser.id}/comprobante_${Date.now()}.${ext}`;
 
@@ -1063,11 +1064,7 @@
                 const url = supabaseClient.storage.from('comprobantes').getPublicUrl(path).data.publicUrl;
                 console.log('✅ Comprobante subido:', url);
 
-                await supabaseClient.from('socios').update({
-                    comprobante_url: url,
-                    estado: 'Pendiente'
-                }).eq('id', sessionUser.id);
-
+                // ✅ 2. Insertar en la tabla comprobantes
                 const { error: compError } = await supabaseClient.from('comprobantes').insert([{
                     socio_id: sessionUser.id,
                     archivo_url: url,
@@ -1078,23 +1075,46 @@
                 }]);
 
                 if (compError) {
-                    console.warn('Error guardando comprobante en tabla:', compError);
-                } else {
-                    console.log('✅ Comprobante registrado en tabla comprobantes');
+                    console.error('❌ Error guardando comprobante en tabla:', compError);
+                    showToast('❌ Error al guardar el comprobante', 'error');
+                    btn.disabled = false;
+                    btn.innerHTML = '<i class="fas fa-paper-plane"></i> Enviar';
+                    return;
                 }
 
+                console.log('✅ Comprobante registrado en tabla comprobantes');
+
+                // ✅ 3. Actualizar el socio con la URL del comprobante y estado Pendiente
+                const { error: updateError } = await supabaseClient
+                    .from('socios')
+                    .update({
+                        comprobante_url: url,
+                        estado: 'Pendiente'
+                    })
+                    .eq('id', sessionUser.id);
+
+                if (updateError) {
+                    console.error('❌ Error al actualizar socio:', updateError);
+                } else {
+                    console.log('✅ Socio actualizado con comprobante_url');
+                }
+
+                // ✅ 4. Crear notificación para el admin
                 await supabaseClient.from('notificaciones').insert([{
                     tipo: 'nuevo_comprobante',
-                    mensaje: `📎 Nuevo comprobante de ${socioData.nombre} (@${socioData.username}) - ${socioData.plan}`,
+                    mensaje: `📎 Nuevo comprobante de ${socioData.nombre} (@${socioData.username}) - ${socioData.plan || 'Sin plan'}`,
                     leida: false,
                     data: {
                         socio_id: sessionUser.id,
                         username: socioData.username,
                         comprobante_url: url,
-                        plan: socioData.plan
+                        plan: socioData.plan || 'Sin plan'
                     }
                 }]);
 
+                console.log('✅ Notificación creada para el admin');
+
+                // ✅ 5. Actualizar datos locales
                 socioData.comprobante_url = url;
                 socioData.estado = 'Pendiente';
 
@@ -1103,11 +1123,12 @@
                 document.getElementById('uploadReceipt').value = '';
                 document.getElementById('uploadPreview').style.display = 'none';
 
+                // ✅ 6. Recargar datos
                 setTimeout(loadSocioData, 1000);
 
             } catch (error) {
-                console.error('Error:', error);
-                showToast('❌ Error al enviar comprobante', 'error');
+                console.error('❌ Error:', error);
+                showToast('❌ Error al enviar comprobante: ' + error.message, 'error');
             } finally {
                 btn.disabled = false;
                 btn.innerHTML = '<i class="fas fa-paper-plane"></i> Enviar';
@@ -1395,13 +1416,13 @@
             loadSocioData();
         });
 
-        console.log('👤 FLY FUTBOLEROS · Panel del Socio (VERSIÓN MEJORADA)');
-        console.log('✅ Selección de plan y método SIN confirmación (instantáneo)');
+        console.log('👤 FLY FUTBOLEROS · Panel del Socio (VERSIÓN CORREGIDA)');
+        console.log('✅ Subida de comprobante con inserción en tabla comprobantes');
+        console.log('✅ Actualización de socio con comprobante_url');
+        console.log('✅ Notificación creada para el admin');
+        console.log('✅ Selección de plan y método instantánea');
         console.log('✅ Toasts en lugar de alertas');
-        console.log('✅ Spinners al cargar');
         console.log('✅ Avatar con iniciales');
-        console.log('✅ Badges de estado más visibles');
-        console.log('✅ Efectos hover y animaciones');
     </script>
 
 </body>
