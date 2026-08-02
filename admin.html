@@ -1196,54 +1196,53 @@
         }
 
         function renderSocios(socios, total) {
-            var tbody = document.getElementById('sociosTableBody');
+    var tbody = document.getElementById('sociosTableBody');
 
-            if (!socios || socios.length === 0) {
-                tbody.innerHTML =
-                    '<tr><td colspan="8" style="text-align:center;padding:40px;color:var(--text-muted);;"><i class="fas fa-inbox" style="font-size:2rem;display:block;margin-bottom:10px;"></i>No hay socios</td></tr>';
-                renderPagination(total);
-                return;
-            }
+    if (!socios || socios.length === 0) {
+        tbody.innerHTML =
+            '<tr><td colspan="8" style="text-align:center;padding:40px;color:var(--text-muted);;"><i class="fas fa-inbox" style="font-size:2rem;display:block;margin-bottom:10px;"></i>No hay socios</td></tr>';
+        renderPagination(total);
+        return;
+    }
 
-            console.log('🔍 Datos del primer socio:', socios[0]);
+    tbody.innerHTML = socios.map(function(s) {
+        var avatarHtml = getAvatarHtml(s, 28);
+        var importe = s.plan === 'Sabatero' ? '20.000' : s.plan === 'Finder' ? '5.000' : '0';
+        var planDisplay = s.plan || 'Sin plan';
+        var metodoDisplay = s.metodo_pago || 'Sin método';
+        var estadoDisplay = s.estado || 'Pendiente';
 
-            tbody.innerHTML = socios.map(function(s) {
-                var avatarHtml = getAvatarHtml(s, 28);
-                var importe = s.plan === 'Sabatero' ? '20.000' : s.plan === 'Finder' ? '5.000' : '0';
-                var planDisplay = s.plan || 'Sin plan';
-                var metodoDisplay = s.metodo_pago || 'Sin método';
-                var estadoDisplay = s.estado || 'Pendiente';
+        // ✅ CORREGIDO: Funciona con números y strings
+        var idDisplay = s.id ? (typeof s.id === 'string' ? s.id.substring(0, 8) : s.id) : 'N/A';
 
-                // ✅ CORREGIDO: Verificar que s.id existe y es string
-                var idDisplay = (s.id && typeof s.id === 'string') ? s.id.substring(0, 8) : 'N/A';
+        return '<tr><td>' + avatarHtml +
+            '</td><td><strong style="font-size:0.75rem;">' + (s.nombre || 'Sin nombre') +
+            '</strong><div style="font-size:0.6rem;color:var(--text-muted);">@' + (s.username || 'sin usuario') +
+            '</div></td><td style="font-size:0.7rem;">#' + idDisplay +
+            '</td><td><span class="badge-status ' + (s.plan === 'Sabatero' ? 'active' : 'pending') +
+            '">' + planDisplay +
+            '</span></td><td>' + getStatusBadge(estadoDisplay) +
+            '</td><td style="font-size:0.7rem;">' + metodoDisplay +
+            '</td><td style="font-size:0.7rem;">Gs. ' + importe +
+            '</td><td><div class="action-buttons"><button class="btn btn-secondary btn-sm" onclick="viewSocio(\'' +
+            s.id + '\')"><i class="fas fa-eye"></i></button>' +
+            '<button class="btn btn-primary btn-sm" onclick="editSocio(\'' + s.id +
+            '\')"><i class="fas fa-edit"></i></button>' +
+            (s.estado === 'Pendiente' && s.plan && s.metodo_pago ?
+                '<button class="btn btn-success btn-sm" onclick="aprobarSocio(\'' + s.id +
+                '\')"><i class="fas fa-check"></i></button>' : '') +
+            (s.estado === 'Activo' ?
+                '<button class="btn btn-warning btn-sm" onclick="suspendSocio(\'' + s.id +
+                '\')"><i class="fas fa-pause"></i></button>' : '') +
+            (s.estado === 'Suspendido' ?
+                '<button class="btn btn-success btn-sm" onclick="activateSocio(\'' + s.id +
+                '\')"><i class="fas fa-play"></i></button>' : '') +
+            '<button class="btn btn-danger btn-sm" onclick="deleteSocio(\'' + s.id +
+            '\')"><i class="fas fa-trash"></i></button></div></td></tr>';
+    }).join('');
 
-                return '<tr><td>' + avatarHtml +
-                    '</td><td><strong style="font-size:0.75rem;">' + (s.nombre || 'Sin nombre') +
-                    '</strong><div style="font-size:0.6rem;color:var(--text-muted);">@' + (s.username || 'sin usuario') +
-                    '</div></td><td style="font-size:0.7rem;">#' + idDisplay +
-                    '</td><td><span class="badge-status ' + (s.plan === 'Sabatero' ? 'active' : 'pending') +
-                    '">' + planDisplay +
-                    '</span></td><td>' + getStatusBadge(estadoDisplay) +
-                    '</td><td style="font-size:0.7rem;">' + metodoDisplay +
-                    '</td><td style="font-size:0.7rem;">Gs. ' + importe +
-                    '</td><td><div class="action-buttons"><button class="btn btn-secondary btn-sm" onclick="viewSocio(\'' +
-                    s.id + '\')"><i class="fas fa-eye"></i></button>' +
-                    '<button class="btn btn-primary btn-sm" onclick="editSocio(\'' + s.id +
-                    '\')"><i class="fas fa-edit"></i></button>' +
-                    (s.estado === 'Pendiente' && s.plan && s.metodo_pago ?
-                        '<button class="btn btn-success btn-sm" onclick="aprobarSocio(\'' + s.id +
-                        '\')"><i class="fas fa-check"></i></button>' : '') +
-                    (s.estado === 'Activo' ?
-                        '<button class="btn btn-warning btn-sm" onclick="suspendSocio(\'' + s.id +
-                        '\')"><i class="fas fa-pause"></i></button>' : '') +
-                    (s.estado === 'Suspendido' ?
-                        '<button class="btn btn-success btn-sm" onclick="activateSocio(\'' + s.id +
-                        '\')"><i class="fas fa-play"></i></button>' : '') +
-                    '<button class="btn btn-danger btn-sm" onclick="deleteSocio(\'' + s.id +
-                    '\')"><i class="fas fa-trash"></i></button></div></td></tr>';
-            }).join('');
+    renderPagination(total);
 
-            renderPagination(total);
         }
 
         function renderPagination(total) {
