@@ -12,7 +12,7 @@
         *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
         :root{--bg-deep:#06060e;--bg-card:rgba(12,12,26,0.6);--bg-card-hover:rgba(12,12,26,0.8);--border-glow:rgba(0,212,255,0.06);--text-primary:#f0f0ff;--text-secondary:#b8b8d0;--text-muted:#7a7a9a;--neon-blue:#00d4ff;--neon-purple:#8b3cff;--neon-pink:#ff2d8a;--neon-green:#00ff7f;--neon-orange:#ff6a00;--neon-gold:#ffd700;--gradient-primary:linear-gradient(135deg,#00d4ff,#8b3cff);--gradient-glow:linear-gradient(135deg,rgba(0,212,255,0.15),rgba(139,60,255,0.15));--shadow-card:0 8px 48px rgba(0,0,0,0.9);--radius:18px;--radius-sm:12px;--radius-xs:8px;--transition:all 0.4s cubic-bezier(0.25,0.46,0.45,0.94);--transition-fast:all 0.2s ease;--bottom-nav-height:72px}
         html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased;font-size:16px}
-        body{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg-deep);color:var(--text-primary);min-height:100vh;overflow-x:hidden;position:relative;padding-bottom:calc(var(--bottom-nav-height)+60px)}
+        body{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg-deep);color:var(--text-primary);min-height:100vh;overflow-x:hidden;position:relative;padding-bottom:calc(var(--bottom-nav-height)+70px)}
         ::-webkit-scrollbar{width:3px;height:3px}
         ::-webkit-scrollbar-track{background:var(--bg-deep)}
         ::-webkit-scrollbar-thumb{background:var(--neon-blue);border-radius:10px;box-shadow:0 0 20px rgba(0,212,255,0.2)}
@@ -42,7 +42,7 @@
         .btn-success{background:var(--neon-green);color:#fff}
         .btn-sm{padding:6px 12px;min-height:32px;font-size:clamp(0.45rem,1vw,0.55rem)}
         .btn:disabled{opacity:0.5;cursor:not-allowed;transform:none !important}
-        .socio-main{position:relative;z-index:1;max-width:1200px;margin:0 auto;padding:16px;padding-bottom:140px;width:100%}
+        .socio-main{position:relative;z-index:1;max-width:1200px;margin:0 auto;padding:16px;padding-bottom:100px;width:100%}
         .glass-card{background:var(--bg-card);border:1px solid var(--border-glow);border-radius:var(--radius);padding:20px;transition:var(--transition-fast);margin-bottom:16px;position:relative;overflow:hidden}
         .glass-card:hover{border-color:rgba(0,212,255,0.1)}
         .glass-card::before{content:'';position:absolute;inset:-1px;border-radius:var(--radius);padding:1px;background:var(--gradient-primary);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;opacity:0.04;pointer-events:none}
@@ -91,7 +91,7 @@
         .modal-body .file-preview .name{flex:1;font-size:0.7rem;color:var(--text-primary);word-break:break-all}
         .modal-body .file-preview .remove{color:var(--neon-pink);cursor:pointer;font-size:0.8rem;padding:4px}
         @keyframes fadeInUp{from{opacity:0;transform:translateY(16px) scale(0.96)}to{opacity:1;transform:translateY(0) scale(1)}}
-        .toast{position:fixed;bottom:calc(var(--bottom-nav-height)+30px);right:20px;left:20px;max-width:400px;margin:0 auto;padding:14px 20px;background:rgba(6,6,14,0.96);border:1px solid var(--border-glow);border-radius:var(--radius-sm);color:var(--text-primary);z-index:9999;animation:fadeInUp 0.3s ease;box-shadow:var(--shadow-card);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);display:flex;align-items:center;gap:12px;font-size:clamp(0.7rem,1.2vw,0.85rem);transition:var(--transition-fast)}
+        .toast{position:fixed;bottom:calc(var(--bottom-nav-height)+40px);right:20px;left:20px;max-width:400px;margin:0 auto;padding:14px 20px;background:rgba(6,6,14,0.96);border:1px solid var(--border-glow);border-radius:var(--radius-sm);color:var(--text-primary);z-index:9999;animation:fadeInUp 0.3s ease;box-shadow:var(--shadow-card);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);display:flex;align-items:center;gap:12px;font-size:clamp(0.7rem,1.2vw,0.85rem);transition:var(--transition-fast)}
         .toast .icon{font-size:1.1rem;flex-shrink:0}
         .toast .icon.success{color:var(--neon-green)}
         .toast .icon.error{color:var(--neon-pink)}
@@ -109,13 +109,6 @@
         .bottom-nav .nav-item.active{color:var(--neon-blue);background:rgba(0,212,255,0.04);border-radius:var(--radius-sm)}
         .bottom-nav .nav-item.active i{text-shadow:0 0 20px rgba(0,212,255,0.15)}
         .bottom-nav .nav-item .nav-badge{position:absolute;top:4px;right:8px;background:var(--neon-pink);color:#fff;font-size:0.5rem;font-weight:800;padding:1px 7px;border-radius:12px;min-width:20px;text-align:center;box-shadow:0 0 20px rgba(255,45,138,0.25);line-height:1.4}
-        .fly-fechas{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;text-align:center}
-        .fly-fechas .fecha-item .numero{font-size:1.3rem;font-weight:800}
-        .fly-fechas .fecha-item .label{font-size:0.5rem;color:#8a8aaa;text-transform:uppercase;letter-spacing:0.5px;font-weight:500}
-        .fly-fechas .fecha-item .numero.azul{color:var(--neon-blue);text-shadow:0 0 30px rgba(0,212,255,0.15)}
-        .fly-fechas .fecha-item .numero.verde{color:var(--neon-green);text-shadow:0 0 30px rgba(0,255,127,0.15)}
-        .fly-fechas .fecha-item .numero.morado{color:var(--neon-purple);text-shadow:0 0 30px rgba(139,60,255,0.15)}
-        .fly-fechas .fecha-item .numero.naranja{color:var(--neon-orange);text-shadow:0 0 30px rgba(255,106,0,0.15)}
         .selector-group{display:flex;flex-wrap:wrap;gap:10px;margin:8px 0}
         .selector-group .option{flex:1;min-width:120px;padding:12px 16px;background:rgba(0,0,0,0.2);border:2px solid var(--border-glow);border-radius:var(--radius-sm);text-align:center;cursor:pointer;transition:var(--transition-fast)}
         .selector-group .option:hover{border-color:rgba(0,212,255,0.2);background:rgba(0,212,255,0.03);transform:translateY(-2px)}
@@ -172,10 +165,10 @@
         .avatar-iniciales{width:clamp(80px,12vw,100px);height:clamp(80px,12vw,100px);border-radius:50%;display:flex;align-items:center;justify-content:center;background:var(--gradient-primary);color:#fff;font-size:clamp(2rem,3vw,2.5rem);font-weight:700;border:2px solid var(--neon-blue);box-shadow:0 0 30px rgba(0,212,255,0.06)}
         .avatar-iniciales-small{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:var(--gradient-primary);color:#fff;font-size:0.7rem;font-weight:700}
         .spinner-small{display:inline-block;width:14px;height:14px;border:2px solid rgba(255,255,255,0.06);border-top-color:var(--neon-blue);border-radius:50%;animation:spin 0.8s linear infinite;vertical-align:middle}
-        @media(max-width:480px){.fly-fechas{grid-template-columns:repeat(2,1fr);gap:10px}.fly-info-grid{grid-template-columns:1fr 1fr;gap:10px}.fly-info-grid .info-card .icon-circle{width:48px;height:48px;font-size:1.3rem}.fly-info-grid .info-card .icon-circle.lightning span{font-size:1.5rem}.fly-info-grid .info-card .title{font-size:0.6rem}.fly-info-grid .info-card .sub{font-size:0.5rem}.bottom-nav{height:68px;padding:4px 2px}.bottom-nav .nav-item{min-width:50px;min-height:48px;padding:4px 6px;gap:2px}.bottom-nav .nav-item i{font-size:1.1rem}.bottom-nav .nav-item span{font-size:0.4rem;letter-spacing:0.5px}.bottom-nav .nav-item .nav-badge{font-size:0.4rem;padding:0px 5px;min-width:16px;top:2px;right:4px}.toast{bottom:calc(var(--bottom-nav-height)+12px)}.socio-main{padding-bottom:140px;padding:10px;padding-bottom:140px}.glass-card{padding:14px}.profile-info h1{font-size:1.1rem}.recordatorio{padding:12px 14px}.recordatorio i{font-size:1.1rem}.status-bar{font-size:0.5rem;gap:4px;padding:2px 8px}.status-bar .sep{display:none}.profile-header{flex-direction:column;text-align:center}.recordatorio{flex-direction:column;text-align:center;justify-content:center}.socio-header .header-content{flex-direction:column;align-items:stretch;text-align:center}.socio-header .header-actions{justify-content:center}.btn{width:100%;justify-content:center}.btn-sm{width:auto}.selector-group .option{min-width:100px;padding:10px 12px}.selector-group .option .icon{font-size:1.1rem}}
-        @media(max-width:380px){.bottom-nav .nav-item{min-width:44px;min-height:42px;padding:3px 4px}.bottom-nav .nav-item i{font-size:0.95rem}.bottom-nav .nav-item span{font-size:0.35rem;letter-spacing:0.3px}.socio-main{padding-bottom:130px}.glass-card{padding:12px 10px}.profile-avatar img{width:56px;height:56px}.profile-info h1{font-size:1rem}.fly-fechas{grid-template-columns:repeat(2,1fr);gap:8px}.fly-fechas .fecha-item .numero{font-size:1.1rem}.fly-fechas .fecha-item .label{font-size:0.45rem}}
-        @media(min-width:768px){.bottom-nav .nav-item{max-width:120px}.bottom-nav .nav-item i{font-size:1.4rem}.bottom-nav .nav-item span{font-size:0.6rem}.socio-main{padding-bottom:140px}.btn{width:auto}}
-        @media(min-width:769px) and (max-width:1024px){.socio-main{padding:20px 30px;padding-bottom:140px}}
+        @media(max-width:480px){.fly-info-grid{grid-template-columns:1fr 1fr;gap:10px}.fly-info-grid .info-card .icon-circle{width:48px;height:48px;font-size:1.3rem}.fly-info-grid .info-card .icon-circle.lightning span{font-size:1.5rem}.fly-info-grid .info-card .title{font-size:0.6rem}.fly-info-grid .info-card .sub{font-size:0.5rem}.bottom-nav{height:68px;padding:4px 2px}.bottom-nav .nav-item{min-width:50px;min-height:48px;padding:4px 6px;gap:2px}.bottom-nav .nav-item i{font-size:1.1rem}.bottom-nav .nav-item span{font-size:0.4rem;letter-spacing:0.5px}.bottom-nav .nav-item .nav-badge{font-size:0.4rem;padding:0px 5px;min-width:16px;top:2px;right:4px}.toast{bottom:calc(var(--bottom-nav-height)+30px)}.socio-main{padding-bottom:90px;padding:10px}.glass-card{padding:14px}.profile-info h1{font-size:1.1rem}.recordatorio{padding:12px 14px}.recordatorio i{font-size:1.1rem}.status-bar{font-size:0.5rem;gap:4px;padding:2px 8px}.status-bar .sep{display:none}.profile-header{flex-direction:column;text-align:center}.recordatorio{flex-direction:column;text-align:center;justify-content:center}.socio-header .header-content{flex-direction:column;align-items:stretch;text-align:center}.socio-header .header-actions{justify-content:center}.btn{width:100%;justify-content:center}.btn-sm{width:auto}.selector-group .option{min-width:100px;padding:10px 12px}.selector-group .option .icon{font-size:1.1rem}}
+        @media(max-width:380px){.bottom-nav .nav-item{min-width:44px;min-height:42px;padding:3px 4px}.bottom-nav .nav-item i{font-size:0.95rem}.bottom-nav .nav-item span{font-size:0.35rem;letter-spacing:0.3px}.socio-main{padding-bottom:80px}.glass-card{padding:12px 10px}.profile-avatar img{width:56px;height:56px}.profile-info h1{font-size:1rem}}
+        @media(min-width:768px){.bottom-nav .nav-item{max-width:120px}.bottom-nav .nav-item i{font-size:1.4rem}.bottom-nav .nav-item span{font-size:0.6rem}.socio-main{padding-bottom:100px}.btn{width:auto}}
+        @media(min-width:769px) and (max-width:1024px){.socio-main{padding:20px 30px;padding-bottom:100px}}
         .mensaje-vencimiento-card{border-color:rgba(255,45,138,0.2);background:rgba(255,45,138,0.04)}
         .mensaje-vencimiento-card i{color:var(--neon-pink);font-size:1.5rem}
         .mensaje-vencimiento-card h4{color:var(--neon-pink);font-size:clamp(0.8rem,1.2vw,0.95rem)}
@@ -183,6 +176,143 @@
         .dias-verde{color:var(--neon-green)}
         .dias-naranja{color:var(--neon-orange)}
         .dias-rojo{color:var(--neon-pink)}
+
+        /* ===== BOTÓN CONFIRMAR ===== */
+        .btn-confirmar {
+            background: linear-gradient(135deg, #00d4ff, #00ff87);
+            color: #06060e;
+            font-weight: 800;
+            padding: 14px 24px;
+            border: none;
+            border-radius: var(--radius-sm);
+            font-size: 0.9rem;
+            font-family: 'Inter', sans-serif;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            box-shadow: 0 0 30px rgba(0, 212, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        .btn-confirmar::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 60%);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        .btn-confirmar:hover {
+            transform: translateY(-2px) scale(1.01);
+            box-shadow: 0 8px 40px rgba(0, 212, 255, 0.25);
+        }
+        .btn-confirmar:hover::before {
+            opacity: 1;
+        }
+        .btn-confirmar:active {
+            transform: scale(0.97);
+        }
+        .btn-confirmar i {
+            font-size: 1.1rem;
+            margin-right: 8px;
+        }
+        .btn-confirmar:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none !important;
+            box-shadow: none !important;
+        }
+        .btn-confirmar:disabled::before {
+            opacity: 0;
+        }
+        .btn-confirmar::after {
+            content: '';
+            position: absolute;
+            inset: -2px;
+            border-radius: var(--radius-sm);
+            background: linear-gradient(135deg, #00d4ff, #00ff87);
+            z-index: -1;
+            filter: blur(8px);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        .btn-confirmar:hover::after {
+            opacity: 1;
+        }
+        @media(max-width:480px) {
+            .btn-confirmar {
+                font-size: 0.75rem;
+                padding: 12px 16px;
+                letter-spacing: 1.5px;
+            }
+            .btn-confirmar i {
+                font-size: 0.9rem;
+            }
+        }
+
+        /* ===== FOOTER DE FECHAS CLAVE ===== */
+        .fechas-footer {
+            position: fixed;
+            bottom: calc(var(--bottom-nav-height) + 10px);
+            left: 0;
+            right: 0;
+            z-index: 40;
+            padding: 8px 16px;
+            background: rgba(6, 6, 14, 0.92);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-top: 1px solid var(--border-glow);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        .fechas-footer .fecha-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.65rem;
+            color: var(--text-muted);
+        }
+        .fechas-footer .fecha-item .numero {
+            font-weight: 800;
+            font-size: 0.8rem;
+        }
+        .fechas-footer .fecha-item .numero.azul { color: var(--neon-blue); }
+        .fechas-footer .fecha-item .numero.verde { color: var(--neon-green); }
+        .fechas-footer .fecha-item .numero.morado { color: var(--neon-purple); }
+        .fechas-footer .fecha-item .numero.naranja { color: var(--neon-orange); }
+        .fechas-footer .fecha-item .label {
+            font-size: 0.5rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .fechas-footer .separador {
+            color: var(--border-glow);
+            font-size: 0.6rem;
+        }
+        @media(max-width:480px) {
+            .fechas-footer {
+                gap: 10px;
+                padding: 6px 10px;
+                bottom: calc(var(--bottom-nav-height) + 5px);
+            }
+            .fechas-footer .fecha-item {
+                font-size: 0.55rem;
+            }
+            .fechas-footer .fecha-item .numero {
+                font-size: 0.7rem;
+            }
+            .fechas-footer .separador {
+                display: none;
+            }
+        }
     </style>
 </head>
 <body>
@@ -239,7 +369,7 @@
                 </div>
             </div>
 
-            <!-- ===== MENSAJE DE VENCIMIENTO (SOLO DESPUÉS DE VENCER) ===== -->
+            <!-- ===== MENSAJE DE VENCIMIENTO ===== -->
             <div id="mensajeVencimiento" class="hidden" style="margin-bottom:16px;">
                 <div class="glass-card mensaje-vencimiento-card">
                     <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;">
@@ -255,20 +385,20 @@
                 </div>
             </div>
 
-            <!-- ===== SELECCIÓN DE PLAN Y MÉTODO ===== -->
+            <!-- ===== CONFIGURAR MI PLAN ===== -->
             <div class="glass-card">
                 <h3 style="font-size:clamp(0.85rem,1.8vw,1rem);font-weight:700;color:#ffffff;margin-bottom:12px;">📋 Configurar Mi Plan</h3>
                 
                 <!-- Plan -->
                 <label style="font-size:0.65rem;color:var(--text-secondary);font-weight:600;text-transform:uppercase;letter-spacing:1px;">Selecciona tu plan</label>
                 <div class="selector-group" id="planSelector">
-                    <div class="option" data-plan="Sabatero" onclick="seleccionarPlan('Sabatero')">
+                    <div class="option" data-plan="Sabatero" onclick="seleccionarPlanUI('Sabatero')">
                         <span class="icon">⚡</span>
                         <span class="name">Plan Sabatero</span>
                         <span class="price">Gs. 20.000 / mes</span>
                         <span class="check"><i class="fas fa-check-circle"></i></span>
                     </div>
-                    <div class="option" data-plan="Finder" onclick="seleccionarPlan('Finder')">
+                    <div class="option" data-plan="Finder" onclick="seleccionarPlanUI('Finder')">
                         <span class="icon">🏃</span>
                         <span class="name">Plan Finder</span>
                         <span class="price">Gs. 5.000 / partido</span>
@@ -279,13 +409,13 @@
                 <!-- Método de Pago -->
                 <label style="font-size:0.65rem;color:var(--text-secondary);font-weight:600;text-transform:uppercase;letter-spacing:1px;margin-top:14px;display:block;">Método de pago</label>
                 <div class="selector-group" id="metodoSelector">
-                    <div class="option" data-metodo="Transferencia" onclick="seleccionarMetodo('Transferencia')">
+                    <div class="option" data-metodo="Transferencia" onclick="seleccionarMetodoUI('Transferencia')">
                         <span class="icon">💻</span>
                         <span class="name">Transferencia</span>
                         <span class="price">Ueno / Bancos</span>
                         <span class="check"><i class="fas fa-check-circle"></i></span>
                     </div>
-                    <div class="option" data-metodo="Efectivo" onclick="seleccionarMetodo('Efectivo')">
+                    <div class="option" data-metodo="Efectivo" onclick="seleccionarMetodoUI('Efectivo')">
                         <span class="icon">💰</span>
                         <span class="name">Efectivo</span>
                         <span class="price">Pago en persona</span>
@@ -293,24 +423,32 @@
                     </div>
                 </div>
 
-                <!-- Estado actual del plan -->
+                <!-- Estado actual -->
                 <div class="plan-status" id="planStatus">
                     <div class="item"><span class="label">Plan:</span><span class="value" id="statusPlan">No seleccionado</span></div>
                     <div class="item"><span class="label">Método:</span><span class="value" id="statusMetodo">No seleccionado</span></div>
                     <div class="item"><span class="label">Estado:</span><span class="value" id="statusEstado">Pendiente</span></div>
                 </div>
 
-                <!-- Botón para subir comprobante (solo si es Transferencia) -->
+                <!-- Subir comprobante (solo Transferencia) -->
                 <div id="comprobanteSection" class="hidden" style="margin-top:12px;">
-                    <button class="btn btn-primary" onclick="subirComprobante()" style="width:100%;">
-                        <i class="fas fa-upload"></i> Subir Comprobante
-                    </button>
-                    <div style="font-size:0.55rem;color:var(--text-muted);margin-top:6px;text-align:center;">
-                        <i class="fas fa-info-circle"></i> Sube una captura o foto de tu transferencia
+                    <div class="file-upload-area" onclick="document.getElementById('uploadReceiptConfirm').click()">
+                        <i class="fas fa-upload"></i>
+                        <p>Subir comprobante de transferencia</p>
+                        <div style="font-size:0.6rem;color:var(--text-muted);margin-top:4px;">JPG, PNG, PDF</div>
+                        <input type="file" id="uploadReceiptConfirm" accept=".jpg,.jpeg,.png,.pdf">
+                    </div>
+                    <div id="uploadPreviewConfirm" class="file-preview" style="display:none;">
+                        <i class="fas fa-file"></i>
+                        <span class="name" id="uploadFileNameConfirm">archivo.jpg</span>
+                        <span class="remove" onclick="document.getElementById('uploadReceiptConfirm').value='';this.parentElement.style.display='none';">✕</span>
+                    </div>
+                    <div style="font-size:0.55rem;color:var(--text-muted);margin-top:4px;text-align:center;">
+                        <i class="fas fa-info-circle"></i> Sube tu comprobante antes de confirmar
                     </div>
                 </div>
 
-                <!-- Datos bancarios (solo si es Transferencia) -->
+                <!-- Datos bancarios (solo Transferencia) -->
                 <div id="datosBancarios" class="hidden" style="margin-top:12px;">
                     <div class="bank-data">
                         <div class="row"><span class="label">Titular:</span><span class="value">Alberto Mariano Ramirez Zarate</span></div>
@@ -323,29 +461,27 @@
                         <i class="fas fa-lightbulb"></i> Usa el alias <strong>+595961101538</strong> para transferencias rápidas.
                     </div>
                 </div>
-            </div>
 
-            <!-- ===== FECHAS CLAVE ===== -->
-            <div class="glass-card" style="padding:14px 18px;">
-                <div class="fly-fechas">
-                    <div class="fecha-item">
-                        <div class="numero azul">2012</div>
-                        <div class="label">Fundación</div>
-                    </div>
-                    <div class="fecha-item">
-                        <div class="numero verde">6v6</div>
-                        <div class="label">Formato</div>
-                    </div>
-                    <div class="fecha-item">
-                        <div class="numero morado">+10</div>
-                        <div class="label">Años</div>
-                    </div>
-                    <div class="fecha-item">
-                        <div class="numero naranja">⚡</div>
-                        <div class="label">Pasión</div>
-                    </div>
+                <!-- Botón CONFIRMAR -->
+                <button class="btn btn-confirmar" onclick="confirmarConfiguracion()" style="width:100%;margin-top:12px;" id="btnConfirmarConfig">
+                    <i class="fas fa-check-circle"></i> CONFIRMAR
+                </button>
+                <div style="font-size:0.55rem;color:var(--text-muted);margin-top:6px;text-align:center;">
+                    <i class="fas fa-info-circle"></i> Al confirmar, se notificará al administrador para su aprobación.
                 </div>
             </div>
+
+            <!-- ===== ESPACIO LIBRE PARA FUTURAS FUNCIONALIDADES ===== -->
+            <!-- 
+                Aquí puedes agregar futuras funcionalidades como:
+                - 📊 Mis Estadísticas
+                - 🏆 Torneos
+                - 📅 Calendario de Partidos
+                - 👥 Mi Equipo
+                - 📱 Contacto Directo
+                - 📝 Noticias y Avisos
+            -->
+
         </div>
 
         <!-- ===== SECCIÓN HISTORIAL ===== -->
@@ -421,23 +557,26 @@
 
     </main>
 
-    <!-- ===== MODAL SUBIR COMPROBANTE ===== -->
-    <div class="modal" id="uploadModal">
-        <div class="modal-content">
-            <div class="modal-header"><h2>📎 Subir Comprobante</h2><button class="modal-close" onclick="closeModal('uploadModal')">&times;</button></div>
-            <div class="modal-body">
-                <p style="margin-bottom:14px;color:#b8b8d0;font-size:clamp(0.75rem,1.2vw,0.85rem);">Sube tu comprobante de pago para <strong id="uploadPlanLabel">Sabatero</strong>. Formatos: JPG, PNG, PDF.</p>
-                <div class="file-upload-area" onclick="document.getElementById('uploadReceipt').click()">
-                    <i class="fas fa-upload"></i><p>Seleccionar archivo</p>
-                    <div style="font-size:0.6rem;color:#7a7a9a;margin-top:4px;">Captura de pantalla o foto</div>
-                    <input type="file" id="uploadReceipt" accept=".jpg,.jpeg,.png,.pdf">
-                </div>
-                <div id="uploadPreview" class="file-preview" style="display:none;">
-                    <i class="fas fa-file"></i><span class="name" id="uploadFileName">archivo.jpg</span>
-                    <span class="remove" onclick="document.getElementById('uploadReceipt').value='';this.parentElement.style.display='none';">✕</span>
-                </div>
-                <button class="btn btn-primary" onclick="enviarComprobante()" style="margin-top:14px;width:100%;justify-content:center;"><i class="fas fa-paper-plane"></i> Enviar</button>
-            </div>
+    <!-- ===== FOOTER DE FECHAS CLAVE (FIJO ANTES DEL MENÚ) ===== -->
+    <div class="fechas-footer" id="fechasFooter">
+        <div class="fecha-item">
+            <span class="numero azul">2012</span>
+            <span class="label">Fundación</span>
+        </div>
+        <span class="separador">|</span>
+        <div class="fecha-item">
+            <span class="numero verde">6v6</span>
+            <span class="label">Formato</span>
+        </div>
+        <span class="separador">|</span>
+        <div class="fecha-item">
+            <span class="numero morado">+10</span>
+            <span class="label">Años</span>
+        </div>
+        <span class="separador">|</span>
+        <div class="fecha-item">
+            <span class="numero naranja">⚡</span>
+            <span class="label">Pasión</span>
         </div>
     </div>
 
@@ -763,6 +902,11 @@
                 renderSeleccionPlan(socio);
                 verificarVencimiento(socio);
 
+                // Limpiar selecciones temporales
+                planSeleccionado = null;
+                metodoSeleccionado = null;
+                comprobanteSubido = null;
+
                 if (socio.role === 'admin') {
                     var headerActions = document.querySelector('.socio-header .header-actions');
                     var adminBtn = document.createElement('button');
@@ -779,7 +923,7 @@
         }
 
         // ================================================================
-        // 9. RENDER PERFIL (CON FECHAS)
+        // 9. RENDER PERFIL
         // ================================================================
         function renderProfile(user) {
             document.getElementById('socioNombre').textContent = user.nombre || 'Sin nombre';
@@ -801,7 +945,7 @@
             estadoEl.textContent = user.estado || 'Pendiente';
             estadoEl.className = 'badge ' + getStatusClass(user.estado);
 
-            // ✅ Fechas de inicio y vencimiento
+            // Fechas
             var inicioEl = document.getElementById('socioInicio');
             var vencEl = document.getElementById('socioVencimiento');
             
@@ -876,7 +1020,7 @@
         }
 
         // ================================================================
-        // 11. VERIFICAR VENCIMIENTO (SOLO DESPUÉS DE VENCER)
+        // 11. VERIFICAR VENCIMIENTO
         // ================================================================
         function verificarVencimiento(user) {
             var mensajeContainer = document.getElementById('mensajeVencimiento');
@@ -884,7 +1028,17 @@
             var texto = document.getElementById('mensajeVencimientoTexto');
             var diasEl = document.getElementById('socioDias');
 
-            // Si no tiene plan Sabatero o no tiene fecha de vencimiento, ocultar
+            if (user.estado === 'Vencido') {
+                mensajeContainer.classList.remove('hidden');
+                titulo.textContent = '❌ Tu membresía ha vencido';
+                texto.textContent = 'Renueva ahora para seguir disfrutando de los beneficios.';
+                if (diasEl) {
+                    diasEl.textContent = 'Vencido';
+                    diasEl.className = 'dias-rojo';
+                }
+                return;
+            }
+
             if (user.plan !== 'Sabatero' || !user.fecha_vencimiento) {
                 mensajeContainer.classList.add('hidden');
                 if (diasEl) {
@@ -898,13 +1052,11 @@
             var venc = new Date(user.fecha_vencimiento);
             var diff = Math.ceil((venc - hoy) / (1000 * 60 * 60 * 24));
 
-            // Actualizar días en el perfil (siempre visible)
             if (diasEl) {
                 diasEl.textContent = diff > 0 ? diff + ' días' : 'Vencido';
                 diasEl.className = diff > 7 ? 'dias-verde' : diff > 0 ? 'dias-naranja' : 'dias-rojo';
             }
 
-            // ✅ SOLO mostrar mensaje si YA VENCIÓ (diff <= 0)
             if (diff <= 0) {
                 mensajeContainer.classList.remove('hidden');
                 titulo.textContent = '❌ Tu membresía ha vencido';
@@ -912,309 +1064,312 @@
                 return;
             }
 
-            // Si aún no venció, ocultar mensaje
             mensajeContainer.classList.add('hidden');
         }
 
         // ================================================================
-        // 12. SELECCIONAR PLAN - SIN CONFIRMACIÓN (INSTANTÁNEO)
+        // 12. SELECCIÓN DE PLAN - SOLO UI
         // ================================================================
-        async function seleccionarPlan(plan) {
-            if (!socioData) {
-                showToast('⚠️ Espera a que carguen los datos', 'warning');
-                return;
-            }
+        var planSeleccionado = null;
+        var metodoSeleccionado = null;
+        var comprobanteSubido = null;
 
-            if (socioData.plan === plan) {
-                showToast('ℹ️ Ya estás en el plan ' + plan, 'info');
-                return;
-            }
-
+        function seleccionarPlanUI(plan) {
             var options = document.querySelectorAll('#planSelector .option');
             options.forEach(function(el) {
-                if (el.dataset.plan === plan) {
-                    el.innerHTML = '<span class="icon">⚡</span><span class="name">' + (plan === 'Sabatero' ?
-                        'Plan Sabatero' : 'Plan Finder') + '</span><span class="price"><span class="spinner-small"></span> Actualizando...</span>';
-                }
+                el.classList.toggle('selected', el.dataset.plan === plan);
             });
-
-            try {
-                const updates = {
-                    plan: plan,
-                    estado: 'Pendiente',
-                    fecha_inicio: null,
-                    fecha_vencimiento: null
-                };
-
-                const { error } = await supabaseClient
-                    .from('socios')
-                    .update(updates)
-                    .eq('id', socioData.id);
-
-                if (error) {
-                    console.error('Error al actualizar plan:', error);
-                    showToast('❌ Error al cambiar de plan', 'error');
-                    renderSeleccionPlan(socioData);
-                    return;
-                }
-
-                socioData.plan = plan;
-                socioData.estado = 'Pendiente';
-                socioData.fecha_inicio = null;
-                socioData.fecha_vencimiento = null;
-
-                renderSeleccionPlan(socioData);
-                renderProfile(socioData);
-                verificarVencimiento(socioData);
-
-                await supabaseClient.from('notificaciones').insert([{
-                    tipo: 'cambio_plan',
-                    mensaje: `🔄 ${socioData.nombre} cambió a plan ${plan}`,
-                    leida: false,
-                    data: {
-                        socio_id: socioData.id,
-                        username: socioData.username,
-                        plan: plan
-                    }
-                }]);
-
-                showToast('✅ Plan cambiado a ' + plan + '. Espera aprobación del administrador.', 'success');
-
-            } catch (error) {
-                console.error('Error:', error);
-                showToast('❌ Error al cambiar de plan', 'error');
-                renderSeleccionPlan(socioData);
-            }
+            planSeleccionado = plan;
+            document.getElementById('statusPlan').textContent = plan;
+            document.getElementById('statusPlan').className = 'value active';
+            showToast('📋 Plan seleccionado: ' + plan, 'info');
         }
 
-        // ================================================================
-        // 13. SELECCIONAR MÉTODO - SIN CONFIRMACIÓN (INSTANTÁNEO)
-        // ================================================================
-        async function seleccionarMetodo(metodo) {
-            if (!socioData) {
-                showToast('⚠️ Espera a que carguen los datos', 'warning');
-                return;
-            }
-
-            if (socioData.metodo_pago === metodo) {
-                showToast('ℹ️ Ya estás usando ' + metodo, 'info');
-                return;
-            }
-
+        function seleccionarMetodoUI(metodo) {
             var options = document.querySelectorAll('#metodoSelector .option');
             options.forEach(function(el) {
-                if (el.dataset.metodo === metodo) {
-                    el.innerHTML = '<span class="icon">' + (metodo === 'Transferencia' ? '💻' : '💰') +
-                        '</span><span class="name">' + metodo + '</span><span class="price"><span class="spinner-small"></span> Actualizando...</span>';
-                }
+                el.classList.toggle('selected', el.dataset.metodo === metodo);
             });
-
-            try {
-                const updates = {
-                    metodo_pago: metodo,
-                    estado: metodo === 'Transferencia' ? 'Pendiente' : socioData.estado,
-                    comprobante_url: metodo === 'Transferencia' ? null : socioData.comprobante_url
-                };
-
-                const { error } = await supabaseClient
-                    .from('socios')
-                    .update(updates)
-                    .eq('id', socioData.id);
-
-                if (error) {
-                    console.error('Error al actualizar método:', error);
-                    showToast('❌ Error al cambiar método de pago', 'error');
-                    renderSeleccionPlan(socioData);
-                    return;
-                }
-
-                socioData.metodo_pago = metodo;
-                if (metodo === 'Transferencia') {
-                    socioData.estado = 'Pendiente';
-                    socioData.comprobante_url = null;
-                }
-
-                renderSeleccionPlan(socioData);
-                renderProfile(socioData);
-
-                if (metodo === 'Transferencia') {
-                    await supabaseClient.from('notificaciones').insert([{
-                        tipo: 'cambio_metodo',
-                        mensaje: `💳 ${socioData.nombre} cambió a Transferencia (pendiente comprobante)`,
-                        leida: false,
-                        data: {
-                            socio_id: socioData.id,
-                            username: socioData.username,
-                            metodo: metodo
-                        }
-                    }]);
-                    showToast('✅ Método actualizado a Transferencia. Sube tu comprobante.', 'success');
-                } else {
-                    showToast('✅ Método actualizado a ' + metodo, 'success');
-                }
-
-            } catch (error) {
-                console.error('Error:', error);
-                showToast('❌ Error al cambiar método de pago', 'error');
-                renderSeleccionPlan(socioData);
+            metodoSeleccionado = metodo;
+            
+            var datosBancarios = document.getElementById('datosBancarios');
+            var comprobanteSection = document.getElementById('comprobanteSection');
+            
+            if (metodo === 'Transferencia') {
+                datosBancarios.classList.remove('hidden');
+                comprobanteSection.classList.remove('hidden');
+                comprobanteSubido = null;
+                document.getElementById('uploadReceiptConfirm').value = '';
+                document.getElementById('uploadPreviewConfirm').style.display = 'none';
+            } else {
+                datosBancarios.classList.add('hidden');
+                comprobanteSection.classList.add('hidden');
+                comprobanteSubido = null;
             }
+            
+            document.getElementById('statusMetodo').textContent = metodo;
+            document.getElementById('statusMetodo').className = 'value active';
+            showToast('💳 Método seleccionado: ' + metodo, 'info');
         }
 
         // ================================================================
-        // 14. SUBIR COMPROBANTE
+        // 13. PREVISUALIZACIÓN DE COMPROBANTE
         // ================================================================
-        function subirComprobante() {
-            if (!socioData) {
-                showToast('⚠️ Espera a que carguen los datos', 'warning');
-                return;
-            }
-
-            if (socioData.metodo_pago !== 'Transferencia') {
-                showToast('⚠️ Solo puedes subir comprobante si tu método es Transferencia', 'warning');
-                return;
-            }
-
-            if (!socioData.plan) {
-                showToast('⚠️ Primero selecciona un plan', 'warning');
-                return;
-            }
-
-            document.getElementById('uploadPlanLabel').textContent = socioData.plan;
-            document.getElementById('uploadReceipt').value = '';
-            document.getElementById('uploadPreview').style.display = 'none';
-            document.getElementById('uploadModal').classList.add('active');
-            document.body.style.overflow = 'hidden';
-        }
-
-        document.getElementById('uploadReceipt').addEventListener('change', function() {
-            var preview = document.getElementById('uploadPreview');
-            var name = document.getElementById('uploadFileName');
+        document.getElementById('uploadReceiptConfirm').addEventListener('change', function() {
+            var preview = document.getElementById('uploadPreviewConfirm');
+            var name = document.getElementById('uploadFileNameConfirm');
             if (this.files && this.files[0]) {
                 name.textContent = this.files[0].name;
                 preview.style.display = 'flex';
+                comprobanteSubido = this.files[0];
             } else {
                 preview.style.display = 'none';
+                comprobanteSubido = null;
             }
         });
 
-        async function enviarComprobante() {
-            var file = document.getElementById('uploadReceipt').files[0];
-            if (!file) {
-                showToast('⚠️ Por favor selecciona un archivo', 'warning');
+        // ================================================================
+        // 14. CONFIRMAR CONFIGURACIÓN
+        // ================================================================
+        async function confirmarConfiguracion() {
+            if (!socioData) {
+                showToast('⚠️ Espera a que carguen los datos', 'warning');
                 return;
             }
 
-            var btn = document.querySelector('#uploadModal .btn-primary');
+            if (!planSeleccionado) {
+                showToast('⚠️ Selecciona un plan primero', 'warning');
+                return;
+            }
+
+            if (!metodoSeleccionado) {
+                showToast('⚠️ Selecciona un método de pago', 'warning');
+                return;
+            }
+
+            if (metodoSeleccionado === 'Transferencia' && !comprobanteSubido) {
+                showToast('⚠️ Debes subir el comprobante de transferencia', 'warning');
+                return;
+            }
+
+            if (socioData.plan === planSeleccionado && 
+                socioData.metodo_pago === metodoSeleccionado && 
+                socioData.comprobante_url) {
+                showToast('ℹ️ Ya tienes esta configuración activa', 'info');
+                return;
+            }
+
+            var btn = document.getElementById('btnConfirmarConfig');
             btn.disabled = true;
-            btn.innerHTML = '<span class="spinner"></span> Subiendo...';
+            btn.innerHTML = '<span class="spinner"></span> Guardando...';
 
             try {
                 var sessionUser = getCurrentUser();
                 if (!sessionUser) {
                     showToast('⚠️ Sesión no encontrada', 'error');
                     btn.disabled = false;
-                    btn.innerHTML = '<i class="fas fa-paper-plane"></i> Enviar';
+                    btn.innerHTML = '<i class="fas fa-check-circle"></i> CONFIRMAR';
                     return;
                 }
 
-                const ext = file.name.split('.').pop();
-                const path = `${sessionUser.id}/comprobante_${Date.now()}.${ext}`;
+                var url = null;
+                if (comprobanteSubido) {
+                    const ext = comprobanteSubido.name.split('.').pop();
+                    const path = `${sessionUser.id}/comprobante_${Date.now()}.${ext}`;
+                    
+                    const { error: uploadError } = await supabaseClient.storage
+                        .from('comprobantes')
+                        .upload(path, comprobanteSubido, {
+                            cacheControl: '3600',
+                            upsert: false,
+                            contentType: comprobanteSubido.type
+                        });
 
-                console.log('📤 Subiendo comprobante a:', path);
+                    if (uploadError) {
+                        console.error('Error al subir comprobante:', uploadError);
+                        showToast('❌ Error al subir comprobante: ' + uploadError.message, 'error');
+                        btn.disabled = false;
+                        btn.innerHTML = '<i class="fas fa-check-circle"></i> CONFIRMAR';
+                        return;
+                    }
 
-                const { error: uploadError } = await supabaseClient.storage
-                    .from('comprobantes')
-                    .upload(path, file, {
-                        cacheControl: '3600',
-                        upsert: false,
-                        contentType: file.type
-                    });
+                    url = supabaseClient.storage.from('comprobantes').getPublicUrl(path).data.publicUrl;
+                    console.log('✅ Comprobante subido:', url);
 
-                if (uploadError) {
-                    console.error('❌ Error al subir comprobante:', uploadError);
-                    showToast('❌ Error al subir comprobante: ' + uploadError.message, 'error');
-                    btn.disabled = false;
-                    btn.innerHTML = '<i class="fas fa-paper-plane"></i> Enviar';
-                    return;
+                    const { error: compError } = await supabaseClient.from('comprobantes').insert([{
+                        socio_id: sessionUser.id,
+                        archivo_url: url,
+                        tipo: 'transferencia',
+                        estado: 'Pendiente',
+                        fecha_subida: new Date().toISOString(),
+                        nombre_archivo: comprobanteSubido.name
+                    }]);
+
+                    if (compError) {
+                        console.warn('Error guardando comprobante en tabla:', compError);
+                    } else {
+                        console.log('✅ Comprobante registrado en tabla');
+                    }
                 }
 
-                const url = supabaseClient.storage.from('comprobantes').getPublicUrl(path).data.publicUrl;
-                console.log('✅ Comprobante subido:', url);
-
-                // Insertar en tabla comprobantes
-                const comprobanteData = {
-                    socio_id: sessionUser.id,
-                    archivo_url: url,
-                    tipo: 'transferencia',
-                    estado: 'Pendiente',
-                    fecha_subida: new Date().toISOString(),
-                    nombre_archivo: file.name
+                const updates = {
+                    plan: planSeleccionado,
+                    metodo_pago: metodoSeleccionado,
+                    estado: 'Pendiente'
                 };
 
-                const { data: compData, error: compError } = await supabaseClient
-                    .from('comprobantes')
-                    .insert([comprobanteData])
-                    .select();
+                if (url) {
+                    updates.comprobante_url = url;
+                }
 
-                if (compError) {
-                    console.error('❌ Error guardando comprobante en tabla:', compError);
-                    showToast('❌ Error al guardar el comprobante: ' + compError.message, 'error');
+                if (socioData.plan !== planSeleccionado) {
+                    updates.fecha_inicio = null;
+                    updates.fecha_vencimiento = null;
+                }
+
+                const { error: updateError } = await supabaseClient
+                    .from('socios')
+                    .update(updates)
+                    .eq('id', socioData.id);
+
+                if (updateError) {
+                    console.error('Error al guardar configuración:', updateError);
+                    showToast('❌ Error al guardar: ' + updateError.message, 'error');
                     btn.disabled = false;
-                    btn.innerHTML = '<i class="fas fa-paper-plane"></i> Enviar';
+                    btn.innerHTML = '<i class="fas fa-check-circle"></i> CONFIRMAR';
                     return;
                 }
 
-                console.log('✅ Comprobante registrado en tabla:', compData);
-
-                // Actualizar socio
-                const { error: updateError } = await supabaseClient
-                    .from('socios')
-                    .update({
-                        comprobante_url: url,
-                        estado: 'Pendiente'
-                    })
-                    .eq('id', sessionUser.id);
-
-                if (updateError) {
-                    console.error('❌ Error al actualizar socio:', updateError);
-                } else {
-                    console.log('✅ Socio actualizado con comprobante_url');
+                var mensaje = `👤 ${socioData.nombre} (@${socioData.username}) seleccionó ${planSeleccionado} - ${metodoSeleccionado}`;
+                if (metodoSeleccionado === 'Transferencia') {
+                    mensaje += ' (con comprobante)';
                 }
-
-                // Crear notificación
+                
                 await supabaseClient.from('notificaciones').insert([{
-                    tipo: 'nuevo_comprobante',
-                    mensaje: `📎 Nuevo comprobante de ${socioData.nombre} (@${socioData.username}) - ${socioData.plan || 'Sin plan'}`,
+                    tipo: 'nuevo_socio',
+                    mensaje: mensaje,
                     leida: false,
                     data: {
-                        socio_id: sessionUser.id,
+                        socio_id: socioData.id,
                         username: socioData.username,
-                        comprobante_url: url,
-                        plan: socioData.plan || 'Sin plan'
+                        plan: planSeleccionado,
+                        metodo: metodoSeleccionado,
+                        comprobante_url: url
                     }
                 }]);
 
-                socioData.comprobante_url = url;
+                socioData.plan = planSeleccionado;
+                socioData.metodo_pago = metodoSeleccionado;
                 socioData.estado = 'Pendiente';
+                if (url) socioData.comprobante_url = url;
 
-                showToast('✅ Comprobante enviado exitosamente. Espera aprobación del administrador.', 'success');
-                closeModal('uploadModal');
-                document.getElementById('uploadReceipt').value = '';
-                document.getElementById('uploadPreview').style.display = 'none';
+                document.getElementById('statusEstado').textContent = 'Pendiente';
+                document.getElementById('statusEstado').className = 'value pending';
+                renderProfile(socioData);
 
-                setTimeout(loadSocioData, 1000);
+                planSeleccionado = null;
+                metodoSeleccionado = null;
+                comprobanteSubido = null;
+                document.getElementById('uploadReceiptConfirm').value = '';
+                document.getElementById('uploadPreviewConfirm').style.display = 'none';
+
+                showToast('✅ Configuración guardada. Espera aprobación del administrador.', 'success');
+
+                setTimeout(loadSocioData, 1500);
 
             } catch (error) {
-                console.error('❌ Error general:', error);
-                showToast('❌ Error al enviar comprobante: ' + error.message, 'error');
+                console.error('Error:', error);
+                showToast('❌ Error al guardar configuración: ' + error.message, 'error');
             } finally {
                 btn.disabled = false;
-                btn.innerHTML = '<i class="fas fa-paper-plane"></i> Enviar';
+                btn.innerHTML = '<i class="fas fa-check-circle"></i> CONFIRMAR';
             }
         }
 
         // ================================================================
-        // 15. RENDER HISTORIAL
+        // 15. RENOVAR MEMBRESIA
+        // ================================================================
+        async function renovarMembresia() {
+            if (!socioData) {
+                showToast('⚠️ Espera a que carguen los datos', 'warning');
+                return;
+            }
+
+            if (!socioData.plan || !socioData.metodo_pago) {
+                showToast('⚠️ Primero selecciona un plan y método de pago', 'warning');
+                return;
+            }
+
+            if (socioData.metodo_pago === 'Transferencia' && !socioData.comprobante_url) {
+                showToast('⚠️ Debes subir un comprobante de transferencia', 'warning');
+                return;
+            }
+
+            if (!confirm('¿Renovar tu membresía por 30 días más?')) return;
+
+            try {
+                var btn = document.querySelector('#mensajeVencimiento .btn-primary');
+                if (btn) {
+                    btn.disabled = true;
+                    btn.innerHTML = '<span class="spinner"></span> Procesando...';
+                }
+
+                var hoy = new Date();
+                var fechaVencimiento = new Date(hoy);
+                fechaVencimiento.setDate(fechaVencimiento.getDate() + 30);
+
+                const { error: updateError } = await supabaseClient
+                    .from('socios')
+                    .update({
+                        estado: 'Pendiente',
+                        fecha_inicio: hoy.toISOString().split('T')[0],
+                        fecha_vencimiento: fechaVencimiento.toISOString().split('T')[0]
+                    })
+                    .eq('id', socioData.id);
+
+                if (updateError) {
+                    console.error('❌ Error al renovar:', updateError);
+                    showToast('❌ Error al renovar: ' + updateError.message, 'error');
+                    if (btn) {
+                        btn.disabled = false;
+                        btn.innerHTML = '<i class="fas fa-sync"></i> Renovar Ahora';
+                    }
+                    return;
+                }
+
+                await supabaseClient.from('notificaciones').insert([{
+                    tipo: 'renovacion_solicitada',
+                    mensaje: `🔄 ${socioData.nombre} (@${socioData.username}) solicitó renovación de membresía`,
+                    leida: false,
+                    data: {
+                        socio_id: socioData.id,
+                        username: socioData.username,
+                        plan: socioData.plan
+                    }
+                }]);
+
+                socioData.estado = 'Pendiente';
+                socioData.fecha_inicio = hoy.toISOString().split('T')[0];
+                socioData.fecha_vencimiento = fechaVencimiento.toISOString().split('T')[0];
+
+                showToast('✅ Renovación solicitada. Espera aprobación del administrador.', 'success');
+
+                setTimeout(loadSocioData, 1500);
+
+            } catch (error) {
+                console.error('❌ Error en renovación:', error);
+                showToast('❌ Error al renovar: ' + error.message, 'error');
+            } finally {
+                var btn = document.querySelector('#mensajeVencimiento .btn-primary');
+                if (btn) {
+                    btn.disabled = false;
+                    btn.innerHTML = '<i class="fas fa-sync"></i> Renovar Ahora';
+                }
+            }
+        }
+
+        // ================================================================
+        // 16. RENDER HISTORIAL
         // ================================================================
         function renderHistorial() {
             var tbody = document.getElementById('historialTableBody');
@@ -1250,29 +1405,6 @@
             } else {
                 showToast('No hay comprobante disponible', 'warning');
             }
-        }
-
-        // ================================================================
-        // 16. RENOVAR MEMBRESIA
-        // ================================================================
-        function renovarMembresia() {
-            if (!confirm('¿Renovar tu membresía por 30 días más?')) return;
-            
-            // Verificar que el socio tiene plan y método
-            if (!socioData.plan || !socioData.metodo_pago) {
-                showToast('⚠️ Primero selecciona un plan y método de pago', 'warning');
-                return;
-            }
-
-            // Si es Transferencia, necesita comprobante
-            if (socioData.metodo_pago === 'Transferencia' && !socioData.comprobante_url) {
-                showToast('⚠️ Debes subir un comprobante de transferencia', 'warning');
-                document.getElementById('comprobanteSection').classList.remove('hidden');
-                return;
-            }
-
-            showToast('✅ Renovación solicitada. Espera confirmación del administrador.', 'success');
-            setTimeout(loadSocioData, 1000);
         }
 
         function descargarComprobantes() {
@@ -1439,13 +1571,6 @@
                 btn.innerHTML = '<i class="fas fa-cloud-upload-alt"></i> Subir Foto';
                 avatarFile = null;
             }
-            if (id === 'uploadModal') {
-                var btn = document.querySelector('#uploadModal .btn-primary');
-                if (btn) {
-                    btn.disabled = false;
-                    btn.innerHTML = '<i class="fas fa-paper-plane"></i> Enviar';
-                }
-            }
         }
 
         document.querySelectorAll('.modal').forEach(function(modal) {
@@ -1478,11 +1603,10 @@
             loadSocioData();
         });
 
-        console.log('👤 FLY FUTBOLEROS · Panel del Socio (VERSIÓN COMPLETA)');
-        console.log('✅ Fechas de inicio y vencimiento en el perfil');
-        console.log('✅ Días restantes con colores');
-        console.log('✅ Mensaje de vencimiento SOLO después de vencer');
-        console.log('✅ Subida de comprobante con inserción en tabla');
+        console.log('👤 FLY FUTBOLEROS · Panel del Socio');
+        console.log('📋 Fechas clave movidas al footer antes del menú');
+        console.log('📋 Espacio libre en perfil para futuras funcionalidades');
+        console.log('✅ Botón CONFIRMAR con diseño neón');
     </script>
 
 </body>
