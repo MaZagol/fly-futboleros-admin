@@ -177,6 +177,51 @@
         .dias-naranja{color:var(--neon-orange)}
         .dias-rojo{color:var(--neon-pink)}
 
+        /* ===== BOTÓN CONFIGURAR PLAN ===== */
+        .btn-configurar-plan {
+            background: linear-gradient(135deg, #00d4ff, #8b3cff);
+            color: #fff;
+            font-weight: 700;
+            padding: 14px 24px;
+            border: none;
+            border-radius: var(--radius-sm);
+            font-size: 0.85rem;
+            font-family: 'Inter', sans-serif;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            box-shadow: 0 0 30px rgba(0, 212, 255, 0.1);
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+        .btn-configurar-plan::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 60%);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        .btn-configurar-plan:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 40px rgba(0, 212, 255, 0.25);
+        }
+        .btn-configurar-plan:hover::before {
+            opacity: 1;
+        }
+        .btn-configurar-plan:active {
+            transform: scale(0.97);
+        }
+        .btn-configurar-plan i {
+            font-size: 1.1rem;
+            margin-right: 8px;
+        }
+
         /* ===== BOTÓN CONFIRMAR ===== */
         .btn-confirmar {
             background: linear-gradient(135deg, #00d4ff, #00ff87);
@@ -194,6 +239,8 @@
             box-shadow: 0 0 30px rgba(0, 212, 255, 0.1);
             position: relative;
             overflow: hidden;
+            width: 100%;
+            margin-top: 12px;
         }
         .btn-confirmar::before {
             content: '';
@@ -202,13 +249,13 @@
             left: -50%;
             width: 200%;
             height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 60%);
+            background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 60%);
             opacity: 0;
             transition: opacity 0.5s ease;
         }
         .btn-confirmar:hover {
             transform: translateY(-2px) scale(1.01);
-            box-shadow: 0 8px 40px rgba(0, 212, 255, 0.25);
+            box-shadow: 0 8px 40px rgba(0, 212, 255, 0.3);
         }
         .btn-confirmar:hover::before {
             opacity: 1;
@@ -243,15 +290,144 @@
         .btn-confirmar:hover::after {
             opacity: 1;
         }
-        @media(max-width:480px) {
-            .btn-confirmar {
-                font-size: 0.75rem;
-                padding: 12px 16px;
-                letter-spacing: 1.5px;
-            }
-            .btn-confirmar i {
-                font-size: 0.9rem;
-            }
+
+        /* ===== PANEL CONFIGURAR PLAN (MODAL) ===== */
+        .modal-config-plan .modal-content {
+            max-width: 600px;
+        }
+        .modal-config-plan .config-section {
+            margin-bottom: 16px;
+        }
+        .modal-config-plan .config-section label {
+            font-size: 0.65rem;
+            color: var(--text-secondary);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: block;
+            margin-bottom: 6px;
+        }
+
+        /* ===== COMPROBANTE FUTURISTA ===== */
+        .comprobante-futurista {
+            position: relative;
+            background: linear-gradient(135deg, rgba(0,212,255,0.03), rgba(139,60,255,0.03));
+            border: 1px solid rgba(0,212,255,0.15);
+            border-radius: var(--radius-sm);
+            padding: 16px;
+            margin-top: 12px;
+            transition: all 0.4s ease;
+            overflow: hidden;
+        }
+        .comprobante-futurista::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(from 0deg at 50% 50%, rgba(0,212,255,0.05), rgba(139,60,255,0.05), rgba(0,212,255,0.05));
+            animation: comprobante-glow 6s linear infinite;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        .comprobante-futurista:hover::before {
+            opacity: 1;
+        }
+        .comprobante-futurista:hover {
+            border-color: rgba(0,212,255,0.3);
+            box-shadow: 0 0 40px rgba(0,212,255,0.05);
+        }
+        @keyframes comprobante-glow {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .comprobante-futurista .drop-zone {
+            position: relative;
+            z-index: 1;
+            border: 2px dashed rgba(0,212,255,0.2);
+            border-radius: var(--radius-xs);
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: rgba(0,0,0,0.2);
+        }
+        .comprobante-futurista .drop-zone:hover {
+            border-color: rgba(0,212,255,0.5);
+            background: rgba(0,212,255,0.03);
+        }
+        .comprobante-futurista .drop-zone .icon-wrapper {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, rgba(0,212,255,0.1), rgba(139,60,255,0.1));
+            border: 1px solid rgba(0,212,255,0.1);
+            margin-bottom: 8px;
+            transition: all 0.3s ease;
+        }
+        .comprobante-futurista .drop-zone:hover .icon-wrapper {
+            transform: scale(1.05);
+            border-color: rgba(0,212,255,0.3);
+        }
+        .comprobante-futurista .drop-zone .icon-wrapper i {
+            font-size: 1.6rem;
+            color: var(--neon-blue);
+        }
+        .comprobante-futurista .drop-zone p {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            margin: 0;
+        }
+        .comprobante-futurista .drop-zone .sub-text {
+            font-size: 0.55rem;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+        .comprobante-futurista .file-info {
+            position: relative;
+            z-index: 1;
+            margin-top: 10px;
+            padding: 10px 14px;
+            background: rgba(0,212,255,0.04);
+            border: 1px solid rgba(0,212,255,0.06);
+            border-radius: var(--radius-xs);
+            display: none;
+            align-items: center;
+            gap: 12px;
+        }
+        .comprobante-futurista .file-info.show {
+            display: flex;
+        }
+        .comprobante-futurista .file-info .file-icon {
+            font-size: 1.2rem;
+            color: var(--neon-blue);
+        }
+        .comprobante-futurista .file-info .file-name {
+            flex: 1;
+            font-size: 0.7rem;
+            color: var(--text-primary);
+            word-break: break-all;
+        }
+        .comprobante-futurista .file-info .file-remove {
+            color: var(--neon-pink);
+            cursor: pointer;
+            font-size: 0.8rem;
+            padding: 4px;
+            transition: all 0.2s ease;
+        }
+        .comprobante-futurista .file-info .file-remove:hover {
+            transform: scale(1.2);
+        }
+        .comprobante-futurista .file-info .file-status {
+            font-size: 0.55rem;
+            color: var(--neon-green);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         /* ===== FOOTER DE FECHAS CLAVE ===== */
@@ -261,7 +437,7 @@
             left: 0;
             right: 0;
             z-index: 40;
-            padding: 8px 16px;
+            padding: 10px 16px;
             background: rgba(6, 6, 14, 0.92);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
@@ -269,49 +445,99 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 20px;
+            gap: 24px;
             flex-wrap: wrap;
         }
         .fechas-footer .fecha-item {
             display: flex;
             align-items: center;
-            gap: 6px;
-            font-size: 0.65rem;
+            gap: 8px;
+            font-size: 0.7rem;
             color: var(--text-muted);
         }
         .fechas-footer .fecha-item .numero {
             font-weight: 800;
-            font-size: 0.8rem;
+            font-size: 0.85rem;
+            background: linear-gradient(135deg, var(--neon-blue), var(--neon-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
-        .fechas-footer .fecha-item .numero.azul { color: var(--neon-blue); }
-        .fechas-footer .fecha-item .numero.verde { color: var(--neon-green); }
-        .fechas-footer .fecha-item .numero.morado { color: var(--neon-purple); }
-        .fechas-footer .fecha-item .numero.naranja { color: var(--neon-orange); }
+        .fechas-footer .fecha-item .numero.verde {
+            background: linear-gradient(135deg, var(--neon-green), #00cc66);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .fechas-footer .fecha-item .numero.morado {
+            background: linear-gradient(135deg, var(--neon-purple), #ff2d8a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .fechas-footer .fecha-item .numero.naranja {
+            background: linear-gradient(135deg, var(--neon-orange), #ffd700);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
         .fechas-footer .fecha-item .label {
-            font-size: 0.5rem;
+            font-size: 0.55rem;
             color: var(--text-muted);
             text-transform: uppercase;
             letter-spacing: 0.5px;
+            font-weight: 500;
         }
         .fechas-footer .separador {
-            color: var(--border-glow);
+            color: rgba(255,255,255,0.06);
             font-size: 0.6rem;
         }
         @media(max-width:480px) {
             .fechas-footer {
-                gap: 10px;
-                padding: 6px 10px;
+                gap: 12px;
+                padding: 8px 12px;
                 bottom: calc(var(--bottom-nav-height) + 5px);
             }
             .fechas-footer .fecha-item {
-                font-size: 0.55rem;
+                font-size: 0.6rem;
+                gap: 4px;
             }
             .fechas-footer .fecha-item .numero {
                 font-size: 0.7rem;
             }
+            .fechas-footer .fecha-item .label {
+                font-size: 0.45rem;
+            }
             .fechas-footer .separador {
                 display: none;
             }
+        }
+        @media(max-width:380px) {
+            .fechas-footer {
+                gap: 8px;
+                padding: 6px 8px;
+            }
+            .fechas-footer .fecha-item {
+                font-size: 0.5rem;
+            }
+            .fechas-footer .fecha-item .numero {
+                font-size: 0.6rem;
+            }
+        }
+
+        /* ===== SPINNER ===== */
+        .spinner {
+            display: inline-block;
+            width: 18px;
+            height: 18px;
+            border: 2px solid rgba(255,255,255,0.1);
+            border-top-color: #fff;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
     </style>
 </head>
@@ -385,91 +611,10 @@
                 </div>
             </div>
 
-            <!-- ===== CONFIGURAR MI PLAN ===== -->
-            <div class="glass-card">
-                <h3 style="font-size:clamp(0.85rem,1.8vw,1rem);font-weight:700;color:#ffffff;margin-bottom:12px;">📋 Configurar Mi Plan</h3>
-                
-                <!-- Plan -->
-                <label style="font-size:0.65rem;color:var(--text-secondary);font-weight:600;text-transform:uppercase;letter-spacing:1px;">Selecciona tu plan</label>
-                <div class="selector-group" id="planSelector">
-                    <div class="option" data-plan="Sabatero" onclick="seleccionarPlanUI('Sabatero')">
-                        <span class="icon">⚡</span>
-                        <span class="name">Plan Sabatero</span>
-                        <span class="price">Gs. 20.000 / mes</span>
-                        <span class="check"><i class="fas fa-check-circle"></i></span>
-                    </div>
-                    <div class="option" data-plan="Finder" onclick="seleccionarPlanUI('Finder')">
-                        <span class="icon">🏃</span>
-                        <span class="name">Plan Finder</span>
-                        <span class="price">Gs. 5.000 / partido</span>
-                        <span class="check"><i class="fas fa-check-circle"></i></span>
-                    </div>
-                </div>
-
-                <!-- Método de Pago -->
-                <label style="font-size:0.65rem;color:var(--text-secondary);font-weight:600;text-transform:uppercase;letter-spacing:1px;margin-top:14px;display:block;">Método de pago</label>
-                <div class="selector-group" id="metodoSelector">
-                    <div class="option" data-metodo="Transferencia" onclick="seleccionarMetodoUI('Transferencia')">
-                        <span class="icon">💻</span>
-                        <span class="name">Transferencia</span>
-                        <span class="price">Ueno / Bancos</span>
-                        <span class="check"><i class="fas fa-check-circle"></i></span>
-                    </div>
-                    <div class="option" data-metodo="Efectivo" onclick="seleccionarMetodoUI('Efectivo')">
-                        <span class="icon">💰</span>
-                        <span class="name">Efectivo</span>
-                        <span class="price">Pago en persona</span>
-                        <span class="check"><i class="fas fa-check-circle"></i></span>
-                    </div>
-                </div>
-
-                <!-- Estado actual -->
-                <div class="plan-status" id="planStatus">
-                    <div class="item"><span class="label">Plan:</span><span class="value" id="statusPlan">No seleccionado</span></div>
-                    <div class="item"><span class="label">Método:</span><span class="value" id="statusMetodo">No seleccionado</span></div>
-                    <div class="item"><span class="label">Estado:</span><span class="value" id="statusEstado">Pendiente</span></div>
-                </div>
-
-                <!-- Subir comprobante (solo Transferencia) -->
-                <div id="comprobanteSection" class="hidden" style="margin-top:12px;">
-                    <div class="file-upload-area" onclick="document.getElementById('uploadReceiptConfirm').click()">
-                        <i class="fas fa-upload"></i>
-                        <p>Subir comprobante de transferencia</p>
-                        <div style="font-size:0.6rem;color:var(--text-muted);margin-top:4px;">JPG, PNG, PDF</div>
-                        <input type="file" id="uploadReceiptConfirm" accept=".jpg,.jpeg,.png,.pdf">
-                    </div>
-                    <div id="uploadPreviewConfirm" class="file-preview" style="display:none;">
-                        <i class="fas fa-file"></i>
-                        <span class="name" id="uploadFileNameConfirm">archivo.jpg</span>
-                        <span class="remove" onclick="document.getElementById('uploadReceiptConfirm').value='';this.parentElement.style.display='none';">✕</span>
-                    </div>
-                    <div style="font-size:0.55rem;color:var(--text-muted);margin-top:4px;text-align:center;">
-                        <i class="fas fa-info-circle"></i> Sube tu comprobante antes de confirmar
-                    </div>
-                </div>
-
-                <!-- Datos bancarios (solo Transferencia) -->
-                <div id="datosBancarios" class="hidden" style="margin-top:12px;">
-                    <div class="bank-data">
-                        <div class="row"><span class="label">Titular:</span><span class="value">Alberto Mariano Ramirez Zarate</span></div>
-                        <div class="row"><span class="label">CI:</span><span class="value">3.652.362</span></div>
-                        <div class="row"><span class="label">Entidad:</span><span class="value">Ueno Bank</span></div>
-                        <div class="row"><span class="label">N° Cuenta:</span><span class="value highlight">619315284</span></div>
-                        <div class="row"><span class="label">Alias:</span><span class="value highlight-green">+595961101538</span></div>
-                    </div>
-                    <div class="alert">
-                        <i class="fas fa-lightbulb"></i> Usa el alias <strong>+595961101538</strong> para transferencias rápidas.
-                    </div>
-                </div>
-
-                <!-- Botón CONFIRMAR -->
-                <button class="btn btn-confirmar" onclick="confirmarConfiguracion()" style="width:100%;margin-top:12px;" id="btnConfirmarConfig">
-                    <i class="fas fa-check-circle"></i> CONFIRMAR
-                </button>
-                <div style="font-size:0.55rem;color:var(--text-muted);margin-top:6px;text-align:center;">
-                    <i class="fas fa-info-circle"></i> Al confirmar, se notificará al administrador para su aprobación.
-                </div>
-            </div>
+            <!-- ===== BOTÓN CONFIGURAR MI PLAN ===== -->
+            <button class="btn-configurar-plan" onclick="abrirConfigPlan()">
+                <i class="fas fa-cog"></i> Configurar Mi Plan
+            </button>
 
             <!-- ===== ESPACIO LIBRE PARA FUTURAS FUNCIONALIDADES ===== -->
             <!-- 
@@ -557,10 +702,10 @@
 
     </main>
 
-    <!-- ===== FOOTER DE FECHAS CLAVE (FIJO ANTES DEL MENÚ) ===== -->
+    <!-- ===== FOOTER DE FECHAS CLAVE ===== -->
     <div class="fechas-footer" id="fechasFooter">
         <div class="fecha-item">
-            <span class="numero azul">2012</span>
+            <span class="numero">2012</span>
             <span class="label">Fundación</span>
         </div>
         <span class="separador">|</span>
@@ -577,6 +722,107 @@
         <div class="fecha-item">
             <span class="numero naranja">⚡</span>
             <span class="label">Pasión</span>
+        </div>
+    </div>
+
+    <!-- ===== MODAL CONFIGURAR PLAN ===== -->
+    <div class="modal modal-config-plan" id="configPlanModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>⚙️ Configurar Mi Plan</h2>
+                <button class="modal-close" onclick="closeModal('configPlanModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <!-- Plan -->
+                <div class="config-section">
+                    <label>Selecciona tu plan</label>
+                    <div class="selector-group" id="planSelector">
+                        <div class="option" data-plan="Sabatero" onclick="seleccionarPlanUI('Sabatero')">
+                            <span class="icon">⚡</span>
+                            <span class="name">Plan Sabatero</span>
+                            <span class="price">Gs. 20.000 / mes</span>
+                            <span class="check"><i class="fas fa-check-circle"></i></span>
+                        </div>
+                        <div class="option" data-plan="Finder" onclick="seleccionarPlanUI('Finder')">
+                            <span class="icon">🏃</span>
+                            <span class="name">Plan Finder</span>
+                            <span class="price">Gs. 5.000 / partido</span>
+                            <span class="check"><i class="fas fa-check-circle"></i></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Método de Pago -->
+                <div class="config-section">
+                    <label>Método de pago</label>
+                    <div class="selector-group" id="metodoSelector">
+                        <div class="option" data-metodo="Transferencia" onclick="seleccionarMetodoUI('Transferencia')">
+                            <span class="icon">💻</span>
+                            <span class="name">Transferencia</span>
+                            <span class="price">Ueno / Bancos</span>
+                            <span class="check"><i class="fas fa-check-circle"></i></span>
+                        </div>
+                        <div class="option" data-metodo="Efectivo" onclick="seleccionarMetodoUI('Efectivo')">
+                            <span class="icon">💰</span>
+                            <span class="name">Efectivo</span>
+                            <span class="price">Pago en persona</span>
+                            <span class="check"><i class="fas fa-check-circle"></i></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Estado actual -->
+                <div class="plan-status" id="planStatus">
+                    <div class="item"><span class="label">Plan:</span><span class="value" id="statusPlan">No seleccionado</span></div>
+                    <div class="item"><span class="label">Método:</span><span class="value" id="statusMetodo">No seleccionado</span></div>
+                    <div class="item"><span class="label">Estado:</span><span class="value" id="statusEstado">Pendiente</span></div>
+                </div>
+
+                <!-- Subir comprobante (solo Transferencia) - Diseño Futurista -->
+                <div id="comprobanteSection" class="hidden" style="margin-top:12px;">
+                    <div class="comprobante-futurista">
+                        <div class="drop-zone" onclick="document.getElementById('uploadReceiptConfirm').click()">
+                            <div class="icon-wrapper">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                            </div>
+                            <p><strong>Sube tu comprobante</strong></p>
+                            <div class="sub-text">JPG, PNG o PDF · Máx. 5MB</div>
+                            <input type="file" id="uploadReceiptConfirm" accept=".jpg,.jpeg,.png,.pdf">
+                        </div>
+                        <div class="file-info" id="uploadPreviewConfirm">
+                            <i class="fas fa-file file-icon"></i>
+                            <span class="file-name" id="uploadFileNameConfirm">archivo.jpg</span>
+                            <span class="file-status"><i class="fas fa-check-circle"></i> Listo</span>
+                            <span class="file-remove" onclick="eliminarComprobante()">✕</span>
+                        </div>
+                        <div style="font-size:0.55rem;color:var(--text-muted);margin-top:8px;text-align:center;position:relative;z-index:1;">
+                            <i class="fas fa-lock" style="margin-right:4px;"></i> Transferencia segura · Alias: <strong style="color:var(--neon-blue);">+595961101538</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Datos bancarios (solo Transferencia) -->
+                <div id="datosBancarios" class="hidden" style="margin-top:12px;">
+                    <div class="bank-data">
+                        <div class="row"><span class="label">Titular:</span><span class="value">Alberto Mariano Ramirez Zarate</span></div>
+                        <div class="row"><span class="label">CI:</span><span class="value">3.652.362</span></div>
+                        <div class="row"><span class="label">Entidad:</span><span class="value">Ueno Bank</span></div>
+                        <div class="row"><span class="label">N° Cuenta:</span><span class="value highlight">619315284</span></div>
+                        <div class="row"><span class="label">Alias:</span><span class="value highlight-green">+595961101538</span></div>
+                    </div>
+                    <div class="alert">
+                        <i class="fas fa-lightbulb"></i> Usa el alias <strong>+595961101538</strong> para transferencias rápidas.
+                    </div>
+                </div>
+
+                <!-- Botón CONFIRMAR -->
+                <button class="btn btn-confirmar" onclick="confirmarConfiguracion()" id="btnConfirmarConfig">
+                    <i class="fas fa-check-circle"></i> CONFIRMAR
+                </button>
+                <div style="font-size:0.55rem;color:var(--text-muted);margin-top:6px;text-align:center;">
+                    <i class="fas fa-info-circle"></i> Al confirmar, se notificará al administrador para su aprobación.
+                </div>
+            </div>
         </div>
     </div>
 
@@ -1068,7 +1314,30 @@
         }
 
         // ================================================================
-        // 12. SELECCIÓN DE PLAN - SOLO UI
+        // 12. ABRIR CONFIG PLAN
+        // ================================================================
+        function abrirConfigPlan() {
+            if (!socioData) {
+                showToast('⚠️ Espera a que carguen los datos', 'warning');
+                return;
+            }
+            
+            // Resetear selecciones
+            planSeleccionado = null;
+            metodoSeleccionado = null;
+            comprobanteSubido = null;
+            document.getElementById('uploadReceiptConfirm').value = '';
+            document.getElementById('uploadPreviewConfirm').classList.remove('show');
+            
+            // Cargar estado actual
+            renderSeleccionPlan(socioData);
+            
+            document.getElementById('configPlanModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        // ================================================================
+        // 13. SELECCIÓN DE PLAN - SOLO UI
         // ================================================================
         var planSeleccionado = null;
         var metodoSeleccionado = null;
@@ -1100,7 +1369,7 @@
                 comprobanteSection.classList.remove('hidden');
                 comprobanteSubido = null;
                 document.getElementById('uploadReceiptConfirm').value = '';
-                document.getElementById('uploadPreviewConfirm').style.display = 'none';
+                document.getElementById('uploadPreviewConfirm').classList.remove('show');
             } else {
                 datosBancarios.classList.add('hidden');
                 comprobanteSection.classList.add('hidden');
@@ -1112,24 +1381,30 @@
             showToast('💳 Método seleccionado: ' + metodo, 'info');
         }
 
+        function eliminarComprobante() {
+            document.getElementById('uploadReceiptConfirm').value = '';
+            document.getElementById('uploadPreviewConfirm').classList.remove('show');
+            comprobanteSubido = null;
+        }
+
         // ================================================================
-        // 13. PREVISUALIZACIÓN DE COMPROBANTE
+        // 14. PREVISUALIZACIÓN DE COMPROBANTE
         // ================================================================
         document.getElementById('uploadReceiptConfirm').addEventListener('change', function() {
             var preview = document.getElementById('uploadPreviewConfirm');
             var name = document.getElementById('uploadFileNameConfirm');
             if (this.files && this.files[0]) {
                 name.textContent = this.files[0].name;
-                preview.style.display = 'flex';
+                preview.classList.add('show');
                 comprobanteSubido = this.files[0];
             } else {
-                preview.style.display = 'none';
+                preview.classList.remove('show');
                 comprobanteSubido = null;
             }
         });
 
         // ================================================================
-        // 14. CONFIRMAR CONFIGURACIÓN
+        // 15. CONFIRMAR CONFIGURACIÓN
         // ================================================================
         async function confirmarConfiguracion() {
             if (!socioData) {
@@ -1271,9 +1546,10 @@
                 metodoSeleccionado = null;
                 comprobanteSubido = null;
                 document.getElementById('uploadReceiptConfirm').value = '';
-                document.getElementById('uploadPreviewConfirm').style.display = 'none';
+                document.getElementById('uploadPreviewConfirm').classList.remove('show');
 
                 showToast('✅ Configuración guardada. Espera aprobación del administrador.', 'success');
+                closeModal('configPlanModal');
 
                 setTimeout(loadSocioData, 1500);
 
@@ -1287,7 +1563,7 @@
         }
 
         // ================================================================
-        // 15. RENOVAR MEMBRESIA
+        // 16. RENOVAR MEMBRESIA
         // ================================================================
         async function renovarMembresia() {
             if (!socioData) {
@@ -1369,7 +1645,7 @@
         }
 
         // ================================================================
-        // 16. RENDER HISTORIAL
+        // 17. RENDER HISTORIAL
         // ================================================================
         function renderHistorial() {
             var tbody = document.getElementById('historialTableBody');
@@ -1422,7 +1698,7 @@
         }
 
         // ================================================================
-        // 17. AVATAR
+        // 18. AVATAR
         // ================================================================
         function abrirModalAvatar() {
             if (!socioData) {
@@ -1560,7 +1836,7 @@
         }
 
         // ================================================================
-        // 18. MODAL
+        // 19. MODAL
         // ================================================================
         function closeModal(id) {
             document.getElementById(id).classList.remove('active');
@@ -1582,7 +1858,7 @@
         });
 
         // ================================================================
-        // 19. CERRAR SESIÓN
+        // 20. CERRAR SESIÓN
         // ================================================================
         function handleLogout() {
             if (!confirm('¿Cerrar sesión?')) return;
@@ -1597,16 +1873,16 @@
         }
 
         // ================================================================
-        // 20. INICIALIZAR
+        // 21. INICIALIZAR
         // ================================================================
         document.addEventListener('DOMContentLoaded', function() {
             loadSocioData();
         });
 
         console.log('👤 FLY FUTBOLEROS · Panel del Socio');
-        console.log('📋 Fechas clave movidas al footer antes del menú');
-        console.log('📋 Espacio libre en perfil para futuras funcionalidades');
-        console.log('✅ Botón CONFIRMAR con diseño neón');
+        console.log('✅ Configurar Plan en modal con diseño futurista');
+        console.log('✅ Comprobante con estilo moderno y animado');
+        console.log('✅ Footer de fechas clave mejorado y corregido');
     </script>
 
 </body>
