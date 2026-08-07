@@ -3,637 +3,840 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>FLY FUTBOLEROS · Torneos</title>
+    <title>FLY FUTBOLEROS · Mi Cuenta</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2">
+    </script>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent
-        }
-
-        :root {
-            --bg-deep: #06060e;
-            --bg-card: rgba(12, 12, 26, 0.6);
-            --border-glow: rgba(0, 212, 255, 0.06);
-            --text-primary: #f0f0ff;
-            --text-secondary: #b8b8d0;
-            --text-muted: #7a7a9a;
-            --neon-blue: #00d4ff;
-            --neon-purple: #8b3cff;
-            --neon-pink: #ff2d8a;
-            --neon-green: #00ff7f;
-            --neon-orange: #ff6a00;
-            --neon-gold: #ffd700;
-            --gradient-primary: linear-gradient(135deg, #00d4ff, #8b3cff);
-            --radius: 18px;
-            --radius-sm: 12px;
-            --radius-xs: 8px;
-            --transition-fast: all 0.2s ease;
-            --bottom-nav-height: 72px
-        }
-
-        body {
-            font-family: 'Inter', sans-serif;
-            background: var(--bg-deep);
-            color: var(--text-primary);
-            min-height: 100vh;
-            padding: 20px;
-            padding-bottom: calc(var(--bottom-nav-height) + 100px);
-        }
-
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-        }
-
+        *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+        :root{--bg-deep:#06060e;--bg-card:rgba(12,12,26,0.6);--bg-card-hover:rgba(12,12,26,0.8);--border-glow:rgba(0,212,255,0.06);--text-primary:#f0f0ff;--text-secondary:#b8b8d0;--text-muted:#7a7a9a;--neon-blue:#00d4ff;--neon-purple:#8b3cff;--neon-pink:#ff2d8a;--neon-green:#00ff7f;--neon-orange:#ff6a00;--neon-gold:#ffd700;--gradient-primary:linear-gradient(135deg,#00d4ff,#8b3cff);--gradient-glow:linear-gradient(135deg,rgba(0,212,255,0.15),rgba(139,60,255,0.15));--shadow-card:0 8px 48px rgba(0,0,0,0.9);--radius:18px;--radius-sm:12px;--radius-xs:8px;--transition:all 0.4s cubic-bezier(0.25,0.46,0.45,0.94);--transition-fast:all 0.2s ease;--bottom-nav-height:72px}
+        html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased;font-size:16px}
+        body{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg-deep);color:var(--text-primary);min-height:100vh;overflow-x:hidden;position:relative;padding-bottom:calc(var(--bottom-nav-height)+90px)}
+        ::-webkit-scrollbar{width:3px;height:3px}
+        ::-webkit-scrollbar-track{background:var(--bg-deep)}
+        ::-webkit-scrollbar-thumb{background:var(--neon-blue);border-radius:10px;box-shadow:0 0 20px rgba(0,212,255,0.2)}
+        
+        /* ===== PARTICULAS ===== */
+        #particles{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none}
+        .particle{position:absolute;border-radius:50%;background:radial-gradient(circle,rgba(0,212,255,0.08),transparent);animation:float-particle linear infinite;pointer-events:none}
+        @keyframes float-particle{0%{transform:translateY(100vh) scale(0);opacity:0}10%{opacity:1}90%{opacity:1}100%{transform:translateY(-10vh) scale(1);opacity:0}}
+        
         /* ===== HEADER ===== */
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 16px 0;
-            border-bottom: 1px solid var(--border-glow);
-            margin-bottom: 24px;
-            flex-wrap: wrap;
-            gap: 12px;
-        }
-        .header .logo h1 {
-            font-size: 1.2rem;
-            font-weight: 900;
-            background: var(--gradient-primary);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        .header .logo span {
-            font-size: 0.45rem;
-            padding: 2px 10px;
-            border-radius: 12px;
-            background: rgba(0, 255, 127, 0.06);
-            color: var(--neon-green);
-            border: 1px solid rgba(0, 255, 127, 0.06);
-            text-transform: uppercase;
-            margin-left: 8px;
-        }
-        .header .user {
-            font-size: 0.7rem;
-            color: var(--text-secondary);
-        }
-        .header .user i {
-            color: var(--neon-blue);
-        }
-
-        /* ===== TARJETAS ===== */
-        .glass-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border-glow);
-            border-radius: var(--radius);
-            padding: 20px;
-            transition: var(--transition-fast);
-            margin-bottom: 16px;
-            position: relative;
-            overflow: hidden;
-        }
-        .glass-card:hover {
-            border-color: rgba(0, 212, 255, 0.1);
-        }
-        .glass-card::before {
-            content: '';
-            position: absolute;
-            inset: -1px;
-            border-radius: var(--radius);
-            padding: 1px;
-            background: var(--gradient-primary);
-            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            -webkit-mask-composite: xor;
-            mask-composite: exclude;
-            opacity: 0.04;
-            pointer-events: none;
-        }
-
+        .socio-header{position:sticky;top:0;z-index:100;background:rgba(6,6,14,0.92);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-bottom:1px solid var(--border-glow);padding:10px 16px}
+        .socio-header .header-content{display:flex;justify-content:space-between;align-items:center;max-width:1200px;margin:0 auto;flex-wrap:wrap;gap:10px}
+        .socio-header .logo{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+        .socio-header .logo h2{font-size:clamp(0.9rem,2.5vw,1.2rem);font-weight:900;background:var(--gradient-primary);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+        .socio-header .logo .badge{font-size:0.45rem;padding:2px 10px;border-radius:12px;background:rgba(0,255,127,0.06);color:var(--neon-green);border:1px solid rgba(0,255,127,0.06);text-transform:uppercase;letter-spacing:1px}
+        .socio-header .header-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+        .status-bar{display:flex;align-items:center;gap:6px;font-size:clamp(0.45rem,1.2vw,0.6rem);color:var(--text-muted);padding:3px 10px;background:rgba(0,0,0,0.3);border-radius:20px;border:1px solid var(--border-glow);flex-wrap:nowrap;transition:var(--transition-fast)}
+        .status-bar:hover{border-color:rgba(0,212,255,0.1)}
+        .status-bar .dot{width:4px;height:4px;border-radius:50%;background:var(--neon-green);display:inline-block;animation:pulse-dot 2s infinite;box-shadow:0 0 10px rgba(0,255,127,0.15)}
+        .status-bar .sep{opacity:0.15}
+        .status-bar .time{color:var(--text-primary);font-weight:500}
+        .status-bar .temp-display{color:var(--text-primary);font-weight:500;min-width:35px;}
+        .status-bar .weather-icon{font-size:clamp(0.7rem,1.2vw,0.9rem);margin-left:2px}
+        @keyframes pulse-dot{0%,100%{transform:scale(1);box-shadow:0 0 8px rgba(0,255,127,0.15)}50%{transform:scale(1.3);box-shadow:0 0 20px rgba(0,255,127,0.25)}}
+        
         /* ===== BOTONES ===== */
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            padding: 8px 16px;
-            min-height: 38px;
-            border: none;
-            border-radius: var(--radius-sm);
-            font-family: 'Inter', sans-serif;
-            font-weight: 600;
-            font-size: 0.65rem;
-            cursor: pointer;
-            transition: var(--transition-fast);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            touch-action: manipulation;
-            white-space: nowrap;
-        }
-        .btn:active {
-            transform: scale(0.95)
-        }
-        .btn-primary {
-            background: var(--gradient-primary);
-            color: #fff;
-            box-shadow: 0 0 30px rgba(0, 212, 255, 0.04);
-        }
-        .btn-primary:hover {
-            box-shadow: 0 4px 40px rgba(0, 212, 255, 0.12);
-            transform: translateY(-1px);
-        }
-        .btn-secondary {
-            background: rgba(0, 0, 0, 0.2);
-            color: var(--text-secondary);
-            border: 1px solid var(--border-glow);
-        }
-        .btn-secondary:hover {
-            background: rgba(0, 0, 0, 0.4);
-            color: var(--text-primary);
-            border-color: rgba(0, 212, 255, 0.08);
-        }
-        .btn-success {
-            background: var(--neon-green);
-            color: #06060e;
-        }
-        .btn-sm {
-            padding: 4px 12px;
-            min-height: 28px;
-            font-size: 0.5rem;
-        }
-        .btn-gold {
-            background: linear-gradient(135deg, #ffd700, #ffaa00);
-            color: #06060e;
-            font-weight: 800;
-        }
-        .btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none !important;
-        }
-
+        .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:10px 18px;min-height:44px;border:none;border-radius:var(--radius-sm);font-family:'Inter',sans-serif;font-weight:600;font-size:clamp(0.6rem,1.2vw,0.75rem);cursor:pointer;transition:var(--transition-fast);text-transform:uppercase;letter-spacing:0.5px;-webkit-tap-highlight-color:transparent;touch-action:manipulation;white-space:nowrap}
+        .btn:active{transform:scale(0.95)}
+        .btn-primary{background:var(--gradient-primary);color:#fff;box-shadow:0 0 30px rgba(0,212,255,0.04)}
+        .btn-primary:hover{box-shadow:0 4px 40px rgba(0,212,255,0.12);transform:translateY(-1px)}
+        .btn-secondary{background:rgba(0,0,0,0.2);color:var(--text-secondary);border:1px solid var(--border-glow)}
+        .btn-secondary:hover{background:rgba(0,0,0,0.4);color:var(--text-primary);border-color:rgba(0,212,255,0.08)}
+        .btn-success{background:var(--neon-green);color:#06060e}
+        .btn-danger{background:var(--neon-pink);color:#fff}
+        .btn-sm{padding:6px 12px;min-height:32px;font-size:clamp(0.45rem,1vw,0.55rem)}
+        .btn:disabled{opacity:0.5;cursor:not-allowed;transform:none !important}
+        
+        /* ===== MAIN ===== */
+        .socio-main{position:relative;z-index:1;max-width:1200px;margin:0 auto;padding:16px;padding-bottom:120px;width:100%}
+        
+        /* ===== TARJETAS ===== */
+        .glass-card{background:var(--bg-card);border:1px solid var(--border-glow);border-radius:var(--radius);padding:20px;transition:var(--transition-fast);margin-bottom:16px;position:relative;overflow:hidden}
+        .glass-card:hover{border-color:rgba(0,212,255,0.1)}
+        .glass-card::before{content:'';position:absolute;inset:-1px;border-radius:var(--radius);padding:1px;background:var(--gradient-primary);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;opacity:0.04;pointer-events:none}
+        .glass-card:active{transform:scale(0.99)}
+        
+        /* ===== PERFIL ===== */
+        .profile-header{display:flex;align-items:center;gap:20px;flex-wrap:wrap}
+        .profile-avatar{position:relative;flex-shrink:0}
+        .profile-avatar img{width:clamp(80px,12vw,100px);height:clamp(80px,12vw,100px);border-radius:50%;object-fit:cover;border:2px solid var(--neon-blue);box-shadow:0 0 30px rgba(0,212,255,0.06);background:#111122;transition:var(--transition-fast)}
+        .profile-avatar img:hover{border-color:var(--neon-purple)}
+        .profile-avatar .edit-btn{position:absolute;bottom:0;right:0;background:var(--gradient-primary);border:none;border-radius:50%;width:32px;height:32px;color:#fff;font-size:0.7rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:var(--transition-fast);box-shadow:0 0 20px rgba(0,212,255,0.08);z-index:2}
+        .profile-avatar .edit-btn:active{transform:scale(0.85)}
+        .profile-avatar .edit-btn:hover{transform:scale(1.05)}
+        .profile-info h1{font-size:clamp(1.1rem,2.5vw,1.4rem);font-weight:700;color:#ffffff;text-shadow:0 0 40px rgba(0,212,255,0.05)}
+        .profile-info p{color:var(--text-secondary);font-size:clamp(0.7rem,1.2vw,0.85rem);margin:2px 0}
+        .profile-info p strong{color:#d0d0e8;font-weight:600}
+        
         /* ===== BADGES ===== */
-        .badge {
-            display: inline-block;
-            padding: 2px 10px;
-            border-radius: 12px;
-            font-size: 0.5rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        .badge-active {
-            background: rgba(0, 255, 127, 0.12);
-            color: #44ffbb;
-            border: 1px solid rgba(0, 255, 127, 0.2);
-        }
-        .badge-warning {
-            background: rgba(255, 106, 0, 0.12);
-            color: #ff9944;
-            border: 1px solid rgba(255, 106, 0, 0.2);
-        }
-        .badge-expired {
-            background: rgba(255, 45, 138, 0.12);
-            color: #ff6699;
-            border: 1px solid rgba(255, 45, 138, 0.2);
-        }
-        .badge-pending {
-            background: rgba(255, 106, 0, 0.12);
-            color: #ff9944;
-            border: 1px solid rgba(255, 106, 0, 0.2);
-        }
-
-        /* ===== FILTROS ===== */
-        .filtros {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-            margin-bottom: 16px;
-        }
-
-        /* ===== TARJETA DE TORNEO ===== */
-        .torneo-card {
-            cursor: pointer;
-            transition: var(--transition-fast);
-        }
-        .torneo-card:hover {
-            transform: translateY(-2px);
-            border-color: rgba(0, 212, 255, 0.15);
-        }
-        .torneo-card .header-card {
-            display: flex;
-            justify-content: space-between;
-            align-items: start;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-        .torneo-card .header-card .titulo {
-            font-size: clamp(0.85rem, 1.2vw, 1rem);
-            font-weight: 700;
-            color: #ffffff;
-        }
-        .torneo-card .header-card .estado {
-            flex-shrink: 0;
-        }
-        .torneo-card .descripcion {
-            font-size: 0.7rem;
-            color: var(--text-secondary);
-            margin-top: 4px;
-        }
-        .torneo-card .detalles {
-            display: flex;
-            gap: 16px;
-            flex-wrap: wrap;
-            margin-top: 8px;
-            font-size: 0.6rem;
-            color: var(--text-muted);
-        }
-        .torneo-card .detalles span i {
-            margin-right: 4px;
-            color: var(--neon-blue);
-        }
-        .torneo-card .acciones {
-            display: flex;
-            gap: 6px;
-            margin-top: 10px;
-            flex-wrap: wrap;
-        }
-        .torneo-card .premio {
-            background: rgba(255, 215, 0, 0.06);
-            border: 1px solid rgba(255, 215, 0, 0.1);
-            border-radius: var(--radius-xs);
-            padding: 4px 10px;
-            font-size: 0.55rem;
-            color: var(--neon-gold);
-            display: inline-block;
-            margin-top: 6px;
-        }
-
-        /* ===== ESTADÍSTICAS ===== */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-            gap: 12px;
-            margin-bottom: 16px;
-        }
-        .stat-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border-glow);
-            border-radius: var(--radius-sm);
-            padding: 14px;
-            text-align: center;
-        }
-        .stat-card .numero {
-            font-size: 1.4rem;
-            font-weight: 900;
-            background: var(--gradient-primary);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            display: block;
-        }
-        .stat-card .label {
-            font-size: 0.5rem;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            font-weight: 600;
-        }
-
+        .badge{display:inline-block;padding:2px 10px;border-radius:12px;font-size:clamp(0.45rem,1vw,0.6rem);font-weight:700;text-transform:uppercase;letter-spacing:0.5px}
+        .badge-active{background:rgba(0,255,127,0.12);color:#44ffbb;border:1px solid rgba(0,255,127,0.2);box-shadow:0 0 20px rgba(0,255,127,0.04)}
+        .badge-pending{background:rgba(255,106,0,0.12);color:#ff9944;border:1px solid rgba(255,106,0,0.2);box-shadow:0 0 20px rgba(255,106,0,0.04)}
+        .badge-suspended{background:rgba(255,45,138,0.12);color:#ff6699;border:1px solid rgba(255,45,138,0.2);box-shadow:0 0 20px rgba(255,45,138,0.04)}
+        .badge-expired{background:rgba(255,45,138,0.12);color:#ff6699;border:1px solid rgba(255,45,138,0.2);box-shadow:0 0 20px rgba(255,45,138,0.04)}
+        .badge-warning{background:rgba(255,106,0,0.12);color:#ff9944;border:1px solid rgba(255,106,0,0.2)}
+        .badge-confirmed{background:rgba(0,255,127,0.12);color:#44ffbb;border:1px solid rgba(0,255,127,0.2)}
+        
+        /* ===== TABLAS ===== */
+        .socio-table{width:100%;border-collapse:collapse;font-size:clamp(0.6rem,1.1vw,0.75rem)}
+        .socio-table th{padding:8px 10px;text-align:left;color:var(--text-secondary);font-weight:600;font-size:clamp(0.45rem,0.9vw,0.6rem);text-transform:uppercase;letter-spacing:0.5px;border-bottom:1px solid var(--border-glow)}
+        .socio-table td{padding:6px 10px;border-bottom:1px solid rgba(255,255,255,0.015);vertical-align:middle;color:#c8c8dd}
+        .table-container{overflow-x:auto;-webkit-overflow-scrolling:touch}
+        
         /* ===== MODAL ===== */
-        .modal {
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.85);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            z-index: 2000;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            padding: 16px;
-        }
-        .modal.active {
-            display: flex;
-        }
-        .modal-content {
-            width: 100%;
-            max-width: 550px;
-            max-height: 90vh;
-            overflow-y: auto;
-            background: rgba(6, 6, 14, 0.98);
-            border: 1px solid var(--border-glow);
-            border-radius: var(--radius);
-            padding: 0;
-            animation: fadeInUp 0.3s ease;
-            box-shadow: 0 8px 48px rgba(0, 0, 0, 0.9);
-        }
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 14px 18px;
-            border-bottom: 1px solid var(--border-glow);
-            position: sticky;
-            top: 0;
-            background: rgba(6, 6, 14, 0.95);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            z-index: 10;
-            border-radius: var(--radius) var(--radius) 0 0;
-        }
-        .modal-header h2 {
-            font-size: clamp(0.85rem, 1.8vw, 1rem);
-            font-weight: 700;
-            color: #ffffff;
-        }
-        .modal-close {
-            background: none;
-            border: none;
-            color: var(--text-secondary);
-            font-size: 1.2rem;
-            cursor: pointer;
-            transition: var(--transition-fast);
-            padding: 4px;
-        }
-        .modal-close:hover {
-            color: var(--neon-pink);
-        }
-        .modal-body {
-            padding: 16px 18px;
-        }
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(16px) scale(0.96)
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0) scale(1)
-            }
-        }
-
+        .modal{position:fixed;inset:0;background:rgba(0,0,0,0.85);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);z-index:2000;display:none;align-items:center;justify-content:center;padding:16px}
+        .modal.active{display:flex}
+        .modal-content{width:100%;max-width:500px;max-height:90vh;overflow-y:auto;background:rgba(6,6,14,0.98);border:1px solid var(--border-glow);border-radius:var(--radius);padding:0;animation:fadeInUp 0.3s ease;box-shadow:var(--shadow-card)}
+        .modal-header{display:flex;justify-content:space-between;align-items:center;padding:14px 18px;border-bottom:1px solid var(--border-glow);position:sticky;top:0;background:rgba(6,6,14,0.95);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);z-index:10;border-radius:var(--radius) var(--radius) 0 0}
+        .modal-header h2{font-size:clamp(0.85rem,1.8vw,1rem);font-weight:700;color:#ffffff}
+        .modal-close{background:none;border:none;color:var(--text-secondary);font-size:1.2rem;cursor:pointer;transition:var(--transition-fast);padding:4px}
+        .modal-close:hover{color:var(--neon-pink)}
+        .modal-body{padding:16px 18px}
+        @keyframes fadeInUp{from{opacity:0;transform:translateY(16px) scale(0.96)}to{opacity:1;transform:translateY(0) scale(1)}}
+        
         /* ===== FORMULARIO ===== */
-        .form-group {
-            margin-bottom: 12px;
-        }
-        .form-group label {
-            font-size: 0.6rem;
-            color: var(--text-secondary);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            display: block;
-            margin-bottom: 4px;
-        }
-        .form-group input,
-        .form-group select,
-        .form-group textarea {
-            width: 100%;
-            padding: 10px;
-            background: rgba(0, 0, 0, 0.3);
-            border: 1px solid var(--border-glow);
-            border-radius: var(--radius-xs);
-            color: #fff;
-            font-family: 'Inter', sans-serif;
-            font-size: 0.8rem;
-        }
-        .form-group input:focus,
-        .form-group select:focus,
-        .form-group textarea:focus {
-            outline: none;
-            border-color: var(--neon-blue);
-        }
-        .form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-        }
-
-        /* ===== FOOTER ===== */
-        .footer {
-            text-align: center;
-            padding-top: 12px;
-            border-top: 1px solid var(--border-glow);
-            font-size: 0.45rem;
-            color: #7a7a9a;
-            font-weight: 500;
-            letter-spacing: 0.5px;
-            margin-top: 16px;
-        }
-
-        /* ===== RESPONSIVE ===== */
-        @media(max-width:480px) {
-            body {
-                padding: 12px;
-                padding-bottom: calc(var(--bottom-nav-height) + 80px);
-            }
-            .glass-card {
-                padding: 14px;
-            }
-            .stats-grid {
-                grid-template-columns: 1fr 1fr;
-            }
-            .form-row {
-                grid-template-columns: 1fr;
-            }
-            .torneo-card .header-card {
-                flex-direction: column;
-                align-items: stretch;
-            }
-            .torneo-card .acciones {
-                flex-direction: column;
-            }
-            .torneo-card .acciones .btn {
-                width: 100%;
-                justify-content: center;
-            }
-        }
-
-        /* ===== SCROLLBAR ===== */
-        ::-webkit-scrollbar {
-            width: 3px;
-            height: 3px;
-        }
-        ::-webkit-scrollbar-track {
-            background: var(--bg-deep);
-        }
-        ::-webkit-scrollbar-thumb {
-            background: var(--neon-blue);
-            border-radius: 10px;
-        }
-
-        /* ===== SPINNER ===== */
-        .spinner {
-            display: inline-block;
-            width: 16px;
-            height: 16px;
-            border: 2px solid rgba(255, 255, 255, 0.1);
-            border-top-color: #fff;
-            border-radius: 50%;
-            animation: spin 0.8s linear infinite;
-        }
-        @keyframes spin {
-            0% {
-                transform: rotate(0deg);
-            }
-            100% {
-                transform: rotate(360deg);
-            }
-        }
-
+        .form-group{margin-bottom:12px}
+        .form-group label{font-size:0.6rem;color:var(--text-secondary);text-transform:uppercase;letter-spacing:0.5px;display:block;margin-bottom:4px}
+        .form-group input,.form-group select,.form-group textarea{width:100%;padding:10px;background:rgba(0,0,0,0.3);border:1px solid var(--border-glow);border-radius:var(--radius-xs);color:#fff;font-family:'Inter',sans-serif;font-size:0.8rem}
+        .form-group input:focus,.form-group select:focus,.form-group textarea:focus{outline:none;border-color:var(--neon-blue)}
+        .form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+        
+        .form-jugador{background:rgba(0,0,0,0.15);border-radius:var(--radius-xs);padding:12px;margin-bottom:8px;border:1px solid var(--border-glow)}
+        .form-jugador .label-jugador{font-size:0.55rem;color:var(--text-muted);font-weight:600;margin-bottom:6px;display:block}
+        .form-jugador .row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+        
         /* ===== TOAST ===== */
-        .toast {
-            position: fixed;
-            bottom: calc(var(--bottom-nav-height) + 40px);
-            right: 20px;
-            left: 20px;
-            max-width: 400px;
-            margin: 0 auto;
-            padding: 14px 20px;
-            background: rgba(6, 6, 14, 0.96);
-            border: 1px solid var(--border-glow);
-            border-radius: var(--radius-sm);
-            color: var(--text-primary);
-            z-index: 9999;
-            animation: fadeInUp 0.3s ease;
-            box-shadow: 0 8px 48px rgba(0, 0, 0, 0.9);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-size: 0.75rem;
-            transition: var(--transition-fast);
+        .toast{position:fixed;bottom:calc(var(--bottom-nav-height)+40px);right:20px;left:20px;max-width:400px;margin:0 auto;padding:14px 20px;background:rgba(6,6,14,0.96);border:1px solid var(--border-glow);border-radius:var(--radius-sm);color:var(--text-primary);z-index:9999;animation:fadeInUp 0.3s ease;box-shadow:var(--shadow-card);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);display:flex;align-items:center;gap:12px;font-size:clamp(0.7rem,1.2vw,0.85rem);transition:var(--transition-fast)}
+        .toast .icon{font-size:1.1rem;flex-shrink:0}
+        .toast .icon.success{color:var(--neon-green)}
+        .toast .icon.error{color:var(--neon-pink)}
+        .toast .icon.warning{color:var(--neon-orange)}
+        .toast .icon.info{color:var(--neon-blue)}
+        .hidden{display:none !important}
+        
+        /* ===== SECCIONES ===== */
+        .section-page{display:none;animation:slideIn 0.4s ease}
+        .section-page.active{display:block}
+        @keyframes slideIn{from{opacity:0;transform:translateX(30px)}to{opacity:1;transform:translateX(0)}}
+        
+        /* ===== BOTTOM NAV ===== */
+        .bottom-nav{position:fixed;bottom:0;left:0;right:0;z-index:500;background:rgba(6,6,14,0.96);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-top:1px solid var(--border-glow);height:var(--bottom-nav-height);display:flex;align-items:center;justify-content:space-around;padding:6px 4px;box-shadow:0 -8px 40px rgba(0,0,0,0.6)}
+        .bottom-nav .nav-item{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:6px 12px;border:none;background:none;color:var(--text-muted);cursor:pointer;transition:var(--transition-fast);min-width:64px;min-height:56px;position:relative;-webkit-tap-highlight-color:transparent;touch-action:manipulation;border-radius:var(--radius-sm);flex:1;max-width:100px}
+        .bottom-nav .nav-item:active{transform:scale(0.92)}
+        .bottom-nav .nav-item i{font-size:clamp(1.2rem,2.2vw,1.4rem);transition:var(--transition-fast);margin-bottom:1px}
+        .bottom-nav .nav-item span{font-size:clamp(0.45rem,0.9vw,0.55rem);font-weight:600;text-transform:uppercase;letter-spacing:0.8px;transition:var(--transition-fast);white-space:nowrap}
+        .bottom-nav .nav-item.active{color:var(--neon-blue);background:rgba(0,212,255,0.04);border-radius:var(--radius-sm)}
+        .bottom-nav .nav-item.active i{text-shadow:0 0 20px rgba(0,212,255,0.15)}
+        
+        /* ===== SELECTOR ===== */
+        .selector-group{display:flex;flex-wrap:wrap;gap:10px;margin:8px 0}
+        .selector-group .option{flex:1;min-width:120px;padding:12px 16px;background:rgba(0,0,0,0.2);border:2px solid var(--border-glow);border-radius:var(--radius-sm);text-align:center;cursor:pointer;transition:var(--transition-fast)}
+        .selector-group .option:hover{border-color:rgba(0,212,255,0.2);background:rgba(0,212,255,0.03);transform:translateY(-2px)}
+        .selector-group .option:active{transform:scale(0.96)}
+        .selector-group .option.selected{border-color:var(--neon-blue);background:rgba(0,212,255,0.06);box-shadow:0 0 30px rgba(0,212,255,0.04)}
+        .selector-group .option .icon{font-size:1.3rem;display:block;margin-bottom:4px}
+        .selector-group .option .name{font-size:0.7rem;font-weight:600;color:var(--text-primary)}
+        .selector-group .option .price{font-size:0.55rem;color:var(--text-muted)}
+        .selector-group .option .check{display:none;color:var(--neon-green);font-size:0.8rem;margin-top:4px}
+        .selector-group .option.selected .check{display:block}
+        
+        /* ===== PLAN STATUS ===== */
+        .plan-status{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0;padding:8px 12px;background:rgba(0,0,0,0.15);border-radius:var(--radius-xs);border:1px solid var(--border-glow)}
+        .plan-status .item{display:flex;align-items:center;gap:6px;font-size:0.7rem;color:var(--text-secondary)}
+        .plan-status .item .label{color:var(--text-muted);font-size:0.55rem;text-transform:uppercase}
+        .plan-status .item .value{color:var(--text-primary);font-weight:600}
+        .plan-status .item .value.active{color:var(--neon-green)}
+        .plan-status .item .value.pending{color:var(--neon-orange)}
+        .plan-status .item .value.suspended{color:var(--neon-pink)}
+        .plan-status .item .value.expired{color:var(--neon-pink)}
+        
+        /* ===== BANK DATA ===== */
+        .bank-data{background:rgba(0,0,0,0.2);border-radius:var(--radius-sm);padding:12px 14px;border:1px solid rgba(0,212,255,0.04);margin-top:8px}
+        .bank-data .row{display:grid;grid-template-columns:80px 1fr;gap:2px 10px;font-size:0.7rem;padding:2px 0}
+        .bank-data .row .label{color:var(--text-muted);font-size:0.6rem;text-transform:uppercase;letter-spacing:0.5px}
+        .bank-data .row .value{color:var(--text-secondary);font-weight:500}
+        .bank-data .row .value.highlight{color:var(--neon-blue);font-weight:700}
+        .bank-data .row .value.highlight-green{color:var(--neon-green);font-weight:700}
+        .bank-data .alert{margin-top:8px;padding:8px 12px;background:rgba(255,106,0,0.04);border:1px solid rgba(255,106,0,0.06);border-radius:var(--radius-xs);font-size:0.65rem;color:var(--neon-orange)}
+        .bank-data .alert i{margin-right:6px}
+        
+        /* ===== COMPROBANTE ===== */
+        .comprobante-futurista{position:relative;background:linear-gradient(135deg,rgba(0,212,255,0.03),rgba(139,60,255,0.03));border:1px solid rgba(0,212,255,0.15);border-radius:var(--radius-sm);padding:16px;margin-top:12px;transition:all 0.4s ease;overflow:hidden}
+        .comprobante-futurista::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:conic-gradient(from 0deg at 50% 50%,rgba(0,212,255,0.05),rgba(139,60,255,0.05),rgba(0,212,255,0.05));animation:comprobante-glow 6s linear infinite;opacity:0;transition:opacity 0.5s ease}
+        .comprobante-futurista:hover::before{opacity:1}
+        .comprobante-futurista:hover{border-color:rgba(0,212,255,0.3);box-shadow:0 0 40px rgba(0,212,255,0.05)}
+        @keyframes comprobante-glow{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
+        .comprobante-futurista .drop-zone{position:relative;z-index:1;border:2px dashed rgba(0,212,255,0.2);border-radius:var(--radius-xs);padding:20px;text-align:center;cursor:pointer;transition:all 0.3s ease;background:rgba(0,0,0,0.2)}
+        .comprobante-futurista .drop-zone:hover{border-color:rgba(0,212,255,0.5);background:rgba(0,212,255,0.03)}
+        .comprobante-futurista .drop-zone .icon-wrapper{display:inline-flex;align-items:center;justify-content:center;width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,rgba(0,212,255,0.1),rgba(139,60,255,0.1));border:1px solid rgba(0,212,255,0.1);margin-bottom:8px;transition:all 0.3s ease}
+        .comprobante-futurista .drop-zone:hover .icon-wrapper{transform:scale(1.05);border-color:rgba(0,212,255,0.3)}
+        .comprobante-futurista .drop-zone .icon-wrapper i{font-size:1.6rem;color:var(--neon-blue)}
+        .comprobante-futurista .drop-zone p{font-size:0.75rem;color:var(--text-secondary);margin:0}
+        .comprobante-futurista .drop-zone .sub-text{font-size:0.55rem;color:var(--text-muted);margin-top:4px}
+        .comprobante-futurista .file-info{position:relative;z-index:1;margin-top:10px;padding:10px 14px;background:rgba(0,212,255,0.04);border:1px solid rgba(0,212,255,0.06);border-radius:var(--radius-xs);display:none;align-items:center;gap:12px}
+        .comprobante-futurista .file-info.show{display:flex}
+        .comprobante-futurista .file-info .file-icon{font-size:1.2rem;color:var(--neon-blue)}
+        .comprobante-futurista .file-info .file-name{flex:1;font-size:0.7rem;color:var(--text-primary);word-break:break-all}
+        .comprobante-futurista .file-info .file-remove{color:var(--neon-pink);cursor:pointer;font-size:0.8rem;padding:4px;transition:all 0.2s ease}
+        .comprobante-futurista .file-info .file-remove:hover{transform:scale(1.2)}
+        .comprobante-futurista .file-info .file-status{font-size:0.55rem;color:var(--neon-green);font-weight:600;text-transform:uppercase;letter-spacing:0.5px}
+        
+        /* ===== BOTÓN CONFIGURAR PLAN ===== */
+        .btn-configurar-plan{background:linear-gradient(135deg,#00d4ff,#8b3cff);color:#fff;font-weight:700;padding:14px 24px;border:none;border-radius:var(--radius-sm);font-size:0.85rem;font-family:'Inter',sans-serif;cursor:pointer;transition:all 0.3s cubic-bezier(0.25,0.46,0.45,0.94);text-transform:uppercase;letter-spacing:2px;box-shadow:0 0 30px rgba(0,212,255,0.1);width:100%;position:relative;overflow:hidden}
+        .btn-configurar-plan::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(circle,rgba(255,255,255,0.1) 0%,transparent 60%);opacity:0;transition:opacity 0.5s ease}
+        .btn-configurar-plan:hover{transform:translateY(-2px);box-shadow:0 8px 40px rgba(0,212,255,0.25)}
+        .btn-configurar-plan:hover::before{opacity:1}
+        .btn-configurar-plan:active{transform:scale(0.97)}
+        .btn-configurar-plan i{font-size:1.1rem;margin-right:8px}
+        
+        /* ===== BOTÓN CONFIRMAR ===== */
+        .btn-confirmar{background:linear-gradient(135deg,#00d4ff,#00ff87);color:#06060e;font-weight:800;padding:14px 24px;border:none;border-radius:var(--radius-sm);font-size:0.9rem;font-family:'Inter',sans-serif;cursor:pointer;transition:all 0.3s cubic-bezier(0.25,0.46,0.45,0.94);text-transform:uppercase;letter-spacing:2px;box-shadow:0 0 30px rgba(0,212,255,0.1);position:relative;overflow:hidden;width:100%;margin-top:12px}
+        .btn-confirmar::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(circle,rgba(255,255,255,0.2) 0%,transparent 60%);opacity:0;transition:opacity 0.5s ease}
+        .btn-confirmar:hover{transform:translateY(-2px) scale(1.01);box-shadow:0 8px 40px rgba(0,212,255,0.3)}
+        .btn-confirmar:hover::before{opacity:1}
+        .btn-confirmar:active{transform:scale(0.97)}
+        .btn-confirmar i{font-size:1.1rem;margin-right:8px}
+        .btn-confirmar:disabled{opacity:0.6;cursor:not-allowed;transform:none !important;box-shadow:none !important}
+        .btn-confirmar:disabled::before{opacity:0}
+        
+        /* ===== FUTBOLEROS ===== */
+        .futboleros-header{display:flex;align-items:center;gap:12px;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--border-glow)}
+        .futboleros-header .icono-grande{font-size:2rem;line-height:1}
+        .futboleros-header .titulo-seccion h3{font-size:clamp(1rem,2vw,1.3rem);font-weight:800;color:#ffffff;text-shadow:0 0 40px rgba(0,212,255,0.05)}
+        .futboleros-header .titulo-seccion p{font-size:0.55rem;color:#9a9ab8;letter-spacing:2px;text-transform:uppercase;font-weight:500}
+        .fly-info-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:16px}
+        .fly-info-grid .info-card{background:var(--gradient-glow);border-radius:var(--radius-sm);padding:16px 12px;text-align:center;border:1px solid rgba(0,212,255,0.08);transition:var(--transition-fast);position:relative;overflow:hidden}
+        .fly-info-grid .info-card:hover{border-color:rgba(0,212,255,0.15);transform:translateY(-2px)}
+        .fly-info-grid .info-card::before{content:'';position:absolute;inset:0;background:var(--gradient-primary);opacity:0.04;border-radius:inherit}
+        .fly-info-grid .info-card .icon-circle{display:flex;align-items:center;justify-content:center;width:56px;height:56px;border-radius:50%;margin:0 auto 8px auto;font-size:1.6rem;transition:var(--transition-fast)}
+        .fly-info-grid .info-card .icon-circle.trophy{background:rgba(255,215,0,0.12);border:2px solid rgba(255,215,0,0.2);box-shadow:0 0 30px rgba(255,215,0,0.08)}
+        .fly-info-grid .info-card .icon-circle.trophy span{color:var(--neon-gold);text-shadow:0 0 30px rgba(255,215,0,0.2)}
+        .fly-info-grid .info-card .icon-circle.handshake{background:rgba(0,255,127,0.12);border:2px solid rgba(0,255,127,0.2);box-shadow:0 0 30px rgba(0,255,127,0.08)}
+        .fly-info-grid .info-card .icon-circle.handshake span{color:var(--neon-green);text-shadow:0 0 30px rgba(0,255,127,0.2)}
+        .fly-info-grid .info-card .icon-circle.lightning{background:rgba(0,212,255,0.12);border:2px solid rgba(0,212,255,0.25);box-shadow:0 0 40px rgba(0,212,255,0.12)}
+        .fly-info-grid .info-card .icon-circle.lightning span{color:var(--neon-blue);text-shadow:0 0 40px rgba(0,212,255,0.25);font-size:1.8rem}
+        .fly-info-grid .info-card .title{font-size:0.7rem;font-weight:700;color:#e8e8f0;letter-spacing:1px;text-transform:uppercase;margin-top:4px}
+        .fly-info-grid .info-card .sub{font-size:0.55rem;color:#9a9ab8;margin-top:2px;font-weight:400}
+        .fly-descripcion{font-size:0.8rem;color:#d0d0e8;line-height:1.8;margin-bottom:12px;font-weight:400}
+        .fly-descripcion .highlight{color:#66eeff;font-weight:600;text-shadow:0 0 30px rgba(0,212,255,0.1)}
+        .fly-cita{background:rgba(0,212,255,0.03);border-left:3px solid var(--neon-blue);border-radius:var(--radius-xs);padding:12px 16px;margin-bottom:16px;transition:var(--transition-fast)}
+        .fly-cita:hover{border-left-color:var(--neon-purple)}
+        .fly-cita p{font-size:0.7rem;color:#c8c8dd;font-style:italic;line-height:1.7}
+        .fly-tags span{font-size:0.55rem;color:#8a8aaa}
+        .fly-tags span .tag-text{color:#d0d0e8;font-weight:500}
+        .fly-footer{text-align:center;padding-top:12px;border-top:1px solid var(--border-glow);font-size:0.45rem;color:#7a7a9a;font-weight:500;letter-spacing:0.5px}
+        
+        /* ===== AVATAR ===== */
+        .avatar-iniciales{width:clamp(80px,12vw,100px);height:clamp(80px,12vw,100px);border-radius:50%;display:flex;align-items:center;justify-content:center;background:var(--gradient-primary);color:#fff;font-size:clamp(2rem,3vw,2.5rem);font-weight:700;border:2px solid var(--neon-blue);box-shadow:0 0 30px rgba(0,212,255,0.06)}
+        .avatar-iniciales-small{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:var(--gradient-primary);color:#fff;font-size:0.7rem;font-weight:700}
+        .avatar-preview-container{display:flex;justify-content:center;margin:16px 0}
+        .avatar-preview-container img{width:120px;height:120px;border-radius:50%;object-fit:cover;border:2px solid var(--neon-blue);box-shadow:0 0 40px rgba(0,212,255,0.1);background:#111122;}
+        
+        /* ===== SPINNER ===== */
+        .spinner{display:inline-block;width:18px;height:18px;border:2px solid rgba(255,255,255,0.1);border-top-color:#fff;border-radius:50%;animation:spin 0.8s linear infinite}
+        @keyframes spin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
+        .spinner-small{display:inline-block;width:14px;height:14px;border:2px solid rgba(255,255,255,0.06);border-top-color:var(--neon-blue);border-radius:50%;animation:spin 0.8s linear infinite;vertical-align:middle}
+        
+        /* ===== MENSAJES ===== */
+        .mensaje-vencimiento-card{border-color:rgba(255,45,138,0.2);background:rgba(255,45,138,0.04)}
+        .mensaje-vencimiento-card i{color:var(--neon-pink);font-size:1.5rem}
+        .mensaje-vencimiento-card h4{color:var(--neon-pink);font-size:clamp(0.8rem,1.2vw,0.95rem)}
+        .mensaje-vencimiento-card p{color:#d0d0e0;font-size:clamp(0.7rem,1vw,0.8rem)}
+        .dias-verde{color:var(--neon-green)}
+        .dias-naranja{color:var(--neon-orange)}
+        .dias-rojo{color:var(--neon-pink)}
+        
+        /* ===== TORNEOS ===== */
+        .stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:16px}
+        .stat-card{background:var(--bg-card);border:1px solid var(--border-glow);border-radius:var(--radius-sm);padding:14px;text-align:center}
+        .stat-card .numero{font-size:1.4rem;font-weight:900;background:var(--gradient-primary);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;display:block}
+        .stat-card .label{font-size:0.5rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px;font-weight:600}
+        
+        .filtros{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+        
+        .torneo-card{cursor:pointer;transition:var(--transition-fast)}
+        .torneo-card:hover{transform:translateY(-2px);border-color:rgba(0,212,255,0.15)}
+        .torneo-card .header-card{display:flex;justify-content:space-between;align-items:start;flex-wrap:wrap;gap:10px}
+        .torneo-card .header-card .titulo{font-size:clamp(0.85rem,1.2vw,1rem);font-weight:700;color:#ffffff}
+        .torneo-card .header-card .estado{flex-shrink:0}
+        .torneo-card .descripcion{font-size:0.7rem;color:var(--text-secondary);margin-top:4px}
+        .torneo-card .detalles{display:flex;gap:16px;flex-wrap:wrap;margin-top:8px;font-size:0.6rem;color:var(--text-muted)}
+        .torneo-card .detalles span i{margin-right:4px;color:var(--neon-blue)}
+        .torneo-card .acciones{display:flex;gap:6px;margin-top:10px;flex-wrap:wrap}
+        .torneo-card .premio{background:rgba(255,215,0,0.06);border:1px solid rgba(255,215,0,0.1);border-radius:var(--radius-xs);padding:4px 10px;font-size:0.55rem;color:var(--neon-gold);display:inline-block;margin-top:6px}
+        
+        .admin-panel{background:rgba(255,215,0,0.02);border:1px solid rgba(255,215,0,0.06);border-radius:var(--radius-sm);padding:16px;margin-bottom:16px}
+        .admin-panel .titulo-admin{font-size:0.7rem;color:var(--neon-gold);font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+        .admin-panel .titulo-admin i{font-size:0.8rem}
+        .torneo-precargado{display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:rgba(0,0,0,0.2);border-radius:var(--radius-xs);margin-bottom:6px;border:1px solid var(--border-glow);flex-wrap:wrap;gap:8px}
+        .torneo-precargado .info{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+        .torneo-precargado .info .nombre{font-size:0.75rem;font-weight:600;color:var(--text-primary)}
+        .torneo-precargado .info .fecha{font-size:0.55rem;color:var(--text-muted)}
+        .torneo-precargado .acciones-admin{display:flex;gap:6px;flex-wrap:wrap}
+        .torneo-precargado.activo{border-color:rgba(0,255,127,0.2);background:rgba(0,255,127,0.03)}
+        .badge-estado{font-size:0.45rem;padding:2px 8px;border-radius:10px;font-weight:700;text-transform:uppercase}
+        .badge-estado.activo{background:rgba(0,255,127,0.12);color:#44ffbb}
+        .badge-estado.inactivo{background:rgba(255,45,138,0.08);color:#ff6699}
+        
+        .inscripcion-item{display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:rgba(0,0,0,0.15);border-radius:var(--radius-xs);margin-bottom:6px;border:1px solid var(--border-glow);flex-wrap:wrap;gap:8px}
+        .inscripcion-item .equipo{font-size:0.7rem;font-weight:600;color:var(--text-primary)}
+        .inscripcion-item .capitan{font-size:0.6rem;color:var(--text-secondary)}
+        .inscripcion-item .estado-inscripcion{font-size:0.5rem;padding:2px 8px;border-radius:10px;font-weight:700}
+        .inscripcion-item .estado-inscripcion.pendiente{background:rgba(255,106,0,0.12);color:#ff9944}
+        .inscripcion-item .estado-inscripcion.confirmado{background:rgba(0,255,127,0.12);color:#44ffbb}
+        .inscripcion-item .estado-inscripcion.rechazado{background:rgba(255,45,138,0.12);color:#ff6699}
+        
+        .empty-state{text-align:center;padding:40px 20px}
+        .empty-state i{font-size:3rem;color:var(--text-muted);display:block;margin-bottom:12px;opacity:0.3}
+        .empty-state h3{font-size:1rem;color:var(--text-secondary);margin-bottom:6px}
+        .empty-state p{font-size:0.7rem;color:var(--text-muted)}
+        
+        /* ===== FOOTER FECHAS ===== */
+        .fechas-footer{position:fixed;bottom:calc(var(--bottom-nav-height)+12px);left:50%;transform:translateX(-50%);z-index:40;padding:10px 24px;background:rgba(6,6,14,0.94);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid var(--border-glow);border-radius:50px;display:flex;justify-content:center;align-items:center;gap:14px;flex-wrap:nowrap;max-width:92%;box-shadow:0 4px 30px rgba(0,0,0,0.5);transition:all 0.3s ease}
+        .fechas-footer .fecha-item{display:flex;align-items:center;gap:6px;font-size:0.7rem;color:var(--text-muted);white-space:nowrap}
+        .fechas-footer .fecha-item .numero{font-weight:800;font-size:0.85rem;background:linear-gradient(135deg,var(--neon-blue),var(--neon-purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+        .fechas-footer .fecha-item .numero.verde{background:linear-gradient(135deg,var(--neon-green),#00cc66);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+        .fechas-footer .fecha-item .numero.morado{background:linear-gradient(135deg,var(--neon-purple),#ff2d8a);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+        .fechas-footer .fecha-item .numero.naranja{background:linear-gradient(135deg,var(--neon-orange),#ffd700);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+        .fechas-footer .fecha-item .label{font-size:0.55rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.8px;font-weight:500}
+        .fechas-footer .separador{color:rgba(255,255,255,0.08);font-size:0.6rem;font-weight:300}
+        
+        /* ===== RESPONSIVE ===== */
+        @media(max-width:480px){
+            .fly-info-grid{grid-template-columns:1fr 1fr;gap:10px}
+            .fly-info-grid .info-card .icon-circle{width:48px;height:48px;font-size:1.3rem}
+            .fly-info-grid .info-card .icon-circle.lightning span{font-size:1.5rem}
+            .fly-info-grid .info-card .title{font-size:0.6rem}
+            .fly-info-grid .info-card .sub{font-size:0.5rem}
+            .bottom-nav{height:68px;padding:4px 2px}
+            .bottom-nav .nav-item{min-width:50px;min-height:48px;padding:4px 6px;gap:2px}
+            .bottom-nav .nav-item i{font-size:1.1rem}
+            .bottom-nav .nav-item span{font-size:0.4rem;letter-spacing:0.5px}
+            .toast{bottom:calc(var(--bottom-nav-height)+30px)}
+            .socio-main{padding:10px;padding-bottom:120px}
+            .glass-card{padding:14px}
+            .profile-info h1{font-size:1.1rem}
+            .status-bar{font-size:0.5rem;gap:4px;padding:2px 8px}
+            .status-bar .sep{display:none}
+            .profile-header{flex-direction:column;text-align:center}
+            .socio-header .header-content{flex-direction:column;align-items:stretch;text-align:center}
+            .socio-header .header-actions{justify-content:center}
+            .btn{width:100%;justify-content:center}
+            .btn-sm{width:auto}
+            .selector-group .option{min-width:100px;padding:10px 12px}
+            .selector-group .option .icon{font-size:1.1rem}
+            .stats-grid{grid-template-columns:1fr 1fr}
+            .form-row{grid-template-columns:1fr}
+            .form-jugador .row{grid-template-columns:1fr}
+            .torneo-card .header-card{flex-direction:column;align-items:stretch}
+            .torneo-card .acciones{flex-direction:column}
+            .torneo-card .acciones .btn{width:100%;justify-content:center}
+            .fechas-footer{padding:8px 16px;gap:8px;border-radius:30px;bottom:calc(var(--bottom-nav-height)+8px);max-width:96%;flex-wrap:wrap;justify-content:center}
+            .fechas-footer .fecha-item{font-size:0.55rem;gap:4px}
+            .fechas-footer .fecha-item .numero{font-size:0.7rem}
+            .fechas-footer .fecha-item .label{font-size:0.45rem;letter-spacing:0.5px}
+            .fechas-footer .separador{display:none}
+            .modal-content{max-width:100%}
         }
-        .toast .icon {
-            font-size: 1rem;
-            flex-shrink: 0;
+        @media(max-width:380px){
+            .bottom-nav .nav-item{min-width:44px;min-height:42px;padding:3px 4px}
+            .bottom-nav .nav-item i{font-size:0.95rem}
+            .bottom-nav .nav-item span{font-size:0.35rem;letter-spacing:0.3px}
+            .socio-main{padding-bottom:100px}
+            .glass-card{padding:12px 10px}
+            .profile-avatar img{width:56px;height:56px}
+            .profile-info h1{font-size:1rem}
+            .stats-grid{grid-template-columns:1fr}
+            .fechas-footer{padding:6px 12px;gap:6px;border-radius:20px;bottom:calc(var(--bottom-nav-height)+6px)}
+            .fechas-footer .fecha-item{font-size:0.45rem}
+            .fechas-footer .fecha-item .numero{font-size:0.6rem}
+            .fechas-footer .fecha-item .label{font-size:0.4rem}
         }
-        .toast .icon.success {
-            color: var(--neon-green);
+        @media(min-width:481px) and (max-width:768px){
+            .fechas-footer{padding:10px 20px;gap:12px;bottom:calc(var(--bottom-nav-height)+10px);max-width:90%}
+            .fechas-footer .fecha-item .numero{font-size:0.8rem}
         }
-        .toast .icon.error {
-            color: var(--neon-pink);
+        @media(min-width:769px){
+            .bottom-nav .nav-item{max-width:120px}
+            .bottom-nav .nav-item i{font-size:1.4rem}
+            .bottom-nav .nav-item span{font-size:0.6rem}
+            .socio-main{padding-bottom:100px}
+            .btn{width:auto}
+            .fechas-footer{gap:20px;padding:12px 32px;bottom:calc(var(--bottom-nav-height)+14px);max-width:70%}
         }
-        .toast .icon.warning {
-            color: var(--neon-orange);
-        }
-        .toast .icon.info {
-            color: var(--neon-blue);
-        }
-
-        /* ===== MENSAJE VACÍO ===== */
-        .empty-state {
-            text-align: center;
-            padding: 40px 20px;
-        }
-        .empty-state i {
-            font-size: 3rem;
-            color: var(--text-muted);
-            display: block;
-            margin-bottom: 12px;
-            opacity: 0.3;
-        }
-        .empty-state h3 {
-            font-size: 1rem;
-            color: var(--text-secondary);
-            margin-bottom: 6px;
-        }
-        .empty-state p {
-            font-size: 0.7rem;
-            color: var(--text-muted);
+        @media(min-width:769px) and (max-width:1024px){
+            .socio-main{padding:20px 30px;padding-bottom:100px}
+            .fechas-footer{max-width:80%}
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
+    <div id="particles"></div>
 
-        <!-- ===== HEADER ===== -->
-        <div class="header">
+    <header class="socio-header">
+        <div class="header-content">
             <div class="logo">
-                <h1>⚡ FLY FUTBOLEROS <span>TORNEOS</span></h1>
+                <h2>⚡ FLY FUTBOLEROS</h2>
+                <span class="badge badge-active">SOCIO</span>
             </div>
-            <div class="user">
-                <i class="fas fa-user"></i> <span id="userName">Admin</span>
-                <span style="margin-left:8px;font-size:0.55rem;color:var(--text-muted);">@admin</span>
-                <span style="margin-left:8px;font-size:0.5rem;background:rgba(255,215,0,0.12);color:var(--neon-gold);padding:2px 8px;border-radius:10px;border:1px solid rgba(255,215,0,0.1);">ADMIN</span>
-            </div>
-        </div>
-
-        <!-- ===== ESTADÍSTICAS ===== -->
-        <div class="stats-grid">
-            <div class="stat-card">
-                <span class="numero" id="totalTorneos">0</span>
-                <span class="label">Total Torneos</span>
-            </div>
-            <div class="stat-card">
-                <span class="numero" id="torneosActivos">0</span>
-                <span class="label">Activos</span>
-            </div>
-            <div class="stat-card">
-                <span class="numero" id="torneosProximos">0</span>
-                <span class="label">Próximos</span>
-            </div>
-            <div class="stat-card">
-                <span class="numero" id="torneosFinalizados">0</span>
-                <span class="label">Finalizados</span>
+            <div class="header-actions">
+                <div class="status-bar">
+                    <span class="dot"></span>
+                    <span class="time" id="clockDisplay">00:00</span>
+                    <span class="sep">·</span>
+                    <span class="temp-display" id="tempDisplay">--°C</span>
+                    <span class="sep">·</span>
+                    <span>PYG</span>
+                    <span class="weather-icon" id="weatherIcon">☀️</span>
+                </div>
+                <button class="btn btn-secondary btn-sm" onclick="handleLogout()">
+                    <i class="fas fa-sign-out-alt"></i> Salir
+                </button>
             </div>
         </div>
+    </header>
 
-        <!-- ===== FILTROS ===== -->
-        <div class="filtros">
-            <button class="btn btn-primary btn-sm" onclick="filtrarTorneos('todos')">Todos</button>
-            <button class="btn btn-secondary btn-sm" onclick="filtrarTorneos('Activo')">🟢 Activos</button>
-            <button class="btn btn-secondary btn-sm" onclick="filtrarTorneos('Proximamente')">🟡 Próximos</button>
-            <button class="btn btn-secondary btn-sm" onclick="filtrarTorneos('Finalizado')">🔴 Finalizados</button>
-            <button class="btn btn-success btn-sm" onclick="abrirCrearTorneo()" id="btnCrearTorneo" style="margin-left:auto;">
-                <i class="fas fa-plus"></i> Crear
+    <main class="socio-main" id="socioMain">
+
+        <!-- ===== SECCIÓN PERFIL ===== -->
+        <div class="section-page active" id="section-perfil">
+            <div class="glass-card">
+                <div class="profile-header">
+                    <div class="profile-avatar">
+                        <div id="avatarContainer">
+                            <img id="socioAvatar" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Ccircle cx='40' cy='40' r='40' fill='%23111122'/%3E%3Ccircle cx='40' cy='26' r='12' fill='%23222244'/%3E%3Cpath d='M10 72c0-12 16-20 30-20s30 8 30 20' fill='%23222244'/%3E%3C/svg%3E" alt="Foto de perfil">
+                        </div>
+                        <button class="edit-btn" id="avatarEditBtn" onclick="abrirModalAvatar()">
+                            <i class="fas fa-camera"></i>
+                        </button>
+                    </div>
+                    <div class="profile-info">
+                        <h1 id="socioNombre">Cargando...</h1>
+                        <p><strong>Usuario:</strong> <span id="socioUsername">@cargando</span></p>
+                        <p><strong>ID:</strong> <span id="socioId">#0000</span></p>
+                        <p><strong>Plan:</strong> <span id="socioPlan" class="badge badge-pending">Sin plan</span></p>
+                        <p><strong>Estado:</strong> <span id="socioEstado" class="badge badge-pending">Pendiente</span></p>
+                        <p><strong>Inicio:</strong> <span id="socioInicio">No definida</span></p>
+                        <p><strong>Vencimiento:</strong> <span id="socioVencimiento">No definida</span></p>
+                        <p><strong>Días restantes:</strong> <span id="socioDias">-</span></p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="mensajeVencimiento" class="hidden" style="margin-bottom:16px;">
+                <div class="glass-card mensaje-vencimiento-card">
+                    <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;">
+                        <i class="fas fa-exclamation-circle"></i>
+                        <div style="flex:1;">
+                            <h4 id="mensajeVencimientoTitulo">❌ Tu membresía ha vencido</h4>
+                            <p id="mensajeVencimientoTexto">Renueva ahora para seguir disfrutando de los beneficios.</p>
+                        </div>
+                        <button class="btn btn-primary" onclick="renovarMembresia()" style="flex-shrink:0;">
+                            <i class="fas fa-sync"></i> Renovar Ahora
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <button class="btn-configurar-plan" onclick="abrirConfigPlan()">
+                <i class="fas fa-cog"></i> Configurar Mi Plan
             </button>
         </div>
 
-        <!-- ===== LISTA DE TORNEOS ===== -->
-        <div id="listaTorneos">
-            <div class="empty-state">
-                <i class="fas fa-trophy"></i>
-                <h3>No hay torneos disponibles</h3>
-                <p>Los torneos se mostrarán aquí cuando sean creados por el administrador.</p>
+        <!-- ===== SECCIÓN HISTORIAL ===== -->
+        <div class="section-page" id="section-historial">
+            <div class="glass-card">
+                <h3 style="margin-bottom:14px;font-size:clamp(0.85rem,1.8vw,1rem);font-weight:700;color:#ffffff;">📜 Historial de Pagos</h3>
+                <div class="table-container">
+                    <table class="socio-table">
+                        <thead><tr><th>Fecha</th><th>Monto</th><th>Método</th><th>Estado</th><th>Comprobante</th></tr></thead>
+                        <tbody id="historialTableBody"><tr><td colspan="5" style="text-align:center;padding:24px;color:#8a8aaa;font-size:0.75rem;"><i class="fas fa-inbox" style="font-size:1.2rem;display:block;margin-bottom:6px;opacity:0.5;"></i>No hay pagos registrados</td></tr></tbody>
+                    </table>
+                </div>
             </div>
         </div>
 
-        <!-- ===== FOOTER ===== -->
-        <div class="footer">
-            © 2026 FLY FUTBOLEROS · Todos los derechos reservados
+        <!-- ===== SECCIÓN FUTBOLEROS ===== -->
+        <div class="section-page" id="section-futboleros">
+            <div class="glass-card" style="padding:0;overflow:hidden;border-color:rgba(0,212,255,0.06);">
+                <div style="background:linear-gradient(135deg,rgba(0,212,255,0.08),rgba(139,60,255,0.04));padding:18px 20px 12px 20px;border-bottom:1px solid var(--border-glow);">
+                    <div class="futboleros-header" style="margin-bottom:0;padding-bottom:0;border-bottom:none;">
+                        <span class="icono-grande">⚡</span>
+                        <div class="titulo-seccion">
+                            <h3>FLY FUTBOLEROS</h3>
+                            <p>Asociación Amateur de Fútbol 6 vs 6 · Desde 2012</p>
+                        </div>
+                    </div>
+                </div>
+                <div style="padding:16px 20px 20px 20px;">
+                    <div style="display:grid;grid-template-columns:1fr auto;gap:16px;align-items:start;margin-bottom:16px;">
+                        <div>
+                            <p class="fly-descripcion">
+                                <span class="highlight">Fly Futboleros</span> es una asociación amateur de fútbol 6 vs 6 que comenzó sus actividades a mediados del año 2012. 
+                                Con más de una década de trayectoria, nos hemos consolidado como un espacio donde la pasión por el deporte y la camaradería se unen fecha tras fecha.
+                            </p>
+                        </div>
+                        <div style="flex-shrink:0;width:56px;height:56px;border-radius:50%;background:var(--gradient-primary);display:flex;align-items:center;justify-content:center;box-shadow:0 0 30px rgba(0,212,255,0.06);">
+                            <span style="font-size:1.8rem;">⚡</span>
+                        </div>
+                    </div>
+                    <div class="fly-info-grid">
+                        <div class="info-card">
+                            <div class="icon-circle trophy"><span>🏆</span></div>
+                            <div class="title">Tradición</div>
+                            <div class="sub">Más de 10 años</div>
+                        </div>
+                        <div class="info-card">
+                            <div class="icon-circle handshake"><span>🤝</span></div>
+                            <div class="title">Compromiso</div>
+                            <div class="sub">Causas benéficas</div>
+                        </div>
+                        <div class="info-card">
+                            <div class="icon-circle lightning"><span>⚡</span></div>
+                            <div class="title">Pasión</div>
+                            <div class="sub">Juego limpio</div>
+                        </div>
+                    </div>
+                    <div class="fly-cita">
+                        <p>"Reconocida y altamente valorada por sus socios, promovemos la integración de nuevos valores y la organización semanal de partidos sin complicaciones."</p>
+                    </div>
+                    <div style="display:flex;flex-wrap:wrap;gap:6px 12px;justify-content:space-between;align-items:center;padding-top:12px;border-top:1px solid var(--border-glow);">
+                        <div class="fly-tags" style="display:flex;flex-wrap:wrap;gap:4px 12px;">
+                            <span style="font-size:0.55rem;color:#8a8aaa;">🤝 <span class="tag-text">Ayuda social</span></span>
+                            <span style="font-size:0.55rem;color:#8a8aaa;">🎯 <span class="tag-text">Juego limpio</span></span>
+                            <span style="font-size:0.55rem;color:#8a8aaa;">🏅 <span class="tag-text">Integración</span></span>
+                        </div>
+                    </div>
+                    <div class="fly-footer">
+                        © 2026 FLY FUTBOLEROS · Todos los derechos reservados
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== SECCIÓN TORNEOS ===== -->
+        <div class="section-page" id="section-torneos">
+            <div class="glass-card">
+                <h3 style="margin-bottom:14px;font-size:clamp(0.85rem,1.8vw,1rem);font-weight:700;color:#ffffff;">🏆 Torneos Fly Futboleros</h3>
+                <p style="color:var(--text-secondary);font-size:0.75rem;margin-bottom:16px;">Participa en nuestros torneos y demuestra tu talento en la cancha.</p>
+
+                <!-- Estadísticas -->
+                <div class="stats-grid">
+                    <div class="stat-card"><span class="numero" id="totalTorneos">0</span><span class="label">Total</span></div>
+                    <div class="stat-card"><span class="numero" id="torneosActivos">0</span><span class="label">Activos</span></div>
+                    <div class="stat-card"><span class="numero" id="torneosProximos">0</span><span class="label">Próximos</span></div>
+                    <div class="stat-card"><span class="numero" id="torneosFinalizados">0</span><span class="label">Finalizados</span></div>
+                </div>
+
+                <!-- Filtros -->
+                <div class="filtros">
+                    <button class="btn btn-primary btn-sm" onclick="filtrarTorneos('todos')">Todos</button>
+                    <button class="btn btn-secondary btn-sm" onclick="filtrarTorneos('Activo')">🟢 Activos</button>
+                    <button class="btn btn-secondary btn-sm" onclick="filtrarTorneos('Proximamente')">🟡 Próximos</button>
+                    <button class="btn btn-secondary btn-sm" onclick="filtrarTorneos('Finalizado')">🔴 Finalizados</button>
+                </div>
+
+                <!-- Lista de torneos -->
+                <div id="listaTorneos">
+                    <div class="empty-state">
+                        <i class="fas fa-trophy"></i>
+                        <h3>No hay torneos disponibles</h3>
+                        <p>El administrador activará los torneos próximamente.</p>
+                    </div>
+                </div>
+
+                <!-- Panel Admin (solo visible para admin) -->
+                <div id="adminPanel" style="display:none;">
+                    <div class="admin-panel">
+                        <div class="titulo-admin"><i class="fas fa-crown"></i> Panel de Administración - Torneos</div>
+                        <div id="listaTorneosPrecargados"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- ===== FOOTER FECHAS ===== -->
+    <div class="fechas-footer" id="fechasFooter">
+        <div class="fecha-item">
+            <span class="numero">2012</span>
+            <span class="label">Fundación</span>
+        </div>
+        <span class="separador">|</span>
+        <div class="fecha-item">
+            <span class="numero verde">6v6</span>
+            <span class="label">Formato</span>
+        </div>
+        <span class="separador">|</span>
+        <div class="fecha-item">
+            <span class="numero morado">+10</span>
+            <span class="label">Años</span>
+        </div>
+        <span class="separador">|</span>
+        <div class="fecha-item">
+            <span class="numero naranja">⚡</span>
+            <span class="label">Pasión</span>
         </div>
     </div>
 
-    <!-- ===== BOTTOM NAV ===== -->
-    <nav class="bottom-nav" style="position:fixed;bottom:0;left:0;right:0;z-index:500;background:rgba(6,6,14,0.96);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-top:1px solid var(--border-glow);height:var(--bottom-nav-height);display:flex;align-items:center;justify-content:space-around;padding:6px 4px;box-shadow:0 -8px 40px rgba(0,0,0,0.6);">
-        <button class="nav-item" style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:6px 12px;border:none;background:none;color:var(--text-muted);cursor:pointer;transition:var(--transition-fast);min-width:64px;min-height:56px;position:relative;border-radius:var(--radius-sm);flex:1;max-width:100px;font-family:'Inter',sans-serif;" onclick="location.href='#'">
-            <i class="fas fa-user" style="font-size:1.2rem;"></i>
-            <span style="font-size:0.45rem;font-weight:600;text-transform:uppercase;letter-spacing:0.8px;">Perfil</span>
-        </button>
-        <button class="nav-item" style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:6px 12px;border:none;background:none;color:var(--text-muted);cursor:pointer;transition:var(--transition-fast);min-width:64px;min-height:56px;position:relative;border-radius:var(--radius-sm);flex:1;max-width:100px;font-family:'Inter',sans-serif;" onclick="location.href='#'">
-            <i class="fas fa-history" style="font-size:1.2rem;"></i>
-            <span style="font-size:0.45rem;font-weight:600;text-transform:uppercase;letter-spacing:0.8px;">Historial</span>
-        </button>
-        <button class="nav-item active" style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:6px 12px;border:none;background:rgba(0,212,255,0.04);border-radius:var(--radius-sm);color:var(--neon-blue);cursor:pointer;transition:var(--transition-fast);min-width:64px;min-height:56px;position:relative;flex:1;max-width:100px;font-family:'Inter',sans-serif;" onclick="location.href='#'">
-            <i class="fas fa-trophy" style="font-size:1.2rem;text-shadow:0 0 20px rgba(0,212,255,0.15);"></i>
-            <span style="font-size:0.45rem;font-weight:600;text-transform:uppercase;letter-spacing:0.8px;">Torneos</span>
-        </button>
-        <button class="nav-item" style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:6px 12px;border:none;background:none;color:var(--text-muted);cursor:pointer;transition:var(--transition-fast);min-width:64px;min-height:56px;position:relative;border-radius:var(--radius-sm);flex:1;max-width:100px;font-family:'Inter',sans-serif;" onclick="location.href='#'">
-            <i class="fas fa-users" style="font-size:1.2rem;"></i>
-            <span style="font-size:0.45rem;font-weight:600;text-transform:uppercase;letter-spacing:0.8px;">Futboleros</span>
-        </button>
-        <button class="nav-item" style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:6px 12px;border:none;background:none;color:var(--text-muted);cursor:pointer;transition:var(--transition-fast);min-width:64px;min-height:56px;position:relative;border-radius:var(--radius-sm);flex:1;max-width:100px;font-family:'Inter',sans-serif;" onclick="location.href='#'">
-            <i class="fas fa-sign-out-alt" style="font-size:1.2rem;"></i>
-            <span style="font-size:0.45rem;font-weight:600;text-transform:uppercase;letter-spacing:0.8px;">Salir</span>
-        </button>
-    </nav>
+    <!-- ===== MODAL CONFIGURAR PLAN ===== -->
+    <div class="modal modal-config-plan" id="configPlanModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>⚙️ Configurar Mi Plan</h2>
+                <button class="modal-close" onclick="closeModal('configPlanModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="config-section">
+                    <label>Selecciona tu plan</label>
+                    <div class="selector-group" id="planSelector">
+                        <div class="option" data-plan="Sabatero" onclick="seleccionarPlanUI('Sabatero')">
+                            <span class="icon">⚡</span>
+                            <span class="name">Plan Sabatero</span>
+                            <span class="price">Gs. 20.000 / mes</span>
+                            <span class="check"><i class="fas fa-check-circle"></i></span>
+                        </div>
+                        <div class="option" data-plan="Finder" onclick="seleccionarPlanUI('Finder')">
+                            <span class="icon">🏃</span>
+                            <span class="name">Plan Finder</span>
+                            <span class="price">Gs. 5.000 / partido</span>
+                            <span class="check"><i class="fas fa-check-circle"></i></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="config-section">
+                    <label>Método de pago</label>
+                    <div class="selector-group" id="metodoSelector">
+                        <div class="option" data-metodo="Transferencia" onclick="seleccionarMetodoUI('Transferencia')">
+                            <span class="icon">💻</span>
+                            <span class="name">Transferencia</span>
+                            <span class="price">Ueno / Bancos</span>
+                            <span class="check"><i class="fas fa-check-circle"></i></span>
+                        </div>
+                        <div class="option" data-metodo="Efectivo" onclick="seleccionarMetodoUI('Efectivo')">
+                            <span class="icon">💰</span>
+                            <span class="name">Efectivo</span>
+                            <span class="price">Pago en persona</span>
+                            <span class="check"><i class="fas fa-check-circle"></i></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="plan-status" id="planStatus">
+                    <div class="item"><span class="label">Plan:</span><span class="value" id="statusPlan">No seleccionado</span></div>
+                    <div class="item"><span class="label">Método:</span><span class="value" id="statusMetodo">No seleccionado</span></div>
+                    <div class="item"><span class="label">Estado:</span><span class="value" id="statusEstado">Pendiente</span></div>
+                </div>
+
+                <div id="comprobanteSection" class="hidden" style="margin-top:12px;">
+                    <div class="comprobante-futurista">
+                        <div class="drop-zone" onclick="document.getElementById('uploadReceiptConfirm').click()">
+                            <div class="icon-wrapper">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                            </div>
+                            <p><strong>Sube tu comprobante</strong></p>
+                            <div class="sub-text">JPG, PNG o PDF · Máx. 5MB</div>
+                            <input type="file" id="uploadReceiptConfirm" accept=".jpg,.jpeg,.png,.pdf">
+                        </div>
+                        <div class="file-info" id="uploadPreviewConfirm">
+                            <i class="fas fa-file file-icon"></i>
+                            <span class="file-name" id="uploadFileNameConfirm">archivo.jpg</span>
+                            <span class="file-status"><i class="fas fa-check-circle"></i> Listo</span>
+                            <span class="file-remove" onclick="eliminarComprobante()">✕</span>
+                        </div>
+                        <div style="font-size:0.55rem;color:var(--text-muted);margin-top:8px;text-align:center;position:relative;z-index:1;">
+                            <i class="fas fa-lock" style="margin-right:4px;"></i> Transferencia segura · Alias: <strong style="color:var(--neon-blue);">+595961101538</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="datosBancarios" class="hidden" style="margin-top:12px;">
+                    <div class="bank-data">
+                        <div class="row"><span class="label">Titular:</span><span class="value">Alberto Mariano Ramirez Zarate</span></div>
+                        <div class="row"><span class="label">CI:</span><span class="value">3.652.362</span></div>
+                        <div class="row"><span class="label">Entidad:</span><span class="value">Ueno Bank</span></div>
+                        <div class="row"><span class="label">N° Cuenta:</span><span class="value highlight">619315284</span></div>
+                        <div class="row"><span class="label">Alias:</span><span class="value highlight-green">+595961101538</span></div>
+                    </div>
+                    <div class="alert">
+                        <i class="fas fa-lightbulb"></i> Usa el alias <strong>+595961101538</strong> para transferencias rápidas.
+                    </div>
+                </div>
+
+                <button class="btn btn-confirmar" onclick="confirmarConfiguracion()" id="btnConfirmarConfig">
+                    <i class="fas fa-check-circle"></i> CONFIRMAR
+                </button>
+                <div style="font-size:0.55rem;color:var(--text-muted);margin-top:6px;text-align:center;">
+                    <i class="fas fa-info-circle"></i> Al confirmar, se notificará al administrador para su aprobación.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== MODAL AVATAR ===== -->
+    <div class="modal" id="uploadAvatarModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>📸 Cambiar Foto de Perfil</h2>
+                <button class="modal-close" onclick="closeModal('uploadAvatarModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p style="margin-bottom:14px;color:#b8b8d0;font-size:clamp(0.75rem,1.2vw,0.85rem);">Sube una nueva foto de perfil. Formatos: JPG, PNG.</p>
+                <div class="avatar-preview-container">
+                    <img id="avatarPreview" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Ccircle cx='40' cy='40' r='40' fill='%23111122'/%3E%3Ccircle cx='40' cy='26' r='12' fill='%23222244'/%3E%3Cpath d='M10 72c0-12 16-20 30-20s30 8 30 20' fill='%23222244'/%3E%3C/svg%3E" alt="Vista previa">
+                </div>
+                <div class="file-upload-area" onclick="document.getElementById('uploadAvatarInput').click()">
+                    <i class="fas fa-image"></i>
+                    <p>Seleccionar imagen</p>
+                    <div style="font-size:0.6rem;color:#7a7a9a;margin-top:4px;">Recomendado: 400x400px</div>
+                    <input type="file" id="uploadAvatarInput" accept="image/*">
+                </div>
+                <div id="avatarPreviewFile" class="file-preview" style="display:none;">
+                    <i class="fas fa-file-image"></i>
+                    <span class="name" id="avatarFileName">archivo.jpg</span>
+                    <span class="remove" onclick="document.getElementById('uploadAvatarInput').value='';this.parentElement.style.display='none';document.getElementById('avatarPreview').src=document.getElementById('socioAvatar').src;">✕</span>
+                </div>
+                <div style="display:flex;gap:8px;margin-top:14px;">
+                    <button class="btn btn-primary" onclick="subirFotoPerfil()" style="flex:1;justify-content:center;" id="uploadAvatarBtn">
+                        <i class="fas fa-cloud-upload-alt"></i> Subir Foto
+                    </button>
+                    <button class="btn btn-secondary" onclick="closeModal('uploadAvatarModal')" style="flex:0.5;">Cancelar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== MODAL INSCRIPCIÓN (con jugadores y suplentes) ===== -->
+    <div class="modal" id="modalInscripcion">
+        <div class="modal-content" style="max-width:650px;">
+            <div class="modal-header">
+                <h2 id="modalInscripcionTitulo">📝 Inscripción al Torneo</h2>
+                <button class="modal-close" onclick="cerrarModal('modalInscripcion')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="formInscripcion" onsubmit="guardarInscripcion(event)">
+                    <div class="form-group">
+                        <label>🏠 Nombre del Equipo <span style="color:var(--neon-pink);">*</span></label>
+                        <input type="text" id="equipoNombre" placeholder="Ej: Los Rayos" required>
+                    </div>
+
+                    <div style="font-size:0.65rem;color:var(--text-secondary);font-weight:600;text-transform:uppercase;letter-spacing:0.5px;margin:12px 0 8px 0;">
+                        <i class="fas fa-users"></i> Jugadores Titulares (6)
+                    </div>
+
+                    <div class="form-jugador">
+                        <span class="label-jugador">👤 Jugador 1</span>
+                        <div class="row">
+                            <input type="text" id="j1_nombre" placeholder="Nombre completo">
+                            <input type="text" id="j1_telefono" placeholder="Teléfono">
+                        </div>
+                    </div>
+
+                    <div class="form-jugador">
+                        <span class="label-jugador">👤 Jugador 2</span>
+                        <div class="row">
+                            <input type="text" id="j2_nombre" placeholder="Nombre completo">
+                            <input type="text" id="j2_telefono" placeholder="Teléfono">
+                        </div>
+                    </div>
+
+                    <div class="form-jugador">
+                        <span class="label-jugador">👤 Jugador 3</span>
+                        <div class="row">
+                            <input type="text" id="j3_nombre" placeholder="Nombre completo">
+                            <input type="text" id="j3_telefono" placeholder="Teléfono">
+                        </div>
+                    </div>
+
+                    <div class="form-jugador">
+                        <span class="label-jugador">👤 Jugador 4</span>
+                        <div class="row">
+                            <input type="text" id="j4_nombre" placeholder="Nombre completo">
+                            <input type="text" id="j4_telefono" placeholder="Teléfono">
+                        </div>
+                    </div>
+
+                    <div class="form-jugador">
+                        <span class="label-jugador">👤 Jugador 5</span>
+                        <div class="row">
+                            <input type="text" id="j5_nombre" placeholder="Nombre completo">
+                            <input type="text" id="j5_telefono" placeholder="Teléfono">
+                        </div>
+                    </div>
+
+                    <div class="form-jugador">
+                        <span class="label-jugador">👤 Jugador 6</span>
+                        <div class="row">
+                            <input type="text" id="j6_nombre" placeholder="Nombre completo">
+                            <input type="text" id="j6_telefono" placeholder="Teléfono">
+                        </div>
+                    </div>
+
+                    <div style="font-size:0.65rem;color:var(--text-secondary);font-weight:600;text-transform:uppercase;letter-spacing:0.5px;margin:12px 0 8px 0;">
+                        <i class="fas fa-exchange-alt"></i> Suplentes (4)
+                    </div>
+
+                    <div class="form-jugador">
+                        <span class="label-jugador">🔄 Suplente 1</span>
+                        <div class="row">
+                            <input type="text" id="s1_nombre" placeholder="Nombre completo">
+                            <input type="text" id="s1_telefono" placeholder="Teléfono">
+                        </div>
+                    </div>
+
+                    <div class="form-jugador">
+                        <span class="label-jugador">🔄 Suplente 2</span>
+                        <div class="row">
+                            <input type="text" id="s2_nombre" placeholder="Nombre completo">
+                            <input type="text" id="s2_telefono" placeholder="Teléfono">
+                        </div>
+                    </div>
+
+                    <div class="form-jugador">
+                        <span class="label-jugador">🔄 Suplente 3</span>
+                        <div class="row">
+                            <input type="text" id="s3_nombre" placeholder="Nombre completo">
+                            <input type="text" id="s3_telefono" placeholder="Teléfono">
+                        </div>
+                    </div>
+
+                    <div class="form-jugador">
+                        <span class="label-jugador">🔄 Suplente 4</span>
+                        <div class="row">
+                            <input type="text" id="s4_nombre" placeholder="Nombre completo">
+                            <input type="text" id="s4_telefono" placeholder="Teléfono">
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn" style="width:100%;justify-content:center;background:var(--gradient-primary);color:#fff;font-weight:700;padding:12px;border-radius:var(--radius-sm);border:none;font-size:0.8rem;cursor:pointer;text-transform:uppercase;letter-spacing:1px;margin-top:12px;">
+                        <i class="fas fa-check-circle"></i> Confirmar Inscripción
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== MODAL VER INSCRIPCIONES (ADMIN) ===== -->
+    <div class="modal" id="modalVerInscripciones">
+        <div class="modal-content" style="max-width:650px;">
+            <div class="modal-header">
+                <h2 id="modalInscripcionesTitulo">📋 Inscripciones</h2>
+                <button class="modal-close" onclick="cerrarModal('modalVerInscripciones')">&times;</button>
+            </div>
+            <div class="modal-body" id="modalInscripcionesBody">
+                <div class="empty-state" style="padding:20px;">
+                    <i class="fas fa-spinner fa-spin" style="font-size:1.5rem;"></i>
+                    <p style="font-size:0.7rem;color:var(--text-muted);margin-top:8px;">Cargando inscripciones...</p>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- ===== MODAL DETALLE TORNEO ===== -->
     <div class="modal" id="modalDetalleTorneo">
@@ -651,37 +854,38 @@
         </div>
     </div>
 
-    <!-- ===== MODAL CREAR TORNEO ===== -->
-    <div class="modal" id="modalCrearTorneo">
-        <div class="modal-content">
+    <!-- ===== MODAL EDITAR TORNEO (ADMIN) ===== -->
+    <div class="modal" id="modalEditarTorneo">
+        <div class="modal-content" style="max-width:500px;">
             <div class="modal-header">
-                <h2>🏆 Crear Torneo</h2>
-                <button class="modal-close" onclick="cerrarModal('modalCrearTorneo')">&times;</button>
+                <h2>✏️ Editar Torneo</h2>
+                <button class="modal-close" onclick="cerrarModal('modalEditarTorneo')">&times;</button>
             </div>
             <div class="modal-body">
-                <form id="formCrearTorneo" onsubmit="guardarTorneo(event)">
+                <form id="formEditarTorneo" onsubmit="guardarEdicionTorneo(event)">
+                    <input type="hidden" id="editTorneoId">
                     <div class="form-group">
                         <label>Nombre del Torneo <span style="color:var(--neon-pink);">*</span></label>
-                        <input type="text" id="torneoNombre" placeholder="Ej: Copa Fly 2026" required>
+                        <input type="text" id="editNombre" required>
                     </div>
                     <div class="form-group">
                         <label>Descripción</label>
-                        <textarea id="torneoDescripcion" rows="2" placeholder="Breve descripción del torneo"></textarea>
+                        <textarea id="editDescripcion" rows="2"></textarea>
                     </div>
                     <div class="form-row">
                         <div class="form-group">
-                            <label>Fecha Inicio <span style="color:var(--neon-pink);">*</span></label>
-                            <input type="date" id="torneoFechaInicio" required>
+                            <label>Fecha Inicio</label>
+                            <input type="text" id="editFechaInicio">
                         </div>
                         <div class="form-group">
-                            <label>Fecha Fin <span style="color:var(--neon-pink);">*</span></label>
-                            <input type="date" id="torneoFechaFin" required>
+                            <label>Fecha Fin</label>
+                            <input type="text" id="editFechaFin">
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group">
                             <label>Estado</label>
-                            <select id="torneoEstado">
+                            <select id="editEstado">
                                 <option value="Proximamente">Próximamente</option>
                                 <option value="Activo">Activo</option>
                                 <option value="Finalizado">Finalizado</option>
@@ -689,74 +893,1137 @@
                         </div>
                         <div class="form-group">
                             <label>Máx. Equipos</label>
-                            <input type="number" id="torneoMaxEquipos" value="8" min="2" max="32">
+                            <input type="number" id="editMaxEquipos" min="2" max="32">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label>Premio (opcional)</label>
-                        <input type="text" id="torneoPremio" placeholder="Ej: Trofeo + Gs. 100.000">
+                        <label>Premio</label>
+                        <input type="text" id="editPremio">
                     </div>
                     <div class="form-group">
-                        <label>Ubicación (opcional)</label>
-                        <input type="text" id="torneoUbicacion" placeholder="Ej: Cancha Municipal">
+                        <label>Ubicación</label>
+                        <input type="text" id="editUbicacion">
                     </div>
                     <button type="submit" class="btn" style="width:100%;justify-content:center;background:var(--gradient-primary);color:#fff;font-weight:700;padding:12px;border-radius:var(--radius-sm);border:none;font-size:0.8rem;cursor:pointer;text-transform:uppercase;letter-spacing:1px;">
-                        <i class="fas fa-save"></i> Crear Torneo
+                        <i class="fas fa-save"></i> Guardar Cambios
                     </button>
                 </form>
             </div>
         </div>
     </div>
 
+    <!-- ===== BOTTOM NAV ===== -->
+    <nav class="bottom-nav" id="bottomNav">
+        <button class="nav-item active" data-section="perfil" onclick="navigateTo('perfil')">
+            <i class="fas fa-user"></i>
+            <span>Perfil</span>
+        </button>
+        <button class="nav-item" data-section="historial" onclick="navigateTo('historial')">
+            <i class="fas fa-history"></i>
+            <span>Historial</span>
+        </button>
+        <button class="nav-item" data-section="torneos" onclick="navigateTo('torneos')">
+            <i class="fas fa-trophy"></i>
+            <span>Torneos</span>
+        </button>
+        <button class="nav-item" data-section="futboleros" onclick="navigateTo('futboleros')">
+            <i class="fas fa-users"></i>
+            <span>Futboleros</span>
+        </button>
+        <button class="nav-item" onclick="handleLogout()">
+            <i class="fas fa-sign-out-alt"></i>
+            <span>Salir</span>
+        </button>
+    </nav>
+
     <script>
         // ================================================================
-        // DATOS DE EJEMPLO - VACIOS PARA EDITAR
+        // 1. PARTÍCULAS
         // ================================================================
-        const torneosData = {};
-
-        let filtroActual = 'todos';
+        (function createParticles() {
+            var container = document.getElementById('particles');
+            if (!container) return;
+            for (var i = 0; i < 35; i++) {
+                var p = document.createElement('div');
+                p.className = 'particle';
+                var s = Math.random() * 3 + 2;
+                p.style.width = s + 'px';
+                p.style.height = s + 'px';
+                p.style.left = Math.random() * 100 + '%';
+                p.style.animationDuration = (Math.random() * 16 + 12) + 's';
+                p.style.animationDelay = (Math.random() * 12) + 's';
+                container.appendChild(p);
+            }
+        })();
 
         // ================================================================
-        // FUNCIONES PRINCIPALES
+        // 2. RELOJ
         // ================================================================
+        function updateClock() {
+            var now = new Date();
+            var time = now.toLocaleTimeString('es', { hour: '2-digit', minute: '2-digit' });
+            var clock = document.getElementById('clockDisplay');
+            if (clock) clock.textContent = time;
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
 
-        // Renderizar torneos
-        function renderizarTorneos(filtro) {
-            filtro = filtro || 'todos';
-            filtroActual = filtro;
+        // ================================================================
+        // 3. CLIMA
+        // ================================================================
+        const CACHE_KEY = 'fly_weather_cache';
+        const CACHE_TTL = 10 * 60 * 1000;
 
-            const container = document.getElementById('listaTorneos');
-            const keys = Object.keys(torneosData);
+        function getDayNightIcon() {
+            const now = new Date();
+            const hour = now.getHours();
+            return (hour >= 6 && hour < 19) ? '☀️' : '🌙';
+        }
 
-            // Filtrar
-            let filtrados = keys;
-            if (filtro !== 'todos') {
-                filtrados = keys.filter(id => torneosData[id].estado === filtro);
+        function getWeatherIcon(code) {
+            const map = {
+                '01d': '☀️', '01n': '🌙', '02d': '⛅', '02n': '☁️',
+                '03d': '☁️', '03n': '☁️', '04d': '☁️', '04n': '☁️',
+                '09d': '🌧️', '09n': '🌧️', '10d': '🌦️', '10n': '🌧️',
+                '11d': '⛈️', '11n': '⛈️', '13d': '❄️', '13n': '❄️',
+                '50d': '🌫️', '50n': '🌫️'
+            };
+            return map[code] || getDayNightIcon();
+        }
+
+        async function obtenerTemperatura() {
+            const cached = localStorage.getItem(CACHE_KEY);
+            if (cached) {
+                try {
+                    const data = JSON.parse(cached);
+                    if (Date.now() - data.timestamp < CACHE_TTL) {
+                        return { temperatura: data.temperatura, icono: getDayNightIcon() };
+                    }
+                } catch (e) {}
+            }
+            let temperatura = 22;
+            let icono = getDayNightIcon();
+            try {
+                const geoResponse = await fetch('https://ipapi.co/json/');
+                if (geoResponse.ok) {
+                    const geoData = await geoResponse.json();
+                    if (geoData && geoData.city) {
+                        const weatherUrl =
+                            `https://api.openweathermap.org/data/2.5/weather?q=${geoData.city}&appid=bd5e378503939ddaee76f12ad7a97608&units=metric&lang=es`;
+                        const weatherResponse = await fetch(weatherUrl);
+                        if (weatherResponse.ok) {
+                            const weatherData = await weatherResponse.json();
+                            if (weatherData.main && weatherData.main.temp !== undefined) {
+                                temperatura = Math.round(weatherData.main.temp);
+                            }
+                            if (weatherData.weather && weatherData.weather[0] && weatherData.weather[0].icon) {
+                                icono = getWeatherIcon(weatherData.weather[0].icon);
+                            }
+                        }
+                    }
+                }
+            } catch (error) { console.warn('Error obteniendo clima:', error); }
+            localStorage.setItem(CACHE_KEY, JSON.stringify({ temperatura, timestamp: Date.now() }));
+            return { temperatura, icono };
+        }
+
+        async function actualizarClima() {
+            try {
+                const clima = await obtenerTemperatura();
+                const tempDisplay = document.getElementById('tempDisplay');
+                const iconDisplay = document.getElementById('weatherIcon');
+                if (tempDisplay) tempDisplay.textContent = clima.temperatura + '°C';
+                if (iconDisplay) iconDisplay.textContent = clima.icono;
+            } catch (error) {
+                console.warn('Error actualizando clima:', error);
+            }
+        }
+        actualizarClima();
+        setInterval(actualizarClima, 600000);
+
+        // ================================================================
+        // 4. TOASTS
+        // ================================================================
+        function showToast(message, type) {
+            if (type === undefined) type = 'info';
+            var colors = { success: '#00ff7f', error: '#ff2d8a', warning: '#ff6a00', info: '#00d4ff' };
+            var icons = { success: 'fa-check-circle', error: 'fa-exclamation-circle', warning: 'fa-exclamation-triangle',
+                info: 'fa-info-circle' };
+            var existing = document.querySelector('.toast');
+            if (existing) existing.remove();
+            var el = document.createElement('div');
+            el.className = 'toast';
+            el.innerHTML = '<i class="fas ' + icons[type] + ' icon ' + type + '"></i><span>' + message + '</span>';
+            el.style.borderColor = colors[type];
+            document.body.appendChild(el);
+            setTimeout(function() {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(20px)';
+                setTimeout(function() { el.remove(); }, 300);
+            }, 3500);
+        }
+
+        // ================================================================
+        // 5. NAVEGACIÓN
+        // ================================================================
+        function navigateTo(section) {
+            document.querySelectorAll('.section-page').forEach(function(el) { el.classList.remove('active'); });
+            var target = document.getElementById('section-' + section);
+            if (target) target.classList.add('active');
+            document.querySelectorAll('.bottom-nav .nav-item').forEach(function(el) {
+                el.classList.remove('active');
+                if (el.dataset && el.dataset.section === section) el.classList.add('active');
+            });
+        }
+
+        // ================================================================
+        // 6. SUPABASE
+        // ================================================================
+        const SUPABASE_URL = 'https://abgtdybklkfozoazfmiw.supabase.co';
+        const SUPABASE_ANON_KEY =
+            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFiZ3RkeWJrbGtmb3pvYXpmbWl3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQ5Njg4MzcsImV4cCI6MjEwMDU0NDgzN30.H0WeLq7vXOYC_On43SfRUivc2thzz0zBq4r11NX8FOA';
+        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        var currentUser = null;
+        var socioData = null;
+        var historialPagos = [];
+        var planSeleccionado = null;
+        var metodoSeleccionado = null;
+        var comprobanteSubido = null;
+        var avatarFile = null;
+
+        function getCurrentUser() {
+            try {
+                var session = localStorage.getItem('fly_user_session');
+                if (session) { currentUser = JSON.parse(session); return currentUser; }
+            } catch (e) { console.warn('Error parsing session:', e); }
+            return null;
+        }
+
+        // ================================================================
+        // 7. CARGAR DATOS PRINCIPALES
+        // ================================================================
+        async function loadSocioData() {
+            var sessionUser = getCurrentUser();
+            if (!sessionUser) {
+                showToast('⚠️ Sesión no encontrada. Redirigiendo...', 'warning');
+                setTimeout(function() { window.location.href = 'index.html'; }, 1500);
+                return;
+            }
+            try {
+                const { data: socio, error } = await supabaseClient
+                    .from('socios')
+                    .select('*')
+                    .eq('id', sessionUser.id)
+                    .single();
+                if (error || !socio) {
+                    showToast('⚠️ Usuario no encontrado. Redirigiendo...', 'warning');
+                    setTimeout(function() { window.location.href = 'index.html'; }, 1500);
+                    return;
+                }
+                socioData = socio;
+
+                // Mostrar panel admin si es admin
+                if (socioData && socioData.role === 'admin') {
+                    document.getElementById('adminPanel').style.display = 'block';
+                } else {
+                    document.getElementById('adminPanel').style.display = 'none';
+                }
+
+                // Cargar estadísticas de socios
+                await cargarEstadisticasSocios();
+
+                // Cargar socios recientes
+                await cargarSociosRecientes();
+
+                const { data: pagos, error: pagosError } = await supabaseClient
+                    .from('pagos')
+                    .select('*')
+                    .eq('socio_id', socio.id)
+                    .order('fecha', { ascending: false });
+                if (!pagosError) historialPagos = pagos || [];
+
+                renderProfile(socio);
+                renderHistorial();
+                renderSeleccionPlan(socio);
+                verificarVencimiento(socio);
+                planSeleccionado = null;
+                metodoSeleccionado = null;
+                comprobanteSubido = null;
+
+                // Inicializar torneos
+                initTorneos();
+
+                if (socio.role === 'admin') {
+                    var headerActions = document.querySelector('.socio-header .header-actions');
+                    var adminBtn = document.createElement('button');
+                    adminBtn.className = 'btn btn-primary btn-sm';
+                    adminBtn.innerHTML = '<i class="fas fa-crown"></i> Admin';
+                    adminBtn.onclick = function() { window.location.href = 'admin.html'; };
+                    headerActions.prepend(adminBtn);
+                }
+
+                suscribirseACambios();
+
+            } catch (error) {
+                console.error('Error loading data:', error);
+                showToast('Error al cargar datos', 'error');
+            }
+        }
+
+        // ================================================================
+        // 8. CARGAR ESTADÍSTICAS DE SOCIOS
+        // ================================================================
+        async function cargarEstadisticasSocios() {
+            try {
+                const { data: socios, error } = await supabaseClient
+                    .from('socios')
+                    .select('id, nombre, estado, plan');
+
+                if (error) { console.error('Error:', error); return; }
+                if (!socios || socios.length === 0) {
+                    actualizarDashboard(0, 0, 0, 0, 0, 0, 0, 0, 0);
+                    return;
+                }
+
+                const total = socios.length;
+                const activos = socios.filter(s => (s.estado || '').toLowerCase() === 'activo').length;
+                const pendientes = socios.filter(s => (s.estado || '').toLowerCase() === 'pendiente').length;
+                const inactivos = socios.filter(s => {
+                    const e = (s.estado || '').toLowerCase();
+                    return e === 'vencido' || e === 'suspendido';
+                }).length;
+                const sabatero = socios.filter(s => (s.plan || '').toLowerCase() === 'sabatero').length;
+                const finder = socios.filter(s => (s.plan || '').toLowerCase() === 'finder').length;
+                const sinPlan = socios.filter(s => !s.plan || s.plan === '').length;
+
+                const pctActivos = total > 0 ? Math.round((activos / total) * 100) : 0;
+                const pctInactivos = total > 0 ? Math.round(((inactivos + pendientes) / total) * 100) : 0;
+                const pctSabatero = total > 0 ? Math.round((sabatero / total) * 100) : 0;
+                const pctFinder = total > 0 ? Math.round((finder / total) * 100) : 0;
+                const pctSinPlan = total > 0 ? Math.round((sinPlan / total) * 100) : 0;
+
+                actualizarDashboard(total, activos, pendientes, inactivos, pctActivos, pctInactivos, pctSabatero, pctFinder,
+                    pctSinPlan);
+
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+
+        // ================================================================
+        // 9. ACTUALIZAR DASHBOARD
+        // ================================================================
+        function actualizarDashboard(total, activos, pendientes, inactivos, pctActivos, pctInactivos, pctSabatero, pctFinder,
+            pctSinPlan) {
+            // Esta función es para el dashboard de socios, no para torneos
+        }
+
+        // ================================================================
+        // 10. CARGAR SOCIOS RECIENTES
+        // ================================================================
+        async function cargarSociosRecientes() {
+            try {
+                const { data: socios, error } = await supabaseClient
+                    .from('socios')
+                    .select('id, nombre, username, estado, plan, created_at')
+                    .order('created_at', { ascending: false })
+                    .limit(5);
+
+                if (error) { console.error('Error:', error); return; }
+
+                // Esta función se puede usar para mostrar socios recientes en algún widget
+                console.log('Socios recientes:', socios);
+
+            } catch (error) { console.error('Error:', error); }
+        }
+
+        // ================================================================
+        // 11. SUSCRIPCIÓN EN TIEMPO REAL
+        // ================================================================
+        let subscription = null;
+
+        function suscribirseACambios() {
+            if (subscription) { subscription.unsubscribe(); }
+            subscription = supabaseClient
+                .channel('socios_changes')
+                .on('postgres_changes', { event: '*', schema: 'public', table: 'socios' }, (payload) => {
+                    console.log('🔄 Cambio detectado:', payload);
+                    cargarEstadisticasSocios();
+                    cargarSociosRecientes();
+                    showToast('📊 Datos actualizados en tiempo real', 'info');
+                })
+                .subscribe();
+        }
+
+        // ================================================================
+        // 12. RENDER PERFIL
+        // ================================================================
+        function renderProfile(user) {
+            document.getElementById('socioNombre').textContent = user.nombre || 'Sin nombre';
+            document.getElementById('socioUsername').textContent = '@' + user.username;
+            document.getElementById('socioId').textContent = '#' + user.id;
+
+            var planEl = document.getElementById('socioPlan');
+            if (user.plan) {
+                planEl.textContent = user.plan;
+                planEl.className = 'badge ' + (user.plan === 'Sabatero' ? 'badge-active' : 'badge-warning');
+            } else {
+                planEl.textContent = 'Sin plan';
+                planEl.className = 'badge badge-pending';
             }
 
-            // Actualizar estadísticas
-            actualizarEstadisticas();
+            var estadoEl = document.getElementById('socioEstado');
+            estadoEl.textContent = user.estado || 'Pendiente';
+            estadoEl.className = 'badge ' + getStatusClass(user.estado);
+
+            var inicioEl = document.getElementById('socioInicio');
+            var vencEl = document.getElementById('socioVencimiento');
+            if (user.fecha_inicio) {
+                inicioEl.textContent = new Date(user.fecha_inicio).toLocaleDateString();
+            } else {
+                inicioEl.textContent = 'No definida';
+            }
+            if (user.fecha_vencimiento) {
+                vencEl.textContent = new Date(user.fecha_vencimiento).toLocaleDateString();
+            } else {
+                vencEl.textContent = 'No definida';
+            }
+
+            var avatarContainer = document.getElementById('avatarContainer');
+            if (user.foto_url) {
+                avatarContainer.innerHTML = '<img id="socioAvatar" src="' + user.foto_url + '" alt="Foto de perfil">';
+            } else if (user.nombre) {
+                var iniciales = user.nombre.split(' ').map(function(n) { return n.charAt(0); }).join('').substring(0, 2)
+                    .toUpperCase();
+                avatarContainer.innerHTML = '<div class="avatar-iniciales">' + iniciales + '</div>';
+            } else {
+                avatarContainer.innerHTML =
+                    '<img id="socioAvatar" src="data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'80\' height=\'80\' viewBox=\'0 0 80 80\'%3E%3Ccircle cx=\'40\' cy=\'40\' r=\'40\' fill=\'%23111122\'/%3E%3Ccircle cx=\'40\' cy=\'26\' r=\'12\' fill=\'%23222244\'/%3E%3Cpath d=\'M10 72c0-12 16-20 30-20s30 8 30 20\' fill=\'%23222244\'/%3E%3C/svg%3E" alt="Foto de perfil">';
+            }
+        }
+
+        function getStatusClass(estado) {
+            var map = { 'Activo': 'badge-active', 'Pendiente': 'badge-warning', 'Suspendido': 'badge-suspended',
+                'Vencido': 'badge-expired' };
+            return map[estado] || 'badge-pending';
+        }
+
+        // ================================================================
+        // 13. RENDER SELECCIÓN DE PLAN
+        // ================================================================
+        function renderSeleccionPlan(user) {
+            document.querySelectorAll('#planSelector .option').forEach(function(el) {
+                el.classList.toggle('selected', el.dataset.plan === user.plan);
+            });
+            document.querySelectorAll('#metodoSelector .option').forEach(function(el) {
+                el.classList.toggle('selected', el.dataset.metodo === user.metodo_pago);
+            });
+
+            var comprobanteSection = document.getElementById('comprobanteSection');
+            var datosBancarios = document.getElementById('datosBancarios');
+            if (user.metodo_pago === 'Transferencia') {
+                comprobanteSection.classList.remove('hidden');
+                datosBancarios.classList.remove('hidden');
+            } else {
+                comprobanteSection.classList.add('hidden');
+                datosBancarios.classList.add('hidden');
+            }
+
+            document.getElementById('statusPlan').textContent = user.plan || 'No seleccionado';
+            document.getElementById('statusPlan').className = 'value' + (user.plan ? ' active' : '');
+            document.getElementById('statusMetodo').textContent = user.metodo_pago || 'No seleccionado';
+            document.getElementById('statusMetodo').className = 'value' + (user.metodo_pago ? ' active' : '');
+            document.getElementById('statusEstado').textContent = user.estado || 'Pendiente';
+            document.getElementById('statusEstado').className = 'value ' + getStatusClass(user.estado).replace('badge-', '');
+        }
+
+        // ================================================================
+        // 14. VERIFICAR VENCIMIENTO
+        // ================================================================
+        function verificarVencimiento(user) {
+            var mensajeContainer = document.getElementById('mensajeVencimiento');
+            var titulo = document.getElementById('mensajeVencimientoTitulo');
+            var texto = document.getElementById('mensajeVencimientoTexto');
+            var diasEl = document.getElementById('socioDias');
+
+            if (user.estado === 'Vencido') {
+                mensajeContainer.classList.remove('hidden');
+                titulo.textContent = '❌ Tu membresía ha vencido';
+                texto.textContent = 'Renueva ahora para seguir disfrutando de los beneficios.';
+                if (diasEl) { diasEl.textContent = 'Vencido';
+                    diasEl.className = 'dias-rojo'; }
+                return;
+            }
+
+            if (user.plan !== 'Sabatero' || !user.fecha_vencimiento) {
+                mensajeContainer.classList.add('hidden');
+                if (diasEl) { diasEl.textContent = '-';
+                    diasEl.className = ''; }
+                return;
+            }
+
+            var hoy = new Date();
+            var venc = new Date(user.fecha_vencimiento);
+            var diff = Math.ceil((venc - hoy) / (1000 * 60 * 60 * 24));
+
+            if (diasEl) {
+                diasEl.textContent = diff > 0 ? diff + ' días' : 'Vencido';
+                diasEl.className = diff > 7 ? 'dias-verde' : diff > 0 ? 'dias-naranja' : 'dias-rojo';
+            }
+
+            if (diff <= 0) {
+                mensajeContainer.classList.remove('hidden');
+                titulo.textContent = '❌ Tu membresía ha vencido';
+                texto.textContent = 'Renueva ahora para seguir disfrutando de los beneficios.';
+                return;
+            }
+            mensajeContainer.classList.add('hidden');
+        }
+
+        // ================================================================
+        // 15. ABRIR CONFIG PLAN
+        // ================================================================
+        function abrirConfigPlan() {
+            if (!socioData) { showToast('⚠️ Espera a que carguen los datos', 'warning'); return; }
+            planSeleccionado = null;
+            metodoSeleccionado = null;
+            comprobanteSubido = null;
+            document.getElementById('uploadReceiptConfirm').value = '';
+            document.getElementById('uploadPreviewConfirm').classList.remove('show');
+            renderSeleccionPlan(socioData);
+            document.getElementById('configPlanModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        // ================================================================
+        // 16. SELECCIÓN UI
+        // ================================================================
+        function seleccionarPlanUI(plan) {
+            document.querySelectorAll('#planSelector .option').forEach(function(el) {
+                el.classList.toggle('selected', el.dataset.plan === plan);
+            });
+            planSeleccionado = plan;
+            document.getElementById('statusPlan').textContent = plan;
+            document.getElementById('statusPlan').className = 'value active';
+            showToast('📋 Plan seleccionado: ' + plan, 'info');
+        }
+
+        function seleccionarMetodoUI(metodo) {
+            document.querySelectorAll('#metodoSelector .option').forEach(function(el) {
+                el.classList.toggle('selected', el.dataset.metodo === metodo);
+            });
+            metodoSeleccionado = metodo;
+            var datosBancarios = document.getElementById('datosBancarios');
+            var comprobanteSection = document.getElementById('comprobanteSection');
+            if (metodo === 'Transferencia') {
+                datosBancarios.classList.remove('hidden');
+                comprobanteSection.classList.remove('hidden');
+                comprobanteSubido = null;
+                document.getElementById('uploadReceiptConfirm').value = '';
+                document.getElementById('uploadPreviewConfirm').classList.remove('show');
+            } else {
+                datosBancarios.classList.add('hidden');
+                comprobanteSection.classList.add('hidden');
+                comprobanteSubido = null;
+            }
+            document.getElementById('statusMetodo').textContent = metodo;
+            document.getElementById('statusMetodo').className = 'value active';
+            showToast('💳 Método seleccionado: ' + metodo, 'info');
+        }
+
+        function eliminarComprobante() {
+            document.getElementById('uploadReceiptConfirm').value = '';
+            document.getElementById('uploadPreviewConfirm').classList.remove('show');
+            comprobanteSubido = null;
+        }
+
+        document.getElementById('uploadReceiptConfirm').addEventListener('change', function() {
+            var preview = document.getElementById('uploadPreviewConfirm');
+            var name = document.getElementById('uploadFileNameConfirm');
+            if (this.files && this.files[0]) {
+                name.textContent = this.files[0].name;
+                preview.classList.add('show');
+                comprobanteSubido = this.files[0];
+            } else {
+                preview.classList.remove('show');
+                comprobanteSubido = null;
+            }
+        });
+
+        // ================================================================
+        // 17. CONFIRMAR CONFIGURACIÓN
+        // ================================================================
+        async function confirmarConfiguracion() {
+            if (!socioData) { showToast('⚠️ Espera a que carguen los datos', 'warning'); return; }
+            if (!planSeleccionado) { showToast('⚠️ Selecciona un plan primero', 'warning'); return; }
+            if (!metodoSeleccionado) { showToast('⚠️ Selecciona un método de pago', 'warning'); return; }
+            if (metodoSeleccionado === 'Transferencia' && !comprobanteSubido) {
+                showToast('⚠️ Debes subir el comprobante de transferencia', 'warning');
+                return;
+            }
+            if (socioData.plan === planSeleccionado && socioData.metodo_pago === metodoSeleccionado && socioData
+                .comprobante_url) {
+                showToast('ℹ️ Ya tienes esta configuración activa', 'info');
+                return;
+            }
+
+            var btn = document.getElementById('btnConfirmarConfig');
+            btn.disabled = true;
+            btn.innerHTML = '<span class="spinner"></span> Guardando...';
+
+            try {
+                var sessionUser = getCurrentUser();
+                if (!sessionUser) {
+                    showToast('⚠️ Sesión no encontrada', 'error');
+                    btn.disabled = false;
+                    btn.innerHTML = '<i class="fas fa-check-circle"></i> CONFIRMAR';
+                    return;
+                }
+
+                var url = null;
+                if (comprobanteSubido) {
+                    const ext = comprobanteSubido.name.split('.').pop();
+                    const path = `${sessionUser.id}/comprobante_${Date.now()}.${ext}`;
+                    const { error: uploadError } = await supabaseClient.storage
+                        .from('comprobantes')
+                        .upload(path, comprobanteSubido, {
+                            cacheControl: '3600',
+                            upsert: false,
+                            contentType: comprobanteSubido.type
+                        });
+                    if (uploadError) {
+                        showToast('❌ Error al subir comprobante: ' + uploadError.message, 'error');
+                        btn.disabled = false;
+                        btn.innerHTML = '<i class="fas fa-check-circle"></i> CONFIRMAR';
+                        return;
+                    }
+                    url = supabaseClient.storage.from('comprobantes').getPublicUrl(path).data.publicUrl;
+                    await supabaseClient.from('comprobantes').insert([{
+                        socio_id: sessionUser.id,
+                        archivo_url: url,
+                        tipo: 'transferencia',
+                        estado: 'Pendiente',
+                        fecha_subida: new Date().toISOString(),
+                        nombre_archivo: comprobanteSubido.name
+                    }]);
+                }
+
+                const updates = { plan: planSeleccionado, metodo_pago: metodoSeleccionado, estado: 'Pendiente' };
+                if (url) updates.comprobante_url = url;
+                if (socioData.plan !== planSeleccionado) {
+                    updates.fecha_inicio = null;
+                    updates.fecha_vencimiento = null;
+                }
+
+                const { error: updateError } = await supabaseClient
+                    .from('socios')
+                    .update(updates)
+                    .eq('id', socioData.id);
+                if (updateError) {
+                    showToast('❌ Error al guardar: ' + updateError.message, 'error');
+                    btn.disabled = false;
+                    btn.innerHTML = '<i class="fas fa-check-circle"></i> CONFIRMAR';
+                    return;
+                }
+
+                var mensaje =
+                    `👤 ${socioData.nombre} (@${socioData.username}) seleccionó ${planSeleccionado} - ${metodoSeleccionado}`;
+                if (metodoSeleccionado === 'Transferencia') mensaje += ' (con comprobante)';
+                await supabaseClient.from('notificaciones').insert([{
+                    tipo: 'nuevo_socio',
+                    mensaje: mensaje,
+                    leida: false,
+                    data: {
+                        socio_id: socioData.id,
+                        username: socioData.username,
+                        plan: planSeleccionado,
+                        metodo: metodoSeleccionado,
+                        comprobante_url: url
+                    }
+                }]);
+
+                socioData.plan = planSeleccionado;
+                socioData.metodo_pago = metodoSeleccionado;
+                socioData.estado = 'Pendiente';
+                if (url) socioData.comprobante_url = url;
+
+                document.getElementById('statusEstado').textContent = 'Pendiente';
+                document.getElementById('statusEstado').className = 'value pending';
+                renderProfile(socioData);
+
+                planSeleccionado = null;
+                metodoSeleccionado = null;
+                comprobanteSubido = null;
+                document.getElementById('uploadReceiptConfirm').value = '';
+                document.getElementById('uploadPreviewConfirm').classList.remove('show');
+
+                showToast('✅ Configuración guardada. Espera aprobación del administrador.', 'success');
+                closeModal('configPlanModal');
+                setTimeout(loadSocioData, 1500);
+
+            } catch (error) {
+                console.error('Error:', error);
+                showToast('❌ Error al guardar configuración: ' + error.message, 'error');
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-check-circle"></i> CONFIRMAR';
+            }
+        }
+
+        // ================================================================
+        // 18. RENOVAR MEMBRESIA
+        // ================================================================
+        async function renovarMembresia() {
+            if (!socioData) { showToast('⚠️ Espera a que carguen los datos', 'warning'); return; }
+            if (!socioData.plan || !socioData.metodo_pago) {
+                showToast('⚠️ Primero selecciona un plan y método de pago', 'warning');
+                return;
+            }
+            if (socioData.metodo_pago === 'Transferencia' && !socioData.comprobante_url) {
+                showToast('⚠️ Debes subir un comprobante de transferencia', 'warning');
+                return;
+            }
+            if (!confirm('¿Renovar tu membresía por 30 días más?')) return;
+
+            try {
+                var btn = document.querySelector('#mensajeVencimiento .btn-primary');
+                if (btn) { btn.disabled = true;
+                    btn.innerHTML = '<span class="spinner"></span> Procesando...'; }
+
+                var hoy = new Date();
+                var fechaVencimiento = new Date(hoy);
+                fechaVencimiento.setDate(fechaVencimiento.getDate() + 30);
+
+                const { error: updateError } = await supabaseClient
+                    .from('socios')
+                    .update({
+                        estado: 'Pendiente',
+                        fecha_inicio: hoy.toISOString().split('T')[0],
+                        fecha_vencimiento: fechaVencimiento.toISOString().split('T')[0]
+                    })
+                    .eq('id', socioData.id);
+                if (updateError) {
+                    showToast('❌ Error al renovar: ' + updateError.message, 'error');
+                    if (btn) { btn.disabled = false;
+                        btn.innerHTML = '<i class="fas fa-sync"></i> Renovar Ahora'; }
+                    return;
+                }
+
+                await supabaseClient.from('notificaciones').insert([{
+                    tipo: 'renovacion_solicitada',
+                    mensaje: `🔄 ${socioData.nombre} (@${socioData.username}) solicitó renovación de membresía`,
+                    leida: false,
+                    data: { socio_id: socioData.id, username: socioData.username, plan: socioData.plan }
+                }]);
+
+                socioData.estado = 'Pendiente';
+                socioData.fecha_inicio = hoy.toISOString().split('T')[0];
+                socioData.fecha_vencimiento = fechaVencimiento.toISOString().split('T')[0];
+
+                showToast('✅ Renovación solicitada. Espera aprobación del administrador.', 'success');
+                setTimeout(loadSocioData, 1500);
+
+            } catch (error) {
+                console.error('❌ Error en renovación:', error);
+                showToast('❌ Error al renovar: ' + error.message, 'error');
+            } finally {
+                var btn = document.querySelector('#mensajeVencimiento .btn-primary');
+                if (btn) { btn.disabled = false;
+                    btn.innerHTML = '<i class="fas fa-sync"></i> Renovar Ahora'; }
+            }
+        }
+
+        // ================================================================
+        // 19. RENDER HISTORIAL
+        // ================================================================
+        function renderHistorial() {
+            var tbody = document.getElementById('historialTableBody');
+            if (!historialPagos || historialPagos.length === 0) {
+                tbody.innerHTML =
+                    '<tr><td colspan="5" style="text-align:center;padding:24px;color:#8a8aaa;font-size:0.75rem;"><i class="fas fa-inbox" style="font-size:1.2rem;display:block;margin-bottom:6px;opacity:0.5;"></i>No hay pagos registrados</td></tr>';
+                return;
+            }
+            tbody.innerHTML = historialPagos.map(function(p) {
+                var estadoPago = p.estado || 'Pendiente';
+                if (socioData && socioData.estado === 'Activo' && estadoPago === 'Pendiente') estadoPago = 'Aprobado';
+                return '<tr>' +
+                    '<td>' + (p.fecha ? new Date(p.fecha).toLocaleDateString() : 'N/A') + '</td>' +
+                    '<td>Gs. ' + (p.monto || 0).toLocaleString() + '</td>' +
+                    '<td>' + (p.metodo || 'N/A') + '</td>' +
+                    '<td><span class="badge ' + getStatusClass(estadoPago) + '">' + estadoPago + '</span></td>' +
+                    '<td>' + (p.comprobante_url ?
+                        '<button class="btn btn-secondary btn-sm" onclick="verComprobante(\'' + p
+                        .comprobante_url + '\')"><i class="fas fa-eye"></i></button>' :
+                        '-') +
+                    '</td></tr>';
+            }).join('');
+        }
+
+        function verComprobante(url) {
+            if (url) { window.open(url, '_blank'); } else { showToast('No hay comprobante disponible', 'warning'); }
+        }
+
+        // ================================================================
+        // 20. AVATAR
+        // ================================================================
+        function abrirModalAvatar() {
+            if (!socioData) { showToast('⚠️ Espera a que carguen los datos', 'warning'); return; }
+            document.getElementById('uploadAvatarInput').value = '';
+            document.getElementById('avatarPreviewFile').style.display = 'none';
+            document.getElementById('avatarPreview').src = document.getElementById('socioAvatar') ? document
+                .getElementById('socioAvatar').src :
+                'data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'80\' height=\'80\' viewBox=\'0 0 80 80\'%3E%3Ccircle cx=\'40\' cy=\'40\' r=\'40\' fill=\'%23111122\'/%3E%3Ccircle cx=\'40\' cy=\'26\' r=\'12\' fill=\'%23222244\'/%3E%3Cpath d=\'M10 72c0-12 16-20 30-20s30 8 30 20\' fill=\'%23222244\'/%3E%3C/svg%3E';
+            document.getElementById('uploadAvatarBtn').disabled = false;
+            document.getElementById('uploadAvatarBtn').innerHTML = '<i class="fas fa-cloud-upload-alt"></i> Subir Foto';
+            avatarFile = null;
+            document.getElementById('uploadAvatarModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        document.getElementById('uploadAvatarInput').addEventListener('change', function() {
+            var file = this.files[0];
+            if (!file) { document.getElementById('avatarPreviewFile').style.display = 'none';
+                avatarFile = null; return; }
+            var validTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'image/bmp', 'image/svg+xml'];
+            if (!validTypes.includes(file.type)) {
+                showToast('⚠️ Formato no soportado. Usa JPG, PNG, GIF o WebP', 'warning');
+                this.value = '';
+                avatarFile = null;
+                return;
+            }
+            if (file.size > 2 * 1024 * 1024) {
+                showToast('⚠️ La imagen no debe superar los 2MB', 'warning');
+                this.value = '';
+                avatarFile = null;
+                return;
+            }
+            avatarFile = file;
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById('avatarPreview').src = e.target.result;
+                document.getElementById('avatarFileName').textContent = file.name;
+                document.getElementById('avatarPreviewFile').style.display = 'flex';
+            };
+            reader.readAsDataURL(file);
+        });
+
+        async function subirFotoPerfil() {
+            if (!avatarFile) { showToast('⚠️ Selecciona una imagen primero', 'warning'); return; }
+            var btn = document.getElementById('uploadAvatarBtn');
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Subiendo...';
+
+            try {
+                var sessionUser = getCurrentUser();
+                if (!sessionUser) {
+                    showToast('⚠️ Sesión no encontrada', 'error');
+                    btn.disabled = false;
+                    btn.innerHTML = '<i class="fas fa-cloud-upload-alt"></i> Subir Foto';
+                    return;
+                }
+                var mimeToExt = { 'image/jpeg': 'jpg', 'image/png': 'png', 'image/gif': 'gif', 'image/webp': 'webp',
+                    'image/bmp': 'bmp', 'image/svg+xml': 'svg' };
+                var ext = mimeToExt[avatarFile.type] || avatarFile.name.split('.').pop().toLowerCase();
+                var fileName = 'avatars/' + sessionUser.id + '_' + Date.now() + '.' + ext;
+
+                var { error: uploadError } = await supabaseClient.storage
+                    .from('avatars')
+                    .upload(fileName, avatarFile, { cacheControl: '3600', upsert: false, contentType: avatarFile
+                            .type });
+                if (uploadError) {
+                    showToast('❌ Error al subir: ' + uploadError.message, 'error');
+                    btn.disabled = false;
+                    btn.innerHTML = '<i class="fas fa-cloud-upload-alt"></i> Subir Foto';
+                    return;
+                }
+
+                var url = supabaseClient.storage.from('avatars').getPublicUrl(fileName).data.publicUrl;
+                var { error: updateError } = await supabaseClient
+                    .from('socios')
+                    .update({ foto_url: url })
+                    .eq('id', sessionUser.id);
+                if (updateError) {
+                    showToast('❌ Error al actualizar la foto de perfil', 'error');
+                    btn.disabled = false;
+                    btn.innerHTML = '<i class="fas fa-cloud-upload-alt"></i> Subir Foto';
+                    return;
+                }
+
+                socioData.foto_url = url;
+                renderProfile(socioData);
+                showToast('✅ Foto de perfil actualizada exitosamente', 'success');
+                closeModal('uploadAvatarModal');
+
+            } catch (error) {
+                console.error('Error:', error);
+                showToast('❌ Error al subir la imagen: ' + error.message, 'error');
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-cloud-upload-alt"></i> Subir Foto';
+                avatarFile = null;
+            }
+        }
+
+        // ================================================================
+        // 21. MODAL
+        // ================================================================
+        function closeModal(id) {
+            document.getElementById(id).classList.remove('active');
+            document.body.style.overflow = '';
+            if (id === 'uploadAvatarModal') {
+                var btn = document.getElementById('uploadAvatarBtn');
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-cloud-upload-alt"></i> Subir Foto';
+                avatarFile = null;
+            }
+        }
+
+        document.querySelectorAll('.modal').forEach(function(modal) {
+            modal.addEventListener('click', function(e) {
+                if (e.target === this) closeModal(this.id);
+            });
+        });
+
+        // ================================================================
+        // 22. CERRAR SESIÓN
+        // ================================================================
+        function handleLogout() {
+            if (!confirm('¿Cerrar sesión?')) return;
+            try { localStorage.removeItem('fly_user_session');
+                sessionStorage.clear(); } catch (e) {}
+            showToast('🔒 Sesión cerrada', 'info');
+            setTimeout(function() { window.location.href = 'index.html'; }, 1000);
+        }
+
+        // ================================================================
+        // 23. TORNEOS
+        // ================================================================
+
+        // Torneos precargados
+        const torneosPrecargados = [
+            { id: 't1', nombre: 'Copa Fly Futboleros 2026', descripcion: 'Torneo anual 6v6 - Edición 2026', fechaInicio: '15/01/2026',
+                fechaFin: '15/03/2026', premio: 'Trofeo + Gs. 200.000', ubicacion: 'Cancha Municipal' },
+            { id: 't2', nombre: 'Torneo Relámpago de Verano', descripcion: 'Torneo express de fin de semana',
+                fechaInicio: '01/02/2026', fechaFin: '02/02/2026', premio: 'Medallas + Gs. 50.000',
+            ubicacion: 'Cancha de Verano' },
+            { id: 't3', nombre: 'Copa de Invierno 2026', descripcion: 'Torneo de invierno categoría 6v6',
+                fechaInicio: '10/06/2026', fechaFin: '10/08/2026', premio: 'Trofeo + Gs. 150.000',
+            ubicacion: 'Cancha Cubierta' },
+            { id: 't4', nombre: 'Copa de Primavera 2025', descripcion: 'Torneo de primavera - Edición 2025',
+                fechaInicio: '20/09/2025', fechaFin: '20/11/2025', premio: 'Trofeo + Gs. 100.000',
+                ubicacion: 'Cancha Municipal' },
+            { id: 't5', nombre: 'Torneo Solidario 2026', descripcion: 'Torneo benéfico - 100% a obras sociales',
+                fechaInicio: '15/03/2026', fechaFin: '15/04/2026', premio: 'Trofeo + Donación',
+            ubicacion: 'Cancha Municipal' }
+        ];
+
+        let torneosActivos = {};
+        let inscripcionesData = {};
+        let filtroActualTorneos = 'todos';
+        let torneoInscripcionId = null;
+
+        function initTorneos() {
+            renderizarTorneosPrecargados();
+            renderizarTorneos('todos');
+            actualizarEstadisticasTorneos();
+        }
+
+        // Renderizar torneos precargados (admin)
+        function renderizarTorneosPrecargados() {
+            const container = document.getElementById('listaTorneosPrecargados');
+            if (!container) return;
+
+            // Solo mostrar si es admin
+            if (!socioData || socioData.role !== 'admin') {
+                container.innerHTML = '';
+                return;
+            }
+
+            let html = `
+                <div style="font-size:0.6rem;color:var(--text-muted);margin-bottom:8px;">
+                    <i class="fas fa-info-circle"></i> Activa/desactiva torneos para que los socios los vean
+                </div>
+            `;
+
+            torneosPrecargados.forEach(t => {
+                const activo = torneosActivos[t.id] !== undefined;
+                html += `
+                    <div class="torneo-precargado ${activo ? 'activo' : ''}">
+                        <div class="info">
+                            <span class="nombre">🏆 ${t.nombre}</span>
+                            <span class="fecha">📅 ${t.fechaInicio} - ${t.fechaFin}</span>
+                            <span class="badge-estado ${activo ? 'activo' : 'inactivo'}">${activo ? '✅ ACTIVO' : '⛔ INACTIVO'}</span>
+                        </div>
+                        <div class="acciones-admin">
+                            ${activo ? `
+                                <button class="btn btn-secondary btn-sm" onclick="desactivarTorneo('${t.id}')">
+                                    <i class="fas fa-pause"></i> Desactivar
+                                </button>
+                                <button class="btn btn-primary btn-sm" onclick="verInscripcionesAdmin('${t.id}')">
+                                    <i class="fas fa-users"></i> Inscripciones
+                                </button>
+                                <button class="btn btn-secondary btn-sm" onclick="editarTorneo('${t.id}')">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                            ` : `
+                                <button class="btn btn-success btn-sm" onclick="activarTorneo('${t.id}')">
+                                    <i class="fas fa-play"></i> Activar
+                                </button>
+                            `}
+                        </div>
+                    </div>
+                `;
+            });
+
+            container.innerHTML = html;
+        }
+
+        // Activar torneo
+        function activarTorneo(id) {
+            const torneo = torneosPrecargados.find(t => t.id === id);
+            if (!torneo) return;
+
+            torneosActivos[id] = {
+                ...torneo,
+                estado: 'Proximamente',
+                equipos: 0,
+                maxEquipos: 8,
+                inscritos: [],
+                partidos: []
+            };
+
+            showToast('✅ Torneo activado: ' + torneo.nombre, 'success');
+            renderizarTorneosPrecargados();
+            renderizarTorneos(filtroActualTorneos);
+            actualizarEstadisticasTorneos();
+        }
+
+        // Desactivar torneo
+        function desactivarTorneo(id) {
+            const torneo = torneosPrecargados.find(t => t.id === id);
+            if (!torneo) return;
+
+            if (!confirm('¿Desactivar el torneo "' + torneo.nombre + '"? Los socios ya no lo verán.')) return;
+
+            delete torneosActivos[id];
+            showToast('⛔ Torneo desactivado: ' + torneo.nombre, 'info');
+            renderizarTorneosPrecargados();
+            renderizarTorneos(filtroActualTorneos);
+            actualizarEstadisticasTorneos();
+        }
+
+        // Editar torneo (admin)
+        function editarTorneo(id) {
+            const t = torneosActivos[id];
+            if (!t) {
+                showToast('❌ Torneo no encontrado', 'error');
+                return;
+            }
+
+            // Llenar formulario
+            document.getElementById('editTorneoId').value = id;
+            document.getElementById('editNombre').value = t.nombre;
+            document.getElementById('editDescripcion').value = t.descripcion || '';
+            document.getElementById('editFechaInicio').value = t.fechaInicio || '';
+            document.getElementById('editFechaFin').value = t.fechaFin || '';
+            document.getElementById('editEstado').value = t.estado || 'Proximamente';
+            document.getElementById('editMaxEquipos').value = t.maxEquipos || 8;
+            document.getElementById('editPremio').value = t.premio || '';
+            document.getElementById('editUbicacion').value = t.ubicacion || '';
+
+            document.getElementById('modalEditarTorneo').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        // Guardar edición de torneo
+        function guardarEdicionTorneo(event) {
+            event.preventDefault();
+
+            const id = document.getElementById('editTorneoId').value;
+            const nombre = document.getElementById('editNombre').value.trim();
+            if (!nombre) {
+                showToast('⚠️ Ingresa un nombre para el torneo', 'warning');
+                return;
+            }
+
+            const btn = event.target.querySelector('button[type="submit"]');
+            btn.disabled = true;
+            btn.innerHTML = '<span class="spinner"></span> Guardando...';
+
+            torneosActivos[id] = {
+                ...torneosActivos[id],
+                nombre: nombre,
+                descripcion: document.getElementById('editDescripcion').value.trim(),
+                fechaInicio: document.getElementById('editFechaInicio').value || 'No definida',
+                fechaFin: document.getElementById('editFechaFin').value || 'No definida',
+                estado: document.getElementById('editEstado').value,
+                maxEquipos: parseInt(document.getElementById('editMaxEquipos').value) || 8,
+                premio: document.getElementById('editPremio').value.trim(),
+                ubicacion: document.getElementById('editUbicacion').value.trim()
+            };
+
+            // Actualizar también en torneosPrecargados
+            const original = torneosPrecargados.find(t => t.id === id);
+            if (original) {
+                original.nombre = nombre;
+                original.descripcion = document.getElementById('editDescripcion').value.trim();
+                original.fechaInicio = document.getElementById('editFechaInicio').value || 'No definida';
+                original.fechaFin = document.getElementById('editFechaFin').value || 'No definida';
+                original.premio = document.getElementById('editPremio').value.trim();
+                original.ubicacion = document.getElementById('editUbicacion').value.trim();
+            }
+
+            setTimeout(() => {
+                showToast('✅ Torneo actualizado exitosamente', 'success');
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-save"></i> Guardar Cambios';
+                cerrarModal('modalEditarTorneo');
+                renderizarTorneosPrecargados();
+                renderizarTorneos(filtroActualTorneos);
+                actualizarEstadisticasTorneos();
+            }, 800);
+        }
+
+        // Renderizar torneos (socios ven)
+        function renderizarTorneos(filtro) {
+            filtro = filtro || 'todos';
+            filtroActualTorneos = filtro;
+
+            const container = document.getElementById('listaTorneos');
+            const keys = Object.keys(torneosActivos);
+
+            let filtrados = keys;
+            if (filtro !== 'todos') {
+                filtrados = keys.filter(id => torneosActivos[id].estado === filtro);
+            }
 
             if (filtrados.length === 0) {
                 container.innerHTML = `
                     <div class="empty-state">
                         <i class="fas fa-trophy"></i>
                         <h3>${filtro === 'todos' ? 'No hay torneos disponibles' : 'No hay torneos ' + filtro.toLowerCase()}</h3>
-                        <p>${filtro === 'todos' ? 'Los torneos se mostrarán aquí cuando sean creados por el administrador.' : 'Cambia el filtro para ver más torneos.'}</p>
+                        <p>${filtro === 'todos' ? 'El administrador activará los torneos próximamente.' : 'Cambia el filtro para ver más torneos.'}</p>
                     </div>
                 `;
                 return;
             }
 
             container.innerHTML = filtrados.map(id => {
-                const t = torneosData[id];
+                const t = torneosActivos[id];
                 const estadoClass = t.estado === 'Activo' ? 'badge-active' :
                     t.estado === 'Proximamente' ? 'badge-warning' : 'badge-expired';
                 const estadoIcon = t.estado === 'Activo' ? 'fa-circle' :
                     t.estado === 'Proximamente' ? 'fa-clock' : 'fa-check-circle';
 
+                const inscripciones = inscripcionesData[id] || [];
+                const totalInscritos = inscripciones.length;
+                const cuposDisponibles = (t.maxEquipos || 8) - totalInscritos;
+
+                const yaInscrito = inscripciones.some(ins => ins.capitan === socioData?.nombre);
+
                 return `
-                    <div class="glass-card torneo-card" onclick="verTorneo('${id}')">
+                    <div class="glass-card torneo-card">
                         <div class="header-card">
                             <div>
                                 <div class="titulo">🏆 ${t.nombre}</div>
@@ -768,15 +2035,21 @@
                         </div>
                         <div class="detalles">
                             <span><i class="fas fa-calendar"></i> ${t.fechaInicio} - ${t.fechaFin}</span>
-                            <span><i class="fas fa-users"></i> ${t.equipos || 0}/${t.maxEquipos || 8} equipos</span>
-                            <span><i class="fas fa-user"></i> ${t.creador || 'Admin'}</span>
+                            <span><i class="fas fa-users"></i> ${totalInscritos}/${t.maxEquipos || 8} equipos</span>
+                            <span><i class="fas fa-user"></i> Admin</span>
                         </div>
                         ${t.premio ? `<div class="premio"><i class="fas fa-trophy"></i> ${t.premio}</div>` : ''}
                         <div class="acciones">
-                            ${t.estado !== 'Finalizado' && (t.equipos || 0) < (t.maxEquipos || 8) ? `
-                                <button class="btn btn-primary btn-sm" onclick="event.stopPropagation();inscribirseTorneo('${id}')">
-                                    <i class="fas fa-user-plus"></i> Inscribirse
-                                </button>
+                            ${t.estado !== 'Finalizado' && cuposDisponibles > 0 ? `
+                                ${yaInscrito ? `
+                                    <button class="btn btn-secondary btn-sm" disabled style="opacity:0.7;">
+                                        <i class="fas fa-check"></i> Ya inscrito
+                                    </button>
+                                ` : `
+                                    <button class="btn btn-primary btn-sm" onclick="abrirInscripcion('${id}')">
+                                        <i class="fas fa-user-plus"></i> Inscribirse
+                                    </button>
+                                `}
                             ` : t.estado === 'Finalizado' ? `
                                 <button class="btn btn-secondary btn-sm" disabled>
                                     <i class="fas fa-check"></i> Finalizado
@@ -786,76 +2059,45 @@
                                     <i class="fas fa-times"></i> Cupos llenos
                                 </button>
                             `}
-                            <button class="btn btn-secondary btn-sm" onclick="event.stopPropagation();verTorneo('${id}')">
+                            <button class="btn btn-secondary btn-sm" onclick="verDetalleTorneo('${id}')">
                                 <i class="fas fa-eye"></i> Ver
                             </button>
-                            ${document.getElementById('btnCrearTorneo').style.display !== 'none' ? `
-                                <button class="btn btn-secondary btn-sm" onclick="event.stopPropagation();eliminarTorneo('${id}')" style="color:var(--neon-pink);">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            ` : ''}
                         </div>
                     </div>
                 `;
             }).join('');
         }
 
-        // Actualizar estadísticas
-        function actualizarEstadisticas() {
-            const keys = Object.keys(torneosData);
-            const total = keys.length;
-            const activos = keys.filter(id => torneosData[id].estado === 'Activo').length;
-            const proximos = keys.filter(id => torneosData[id].estado === 'Proximamente').length;
-            const finalizados = keys.filter(id => torneosData[id].estado === 'Finalizado').length;
-
-            document.getElementById('totalTorneos').textContent = total;
-            document.getElementById('torneosActivos').textContent = activos;
-            document.getElementById('torneosProximos').textContent = proximos;
-            document.getElementById('torneosFinalizados').textContent = finalizados;
-        }
-
-        // ================================================================
-        // FILTRAR TORNEOS
-        // ================================================================
-        function filtrarTorneos(filtro) {
-            renderizarTorneos(filtro);
-        }
-
-        // ================================================================
-        // VER TORNEO
-        // ================================================================
-        function verTorneo(id) {
-            const data = torneosData[id];
-            if (!data) {
-                showToast('❌ Torneo no encontrado', 'error');
-                return;
-            }
+        // Ver detalle torneo
+        function verDetalleTorneo(id) {
+            const t = torneosActivos[id];
+            if (!t) { showToast('❌ Torneo no encontrado', 'error'); return; }
 
             const modal = document.getElementById('modalDetalleTorneo');
             const body = document.getElementById('modalBody');
             const titulo = document.getElementById('modalTitulo');
 
-            titulo.textContent = '🏆 ' + data.nombre;
+            titulo.textContent = '🏆 ' + t.nombre;
 
-            const estadoClass = data.estado === 'Activo' ? 'badge-active' :
-                data.estado === 'Proximamente' ? 'badge-warning' : 'badge-expired';
+            const inscripciones = inscripcionesData[id] || [];
+            const totalInscritos = inscripciones.length;
+            const cuposDisponibles = (t.maxEquipos || 8) - totalInscritos;
 
-            const estaInscripto = data.inscritos && data.inscritos.includes('Juan Pérez');
-            const cuposDisponibles = (data.maxEquipos || 8) - (data.equipos || 0);
+            const yaInscrito = inscripciones.some(ins => ins.capitan === socioData?.nombre);
 
             body.innerHTML = `
                 <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;">
-                    <span class="badge ${estadoClass}">${data.estado}</span>
+                    <span class="badge ${t.estado === 'Activo' ? 'badge-active' : t.estado === 'Proximamente' ? 'badge-warning' : 'badge-expired'}">${t.estado}</span>
                     <span style="font-size:0.6rem;color:var(--text-muted);padding:2px 10px;background:rgba(0,0,0,0.2);border-radius:12px;">
-                        <i class="fas fa-calendar"></i> ${data.fechaInicio} - ${data.fechaFin}
+                        <i class="fas fa-calendar"></i> ${t.fechaInicio} - ${t.fechaFin}
                     </span>
                 </div>
 
-                <p style="font-size:0.8rem;color:var(--text-secondary);margin-bottom:12px;">${data.descripcion || 'Sin descripción'}</p>
+                <p style="font-size:0.8rem;color:var(--text-secondary);margin-bottom:12px;">${t.descripcion || 'Sin descripción'}</p>
 
                 <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;">
                     <div style="background:rgba(0,0,0,0.2);padding:10px;border-radius:var(--radius-xs);text-align:center;">
-                        <span style="font-size:1.2rem;font-weight:800;color:var(--neon-blue);display:block;">${data.equipos || 0}</span>
+                        <span style="font-size:1.2rem;font-weight:800;color:var(--neon-blue);display:block;">${totalInscritos}</span>
                         <span style="font-size:0.55rem;color:var(--text-muted);text-transform:uppercase;">Equipos Inscritos</span>
                     </div>
                     <div style="background:rgba(0,0,0,0.2);padding:10px;border-radius:var(--radius-xs);text-align:center;">
@@ -864,56 +2106,42 @@
                     </div>
                 </div>
 
-                ${data.premio ? `<div style="background:rgba(255,215,0,0.06);border:1px solid rgba(255,215,0,0.1);border-radius:var(--radius-xs);padding:10px;margin-bottom:12px;">
+                ${t.premio ? `<div style="background:rgba(255,215,0,0.06);border:1px solid rgba(255,215,0,0.1);border-radius:var(--radius-xs);padding:10px;margin-bottom:12px;">
                     <span style="font-size:0.6rem;color:var(--text-muted);text-transform:uppercase;">🏆 Premio</span>
-                    <p style="font-size:0.8rem;color:var(--neon-gold);font-weight:600;">${data.premio}</p>
+                    <p style="font-size:0.8rem;color:var(--neon-gold);font-weight:600;">${t.premio}</p>
                 </div>` : ''}
 
-                ${data.ubicacion ? `<div style="background:rgba(0,212,255,0.04);border:1px solid rgba(0,212,255,0.06);border-radius:var(--radius-xs);padding:10px;margin-bottom:12px;">
+                ${t.ubicacion ? `<div style="background:rgba(0,212,255,0.04);border:1px solid rgba(0,212,255,0.06);border-radius:var(--radius-xs);padding:10px;margin-bottom:12px;">
                     <span style="font-size:0.6rem;color:var(--text-muted);text-transform:uppercase;">📍 Ubicación</span>
-                    <p style="font-size:0.75rem;color:var(--text-secondary);">${data.ubicacion}</p>
+                    <p style="font-size:0.75rem;color:var(--text-secondary);">${t.ubicacion}</p>
                 </div>` : ''}
 
-                ${!estaInscripto && cuposDisponibles > 0 && data.estado !== 'Finalizado' ? `
-                    <button class="btn" style="width:100%;justify-content:center;background:var(--gradient-primary);color:#fff;font-weight:700;padding:12px;border-radius:var(--radius-sm);border:none;font-size:0.75rem;cursor:pointer;text-transform:uppercase;letter-spacing:1px;margin-bottom:12px;" onclick="inscribirseTorneo('${id}')">
-                        <i class="fas fa-user-plus"></i> Inscribirme
-                    </button>
-                ` : ''}
-
-                ${estaInscripto ? `
-                    <div style="background:rgba(0,255,127,0.04);border:1px solid rgba(0,255,127,0.06);border-radius:var(--radius-xs);padding:10px;margin-bottom:12px;text-align:center;">
-                        <i class="fas fa-check-circle" style="color:var(--neon-green);"></i>
-                        <span style="font-size:0.75rem;color:var(--neon-green);font-weight:600;margin-left:6px;">✅ ¡Ya estás inscrito!</span>
-                    </div>
-                ` : ''}
-
-                <div style="border-top:1px solid var(--border-glow);padding-top:12px;margin-top:12px;">
-                    <h4 style="font-size:0.7rem;color:var(--text-secondary);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">
-                        <i class="fas fa-list"></i> 📋 Partidos Programados
-                    </h4>
-                    ${data.partidos && data.partidos.length > 0 ? data.partidos.map(p => `
-                        <div style="display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.02);font-size:0.7rem;flex-wrap:wrap;gap:4px;">
-                            <span style="color:var(--text-muted);font-size:0.6rem;">${p.fecha}</span>
-                            <span style="color:var(--text-primary);font-weight:500;">${p.local} vs ${p.visitante}</span>
-                            <span style="color:var(--neon-gold);font-weight:700;">${p.resultado || '-'}</span>
-                            <span class="badge ${p.estado === 'Finalizado' ? 'badge-active' : 'badge-warning'}" style="font-size:0.4rem;">${p.estado}</span>
-                        </div>
-                    `).join('') : `
-                        <p style="font-size:0.7rem;color:var(--text-muted);text-align:center;padding:12px 0;">No hay partidos programados aún</p>
-                    `}
-                </div>
-
-                ${data.inscritos && data.inscritos.length > 0 ? `
+                ${inscripciones.length > 0 ? `
                     <div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--border-glow);">
                         <h4 style="font-size:0.7rem;color:var(--text-secondary);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">
-                            <i class="fas fa-users"></i> Equipos Inscritos (${data.inscritos.length})
+                            <i class="fas fa-users"></i> Equipos Inscritos (${inscripciones.length})
                         </h4>
-                        <div style="display:flex;flex-wrap:wrap;gap:4px;">
-                            ${data.inscritos.map(n => `
-                                <span style="font-size:0.6rem;background:rgba(0,212,255,0.04);padding:2px 10px;border-radius:12px;border:1px solid var(--border-glow);color:var(--text-secondary);">${n}</span>
-                            `).join('')}
-                        </div>
+                        ${inscripciones.map(ins => `
+                            <div style="display:flex;justify-content:space-between;align-items:center;padding:6px 10px;background:rgba(0,0,0,0.15);border-radius:var(--radius-xs);margin-bottom:4px;flex-wrap:wrap;gap:4px;">
+                                <span style="font-size:0.7rem;font-weight:600;color:var(--text-primary);">🏠 ${ins.equipo}</span>
+                                <span style="font-size:0.55rem;color:var(--text-secondary);">👤 ${ins.capitan}</span>
+                                <span class="estado-inscripcion ${ins.estado.toLowerCase()}">${ins.estado}</span>
+                            </div>
+                        `).join('')}
                     </div>
+                ` : ''}
+
+                ${t.estado !== 'Finalizado' && cuposDisponibles > 0 ? `
+                    ${yaInscrito ? `
+                        <div style="background:rgba(0,255,127,0.04);border:1px solid rgba(0,255,127,0.06);border-radius:var(--radius-xs);padding:10px;margin-top:12px;text-align:center;">
+                            <i class="fas fa-check-circle" style="color:var(--neon-green);"></i>
+                            <span style="font-size:0.75rem;color:var(--neon-green);font-weight:600;margin-left:6px;">✅ ¡Ya estás inscrito!</span>
+                        </div>
+                    ` : `
+                        <button class="btn" style="width:100%;justify-content:center;background:var(--gradient-primary);color:#fff;font-weight:700;padding:12px;border-radius:var(--radius-sm);border:none;font-size:0.75rem;cursor:pointer;text-transform:uppercase;letter-spacing:1px;margin-top:12px;" onclick="cerrarModal('modalDetalleTorneo');abrirInscripcion('${id}')">
+                            <i class="fas fa-user-plus"></i> Inscribirme
+                        </button>
+                    `}
                 ` : ''}
             `;
 
@@ -921,156 +2149,224 @@
             document.body.style.overflow = 'hidden';
         }
 
-        // ================================================================
-        // CREAR TORNEO (SOLO ADMIN)
-        // ================================================================
-        function abrirCrearTorneo() {
-            // Simular verificación de admin
-            const esAdmin = true; // Cambiar a false para probar modo usuario
-            if (!esAdmin) {
-                showToast('⚠️ Solo administradores pueden crear torneos', 'warning');
-                return;
-            }
-            document.getElementById('modalCrearTorneo').classList.add('active');
-            document.body.style.overflow = 'hidden';
-        }
+        // Abrir inscripción
+        function abrirInscripcion(id) {
+            const t = torneosActivos[id];
+            if (!t) { showToast('❌ Torneo no encontrado', 'error'); return; }
 
-        function guardarTorneo(event) {
-            event.preventDefault();
-
-            const nombre = document.getElementById('torneoNombre').value.trim();
-            if (!nombre) {
-                showToast('⚠️ Ingresa un nombre para el torneo', 'warning');
-                return;
-            }
-
-            const btn = event.target.querySelector('button[type="submit"]');
-            btn.disabled = true;
-            btn.innerHTML = '<span class="spinner"></span> Creando...';
-
-            const id = Date.now().toString();
-
-            torneosData[id] = {
-                nombre: nombre,
-                descripcion: document.getElementById('torneoDescripcion').value.trim(),
-                fechaInicio: document.getElementById('torneoFechaInicio').value || 'No definida',
-                fechaFin: document.getElementById('torneoFechaFin').value || 'No definida',
-                estado: document.getElementById('torneoEstado').value,
-                maxEquipos: parseInt(document.getElementById('torneoMaxEquipos').value) || 8,
-                premio: document.getElementById('torneoPremio').value.trim(),
-                ubicacion: document.getElementById('torneoUbicacion').value.trim(),
-                creador: 'Admin',
-                equipos: 0,
-                inscritos: [],
-                partidos: []
-            };
-
-            setTimeout(() => {
-                showToast('✅ Torneo creado exitosamente', 'success');
-                btn.disabled = false;
-                btn.innerHTML = '<i class="fas fa-save"></i> Crear Torneo';
-                cerrarModal('modalCrearTorneo');
-                renderizarTorneos(filtroActual);
-                document.getElementById('formCrearTorneo').reset();
-            }, 1000);
-        }
-
-        // ================================================================
-        // ELIMINAR TORNEO (SOLO ADMIN)
-        // ================================================================
-        function eliminarTorneo(id) {
-            if (!confirm('¿Eliminar este torneo?')) return;
-            delete torneosData[id];
-            showToast('🗑️ Torneo eliminado', 'info');
-            renderizarTorneos(filtroActual);
-        }
-
-        // ================================================================
-        // INSCRIBIRSE A TORNEO
-        // ================================================================
-        function inscribirseTorneo(id) {
-            const data = torneosData[id];
-            if (!data) {
-                showToast('❌ Torneo no encontrado', 'error');
-                return;
-            }
-
-            if (data.estado === 'Finalizado') {
+            if (t.estado === 'Finalizado') {
                 showToast('⚠️ Este torneo ya finalizó', 'warning');
                 return;
             }
 
-            if ((data.equipos || 0) >= (data.maxEquipos || 8)) {
+            const inscripciones = inscripcionesData[id] || [];
+            if (inscripciones.length >= (t.maxEquipos || 8)) {
                 showToast('⚠️ No hay cupos disponibles', 'warning');
                 return;
             }
 
-            if (data.inscritos && data.inscritos.includes('Juan Pérez')) {
+            // Verificar si ya está inscrito
+            if (inscripciones.some(ins => ins.capitan === socioData?.nombre)) {
                 showToast('ℹ️ Ya estás inscrito en este torneo', 'info');
                 return;
             }
 
-            if (!data.inscritos) data.inscritos = [];
-            data.inscritos.push('Juan Pérez');
-            data.equipos = (data.equipos || 0) + 1;
-
-            showToast('✅ Inscripción exitosa!', 'success');
-            cerrarModal('modalDetalleTorneo');
-            renderizarTorneos(filtroActual);
+            torneoInscripcionId = id;
+            document.getElementById('modalInscripcionTitulo').textContent = '📝 Inscripción - ' + t.nombre;
+            document.getElementById('formInscripcion').reset();
+            document.getElementById('modalInscripcion').classList.add('active');
+            document.body.style.overflow = 'hidden';
         }
 
-        // ================================================================
-        // CERRAR MODAL
-        // ================================================================
+        // Guardar inscripción
+        function guardarInscripcion(event) {
+            event.preventDefault();
+
+            const equipo = document.getElementById('equipoNombre').value.trim();
+            if (!equipo) {
+                showToast('⚠️ Ingresa el nombre del equipo', 'warning');
+                return;
+            }
+
+            // Recolectar jugadores
+            const jugadores = [];
+            for (let i = 1; i <= 6; i++) {
+                const nombre = document.getElementById('j' + i + '_nombre').value.trim();
+                const telefono = document.getElementById('j' + i + '_telefono').value.trim();
+                if (nombre) {
+                    jugadores.push({ nombre, telefono });
+                }
+            }
+
+            if (jugadores.length < 6) {
+                showToast('⚠️ Debes completar al menos 6 jugadores titulares', 'warning');
+                return;
+            }
+
+            const suplentes = [];
+            for (let i = 1; i <= 4; i++) {
+                const nombre = document.getElementById('s' + i + '_nombre').value.trim();
+                const telefono = document.getElementById('s' + i + '_telefono').value.trim();
+                if (nombre) {
+                    suplentes.push({ nombre, telefono });
+                }
+            }
+
+            if (suplentes.length < 1) {
+                showToast('⚠️ Debes completar al menos 1 suplente', 'warning');
+                return;
+            }
+
+            // Guardar inscripción
+            if (!inscripcionesData[torneoInscripcionId]) {
+                inscripcionesData[torneoInscripcionId] = [];
+            }
+
+            const inscripcion = {
+                id: 'ins_' + Date.now(),
+                equipo: equipo,
+                capitan: socioData?.nombre || jugadores[0].nombre,
+                jugadores: jugadores,
+                suplentes: suplentes,
+                estado: 'Pendiente',
+                fecha: new Date().toLocaleDateString()
+            };
+
+            inscripcionesData[torneoInscripcionId].push(inscripcion);
+            torneosActivos[torneoInscripcionId].equipos = (torneosActivos[torneoInscripcionId].equipos || 0) + 1;
+
+            showToast('✅ Inscripción exitosa! Espera confirmación del administrador.', 'success');
+            cerrarModal('modalInscripcion');
+            renderizarTorneos(filtroActualTorneos);
+            actualizarEstadisticasTorneos();
+            renderizarTorneosPrecargados();
+        }
+
+        // Ver inscripciones (admin)
+        function verInscripcionesAdmin(id) {
+            const t = torneosActivos[id];
+            if (!t) { showToast('❌ Torneo no encontrado', 'error'); return; }
+
+            const inscripciones = inscripcionesData[id] || [];
+            const modal = document.getElementById('modalVerInscripciones');
+            const body = document.getElementById('modalInscripcionesBody');
+            const titulo = document.getElementById('modalInscripcionesTitulo');
+
+            titulo.textContent = '📋 Inscripciones - ' + t.nombre;
+
+            if (inscripciones.length === 0) {
+                body.innerHTML = `
+                    <div class="empty-state" style="padding:20px;">
+                        <i class="fas fa-users" style="font-size:2rem;"></i>
+                        <h3>No hay inscripciones</h3>
+                        <p>Aún no hay equipos inscritos en este torneo.</p>
+                    </div>
+                `;
+            } else {
+                body.innerHTML = inscripciones.map(ins => `
+                    <div class="glass-card" style="padding:14px;margin-bottom:12px;">
+                        <div style="display:flex;justify-content:space-between;align-items:start;flex-wrap:wrap;gap:8px;">
+                            <div>
+                                <div style="font-size:0.85rem;font-weight:700;color:var(--text-primary);">🏠 ${ins.equipo}</div>
+                                <div style="font-size:0.6rem;color:var(--text-secondary);">👤 Capitán: ${ins.capitan}</div>
+                                <div style="font-size:0.55rem;color:var(--text-muted);">📅 ${ins.fecha}</div>
+                            </div>
+                            <div style="display:flex;gap:6px;flex-wrap:wrap;">
+                                <span class="estado-inscripcion ${ins.estado.toLowerCase()}">${ins.estado}</span>
+                            </div>
+                        </div>
+
+                        <div style="margin-top:8px;padding-top:8px;border-top:1px solid var(--border-glow);">
+                            <div style="font-size:0.55rem;color:var(--text-muted);text-transform:uppercase;font-weight:600;margin-bottom:4px;">👥 Jugadores Titulares</div>
+                            <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;">
+                                ${ins.jugadores.map((j, idx) => `
+                                    <div style="font-size:0.6rem;color:var(--text-secondary);display:flex;justify-content:space-between;padding:2px 6px;background:rgba(0,0,0,0.15);border-radius:4px;">
+                                        <span>${idx+1}. ${j.nombre}</span>
+                                        <span style="color:var(--text-muted);font-size:0.5rem;">${j.telefono || ''}</span>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+
+                        ${ins.suplentes && ins.suplentes.length > 0 ? `
+                            <div style="margin-top:6px;padding-top:6px;border-top:1px solid var(--border-glow);">
+                                <div style="font-size:0.55rem;color:var(--text-muted);text-transform:uppercase;font-weight:600;margin-bottom:4px;">🔄 Suplentes</div>
+                                <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;">
+                                    ${ins.suplentes.map((s, idx) => `
+                                        <div style="font-size:0.6rem;color:var(--text-secondary);display:flex;justify-content:space-between;padding:2px 6px;background:rgba(0,0,0,0.15);border-radius:4px;">
+                                            <span>${idx+1}. ${s.nombre}</span>
+                                            <span style="color:var(--text-muted);font-size:0.5rem;">${s.telefono || ''}</span>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            </div>
+                        ` : ''}
+
+                        <div style="display:flex;gap:6px;margin-top:10px;flex-wrap:wrap;">
+                            <button class="btn btn-success btn-sm" onclick="cambiarEstadoInscripcion('${id}','${ins.id}','Confirmado')">
+                                <i class="fas fa-check"></i> Aprobar
+                            </button>
+                            <button class="btn btn-danger btn-sm" onclick="cambiarEstadoInscripcion('${id}','${ins.id}','Rechazado')">
+                                <i class="fas fa-times"></i> Rechazar
+                            </button>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        // Cambiar estado inscripción (admin)
+        function cambiarEstadoInscripcion(torneoId, inscripcionId, nuevoEstado) {
+            const inscripciones = inscripcionesData[torneoId] || [];
+            const ins = inscripciones.find(i => i.id === inscripcionId);
+            if (!ins) { showToast('❌ Inscripción no encontrada', 'error'); return; }
+
+            ins.estado = nuevoEstado;
+            showToast('✅ Inscripción ' + (nuevoEstado === 'Confirmado' ? 'aprobada' : 'rechazada'), 'success');
+            verInscripcionesAdmin(torneoId);
+            renderizarTorneos(filtroActualTorneos);
+        }
+
+        // Actualizar estadísticas torneos
+        function actualizarEstadisticasTorneos() {
+            const keys = Object.keys(torneosActivos);
+            const total = keys.length;
+            const activos = keys.filter(id => torneosActivos[id].estado === 'Activo').length;
+            const proximos = keys.filter(id => torneosActivos[id].estado === 'Proximamente').length;
+            const finalizados = keys.filter(id => torneosActivos[id].estado === 'Finalizado').length;
+
+            document.getElementById('totalTorneos').textContent = total;
+            document.getElementById('torneosActivos').textContent = activos;
+            document.getElementById('torneosProximos').textContent = proximos;
+            document.getElementById('torneosFinalizados').textContent = finalizados;
+        }
+
+        // Filtrar torneos
+        function filtrarTorneos(filtro) {
+            renderizarTorneos(filtro);
+        }
+
+        // Cerrar modal (para torneos)
         function cerrarModal(id) {
             document.getElementById(id).classList.remove('active');
             document.body.style.overflow = '';
         }
 
-        // Cerrar modal al hacer clic fuera
-        document.querySelectorAll('.modal').forEach(function(modal) {
-            modal.addEventListener('click', function(e) {
-                if (e.target === this) {
-                    this.classList.remove('active');
-                    document.body.style.overflow = '';
-                }
-            });
-        });
-
         // ================================================================
-        // TOAST
-        // ================================================================
-        function showToast(message, type) {
-            if (type === undefined) type = 'info';
-            var colors = { success: '#00ff7f', error: '#ff2d8a', warning: '#ff6a00', info: '#00d4ff' };
-            var icons = { success: 'fa-check-circle', error: 'fa-exclamation-circle', warning: 'fa-exclamation-triangle',
-                info: 'fa-info-circle' };
-
-            var existing = document.querySelector('.toast');
-            if (existing) existing.remove();
-
-            var el = document.createElement('div');
-            el.className = 'toast';
-            el.innerHTML = '<i class="fas ' + icons[type] + ' icon ' + type + '"></i><span>' + message + '</span>';
-            el.style.borderColor = colors[type];
-            document.body.appendChild(el);
-
-            setTimeout(function() {
-                el.style.opacity = '0';
-                el.style.transform = 'translateY(20px)';
-                setTimeout(function() { el.remove(); }, 300);
-            }, 3500);
-        }
-
-        // ================================================================
-        // INICIALIZAR
+        // 24. INICIALIZAR
         // ================================================================
         document.addEventListener('DOMContentLoaded', function() {
-            renderizarTorneos('todos');
-            console.log('🏆 FLY FUTBOLEROS · Torneos');
-            console.log('✅ Listo para editar - Sin datos de prueba');
-            console.log('👑 Admin: puede crear y eliminar torneos');
+            loadSocioData();
         });
+
+        console.log('👤 FLY FUTBOLEROS · Panel del Socio');
+        console.log('✅ Conexión real a Supabase para socios activos');
+        console.log('✅ Torneos precargados con gestión admin');
+        console.log('✅ Inscripción con 6 jugadores + 4 suplentes');
+        console.log('✅ Admin: activa/desactiva/edita torneos y gestiona inscripciones');
     </script>
 
 </body>
