@@ -12,7 +12,7 @@
         *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
         :root{--bg-deep:#06060e;--bg-card:rgba(12,12,26,0.6);--bg-card-hover:rgba(12,12,26,0.8);--border-glow:rgba(0,212,255,0.06);--text-primary:#f0f0ff;--text-secondary:#b8b8d0;--text-muted:#7a7a9a;--neon-blue:#00d4ff;--neon-purple:#8b3cff;--neon-pink:#ff2d8a;--neon-green:#00ff7f;--neon-orange:#ff6a00;--neon-gold:#ffd700;--gradient-primary:linear-gradient(135deg,#00d4ff,#8b3cff);--gradient-glow:linear-gradient(135deg,rgba(0,212,255,0.15),rgba(139,60,255,0.15));--shadow-card:0 8px 48px rgba(0,0,0,0.9);--radius:18px;--radius-sm:12px;--radius-xs:8px;--transition:all 0.4s cubic-bezier(0.25,0.46,0.45,0.94);--transition-fast:all 0.2s ease;--bottom-nav-height:72px}
         html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased;font-size:16px}
-        body{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg-deep);color:var(--text-primary);min-height:100vh;overflow-x:hidden;position:relative;padding-bottom:calc(var(--bottom-nav-height)+70px)}
+        body{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg-deep);color:var(--text-primary);min-height:100vh;overflow-x:hidden;position:relative;padding-bottom:calc(var(--bottom-nav-height)+80px)}
         ::-webkit-scrollbar{width:3px;height:3px}
         ::-webkit-scrollbar-track{background:var(--bg-deep)}
         ::-webkit-scrollbar-thumb{background:var(--neon-blue);border-radius:10px;box-shadow:0 0 20px rgba(0,212,255,0.2)}
@@ -42,7 +42,7 @@
         .btn-success{background:var(--neon-green);color:#fff}
         .btn-sm{padding:6px 12px;min-height:32px;font-size:clamp(0.45rem,1vw,0.55rem)}
         .btn:disabled{opacity:0.5;cursor:not-allowed;transform:none !important}
-        .socio-main{position:relative;z-index:1;max-width:1200px;margin:0 auto;padding:16px;padding-bottom:100px;width:100%}
+        .socio-main{position:relative;z-index:1;max-width:1200px;margin:0 auto;padding:16px;padding-bottom:20px;width:100%}
         .glass-card{background:var(--bg-card);border:1px solid var(--border-glow);border-radius:var(--radius);padding:20px;transition:var(--transition-fast);margin-bottom:16px;position:relative;overflow:hidden}
         .glass-card:hover{border-color:rgba(0,212,255,0.1)}
         .glass-card::before{content:'';position:absolute;inset:-1px;border-radius:var(--radius);padding:1px;background:var(--gradient-primary);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;opacity:0.04;pointer-events:none}
@@ -545,13 +545,14 @@
             letter-spacing: 0.5px;
         }
 
+        /* ===== FOOTER DE INFORMACIÓN (CORREGIDO) ===== */
         .fechas-footer {
             position: fixed;
             bottom: calc(var(--bottom-nav-height) + 10px);
             left: 0;
             right: 0;
             z-index: 40;
-            padding: 10px 16px;
+            padding: 8px 16px;
             background: rgba(6, 6, 14, 0.92);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
@@ -559,50 +560,62 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 24px;
+            gap: 16px;
             flex-wrap: wrap;
+            min-height: 40px;
+            pointer-events: none;
         }
+
         .fechas-footer .fecha-item {
             display: flex;
             align-items: center;
-            gap: 8px;
-            font-size: 0.7rem;
+            gap: 4px;
+            font-size: 0.6rem;
             color: var(--text-muted);
         }
+
         .fechas-footer .fecha-item .numero {
             font-weight: 800;
-            font-size: 0.85rem;
+            font-size: 0.7rem;
             background: linear-gradient(135deg, var(--neon-blue), var(--neon-purple));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
+
         .fechas-footer .fecha-item .numero.verde {
             background: linear-gradient(135deg, var(--neon-green), #00cc66);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
+
         .fechas-footer .fecha-item .numero.morado {
             background: linear-gradient(135deg, var(--neon-purple), #ff2d8a);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
+
         .fechas-footer .fecha-item .numero.naranja {
             background: linear-gradient(135deg, var(--neon-orange), #ffd700);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
+
         .fechas-footer .fecha-item .label {
-            font-size: 0.55rem;
+            font-size: 0.45rem;
             color: var(--text-muted);
             text-transform: uppercase;
             letter-spacing: 0.5px;
             font-weight: 500;
         }
-        .fechas-footer .separador { color: rgba(255,255,255,0.06); font-size: 0.6rem; }
+
+        .fechas-footer .separador {
+            color: rgba(255, 255, 255, 0.06);
+            font-size: 0.5rem;
+        }
 
         .spinner {
             display: inline-block;
@@ -630,7 +643,7 @@
             .bottom-nav .nav-item span{font-size:0.4rem;letter-spacing:0.5px}
             .bottom-nav .nav-item .nav-badge{font-size:0.4rem;padding:0px 5px;min-width:16px;top:2px;right:4px}
             .toast{bottom:calc(var(--bottom-nav-height)+30px)}
-            .socio-main{padding-bottom:90px;padding:10px}
+            .socio-main{padding-bottom:20px;padding:10px}
             .glass-card{padding:14px}
             .profile-info h1{font-size:1.1rem}
             .recordatorio{padding:12px 14px}
@@ -649,26 +662,63 @@
             .ring-chart-container{flex-direction:column;align-items:center}
             .ring-chart{width:130px;height:130px}
             .ring-legend{min-width:100px}
+            .fechas-footer {
+                bottom: calc(var(--bottom-nav-height) + 5px);
+                padding: 6px 12px;
+                gap: 10px;
+                min-height: 34px;
+            }
+            .fechas-footer .fecha-item {
+                font-size: 0.5rem;
+                gap: 3px;
+            }
+            .fechas-footer .fecha-item .numero {
+                font-size: 0.6rem;
+            }
+            .fechas-footer .fecha-item .label {
+                font-size: 0.4rem;
+            }
+            .fechas-footer .separador {
+                font-size: 0.4rem;
+            }
         }
         @media(max-width:380px){
             .bottom-nav .nav-item{min-width:44px;min-height:42px;padding:3px 4px}
             .bottom-nav .nav-item i{font-size:0.95rem}
             .bottom-nav .nav-item span{font-size:0.35rem;letter-spacing:0.3px}
-            .socio-main{padding-bottom:80px}
+            .socio-main{padding-bottom:20px}
             .glass-card{padding:12px 10px}
             .profile-avatar img{width:56px;height:56px}
             .profile-info h1{font-size:1rem}
             .stats-dashboard{grid-template-columns:1fr}
+            .fechas-footer {
+                bottom: calc(var(--bottom-nav-height) + 3px);
+                padding: 4px 8px;
+                gap: 6px;
+                min-height: 28px;
+            }
+            .fechas-footer .fecha-item {
+                font-size: 0.45rem;
+            }
+            .fechas-footer .fecha-item .numero {
+                font-size: 0.5rem;
+            }
+            .fechas-footer .fecha-item .label {
+                font-size: 0.35rem;
+            }
+            .fechas-footer .separador {
+                font-size: 0.35rem;
+            }
         }
         @media(min-width:768px){
             .bottom-nav .nav-item{max-width:120px}
             .bottom-nav .nav-item i{font-size:1.4rem}
             .bottom-nav .nav-item span{font-size:0.6rem}
-            .socio-main{padding-bottom:100px}
+            .socio-main{padding-bottom:20px}
             .btn{width:auto}
         }
         @media(min-width:769px) and (max-width:1024px){
-            .socio-main{padding:20px 30px;padding-bottom:100px}
+            .socio-main{padding:20px 30px;padding-bottom:20px}
         }
     </style>
 </head>
@@ -947,7 +997,7 @@
 
     </main>
 
-    <!-- ===== FOOTER ===== -->
+    <!-- ===== FOOTER DE INFORMACIÓN (FUERA DEL MAIN) ===== -->
     <div class="fechas-footer" id="fechasFooter">
         <div class="fecha-item">
             <span class="numero">2012</span>
@@ -970,7 +1020,27 @@
         </div>
     </div>
 
-    <!-- ===== MODAL CONFIGURAR PLAN ===== -->
+    <!-- ===== BOTTOM NAV ===== -->
+    <nav class="bottom-nav" id="bottomNav">
+        <button class="nav-item active" data-section="perfil" onclick="navigateTo('perfil')">
+            <i class="fas fa-user"></i>
+            <span>Perfil</span>
+        </button>
+        <button class="nav-item" data-section="historial" onclick="navigateTo('historial')">
+            <i class="fas fa-history"></i>
+            <span>Historial</span>
+        </button>
+        <button class="nav-item" data-section="futboleros" onclick="navigateTo('futboleros')">
+            <i class="fas fa-users"></i>
+            <span>Futboleros</span>
+        </button>
+        <button class="nav-item" onclick="handleLogout()">
+            <i class="fas fa-sign-out-alt"></i>
+            <span>Salir</span>
+        </button>
+    </nav>
+
+    <!-- ===== MODALES Y SCRIPTS ===== -->
     <div class="modal modal-config-plan" id="configPlanModal">
         <div class="modal-content">
             <div class="modal-header">
@@ -1065,7 +1135,6 @@
         </div>
     </div>
 
-    <!-- ===== MODAL AVATAR ===== -->
     <div class="modal" id="uploadAvatarModal">
         <div class="modal-content">
             <div class="modal-header">
@@ -1097,26 +1166,6 @@
             </div>
         </div>
     </div>
-
-    <!-- ===== BOTTOM NAV ===== -->
-    <nav class="bottom-nav" id="bottomNav">
-        <button class="nav-item active" data-section="perfil" onclick="navigateTo('perfil')">
-            <i class="fas fa-user"></i>
-            <span>Perfil</span>
-        </button>
-        <button class="nav-item" data-section="historial" onclick="navigateTo('historial')">
-            <i class="fas fa-history"></i>
-            <span>Historial</span>
-        </button>
-        <button class="nav-item" data-section="futboleros" onclick="navigateTo('futboleros')">
-            <i class="fas fa-users"></i>
-            <span>Futboleros</span>
-        </button>
-        <button class="nav-item" onclick="handleLogout()">
-            <i class="fas fa-sign-out-alt"></i>
-            <span>Salir</span>
-        </button>
-    </nav>
 
     <script>
         // ================================================================
@@ -1305,10 +1354,7 @@
                 }
                 socioData = socio;
 
-                // Cargar estadísticas de TODOS los socios
                 await cargarEstadisticasSocios();
-
-                // Cargar socios recientes
                 await cargarSociosRecientes();
 
                 const { data: pagos, error: pagosError } = await supabaseClient
@@ -1335,7 +1381,6 @@
                     headerActions.prepend(adminBtn);
                 }
 
-                // Suscribirse a cambios en tiempo real
                 suscribirseACambios();
 
             } catch (error) {
@@ -1345,11 +1390,10 @@
         }
 
         // ================================================================
-        // 8. CARGAR ESTADÍSTICAS DE SOCIOS DESDE SUPABASE
+        // 8. CARGAR ESTADÍSTICAS
         // ================================================================
         async function cargarEstadisticasSocios() {
             try {
-                // Obtener todos los socios
                 const { data: socios, error } = await supabaseClient
                     .from('socios')
                     .select('id, nombre, estado, plan, fecha_inicio, fecha_vencimiento, created_at');
@@ -1361,74 +1405,47 @@
                 }
 
                 if (!socios || socios.length === 0) {
-                    console.warn('⚠️ No hay socios registrados');
-                    // Mostrar valores en 0
                     actualizarDashboard(0, 0, 0, 0, 0, 0, 0);
                     return;
                 }
 
-                // Calcular estadísticas
                 const total = socios.length;
-
                 const activos = socios.filter(s => {
                     const estado = (s.estado || '').toLowerCase();
                     return estado === 'activo' || estado === 'active';
                 }).length;
-
                 const pendientes = socios.filter(s => {
                     const estado = (s.estado || '').toLowerCase();
                     return estado === 'pendiente' || estado === 'pending';
                 }).length;
-
                 const vencidos = socios.filter(s => {
                     const estado = (s.estado || '').toLowerCase();
                     return estado === 'vencido' || estado === 'expired';
                 }).length;
-
                 const suspendidos = socios.filter(s => {
                     const estado = (s.estado || '').toLowerCase();
                     return estado === 'suspendido' || estado === 'suspended';
                 }).length;
-
                 const inactivos = vencidos + suspendidos;
 
-                // Contar por plan
                 const sabatero = socios.filter(s => {
                     const plan = (s.plan || '').toLowerCase();
                     return plan === 'sabatero';
                 }).length;
-
                 const finder = socios.filter(s => {
                     const plan = (s.plan || '').toLowerCase();
                     return plan === 'finder';
                 }).length;
-
                 const sinPlan = socios.filter(s => {
                     return !s.plan || s.plan === '' || s.plan === null;
                 }).length;
 
-                // Calcular porcentajes
                 const pctActivos = total > 0 ? Math.round((activos / total) * 100) : 0;
                 const pctInactivos = total > 0 ? Math.round(((inactivos + pendientes) / total) * 100) : 0;
                 const pctSabatero = total > 0 ? Math.round((sabatero / total) * 100) : 0;
                 const pctFinder = total > 0 ? Math.round((finder / total) * 100) : 0;
                 const pctSinPlan = total > 0 ? Math.round((sinPlan / total) * 100) : 0;
 
-                console.log('📊 Estadísticas de socios:', {
-                    total,
-                    activos,
-                    pendientes,
-                    inactivos,
-                    sabatero,
-                    finder,
-                    sinPlan,
-                    pctActivos,
-                    pctInactivos,
-                    pctSabatero,
-                    pctFinder
-                });
-
-                // Actualizar dashboard
                 actualizarDashboard(total, activos, pendientes, inactivos, pctActivos, pctInactivos, pctSabatero, pctFinder,
                     pctSinPlan);
 
@@ -1439,17 +1456,15 @@
         }
 
         // ================================================================
-        // 9. ACTUALIZAR DASHBOARD Y ANILLOS
+        // 9. ACTUALIZAR DASHBOARD
         // ================================================================
         function actualizarDashboard(total, activos, pendientes, inactivos, pctActivos, pctInactivos, pctSabatero, pctFinder,
             pctSinPlan) {
-            // Dashboard
             document.getElementById('totalSocios').textContent = total || 0;
             document.getElementById('sociosActivos').textContent = activos || 0;
             document.getElementById('sociosPendientes').textContent = pendientes || 0;
             document.getElementById('sociosInactivos').textContent = inactivos || 0;
 
-            // Tendencia (simulada)
             const tendencia = document.getElementById('tendenciaActivos');
             if (tendencia) {
                 const cambio = Math.round((Math.random() * 20) - 5);
@@ -1457,27 +1472,22 @@
                 tendencia.className = 'stat-change ' + (cambio >= 0 ? 'positive' : 'negative');
             }
 
-            // Anillos - Estado
             const circunferencia = 2 * Math.PI * 48;
-
             const offsetActivos = circunferencia - (circunferencia * (pctActivos || 0) / 100);
             const offsetInactivos = circunferencia - (circunferencia * (pctInactivos || 0) / 100);
-
-            const anilloActivos = document.querySelector('.ring-segment.activos');
-            const anilloInactivos = document.querySelector('.ring-segment.inactivos');
-            if (anilloActivos) anilloActivos.style.strokeDashoffset = offsetActivos;
-            if (anilloInactivos) anilloInactivos.style.strokeDashoffset = offsetInactivos;
-
-            // Anillos - Planes
             const offsetSabatero = circunferencia - (circunferencia * (pctSabatero || 0) / 100);
             const offsetFinder = circunferencia - (circunferencia * (pctFinder || 0) / 100);
 
+            const anilloActivos = document.querySelector('.ring-segment.activos');
+            const anilloInactivos = document.querySelector('.ring-segment.inactivos');
             const anilloSabatero = document.querySelector('.ring-segment.sabatero');
             const anilloFinder = document.querySelector('.ring-segment.finder');
+
+            if (anilloActivos) anilloActivos.style.strokeDashoffset = offsetActivos;
+            if (anilloInactivos) anilloInactivos.style.strokeDashoffset = offsetInactivos;
             if (anilloSabatero) anilloSabatero.style.strokeDashoffset = offsetSabatero;
             if (anilloFinder) anilloFinder.style.strokeDashoffset = offsetFinder;
 
-            // Textos centrales
             const center1 = document.querySelector('.ring-chart:first-child .ring-center');
             if (center1) {
                 center1.querySelector('.number').textContent = (pctActivos || 0) + '%';
@@ -1490,21 +1500,16 @@
                 center2.querySelector('.label').textContent = 'Sabatero';
             }
 
-            // Leyendas
             const legendItems = document.querySelectorAll('.ring-legend .legend-item');
             if (legendItems.length >= 5) {
                 const activosText = legendItems[0].querySelector('.percent');
                 if (activosText) activosText.textContent = (pctActivos || 0) + '%';
-
                 const inactivosText = legendItems[1].querySelector('.percent');
                 if (inactivosText) inactivosText.textContent = (pctInactivos || 0) + '%';
-
                 const sabateroText = legendItems[2].querySelector('.percent');
                 if (sabateroText) sabateroText.textContent = (pctSabatero || 0) + '%';
-
                 const finderText = legendItems[3].querySelector('.percent');
                 if (finderText) finderText.textContent = (pctFinder || 0) + '%';
-
                 const sinPlanText = legendItems[4].querySelector('.percent');
                 if (sinPlanText) sinPlanText.textContent = (pctSinPlan || 0) + '%';
             }
@@ -2144,11 +2149,11 @@
             loadSocioData();
         });
 
-        console.log('👤 FLY FUTBOLEROS · Panel del Socio');
-        console.log('✅ Conexión real a Supabase para socios activos');
-        console.log('✅ Dashboard con estadísticas en tiempo real');
-        console.log('✅ Gráficos de anillo con datos reales');
-        console.log('✅ Socios recientes desde la base de datos');
+        console.log('👤 FLY FUTBOLEROS · Panel del Socio (CORREGIDO)');
+        console.log('✅ Footer de información fuera del main');
+        console.log('✅ Posición fija encima del menú inferior');
+        console.log('✅ Sin superposición en móvil');
+        console.log('✅ Conexión real a Supabase');
         console.log('✅ Suscripción a cambios en tiempo real');
     </script>
 
