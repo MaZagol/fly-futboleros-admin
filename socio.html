@@ -139,8 +139,6 @@
         .futboleros-header .icono-grande{font-size:2rem;line-height:1}
         .futboleros-header .titulo-seccion h3{font-size:clamp(1rem,2vw,1.3rem);font-weight:800;color:#ffffff;text-shadow:0 0 40px rgba(0,212,255,0.05)}
         .futboleros-header .titulo-seccion p{font-size:0.55rem;color:#9a9ab8;letter-spacing:2px;text-transform:uppercase;font-weight:500}
-        
-        /* ===== TARJETAS EN UNA SOLA LÍNEA EN MÓVIL ===== */
         .fly-info-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:16px}
         .fly-info-grid .info-card{background:var(--gradient-glow);border-radius:var(--radius-sm);padding:16px 12px;text-align:center;border:1px solid rgba(0,212,255,0.08);transition:var(--transition-fast);position:relative;overflow:hidden}
         .fly-info-grid .info-card:hover{border-color:rgba(0,212,255,0.15);transform:translateY(-2px)}
@@ -547,7 +545,7 @@
             letter-spacing: 0.5px;
         }
 
-        /* ===== FOOTER DE INFORMACIÓN CORREGIDO ===== */
+        /* ===== FOOTER DE INFORMACIÓN ===== */
         .fechas-footer {
             position: fixed;
             bottom: calc(var(--bottom-nav-height) + 8px);
@@ -619,6 +617,145 @@
             font-size: 0.4rem;
         }
 
+        /* ===== ANILLOS DE PERFIL ===== */
+        .profile-rings {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+        }
+
+        .ring-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            gap: 8px;
+            padding: 12px 8px;
+            background: rgba(0,0,0,0.15);
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border-glow);
+            transition: var(--transition-fast);
+        }
+
+        .ring-item:hover {
+            border-color: rgba(0,212,255,0.15);
+            background: rgba(0,212,255,0.02);
+        }
+
+        .ring-chart-mini {
+            position: relative;
+            width: 80px;
+            height: 80px;
+            flex-shrink: 0;
+        }
+
+        .ring-chart-mini svg {
+            width: 100%;
+            height: 100%;
+            transform: rotate(-90deg);
+        }
+
+        .ring-chart-mini .ring-bg-mini {
+            fill: none;
+            stroke: rgba(0,212,255,0.06);
+            stroke-width: 6;
+        }
+
+        .ring-chart-mini .ring-segment-mini {
+            fill: none;
+            stroke-width: 6;
+            stroke-linecap: round;
+            transition: stroke-dashoffset 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .ring-chart-mini .ring-center-mini {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            line-height: 1.2;
+        }
+
+        .ring-chart-mini .ring-center-mini .number {
+            display: block;
+            font-size: 1.2rem;
+            font-weight: 900;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .ring-chart-mini .ring-center-mini .number.verde {
+            background: linear-gradient(135deg, var(--neon-green), #00cc66);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .ring-chart-mini .ring-center-mini .number.naranja {
+            background: linear-gradient(135deg, var(--neon-orange), #ffd700);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .ring-chart-mini .ring-center-mini .number.rojo {
+            background: linear-gradient(135deg, var(--neon-pink), #ff2d8a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .ring-chart-mini .ring-center-mini .number.estado-ok {
+            background: var(--neon-green);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 1.8rem;
+        }
+
+        .ring-chart-mini .ring-center-mini .number.estado-warning {
+            background: var(--neon-orange);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 1.8rem;
+        }
+
+        .ring-chart-mini .ring-center-mini .number.estado-danger {
+            background: var(--neon-pink);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 1.8rem;
+        }
+
+        .ring-chart-mini .ring-center-mini .label {
+            display: block;
+            font-size: 0.45rem;
+            color: var(--text-muted);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .ring-info h4 {
+            font-size: 0.65rem;
+            font-weight: 700;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 2px;
+        }
+
+        .ring-info p {
+            font-size: 0.55rem;
+            color: var(--text-muted);
+            margin: 0;
+        }
+
         .spinner {
             display: inline-block;
             width: 18px;
@@ -635,7 +772,6 @@
 
         /* ===== RESPONSIVE ===== */
         @media(max-width:480px){
-            /* Tarjetas en una sola línea horizontal en móvil */
             .fly-info-grid{grid-template-columns:repeat(3,1fr);gap:6px}
             .fly-info-grid .info-card{padding:10px 4px}
             .fly-info-grid .info-card .icon-circle{width:36px;height:36px;font-size:1.1rem;margin:0 auto 4px auto}
@@ -668,6 +804,36 @@
             .ring-chart-container{flex-direction:column;align-items:center}
             .ring-chart{width:130px;height:130px}
             .ring-legend{min-width:100px}
+            
+            .profile-rings {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 8px;
+            }
+            .ring-item {
+                padding: 8px 4px;
+                gap: 4px;
+            }
+            .ring-chart-mini {
+                width: 60px;
+                height: 60px;
+            }
+            .ring-chart-mini .ring-center-mini .number {
+                font-size: 0.9rem;
+            }
+            .ring-chart-mini .ring-center-mini .number.estado-ok,
+            .ring-chart-mini .ring-center-mini .number.estado-warning,
+            .ring-chart-mini .ring-center-mini .number.estado-danger {
+                font-size: 1.3rem;
+            }
+            .ring-chart-mini .ring-center-mini .label {
+                font-size: 0.35rem;
+            }
+            .ring-info h4 {
+                font-size: 0.5rem;
+            }
+            .ring-info p {
+                font-size: 0.45rem;
+            }
             
             .fechas-footer {
                 bottom: calc(var(--bottom-nav-height) + 4px);
@@ -706,6 +872,34 @@
             .fly-info-grid .info-card .icon-circle.lightning span{font-size:1rem}
             .fly-info-grid .info-card .title{font-size:0.45rem}
             .fly-info-grid .info-card .sub{font-size:0.35rem}
+            
+            .profile-rings {
+                gap: 4px;
+            }
+            .ring-item {
+                padding: 6px 2px;
+            }
+            .ring-chart-mini {
+                width: 50px;
+                height: 50px;
+            }
+            .ring-chart-mini .ring-center-mini .number {
+                font-size: 0.75rem;
+            }
+            .ring-chart-mini .ring-center-mini .number.estado-ok,
+            .ring-chart-mini .ring-center-mini .number.estado-warning,
+            .ring-chart-mini .ring-center-mini .number.estado-danger {
+                font-size: 1rem;
+            }
+            .ring-chart-mini .ring-center-mini .label {
+                font-size: 0.3rem;
+            }
+            .ring-info h4 {
+                font-size: 0.45rem;
+            }
+            .ring-info p {
+                font-size: 0.4rem;
+            }
             
             .fechas-footer {
                 bottom: calc(var(--bottom-nav-height) + 2px);
@@ -774,7 +968,7 @@
 
     <main class="socio-main" id="socioMain">
 
-        <!-- ===== SECCIÓN PERFIL ===== -->
+        <!-- ===== SECCIÓN PERFIL CON ANILLOS ===== -->
         <div class="section-page active" id="section-perfil">
             <div class="glass-card">
                 <div class="profile-header">
@@ -792,9 +986,68 @@
                         <p><strong>ID:</strong> <span id="socioId">#0000</span></p>
                         <p><strong>Plan:</strong> <span id="socioPlan" class="badge badge-pending">Sin plan</span></p>
                         <p><strong>Estado:</strong> <span id="socioEstado" class="badge badge-pending">Pendiente</span></p>
-                        <p><strong>Inicio:</strong> <span id="socioInicio">No definida</span></p>
-                        <p><strong>Vencimiento:</strong> <span id="socioVencimiento">No definida</span></p>
-                        <p><strong>Días restantes:</strong> <span id="socioDias">-</span></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===== ANILLOS DE ESTADO ===== -->
+            <div class="glass-card" style="padding:16px;">
+                <div class="profile-rings">
+                    <!-- Anillo 1: Días Restantes -->
+                    <div class="ring-item">
+                        <div class="ring-chart-mini">
+                            <svg viewBox="0 0 100 100">
+                                <circle class="ring-bg-mini" cx="50" cy="50" r="40"/>
+                                <circle class="ring-segment-mini" id="diasRing" cx="50" cy="50" r="40" 
+                                        stroke-dasharray="251.2" stroke-dashoffset="251.2" style="stroke:var(--neon-green);"/>
+                            </svg>
+                            <div class="ring-center-mini">
+                                <span class="number" id="diasNumero">0</span>
+                                <span class="label">Días</span>
+                            </div>
+                        </div>
+                        <div class="ring-info">
+                            <h4>⏳ Días Restantes</h4>
+                            <p id="diasTexto">Sin membresía activa</p>
+                        </div>
+                    </div>
+
+                    <!-- Anillo 2: Progreso del Plan -->
+                    <div class="ring-item">
+                        <div class="ring-chart-mini">
+                            <svg viewBox="0 0 100 100">
+                                <circle class="ring-bg-mini" cx="50" cy="50" r="40"/>
+                                <circle class="ring-segment-mini" id="planRing" cx="50" cy="50" r="40" 
+                                        stroke-dasharray="251.2" stroke-dashoffset="251.2" style="stroke:var(--neon-blue);"/>
+                            </svg>
+                            <div class="ring-center-mini">
+                                <span class="number" id="planNumero">0%</span>
+                                <span class="label">Progreso</span>
+                            </div>
+                        </div>
+                        <div class="ring-info">
+                            <h4>📊 Progreso del Plan</h4>
+                            <p id="planTexto">Selecciona un plan</p>
+                        </div>
+                    </div>
+
+                    <!-- Anillo 3: Estado General -->
+                    <div class="ring-item">
+                        <div class="ring-chart-mini">
+                            <svg viewBox="0 0 100 100">
+                                <circle class="ring-bg-mini" cx="50" cy="50" r="40"/>
+                                <circle class="ring-segment-mini" id="estadoRing" cx="50" cy="50" r="40" 
+                                        stroke-dasharray="251.2" stroke-dashoffset="251.2" style="stroke:var(--neon-orange);"/>
+                            </svg>
+                            <div class="ring-center-mini">
+                                <span class="number estado-warning" id="estadoNumero">⏳</span>
+                                <span class="label">Estado</span>
+                            </div>
+                        </div>
+                        <div class="ring-info">
+                            <h4>🔵 Estado de Membresía</h4>
+                            <p id="estadoTexto">Pendiente de activación</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1391,6 +1644,7 @@
                 renderHistorial();
                 renderSeleccionPlan(socio);
                 verificarVencimiento(socio);
+                actualizarAnillos(socio);
                 planSeleccionado = null;
                 metodoSeleccionado = null;
                 comprobanteSubido = null;
@@ -1640,19 +1894,6 @@
             estadoEl.textContent = user.estado || 'Pendiente';
             estadoEl.className = 'badge ' + getStatusClass(user.estado);
 
-            var inicioEl = document.getElementById('socioInicio');
-            var vencEl = document.getElementById('socioVencimiento');
-            if (user.fecha_inicio) {
-                inicioEl.textContent = new Date(user.fecha_inicio).toLocaleDateString();
-            } else {
-                inicioEl.textContent = 'No definida';
-            }
-            if (user.fecha_vencimiento) {
-                vencEl.textContent = new Date(user.fecha_vencimiento).toLocaleDateString();
-            } else {
-                vencEl.textContent = 'No definida';
-            }
-
             var avatarContainer = document.getElementById('avatarContainer');
             if (user.foto_url) {
                 avatarContainer.innerHTML = '<img id="socioAvatar" src="' + user.foto_url + '" alt="Foto de perfil">';
@@ -1673,7 +1914,119 @@
         }
 
         // ================================================================
-        // 13. RENDER SELECCIÓN DE PLAN
+        // 13. ACTUALIZAR ANILLOS DEL PERFIL
+        // ================================================================
+        function actualizarAnillos(user) {
+            const circunferencia = 2 * Math.PI * 40; // 251.2
+            
+            // 1. ANILLO DE DÍAS RESTANTES
+            const diasRing = document.getElementById('diasRing');
+            const diasNumero = document.getElementById('diasNumero');
+            const diasTexto = document.getElementById('diasTexto');
+            
+            if (user.plan === 'Sabatero' && user.fecha_vencimiento) {
+                const hoy = new Date();
+                const venc = new Date(user.fecha_vencimiento);
+                const diff = Math.ceil((venc - hoy) / (1000 * 60 * 60 * 24));
+                const diasMostrar = Math.max(0, diff);
+                const porcentaje = Math.min(100, (diasMostrar / 30) * 100);
+                const offset = circunferencia - (circunferencia * porcentaje / 100);
+                
+                diasRing.style.strokeDashoffset = offset;
+                diasRing.style.stroke = diff > 7 ? 'var(--neon-green)' : diff > 0 ? 'var(--neon-orange)' : 'var(--neon-pink)';
+                
+                if (diff > 0) {
+                    diasNumero.textContent = diasMostrar;
+                    diasNumero.className = 'number ' + (diff > 7 ? 'verde' : 'naranja');
+                    diasTexto.textContent = diff + ' días restantes';
+                } else {
+                    diasNumero.textContent = '0';
+                    diasNumero.className = 'number rojo';
+                    diasTexto.textContent = 'Membresía vencida';
+                }
+            } else {
+                diasRing.style.strokeDashoffset = circunferencia;
+                diasRing.style.stroke = 'var(--text-muted)';
+                diasNumero.textContent = '--';
+                diasNumero.className = 'number';
+                diasTexto.textContent = 'Sin membresía activa';
+            }
+
+            // 2. ANILLO DE PROGRESO DEL PLAN
+            const planRing = document.getElementById('planRing');
+            const planNumero = document.getElementById('planNumero');
+            const planTexto = document.getElementById('planTexto');
+            
+            if (user.plan) {
+                const progreso = user.estado === 'Activo' ? 100 : 50;
+                const offset = circunferencia - (circunferencia * progreso / 100);
+                planRing.style.strokeDashoffset = offset;
+                planRing.style.stroke = user.estado === 'Activo' ? 'var(--neon-green)' : 'var(--neon-orange)';
+                planNumero.textContent = progreso + '%';
+                planNumero.className = 'number ' + (user.estado === 'Activo' ? 'verde' : 'naranja');
+                planTexto.textContent = user.plan + ' · ' + (user.estado === 'Activo' ? 'Activo' : 'Pendiente');
+            } else {
+                planRing.style.strokeDashoffset = circunferencia;
+                planRing.style.stroke = 'var(--text-muted)';
+                planNumero.textContent = '0%';
+                planNumero.className = 'number';
+                planTexto.textContent = 'Selecciona un plan';
+            }
+
+            // 3. ANILLO DE ESTADO GENERAL
+            const estadoRing = document.getElementById('estadoRing');
+            const estadoNumero = document.getElementById('estadoNumero');
+            const estadoTexto = document.getElementById('estadoTexto');
+            
+            const estado = (user.estado || 'Pendiente').toLowerCase();
+            let color, icono, texto, porcentajeEstado;
+            
+            switch(estado) {
+                case 'activo':
+                    color = 'var(--neon-green)';
+                    icono = '✓';
+                    texto = 'Membresía Activa';
+                    porcentajeEstado = 100;
+                    estadoNumero.className = 'number estado-ok';
+                    break;
+                case 'pendiente':
+                    color = 'var(--neon-orange)';
+                    icono = '⏳';
+                    texto = 'Pendiente de aprobación';
+                    porcentajeEstado = 50;
+                    estadoNumero.className = 'number estado-warning';
+                    break;
+                case 'suspendido':
+                    color = 'var(--neon-pink)';
+                    icono = '⛔';
+                    texto = 'Membresía Suspendida';
+                    porcentajeEstado = 25;
+                    estadoNumero.className = 'number estado-danger';
+                    break;
+                case 'vencido':
+                    color = 'var(--neon-pink)';
+                    icono = '❌';
+                    texto = 'Membresía Vencida';
+                    porcentajeEstado = 0;
+                    estadoNumero.className = 'number estado-danger';
+                    break;
+                default:
+                    color = 'var(--text-muted)';
+                    icono = '●';
+                    texto = 'Sin estado definido';
+                    porcentajeEstado = 0;
+                    estadoNumero.className = 'number';
+            }
+            
+            const offsetEstado = circunferencia - (circunferencia * porcentajeEstado / 100);
+            estadoRing.style.strokeDashoffset = offsetEstado;
+            estadoRing.style.stroke = color;
+            estadoNumero.textContent = icono;
+            estadoTexto.textContent = texto;
+        }
+
+        // ================================================================
+        // 14. RENDER SELECCIÓN DE PLAN
         // ================================================================
         function renderSeleccionPlan(user) {
             var planOptions = document.querySelectorAll('#planSelector .option');
@@ -1705,7 +2058,7 @@
         }
 
         // ================================================================
-        // 14. VERIFICAR VENCIMIENTO
+        // 15. VERIFICAR VENCIMIENTO
         // ================================================================
         function verificarVencimiento(user) {
             var mensajeContainer = document.getElementById('mensajeVencimiento');
@@ -1748,7 +2101,7 @@
         }
 
         // ================================================================
-        // 15. ABRIR CONFIG PLAN
+        // 16. ABRIR CONFIG PLAN
         // ================================================================
         function abrirConfigPlan() {
             if (!socioData) {
@@ -1766,7 +2119,7 @@
         }
 
         // ================================================================
-        // 16. SELECCIÓN UI
+        // 17. SELECCIÓN UI
         // ================================================================
         function seleccionarPlanUI(plan) {
             document.querySelectorAll('#planSelector .option').forEach(function(el) {
@@ -1821,7 +2174,7 @@
         });
 
         // ================================================================
-        // 17. CONFIRMAR CONFIGURACIÓN
+        // 18. CONFIRMAR CONFIGURACIÓN
         // ================================================================
         async function confirmarConfiguracion() {
             if (!socioData) { showToast('⚠️ Espera a que carguen los datos', 'warning'); return; }
@@ -1920,6 +2273,7 @@
                 document.getElementById('statusEstado').textContent = 'Pendiente';
                 document.getElementById('statusEstado').className = 'value pending';
                 renderProfile(socioData);
+                actualizarAnillos(socioData);
 
                 planSeleccionado = null;
                 metodoSeleccionado = null;
@@ -1941,7 +2295,7 @@
         }
 
         // ================================================================
-        // 18. RENOVAR MEMBRESIA
+        // 19. RENOVAR MEMBRESIA
         // ================================================================
         async function renovarMembresia() {
             if (!socioData) { showToast('⚠️ Espera a que carguen los datos', 'warning'); return; }
@@ -2004,7 +2358,7 @@
         }
 
         // ================================================================
-        // 19. RENDER HISTORIAL
+        // 20. RENDER HISTORIAL
         // ================================================================
         function renderHistorial() {
             var tbody = document.getElementById('historialTableBody');
@@ -2034,7 +2388,7 @@
         }
 
         // ================================================================
-        // 20. AVATAR
+        // 21. AVATAR
         // ================================================================
         function abrirModalAvatar() {
             if (!socioData) { showToast('⚠️ Espera a que carguen los datos', 'warning'); return; }
@@ -2135,7 +2489,7 @@
         }
 
         // ================================================================
-        // 21. MODAL
+        // 22. MODAL
         // ================================================================
         function closeModal(id) {
             document.getElementById(id).classList.remove('active');
@@ -2155,7 +2509,7 @@
         });
 
         // ================================================================
-        // 22. CERRAR SESIÓN
+        // 23. CERRAR SESIÓN
         // ================================================================
         function handleLogout() {
             if (!confirm('¿Cerrar sesión?')) return;
@@ -2166,16 +2520,16 @@
         }
 
         // ================================================================
-        // 23. INICIALIZAR
+        // 24. INICIALIZAR
         // ================================================================
         document.addEventListener('DOMContentLoaded', function() {
             loadSocioData();
         });
 
-        console.log('👤 FLY FUTBOLEROS · Panel del Socio (CORREGIDO)');
+        console.log('👤 FLY FUTBOLEROS · Panel del Socio (CON ANILLOS)');
+        console.log('✅ Anillos en perfil: Días, Progreso, Estado');
         console.log('✅ Footer fuera del main - SIN SUPERPOSICIÓN');
         console.log('✅ Tarjetas Tradición/Compromiso/Pasión en UNA SOLA LÍNEA en móvil');
-        console.log('✅ Posición fija encima del menú inferior');
         console.log('✅ Conexión real a Supabase');
         console.log('✅ Suscripción a cambios en tiempo real');
     </script>
