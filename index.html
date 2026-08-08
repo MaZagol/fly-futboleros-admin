@@ -11,15 +11,15 @@
     <style>
         *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
         :root{--bg-deep:#06060e;--bg-card:rgba(12,12,26,0.6);--border-glow:rgba(0,212,255,0.08);--text-primary:#e8e8f0;--text-secondary:#9a9ab0;--text-muted:#5a5a7a;--neon-blue:#00d4ff;--neon-purple:#8b3cff;--neon-pink:#ff2d8a;--neon-green:#00ff7f;--neon-orange:#ff6a00;--gradient-primary:linear-gradient(135deg,#00d4ff,#8b3cff);--shadow-card:0 8px 48px rgba(0,0,0,0.9);--radius:20px;--radius-sm:12px;--transition:all 0.4s cubic-bezier(0.25,0.46,0.45,0.94);--transition-fast:all 0.2s ease}
-        html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
-        body{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg-deep);color:var(--text-primary);min-height:100vh;display:flex;align-items:center;justify-content:center;position:relative}
+        html, body{height:100%}
+        body{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg-deep);color:var(--text-primary);display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;min-height:100vh;padding:20px 16px 90px 16px}
         ::-webkit-scrollbar{width:3px;height:3px}
         ::-webkit-scrollbar-track{background:var(--bg-deep)}
         ::-webkit-scrollbar-thumb{background:var(--neon-blue);border-radius:10px;box-shadow:0 0 20px rgba(0,212,255,0.2)}
         #particles{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none}
         .particle{position:absolute;border-radius:50%;background:radial-gradient(circle,rgba(0,212,255,0.1),transparent);animation:float-particle linear infinite;pointer-events:none}
         @keyframes float-particle{0%{transform:translateY(100vh) scale(0);opacity:0}10%{opacity:1}90%{opacity:1}100%{transform:translateY(-10vh) scale(1);opacity:0}}
-        .login-screen{position:relative;z-index:1;width:100%;max-width:440px;padding:16px;animation:fadeIn 0.6s ease}
+        .login-screen{position:relative;z-index:1;width:100%;max-width:440px;animation:fadeIn 0.6s ease;flex-shrink:0}
         @keyframes fadeIn{from{opacity:0;transform:scale(0.96) translateY(20px)}to{opacity:1;transform:scale(1) translateY(0)}}
         .login-box{background:var(--bg-card);border:1px solid var(--border-glow);border-radius:var(--radius);padding:32px 28px;box-shadow:var(--shadow-card);backdrop-filter:blur(24px);position:relative;overflow:hidden;max-height:96vh;overflow-y:auto;transition:var(--transition)}
         .login-box:hover{border-color:rgba(0,212,255,0.15)}
@@ -195,6 +195,115 @@
             width: 100%;
         }
 
+        /* ===== FOOTER FIJO ABAJO SIN SUPERPOSICIÓN ===== */
+        .footer-info {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 10;
+            background: rgba(6, 6, 14, 0.92);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-top: 1px solid var(--border-glow);
+            padding: 10px 16px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            min-height: 56px;
+        }
+
+        .footer-info .fecha-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.65rem;
+            color: var(--text-muted);
+        }
+
+        .footer-info .fecha-item .numero {
+            font-weight: 800;
+            font-size: 0.8rem;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .footer-info .fecha-item .numero.verde {
+            background: linear-gradient(135deg, var(--neon-green), #00cc66);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .footer-info .fecha-item .numero.morado {
+            background: linear-gradient(135deg, var(--neon-purple), #ff2d8a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .footer-info .fecha-item .numero.naranja {
+            background: linear-gradient(135deg, var(--neon-orange), #ffd700);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .footer-info .fecha-item .label {
+            font-size: 0.5rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 500;
+        }
+
+        .footer-info .separador {
+            color: rgba(255, 255, 255, 0.06);
+            font-size: 0.6rem;
+        }
+
+        @media(max-width:480px) {
+            .footer-info {
+                padding: 8px 12px;
+                gap: 12px;
+                min-height: 48px;
+            }
+            .footer-info .fecha-item {
+                font-size: 0.55rem;
+                gap: 4px;
+            }
+            .footer-info .fecha-item .numero {
+                font-size: 0.7rem;
+            }
+            .footer-info .fecha-item .label {
+                font-size: 0.45rem;
+            }
+            .footer-info .separador {
+                font-size: 0.5rem;
+            }
+        }
+
+        @media(max-width:380px) {
+            .footer-info {
+                padding: 6px 8px;
+                gap: 8px;
+                min-height: 40px;
+            }
+            .footer-info .fecha-item {
+                font-size: 0.5rem;
+            }
+            .footer-info .fecha-item .numero {
+                font-size: 0.6rem;
+            }
+            .footer-info .fecha-item .label {
+                font-size: 0.4rem;
+            }
+        }
+
         /* ===== RESPONSIVE ===== */
         @media(max-width:480px) {
             .password-input {
@@ -343,6 +452,29 @@
                 </div>
             </form>
 
+        </div>
+    </div>
+
+    <!-- ===== FOOTER FIJO ABAJO (SIN SUPERPOSICIÓN) ===== -->
+    <div class="footer-info" id="footerInfo">
+        <div class="fecha-item">
+            <span class="numero">2012</span>
+            <span class="label">Fundación</span>
+        </div>
+        <span class="separador">|</span>
+        <div class="fecha-item">
+            <span class="numero verde">6v6</span>
+            <span class="label">Formato</span>
+        </div>
+        <span class="separador">|</span>
+        <div class="fecha-item">
+            <span class="numero morado">+10</span>
+            <span class="label">Años</span>
+        </div>
+        <span class="separador">|</span>
+        <div class="fecha-item">
+            <span class="numero naranja">⚡</span>
+            <span class="label">Pasión</span>
         </div>
     </div>
 
@@ -831,6 +963,7 @@
         console.log('🔐 FLY FUTBOLEROS · Registro (CON OJO INTERACTIVO)');
         console.log('✅ Campo de contraseña con ojo para mostrar/ocultar');
         console.log('✅ Medidor de seguridad en tiempo real');
+        console.log('✅ Footer fijo abajo sin superposición');
         console.log('✅ Toasts en lugar de alertas');
         console.log('✅ Spinners al cargar');
     </script>
