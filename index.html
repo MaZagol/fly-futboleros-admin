@@ -71,6 +71,159 @@
         .weather-icon{font-size:1rem;margin-left:2px}
         @media(max-width:480px){.login-box{padding:24px 18px;border-radius:var(--radius-sm)}.login-box .logo h1{font-size:1.8rem}.login-box .form-group input{font-size:0.85rem;padding:10px 12px}.login-box .form-group label{font-size:0.6rem}.login-box .btn-primary{font-size:0.8rem;padding:13px}}
         @media(max-width:380px){.login-box{padding:18px 14px}.login-box .logo h1{font-size:1.5rem}.login-box .form-group input{font-size:0.8rem;padding:8px 10px}.login-box .btn-primary{font-size:0.75rem;padding:11px}}
+
+        /* ===== CAMPO DE CONTRASEÑA CON OJO ===== */
+        .password-wrapper {
+            position: relative;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--border-glow);
+            border-radius: var(--radius-sm);
+            transition: var(--transition-fast);
+            overflow: hidden;
+        }
+
+        .password-wrapper:focus-within {
+            border-color: var(--neon-blue);
+            box-shadow: 0 0 30px rgba(0, 212, 255, 0.06);
+        }
+
+        .password-wrapper.showing-password {
+            border-color: rgba(0, 212, 255, 0.3);
+            box-shadow: 0 0 40px rgba(0, 212, 255, 0.04);
+        }
+
+        .password-wrapper.showing-password .eye-toggle-btn {
+            color: var(--neon-blue);
+        }
+
+        .password-input {
+            flex: 1;
+            padding: 11px 50px 11px 14px;
+            background: transparent;
+            border: none;
+            outline: none;
+            color: var(--text-primary);
+            font-size: 0.9rem;
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
+            width: 100%;
+            min-height: 44px;
+        }
+
+        .password-input::placeholder {
+            color: var(--text-muted);
+            font-weight: 300;
+        }
+
+        .password-input:-webkit-autofill {
+            -webkit-box-shadow: 0 0 0 1000px rgba(0, 0, 0, 0.4) inset !important;
+            -webkit-text-fill-color: var(--text-primary) !important;
+        }
+
+        .eye-toggle-btn {
+            position: absolute;
+            right: 8px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 1.1rem;
+            padding: 6px 10px;
+            border-radius: 50%;
+            transition: var(--transition-fast);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2;
+            width: 38px;
+            height: 38px;
+        }
+
+        .eye-toggle-btn:hover {
+            color: var(--neon-blue);
+            background: rgba(0, 212, 255, 0.06);
+            transform: translateY(-50%) scale(1.05);
+        }
+
+        .eye-toggle-btn:active {
+            transform: translateY(-50%) scale(0.92);
+        }
+
+        .eye-toggle-btn .fa-eye,
+        .eye-toggle-btn .fa-eye-slash {
+            transition: var(--transition-fast);
+        }
+
+        .eye-toggle-btn:focus-visible {
+            outline: 2px solid var(--neon-blue);
+            outline-offset: 2px;
+        }
+
+        /* ===== MEDIDOR DE SEGURIDAD ===== */
+        .password-strength {
+            height: 3px;
+            margin-top: 6px;
+            border-radius: 4px;
+            background: var(--border-glow);
+            transition: var(--transition-fast);
+            width: 0%;
+            opacity: 0;
+        }
+
+        .password-strength.visible {
+            opacity: 1;
+            width: 100%;
+        }
+
+        .password-strength.weak {
+            background: linear-gradient(90deg, var(--neon-pink), #ff6a00);
+            width: 33%;
+        }
+
+        .password-strength.medium {
+            background: linear-gradient(90deg, var(--neon-orange), #ffd700);
+            width: 66%;
+        }
+
+        .password-strength.strong {
+            background: linear-gradient(90deg, var(--neon-green), #00d4ff);
+            width: 100%;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media(max-width:480px) {
+            .password-input {
+                padding: 10px 45px 10px 12px;
+                font-size: 0.85rem;
+                min-height: 40px;
+            }
+            .eye-toggle-btn {
+                font-size: 1rem;
+                width: 34px;
+                height: 34px;
+                right: 6px;
+            }
+        }
+
+        @media(max-width:380px) {
+            .password-input {
+                padding: 8px 40px 8px 10px;
+                font-size: 0.8rem;
+                min-height: 36px;
+            }
+            .eye-toggle-btn {
+                font-size: 0.9rem;
+                width: 30px;
+                height: 30px;
+                right: 4px;
+                padding: 4px 6px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -104,7 +257,26 @@
                 </div>
                 <div class="form-group">
                     <label>🔒 Contraseña <span class="required">*</span></label>
-                    <input type="password" id="loginPassword" placeholder="••••••••" required>
+                    <div class="password-wrapper" id="loginPasswordWrapper">
+                        <input 
+                            type="password" 
+                            id="loginPassword" 
+                            class="password-input" 
+                            placeholder="••••••••" 
+                            required
+                            autocomplete="current-password"
+                        >
+                        <button 
+                            type="button" 
+                            class="eye-toggle-btn" 
+                            onclick="togglePassword('loginPassword', 'loginEyeIcon', 'loginPasswordWrapper')"
+                            aria-label="Mostrar u ocultar contraseña"
+                            tabindex="0"
+                        >
+                            <i class="fas fa-eye" id="loginEyeIcon"></i>
+                        </button>
+                    </div>
+                    <div class="password-strength" id="loginPasswordStrength"></div>
                 </div>
                 <button type="submit" class="btn-primary" id="loginBtn">
                     <i class="fas fa-sign-in-alt"></i> Iniciar Sesión
@@ -135,7 +307,27 @@
 
                 <div class="form-group">
                     <label>🔒 Contraseña <span class="required">*</span></label>
-                    <input type="password" id="registerPassword" placeholder="••••••••" required minlength="6">
+                    <div class="password-wrapper" id="registerPasswordWrapper">
+                        <input 
+                            type="password" 
+                            id="registerPassword" 
+                            class="password-input" 
+                            placeholder="••••••••" 
+                            required 
+                            minlength="6"
+                            autocomplete="new-password"
+                        >
+                        <button 
+                            type="button" 
+                            class="eye-toggle-btn" 
+                            onclick="togglePassword('registerPassword', 'registerEyeIcon', 'registerPasswordWrapper')"
+                            aria-label="Mostrar u ocultar contraseña"
+                            tabindex="0"
+                        >
+                            <i class="fas fa-eye" id="registerEyeIcon"></i>
+                        </button>
+                    </div>
+                    <div class="password-strength" id="registerPasswordStrength"></div>
                     <div class="hint"><i class="fas fa-info-circle"></i> Mínimo 6 caracteres</div>
                 </div>
 
@@ -349,14 +541,78 @@
         }
 
         // ================================================================
-        // 6. VALIDACIONES
+        // 6. FUNCIÓN PARA MOSTRAR/OCULTAR CONTRASEÑA (OJO)
+        // ================================================================
+        function togglePassword(inputId, eyeIconId, wrapperId) {
+            const input = document.getElementById(inputId);
+            const eyeIcon = document.getElementById(eyeIconId);
+            const wrapper = document.getElementById(wrapperId);
+
+            if (!input || !eyeIcon || !wrapper) return;
+
+            if (input.type === 'password') {
+                input.type = 'text';
+                eyeIcon.className = 'fas fa-eye-slash';
+                wrapper.classList.add('showing-password');
+            } else {
+                input.type = 'password';
+                eyeIcon.className = 'fas fa-eye';
+                wrapper.classList.remove('showing-password');
+            }
+
+            input.focus();
+        }
+
+        // ================================================================
+        // 7. MEDIDOR DE SEGURIDAD DE CONTRASEÑA
+        // ================================================================
+        function checkPasswordStrength(password, strengthId) {
+            const strengthBar = document.getElementById(strengthId);
+            if (!strengthBar) return;
+
+            if (!password || password.length === 0) {
+                strengthBar.className = 'password-strength';
+                strengthBar.style.width = '0%';
+                return;
+            }
+
+            let score = 0;
+            if (password.length >= 8) score++;
+            if (password.length >= 12) score++;
+            if (/[A-Z]/.test(password)) score++;
+            if (/[0-9]/.test(password)) score++;
+            if (/[^A-Za-z0-9]/.test(password)) score++;
+
+            strengthBar.classList.add('visible');
+
+            if (score <= 2) {
+                strengthBar.className = 'password-strength weak';
+            } else if (score <= 4) {
+                strengthBar.className = 'password-strength medium';
+            } else {
+                strengthBar.className = 'password-strength strong';
+            }
+        }
+
+        // ================================================================
+        // 8. VALIDACIONES
         // ================================================================
         document.getElementById('registerUsername').addEventListener('input', function() {
             this.value = this.value.toLowerCase().replace(/[^a-z0-9_.]/g, '');
         });
 
+        // Medidor de seguridad en tiempo real - Login
+        document.getElementById('loginPassword').addEventListener('input', function() {
+            checkPasswordStrength(this.value, 'loginPasswordStrength');
+        });
+
+        // Medidor de seguridad en tiempo real - Registro
+        document.getElementById('registerPassword').addEventListener('input', function() {
+            checkPasswordStrength(this.value, 'registerPasswordStrength');
+        });
+
         // ================================================================
-        // 7. SUPABASE CONFIG
+        // 9. SUPABASE CONFIG
         // ================================================================
         const SUPABASE_URL = 'https://abgtdybklkfozoazfmiw.supabase.co';
         const SUPABASE_ANON_KEY =
@@ -365,7 +621,7 @@
         const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
         // ================================================================
-        // 8. LOGIN
+        // 10. LOGIN
         // ================================================================
         document.getElementById('loginForm').addEventListener('submit', async function(e) {
             e.preventDefault();
@@ -425,7 +681,7 @@
         });
 
         // ================================================================
-        // 9. REGISTRO - VERSIÓN MEJORADA
+        // 11. REGISTRO - VERSIÓN MEJORADA
         // ================================================================
         document.getElementById('registerForm').addEventListener('submit', async function(e) {
             e.preventDefault();
@@ -536,6 +792,7 @@
                 document.getElementById('registerName').value = '';
                 document.getElementById('registerPhone').value = '';
                 document.getElementById('registerPassword').value = '';
+                document.getElementById('registerPasswordStrength').className = 'password-strength';
 
                 // Redirigir al login
                 setTimeout(function() {
@@ -552,7 +809,7 @@
         });
 
         // ================================================================
-        // 10. ENTER PARA LOGIN
+        // 12. ENTER PARA LOGIN
         // ================================================================
         document.getElementById('loginPassword').addEventListener('keydown', function(e) {
             if (e.key === 'Enter') {
@@ -567,14 +824,15 @@
         });
 
         // ================================================================
-        // 11. MOSTRAR LOGIN POR DEFECTO
+        // 13. MOSTRAR LOGIN POR DEFECTO
         // ================================================================
         showLogin();
 
-        console.log('🔐 FLY FUTBOLEROS · Registro (VERSIÓN MEJORADA)');
+        console.log('🔐 FLY FUTBOLEROS · Registro (CON OJO INTERACTIVO)');
+        console.log('✅ Campo de contraseña con ojo para mostrar/ocultar');
+        console.log('✅ Medidor de seguridad en tiempo real');
         console.log('✅ Toasts en lugar de alertas');
         console.log('✅ Spinners al cargar');
-        console.log('✅ Efectos hover y animaciones');
     </script>
 
 </body>
