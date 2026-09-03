@@ -12,7 +12,7 @@
         *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
         :root{--bg-deep:#06060e;--bg-card:rgba(12,12,26,0.6);--bg-card-hover:rgba(12,12,26,0.8);--border-glow:rgba(0,212,255,0.06);--text-primary:#f0f0ff;--text-secondary:#b8b8d0;--text-muted:#7a7a9a;--neon-blue:#00d4ff;--neon-purple:#8b3cff;--neon-pink:#ff2d8a;--neon-green:#00ff7f;--neon-orange:#ff6a00;--neon-gold:#ffd700;--gradient-primary:linear-gradient(135deg,#00d4ff,#8b3cff);--gradient-glow:linear-gradient(135deg,rgba(0,212,255,0.15),rgba(139,60,255,0.15));--shadow-card:0 8px 48px rgba(0,0,0,0.9);--radius:18px;--radius-sm:12px;--radius-xs:8px;--transition:all 0.4s cubic-bezier(0.25,0.46,0.45,0.94);--transition-fast:all 0.2s ease;--bottom-nav-height:72px}
         html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased;font-size:16px}
-        body{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg-deep);color:var(--text-primary);min-height:100vh;overflow-x:hidden;position:relative;padding-bottom:calc(var(--bottom-nav-height)+85px)}
+        body{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg-deep);color:var(--text-primary);min-height:100vh;overflow-x:hidden;position:relative;padding-bottom:calc(var(--bottom-nav-height)+70px)}
         ::-webkit-scrollbar{width:3px;height:3px}
         ::-webkit-scrollbar-track{background:var(--bg-deep)}
         ::-webkit-scrollbar-thumb{background:var(--neon-blue);border-radius:10px;box-shadow:0 0 20px rgba(0,212,255,0.2)}
@@ -42,7 +42,7 @@
         .btn-success{background:var(--neon-green);color:#fff}
         .btn-sm{padding:6px 12px;min-height:32px;font-size:clamp(0.45rem,1vw,0.55rem)}
         .btn:disabled{opacity:0.5;cursor:not-allowed;transform:none !important}
-        .socio-main{position:relative;z-index:1;max-width:1200px;margin:0 auto;padding:16px;padding-bottom:20px;width:100%}
+        .socio-main{position:relative;z-index:1;max-width:1200px;margin:0 auto;padding:16px;padding-bottom:100px;width:100%}
         .glass-card{background:var(--bg-card);border:1px solid var(--border-glow);border-radius:var(--radius);padding:20px;transition:var(--transition-fast);margin-bottom:16px;position:relative;overflow:hidden}
         .glass-card:hover{border-color:rgba(0,212,255,0.1)}
         .glass-card::before{content:'';position:absolute;inset:-1px;border-radius:var(--radius);padding:1px;background:var(--gradient-primary);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;opacity:0.04;pointer-events:none}
@@ -545,14 +545,13 @@
             letter-spacing: 0.5px;
         }
 
-        /* ===== FOOTER DE INFORMACIÓN ===== */
         .fechas-footer {
             position: fixed;
-            bottom: calc(var(--bottom-nav-height) + 8px);
+            bottom: calc(var(--bottom-nav-height) + 10px);
             left: 0;
             right: 0;
             z-index: 40;
-            padding: 6px 12px;
+            padding: 10px 16px;
             background: rgba(6, 6, 14, 0.92);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
@@ -560,201 +559,50 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 14px;
+            gap: 24px;
             flex-wrap: wrap;
-            min-height: 36px;
-            pointer-events: none;
         }
-
         .fechas-footer .fecha-item {
             display: flex;
             align-items: center;
-            gap: 4px;
-            font-size: 0.55rem;
+            gap: 8px;
+            font-size: 0.7rem;
             color: var(--text-muted);
         }
-
         .fechas-footer .fecha-item .numero {
             font-weight: 800;
-            font-size: 0.65rem;
+            font-size: 0.85rem;
             background: linear-gradient(135deg, var(--neon-blue), var(--neon-purple));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
-
         .fechas-footer .fecha-item .numero.verde {
             background: linear-gradient(135deg, var(--neon-green), #00cc66);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
-
         .fechas-footer .fecha-item .numero.morado {
             background: linear-gradient(135deg, var(--neon-purple), #ff2d8a);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
-
         .fechas-footer .fecha-item .numero.naranja {
             background: linear-gradient(135deg, var(--neon-orange), #ffd700);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
-
         .fechas-footer .fecha-item .label {
-            font-size: 0.4rem;
+            font-size: 0.55rem;
             color: var(--text-muted);
             text-transform: uppercase;
             letter-spacing: 0.5px;
             font-weight: 500;
         }
-
-        .fechas-footer .separador {
-            color: rgba(255, 255, 255, 0.06);
-            font-size: 0.4rem;
-        }
-
-        /* ===== ANILLOS DE PERFIL ===== */
-        .profile-rings {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 16px;
-        }
-
-        .ring-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-            gap: 8px;
-            padding: 12px 8px;
-            background: rgba(0,0,0,0.15);
-            border-radius: var(--radius-sm);
-            border: 1px solid var(--border-glow);
-            transition: var(--transition-fast);
-        }
-
-        .ring-item:hover {
-            border-color: rgba(0,212,255,0.15);
-            background: rgba(0,212,255,0.02);
-        }
-
-        .ring-chart-mini {
-            position: relative;
-            width: 80px;
-            height: 80px;
-            flex-shrink: 0;
-        }
-
-        .ring-chart-mini svg {
-            width: 100%;
-            height: 100%;
-            transform: rotate(-90deg);
-        }
-
-        .ring-chart-mini .ring-bg-mini {
-            fill: none;
-            stroke: rgba(0,212,255,0.06);
-            stroke-width: 6;
-        }
-
-        .ring-chart-mini .ring-segment-mini {
-            fill: none;
-            stroke-width: 6;
-            stroke-linecap: round;
-            transition: stroke-dashoffset 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-        }
-
-        .ring-chart-mini .ring-center-mini {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            text-align: center;
-            line-height: 1.2;
-        }
-
-        .ring-chart-mini .ring-center-mini .number {
-            display: block;
-            font-size: 1.2rem;
-            font-weight: 900;
-            background: var(--gradient-primary);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .ring-chart-mini .ring-center-mini .number.verde {
-            background: linear-gradient(135deg, var(--neon-green), #00cc66);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .ring-chart-mini .ring-center-mini .number.naranja {
-            background: linear-gradient(135deg, var(--neon-orange), #ffd700);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .ring-chart-mini .ring-center-mini .number.rojo {
-            background: linear-gradient(135deg, var(--neon-pink), #ff2d8a);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .ring-chart-mini .ring-center-mini .number.estado-ok {
-            background: var(--neon-green);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            font-size: 1.8rem;
-        }
-
-        .ring-chart-mini .ring-center-mini .number.estado-warning {
-            background: var(--neon-orange);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            font-size: 1.8rem;
-        }
-
-        .ring-chart-mini .ring-center-mini .number.estado-danger {
-            background: var(--neon-pink);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            font-size: 1.8rem;
-        }
-
-        .ring-chart-mini .ring-center-mini .label {
-            display: block;
-            font-size: 0.45rem;
-            color: var(--text-muted);
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .ring-info h4 {
-            font-size: 0.65rem;
-            font-weight: 700;
-            color: var(--text-secondary);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 2px;
-        }
-
-        .ring-info p {
-            font-size: 0.55rem;
-            color: var(--text-muted);
-            margin: 0;
-        }
+        .fechas-footer .separador { color: rgba(255,255,255,0.06); font-size: 0.6rem; }
 
         .spinner {
             display: inline-block;
@@ -770,22 +618,220 @@
             100% { transform: rotate(360deg); }
         }
 
-        /* ===== RESPONSIVE ===== */
+        /* ===== ESTILOS PARA NOTICIAS ===== */
+        .noticia-item {
+            background: var(--bg-card);
+            border: 1px solid var(--border-glow);
+            border-radius: var(--radius-sm);
+            padding: 16px 18px;
+            transition: all 0.3s ease;
+            position: relative;
+            cursor: pointer;
+            border-left: 3px solid transparent;
+        }
+
+        .noticia-item:hover {
+            border-color: rgba(0,212,255,0.15);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+        }
+
+        .noticia-item:active {
+            transform: scale(0.98);
+        }
+
+        .noticia-item.no-leida {
+            border-left-color: var(--neon-blue);
+            background: rgba(0,212,255,0.02);
+        }
+
+        .noticia-item .noticia-header {
+            display: flex;
+            gap: 14px;
+            align-items: flex-start;
+        }
+
+        .noticia-item .noticia-icono {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            flex-shrink: 0;
+            transition: all 0.3s ease;
+        }
+
+        .noticia-item .noticia-icono.gasto {
+            background: rgba(255,106,0,0.12);
+            color: var(--neon-orange);
+        }
+
+        .noticia-item .noticia-icono.anuncio {
+            background: rgba(0,212,255,0.12);
+            color: var(--neon-blue);
+        }
+
+        .noticia-item .noticia-contenido {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .noticia-item .noticia-contenido .titulo {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #ffffff;
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .noticia-item .noticia-contenido .titulo .badge-tipo {
+            font-size: 0.45rem;
+            padding: 1px 8px;
+            border-radius: 12px;
+            text-transform: uppercase;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .noticia-item .noticia-contenido .titulo .badge-tipo.gasto {
+            background: rgba(255,106,0,0.12);
+            color: var(--neon-orange);
+            border: 1px solid rgba(255,106,0,0.15);
+        }
+
+        .noticia-item .noticia-contenido .titulo .badge-tipo.anuncio {
+            background: rgba(0,212,255,0.12);
+            color: var(--neon-blue);
+            border: 1px solid rgba(0,212,255,0.15);
+        }
+
+        .noticia-item .noticia-contenido .descripcion {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            margin: 4px 0 6px 0;
+            line-height: 1.6;
+        }
+
+        .noticia-item .noticia-contenido .monto {
+            font-size: 0.75rem;
+            font-weight: 700;
+            display: inline-block;
+            padding: 2px 12px;
+            border-radius: 12px;
+            margin: 4px 0;
+            color: var(--neon-orange);
+            background: rgba(255,106,0,0.06);
+            border: 1px solid rgba(255,106,0,0.08);
+        }
+
+        .noticia-item .noticia-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 8px;
+            padding-top: 8px;
+            border-top: 1px solid rgba(255,255,255,0.03);
+            flex-wrap: wrap;
+            gap: 4px;
+        }
+
+        .noticia-item .noticia-footer .fecha {
+            font-size: 0.55rem;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .noticia-item .noticia-footer .estado-lectura {
+            font-size: 0.5rem;
+            padding: 1px 10px;
+            border-radius: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .noticia-item .noticia-footer .estado-lectura.leida {
+            color: var(--text-muted);
+            background: rgba(255,255,255,0.02);
+            border: 1px solid var(--border-glow);
+        }
+
+        .noticia-item .noticia-footer .estado-lectura.no-leida {
+            color: var(--neon-blue);
+            background: rgba(0,212,255,0.06);
+            border: 1px solid rgba(0,212,255,0.06);
+        }
+
+        .noticia-item .noticia-footer .categoria {
+            font-size: 0.5rem;
+            padding: 1px 10px;
+            border-radius: 12px;
+            background: rgba(255,255,255,0.03);
+            color: var(--text-muted);
+            border: 1px solid var(--border-glow);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Responsive noticias */
+        @media(max-width:480px) {
+            .noticia-item .noticia-header {
+                flex-direction: row;
+                gap: 10px;
+            }
+            .noticia-item .noticia-icono {
+                width: 36px;
+                height: 36px;
+                font-size: 0.9rem;
+            }
+            .noticia-item .noticia-contenido .titulo {
+                font-size: 0.75rem;
+            }
+            .noticia-item .noticia-contenido .descripcion {
+                font-size: 0.7rem;
+            }
+            .noticia-item .noticia-contenido .monto {
+                font-size: 0.65rem;
+            }
+            .noticia-item .noticia-footer .fecha {
+                font-size: 0.5rem;
+            }
+            .noticia-item .noticia-footer .estado-lectura,
+            .noticia-item .noticia-footer .categoria {
+                font-size: 0.4rem;
+                padding: 0px 6px;
+            }
+        }
+
+        /* Animación para nuevas noticias */
+        @keyframes noticiaNueva {
+            0% { background: rgba(0,212,255,0.08); border-color: var(--neon-blue); }
+            100% { background: var(--bg-card); border-color: var(--border-glow); }
+        }
+
+        .noticia-item.nueva {
+            animation: noticiaNueva 2s ease;
+        }
+
         @media(max-width:480px){
-            .fly-info-grid{grid-template-columns:repeat(3,1fr);gap:6px}
-            .fly-info-grid .info-card{padding:10px 4px}
-            .fly-info-grid .info-card .icon-circle{width:36px;height:36px;font-size:1.1rem;margin:0 auto 4px auto}
-            .fly-info-grid .info-card .icon-circle.lightning span{font-size:1.2rem}
-            .fly-info-grid .info-card .title{font-size:0.5rem}
-            .fly-info-grid .info-card .sub{font-size:0.4rem}
-            
+            .fly-info-grid{grid-template-columns:1fr 1fr;gap:10px}
+            .fly-info-grid .info-card .icon-circle{width:48px;height:48px;font-size:1.3rem}
+            .fly-info-grid .info-card .icon-circle.lightning span{font-size:1.5rem}
+            .fly-info-grid .info-card .title{font-size:0.6rem}
+            .fly-info-grid .info-card .sub{font-size:0.5rem}
             .bottom-nav{height:68px;padding:4px 2px}
             .bottom-nav .nav-item{min-width:50px;min-height:48px;padding:4px 6px;gap:2px}
             .bottom-nav .nav-item i{font-size:1.1rem}
             .bottom-nav .nav-item span{font-size:0.4rem;letter-spacing:0.5px}
             .bottom-nav .nav-item .nav-badge{font-size:0.4rem;padding:0px 5px;min-width:16px;top:2px;right:4px}
             .toast{bottom:calc(var(--bottom-nav-height)+30px)}
-            .socio-main{padding-bottom:20px;padding:10px}
+            .socio-main{padding-bottom:90px;padding:10px}
             .glass-card{padding:14px}
             .profile-info h1{font-size:1.1rem}
             .recordatorio{padding:12px 14px}
@@ -804,138 +850,26 @@
             .ring-chart-container{flex-direction:column;align-items:center}
             .ring-chart{width:130px;height:130px}
             .ring-legend{min-width:100px}
-            
-            .profile-rings {
-                grid-template-columns: repeat(3, 1fr);
-                gap: 8px;
-            }
-            .ring-item {
-                padding: 8px 4px;
-                gap: 4px;
-            }
-            .ring-chart-mini {
-                width: 60px;
-                height: 60px;
-            }
-            .ring-chart-mini .ring-center-mini .number {
-                font-size: 0.9rem;
-            }
-            .ring-chart-mini .ring-center-mini .number.estado-ok,
-            .ring-chart-mini .ring-center-mini .number.estado-warning,
-            .ring-chart-mini .ring-center-mini .number.estado-danger {
-                font-size: 1.3rem;
-            }
-            .ring-chart-mini .ring-center-mini .label {
-                font-size: 0.35rem;
-            }
-            .ring-info h4 {
-                font-size: 0.5rem;
-            }
-            .ring-info p {
-                font-size: 0.45rem;
-            }
-            
-            .fechas-footer {
-                bottom: calc(var(--bottom-nav-height) + 4px);
-                padding: 4px 8px;
-                gap: 8px;
-                min-height: 28px;
-            }
-            .fechas-footer .fecha-item {
-                font-size: 0.45rem;
-                gap: 2px;
-            }
-            .fechas-footer .fecha-item .numero {
-                font-size: 0.5rem;
-            }
-            .fechas-footer .fecha-item .label {
-                font-size: 0.35rem;
-            }
-            .fechas-footer .separador {
-                font-size: 0.35rem;
-            }
         }
-        
         @media(max-width:380px){
             .bottom-nav .nav-item{min-width:44px;min-height:42px;padding:3px 4px}
             .bottom-nav .nav-item i{font-size:0.95rem}
             .bottom-nav .nav-item span{font-size:0.35rem;letter-spacing:0.3px}
-            .socio-main{padding-bottom:20px}
+            .socio-main{padding-bottom:80px}
             .glass-card{padding:12px 10px}
             .profile-avatar img{width:56px;height:56px}
             .profile-info h1{font-size:1rem}
             .stats-dashboard{grid-template-columns:1fr}
-            
-            .fly-info-grid{gap:4px}
-            .fly-info-grid .info-card{padding:8px 2px}
-            .fly-info-grid .info-card .icon-circle{width:30px;height:30px;font-size:0.9rem}
-            .fly-info-grid .info-card .icon-circle.lightning span{font-size:1rem}
-            .fly-info-grid .info-card .title{font-size:0.45rem}
-            .fly-info-grid .info-card .sub{font-size:0.35rem}
-            
-            .profile-rings {
-                gap: 4px;
-            }
-            .ring-item {
-                padding: 6px 2px;
-            }
-            .ring-chart-mini {
-                width: 50px;
-                height: 50px;
-            }
-            .ring-chart-mini .ring-center-mini .number {
-                font-size: 0.75rem;
-            }
-            .ring-chart-mini .ring-center-mini .number.estado-ok,
-            .ring-chart-mini .ring-center-mini .number.estado-warning,
-            .ring-chart-mini .ring-center-mini .number.estado-danger {
-                font-size: 1rem;
-            }
-            .ring-chart-mini .ring-center-mini .label {
-                font-size: 0.3rem;
-            }
-            .ring-info h4 {
-                font-size: 0.45rem;
-            }
-            .ring-info p {
-                font-size: 0.4rem;
-            }
-            
-            .fechas-footer {
-                bottom: calc(var(--bottom-nav-height) + 2px);
-                padding: 3px 6px;
-                gap: 4px;
-                min-height: 24px;
-            }
-            .fechas-footer .fecha-item {
-                font-size: 0.4rem;
-                gap: 2px;
-            }
-            .fechas-footer .fecha-item .numero {
-                font-size: 0.45rem;
-            }
-            .fechas-footer .fecha-item .label {
-                font-size: 0.3rem;
-            }
-            .fechas-footer .separador {
-                font-size: 0.3rem;
-            }
         }
-        
         @media(min-width:768px){
             .bottom-nav .nav-item{max-width:120px}
             .bottom-nav .nav-item i{font-size:1.4rem}
             .bottom-nav .nav-item span{font-size:0.6rem}
-            .socio-main{padding-bottom:20px}
+            .socio-main{padding-bottom:100px}
             .btn{width:auto}
-            .fechas-footer {min-height:44px;padding:8px 20px;gap:20px}
-            .fechas-footer .fecha-item{font-size:0.7rem}
-            .fechas-footer .fecha-item .numero{font-size:0.8rem}
-            .fechas-footer .fecha-item .label{font-size:0.5rem}
         }
-        
         @media(min-width:769px) and (max-width:1024px){
-            .socio-main{padding:20px 30px;padding-bottom:20px}
+            .socio-main{padding:20px 30px;padding-bottom:100px}
         }
     </style>
 </head>
@@ -968,7 +902,7 @@
 
     <main class="socio-main" id="socioMain">
 
-        <!-- ===== SECCIÓN PERFIL CON ANILLOS ===== -->
+        <!-- ===== SECCIÓN PERFIL ===== -->
         <div class="section-page active" id="section-perfil">
             <div class="glass-card">
                 <div class="profile-header">
@@ -986,68 +920,9 @@
                         <p><strong>ID:</strong> <span id="socioId">#0000</span></p>
                         <p><strong>Plan:</strong> <span id="socioPlan" class="badge badge-pending">Sin plan</span></p>
                         <p><strong>Estado:</strong> <span id="socioEstado" class="badge badge-pending">Pendiente</span></p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- ===== ANILLOS DE ESTADO ===== -->
-            <div class="glass-card" style="padding:16px;">
-                <div class="profile-rings">
-                    <!-- Anillo 1: Días Restantes -->
-                    <div class="ring-item">
-                        <div class="ring-chart-mini">
-                            <svg viewBox="0 0 100 100">
-                                <circle class="ring-bg-mini" cx="50" cy="50" r="40"/>
-                                <circle class="ring-segment-mini" id="diasRing" cx="50" cy="50" r="40" 
-                                        stroke-dasharray="251.2" stroke-dashoffset="251.2" style="stroke:var(--neon-green);"/>
-                            </svg>
-                            <div class="ring-center-mini">
-                                <span class="number" id="diasNumero">0</span>
-                                <span class="label">Días</span>
-                            </div>
-                        </div>
-                        <div class="ring-info">
-                            <h4>⏳ Días Restantes</h4>
-                            <p id="diasTexto">Sin membresía activa</p>
-                        </div>
-                    </div>
-
-                    <!-- Anillo 2: Progreso del Plan -->
-                    <div class="ring-item">
-                        <div class="ring-chart-mini">
-                            <svg viewBox="0 0 100 100">
-                                <circle class="ring-bg-mini" cx="50" cy="50" r="40"/>
-                                <circle class="ring-segment-mini" id="planRing" cx="50" cy="50" r="40" 
-                                        stroke-dasharray="251.2" stroke-dashoffset="251.2" style="stroke:var(--neon-blue);"/>
-                            </svg>
-                            <div class="ring-center-mini">
-                                <span class="number" id="planNumero">0%</span>
-                                <span class="label">Progreso</span>
-                            </div>
-                        </div>
-                        <div class="ring-info">
-                            <h4>📊 Progreso del Plan</h4>
-                            <p id="planTexto">Selecciona un plan</p>
-                        </div>
-                    </div>
-
-                    <!-- Anillo 3: Estado General -->
-                    <div class="ring-item">
-                        <div class="ring-chart-mini">
-                            <svg viewBox="0 0 100 100">
-                                <circle class="ring-bg-mini" cx="50" cy="50" r="40"/>
-                                <circle class="ring-segment-mini" id="estadoRing" cx="50" cy="50" r="40" 
-                                        stroke-dasharray="251.2" stroke-dashoffset="251.2" style="stroke:var(--neon-orange);"/>
-                            </svg>
-                            <div class="ring-center-mini">
-                                <span class="number estado-warning" id="estadoNumero">⏳</span>
-                                <span class="label">Estado</span>
-                            </div>
-                        </div>
-                        <div class="ring-info">
-                            <h4>🔵 Estado de Membresía</h4>
-                            <p id="estadoTexto">Pendiente de activación</p>
-                        </div>
+                        <p><strong>Inicio:</strong> <span id="socioInicio">No definida</span></p>
+                        <p><strong>Vencimiento:</strong> <span id="socioVencimiento">No definida</span></p>
+                        <p><strong>Días restantes:</strong> <span id="socioDias">-</span></p>
                     </div>
                 </div>
             </div>
@@ -1099,7 +974,6 @@
                 </div>
                 <div style="padding:16px 20px 20px 20px;">
 
-                    <!-- ===== DESCRIPCIÓN ===== -->
                     <div style="display:grid;grid-template-columns:1fr auto;gap:16px;align-items:start;margin-bottom:16px;">
                         <div>
                             <p class="fly-descripcion">
@@ -1112,7 +986,6 @@
                         </div>
                     </div>
 
-                    <!-- ===== DASHBOARD DE ESTADÍSTICAS ===== -->
                     <div class="stats-dashboard">
                         <div class="stat-card">
                             <span class="stat-icon">👥</span>
@@ -1137,12 +1010,10 @@
                         </div>
                     </div>
 
-                    <!-- ===== GRÁFICOS DE ANILLO ===== -->
                     <div style="background:var(--bg-card);border:1px solid var(--border-glow);border-radius:var(--radius-sm);padding:16px;margin-bottom:16px;">
                         <h4 style="font-size:0.7rem;font-weight:700;color:var(--text-secondary);text-transform:uppercase;letter-spacing:1px;margin-bottom:12px;text-align:center;">📊 Distribución de Socios</h4>
                         
                         <div class="ring-chart-container">
-                            <!-- Anillo 1: Estado de Socios -->
                             <div class="ring-chart">
                                 <svg viewBox="0 0 120 120">
                                     <defs>
@@ -1167,7 +1038,6 @@
                                 </div>
                             </div>
 
-                            <!-- Anillo 2: Distribución de Planes -->
                             <div class="ring-chart">
                                 <svg viewBox="0 0 120 120">
                                     <defs>
@@ -1192,7 +1062,6 @@
                                 </div>
                             </div>
 
-                            <!-- Leyendas -->
                             <div class="ring-legend">
                                 <div class="legend-item">
                                     <span class="color-dot activos"></span>
@@ -1219,7 +1088,6 @@
                         </div>
                     </div>
 
-                    <!-- ===== SOCIOS RECIENTES ===== -->
                     <div class="activity-widget glass-card" style="padding:16px;margin-bottom:16px;background:var(--bg-card);border:1px solid var(--border-glow);border-radius:var(--radius-sm);">
                         <h4>🔄 Socios Recientes</h4>
                         <div id="sociosRecientes">
@@ -1233,7 +1101,6 @@
                         </div>
                     </div>
 
-                    <!-- ===== TARJETAS INFORMATIVAS - UNA SOLA LÍNEA EN MÓVIL ===== -->
                     <div class="fly-info-grid">
                         <div class="info-card">
                             <div class="icon-circle trophy"><span>🏆</span></div>
@@ -1271,9 +1138,38 @@
             </div>
         </div>
 
+        <!-- ===== SECCIÓN NOTICIAS ===== -->
+        <div class="section-page" id="section-noticias">
+            <div class="glass-card" style="padding:0;overflow:hidden;">
+                <div style="background:linear-gradient(135deg,rgba(0,212,255,0.08),rgba(139,60,255,0.04));padding:14px 20px;border-bottom:1px solid var(--border-glow);">
+                    <div style="display:flex;align-items:center;gap:12px;">
+                        <i class="fas fa-newspaper" style="font-size:1.4rem;color:var(--neon-blue);"></i>
+                        <div>
+                            <h3 style="font-size:clamp(0.85rem,1.8vw,1rem);font-weight:700;color:#ffffff;">📰 Novedades</h3>
+                            <p style="font-size:0.55rem;color:#9a9ab8;letter-spacing:1px;text-transform:uppercase;">FLY FUTBOLEROS · Actualizaciones</p>
+                        </div>
+                    </div>
+                </div>
+                <div style="padding:16px 20px 20px 20px;">
+                    <div id="noticiasSocioContainer" style="display:grid;grid-template-columns:1fr;gap:12px;">
+                        <div style="text-align:center;padding:40px 20px;color:var(--text-muted);">
+                            <i class="fas fa-spinner fa-spin" style="font-size:1.5rem;display:block;margin-bottom:12px;color:var(--neon-blue);"></i>
+                            <p style="font-size:0.8rem;">Cargando noticias...</p>
+                        </div>
+                    </div>
+                    
+                    <div style="display:flex;justify-content:flex-end;margin-top:12px;padding-top:12px;border-top:1px solid var(--border-glow);">
+                        <button class="btn btn-secondary btn-sm" onclick="marcarTodasNoticiasLeidas()">
+                            <i class="fas fa-check-double"></i> Marcar todas como leídas
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </main>
 
-    <!-- ===== FOOTER DE INFORMACIÓN - FUERA DEL MAIN ===== -->
+    <!-- ===== FOOTER ===== -->
     <div class="fechas-footer" id="fechasFooter">
         <div class="fecha-item">
             <span class="numero">2012</span>
@@ -1296,27 +1192,7 @@
         </div>
     </div>
 
-    <!-- ===== BOTTOM NAV ===== -->
-    <nav class="bottom-nav" id="bottomNav">
-        <button class="nav-item active" data-section="perfil" onclick="navigateTo('perfil')">
-            <i class="fas fa-user"></i>
-            <span>Perfil</span>
-        </button>
-        <button class="nav-item" data-section="historial" onclick="navigateTo('historial')">
-            <i class="fas fa-history"></i>
-            <span>Historial</span>
-        </button>
-        <button class="nav-item" data-section="futboleros" onclick="navigateTo('futboleros')">
-            <i class="fas fa-users"></i>
-            <span>Futboleros</span>
-        </button>
-        <button class="nav-item" onclick="handleLogout()">
-            <i class="fas fa-sign-out-alt"></i>
-            <span>Salir</span>
-        </button>
-    </nav>
-
-    <!-- ===== MODALES ===== -->
+    <!-- ===== MODAL CONFIGURAR PLAN ===== -->
     <div class="modal modal-config-plan" id="configPlanModal">
         <div class="modal-content">
             <div class="modal-header">
@@ -1411,6 +1287,7 @@
         </div>
     </div>
 
+    <!-- ===== MODAL AVATAR ===== -->
     <div class="modal" id="uploadAvatarModal">
         <div class="modal-content">
             <div class="modal-header">
@@ -1442,6 +1319,31 @@
             </div>
         </div>
     </div>
+
+    <!-- ===== BOTTOM NAV ===== -->
+    <nav class="bottom-nav" id="bottomNav">
+        <button class="nav-item active" data-section="perfil" onclick="navigateTo('perfil')">
+            <i class="fas fa-user"></i>
+            <span>Perfil</span>
+        </button>
+        <button class="nav-item" data-section="historial" onclick="navigateTo('historial')">
+            <i class="fas fa-history"></i>
+            <span>Historial</span>
+        </button>
+        <button class="nav-item" data-section="futboleros" onclick="navigateTo('futboleros')">
+            <i class="fas fa-users"></i>
+            <span>Futboleros</span>
+        </button>
+        <button class="nav-item" data-section="noticias" onclick="navigateTo('noticias')">
+            <i class="fas fa-newspaper"></i>
+            <span>Noticias</span>
+            <span class="nav-badge" id="noticiasBadge" style="display:none;">0</span>
+        </button>
+        <button class="nav-item" onclick="handleLogout()">
+            <i class="fas fa-sign-out-alt"></i>
+            <span>Salir</span>
+        </button>
+    </nav>
 
     <script>
         // ================================================================
@@ -1581,6 +1483,9 @@
                 el.classList.remove('active');
                 if (el.dataset && el.dataset.section === section) el.classList.add('active');
             });
+            if (section === 'noticias') {
+                loadNoticiasSocio();
+            }
         }
 
         // ================================================================
@@ -1598,6 +1503,7 @@
         var metodoSeleccionado = null;
         var comprobanteSubido = null;
         var avatarFile = null;
+        var noticiasCache = [];
 
         function getCurrentUser() {
             try {
@@ -1644,7 +1550,6 @@
                 renderHistorial();
                 renderSeleccionPlan(socio);
                 verificarVencimiento(socio);
-                actualizarAnillos(socio);
                 planSeleccionado = null;
                 metodoSeleccionado = null;
                 comprobanteSubido = null;
@@ -1658,7 +1563,7 @@
                     headerActions.prepend(adminBtn);
                 }
 
-                suscribirseACambios();
+                suscribirseANoticias();
 
             } catch (error) {
                 console.error('Error loading data:', error);
@@ -1667,7 +1572,7 @@
         }
 
         // ================================================================
-        // 8. CARGAR ESTADÍSTICAS
+        // 8. CARGAR ESTADÍSTICAS DE SOCIOS
         // ================================================================
         async function cargarEstadisticasSocios() {
             try {
@@ -1677,7 +1582,6 @@
 
                 if (error) {
                     console.error('❌ Error al obtener socios:', error);
-                    showToast('❌ Error al cargar estadísticas de socios', 'error');
                     return;
                 }
 
@@ -1687,35 +1591,15 @@
                 }
 
                 const total = socios.length;
-                const activos = socios.filter(s => {
-                    const estado = (s.estado || '').toLowerCase();
-                    return estado === 'activo' || estado === 'active';
-                }).length;
-                const pendientes = socios.filter(s => {
-                    const estado = (s.estado || '').toLowerCase();
-                    return estado === 'pendiente' || estado === 'pending';
-                }).length;
-                const vencidos = socios.filter(s => {
-                    const estado = (s.estado || '').toLowerCase();
-                    return estado === 'vencido' || estado === 'expired';
-                }).length;
-                const suspendidos = socios.filter(s => {
-                    const estado = (s.estado || '').toLowerCase();
-                    return estado === 'suspendido' || estado === 'suspended';
-                }).length;
+                const activos = socios.filter(s => (s.estado || '').toLowerCase() === 'activo').length;
+                const pendientes = socios.filter(s => (s.estado || '').toLowerCase() === 'pendiente').length;
+                const vencidos = socios.filter(s => (s.estado || '').toLowerCase() === 'vencido').length;
+                const suspendidos = socios.filter(s => (s.estado || '').toLowerCase() === 'suspendido').length;
                 const inactivos = vencidos + suspendidos;
 
-                const sabatero = socios.filter(s => {
-                    const plan = (s.plan || '').toLowerCase();
-                    return plan === 'sabatero';
-                }).length;
-                const finder = socios.filter(s => {
-                    const plan = (s.plan || '').toLowerCase();
-                    return plan === 'finder';
-                }).length;
-                const sinPlan = socios.filter(s => {
-                    return !s.plan || s.plan === '' || s.plan === null;
-                }).length;
+                const sabatero = socios.filter(s => (s.plan || '').toLowerCase() === 'sabatero').length;
+                const finder = socios.filter(s => (s.plan || '').toLowerCase() === 'finder').length;
+                const sinPlan = socios.filter(s => !s.plan || s.plan === '' || s.plan === null).length;
 
                 const pctActivos = total > 0 ? Math.round((activos / total) * 100) : 0;
                 const pctInactivos = total > 0 ? Math.round(((inactivos + pendientes) / total) * 100) : 0;
@@ -1723,33 +1607,24 @@
                 const pctFinder = total > 0 ? Math.round((finder / total) * 100) : 0;
                 const pctSinPlan = total > 0 ? Math.round((sinPlan / total) * 100) : 0;
 
-                actualizarDashboard(total, activos, pendientes, inactivos, pctActivos, pctInactivos, pctSabatero, pctFinder,
-                    pctSinPlan);
+                actualizarDashboard(total, activos, pendientes, inactivos, pctActivos, pctInactivos, pctSabatero, pctFinder, pctSinPlan);
 
             } catch (error) {
-                console.error('❌ Error al cargar estadísticas de socios:', error);
-                showToast('❌ Error al cargar estadísticas', 'error');
+                console.error('❌ Error al cargar estadísticas:', error);
             }
         }
 
         // ================================================================
         // 9. ACTUALIZAR DASHBOARD
         // ================================================================
-        function actualizarDashboard(total, activos, pendientes, inactivos, pctActivos, pctInactivos, pctSabatero, pctFinder,
-            pctSinPlan) {
+        function actualizarDashboard(total, activos, pendientes, inactivos, pctActivos, pctInactivos, pctSabatero, pctFinder, pctSinPlan) {
             document.getElementById('totalSocios').textContent = total || 0;
             document.getElementById('sociosActivos').textContent = activos || 0;
             document.getElementById('sociosPendientes').textContent = pendientes || 0;
             document.getElementById('sociosInactivos').textContent = inactivos || 0;
 
-            const tendencia = document.getElementById('tendenciaActivos');
-            if (tendencia) {
-                const cambio = Math.round((Math.random() * 20) - 5);
-                tendencia.textContent = (cambio >= 0 ? '+' : '') + cambio + '% este mes';
-                tendencia.className = 'stat-change ' + (cambio >= 0 ? 'positive' : 'negative');
-            }
-
             const circunferencia = 2 * Math.PI * 48;
+
             const offsetActivos = circunferencia - (circunferencia * (pctActivos || 0) / 100);
             const offsetInactivos = circunferencia - (circunferencia * (pctInactivos || 0) / 100);
             const offsetSabatero = circunferencia - (circunferencia * (pctSabatero || 0) / 100);
@@ -1781,12 +1656,16 @@
             if (legendItems.length >= 5) {
                 const activosText = legendItems[0].querySelector('.percent');
                 if (activosText) activosText.textContent = (pctActivos || 0) + '%';
+
                 const inactivosText = legendItems[1].querySelector('.percent');
                 if (inactivosText) inactivosText.textContent = (pctInactivos || 0) + '%';
+
                 const sabateroText = legendItems[2].querySelector('.percent');
                 if (sabateroText) sabateroText.textContent = (pctSabatero || 0) + '%';
+
                 const finderText = legendItems[3].querySelector('.percent');
                 if (finderText) finderText.textContent = (pctFinder || 0) + '%';
+
                 const sinPlanText = legendItems[4].querySelector('.percent');
                 if (sinPlanText) sinPlanText.textContent = (pctSinPlan || 0) + '%';
             }
@@ -1849,32 +1728,7 @@
         }
 
         // ================================================================
-        // 11. SUSCRIPCIÓN EN TIEMPO REAL
-        // ================================================================
-        let subscription = null;
-
-        function suscribirseACambios() {
-            if (subscription) {
-                subscription.unsubscribe();
-            }
-
-            subscription = supabaseClient
-                .channel('socios_changes')
-                .on('postgres_changes', {
-                    event: '*',
-                    schema: 'public',
-                    table: 'socios'
-                }, (payload) => {
-                    console.log('🔄 Cambio detectado en socios:', payload);
-                    cargarEstadisticasSocios();
-                    cargarSociosRecientes();
-                    showToast('📊 Datos actualizados en tiempo real', 'info');
-                })
-                .subscribe();
-        }
-
-        // ================================================================
-        // 12. RENDER PERFIL
+        // 11. RENDER PERFIL
         // ================================================================
         function renderProfile(user) {
             document.getElementById('socioNombre').textContent = user.nombre || 'Sin nombre';
@@ -1894,12 +1748,24 @@
             estadoEl.textContent = user.estado || 'Pendiente';
             estadoEl.className = 'badge ' + getStatusClass(user.estado);
 
+            var inicioEl = document.getElementById('socioInicio');
+            var vencEl = document.getElementById('socioVencimiento');
+            if (user.fecha_inicio) {
+                inicioEl.textContent = new Date(user.fecha_inicio).toLocaleDateString();
+            } else {
+                inicioEl.textContent = 'No definida';
+            }
+            if (user.fecha_vencimiento) {
+                vencEl.textContent = new Date(user.fecha_vencimiento).toLocaleDateString();
+            } else {
+                vencEl.textContent = 'No definida';
+            }
+
             var avatarContainer = document.getElementById('avatarContainer');
             if (user.foto_url) {
                 avatarContainer.innerHTML = '<img id="socioAvatar" src="' + user.foto_url + '" alt="Foto de perfil">';
             } else if (user.nombre) {
-                var iniciales = user.nombre.split(' ').map(function(n) { return n.charAt(0); }).join('').substring(0, 2)
-                    .toUpperCase();
+                var iniciales = user.nombre.split(' ').map(function(n) { return n.charAt(0); }).join('').substring(0, 2).toUpperCase();
                 avatarContainer.innerHTML = '<div class="avatar-iniciales">' + iniciales + '</div>';
             } else {
                 avatarContainer.innerHTML =
@@ -1908,125 +1774,12 @@
         }
 
         function getStatusClass(estado) {
-            var map = { 'Activo': 'badge-active', 'Pendiente': 'badge-warning', 'Suspendido': 'badge-suspended',
-                'Vencido': 'badge-expired' };
+            var map = { 'Activo': 'badge-active', 'Pendiente': 'badge-pending', 'Suspendido': 'badge-suspended', 'Vencido': 'badge-expired' };
             return map[estado] || 'badge-pending';
         }
 
         // ================================================================
-        // 13. ACTUALIZAR ANILLOS DEL PERFIL
-        // ================================================================
-        function actualizarAnillos(user) {
-            const circunferencia = 2 * Math.PI * 40; // 251.2
-            
-            // 1. ANILLO DE DÍAS RESTANTES
-            const diasRing = document.getElementById('diasRing');
-            const diasNumero = document.getElementById('diasNumero');
-            const diasTexto = document.getElementById('diasTexto');
-            
-            if (user.plan === 'Sabatero' && user.fecha_vencimiento) {
-                const hoy = new Date();
-                const venc = new Date(user.fecha_vencimiento);
-                const diff = Math.ceil((venc - hoy) / (1000 * 60 * 60 * 24));
-                const diasMostrar = Math.max(0, diff);
-                const porcentaje = Math.min(100, (diasMostrar / 30) * 100);
-                const offset = circunferencia - (circunferencia * porcentaje / 100);
-                
-                diasRing.style.strokeDashoffset = offset;
-                diasRing.style.stroke = diff > 7 ? 'var(--neon-green)' : diff > 0 ? 'var(--neon-orange)' : 'var(--neon-pink)';
-                
-                if (diff > 0) {
-                    diasNumero.textContent = diasMostrar;
-                    diasNumero.className = 'number ' + (diff > 7 ? 'verde' : 'naranja');
-                    diasTexto.textContent = diff + ' días restantes';
-                } else {
-                    diasNumero.textContent = '0';
-                    diasNumero.className = 'number rojo';
-                    diasTexto.textContent = 'Membresía vencida';
-                }
-            } else {
-                diasRing.style.strokeDashoffset = circunferencia;
-                diasRing.style.stroke = 'var(--text-muted)';
-                diasNumero.textContent = '--';
-                diasNumero.className = 'number';
-                diasTexto.textContent = 'Sin membresía activa';
-            }
-
-            // 2. ANILLO DE PROGRESO DEL PLAN
-            const planRing = document.getElementById('planRing');
-            const planNumero = document.getElementById('planNumero');
-            const planTexto = document.getElementById('planTexto');
-            
-            if (user.plan) {
-                const progreso = user.estado === 'Activo' ? 100 : 50;
-                const offset = circunferencia - (circunferencia * progreso / 100);
-                planRing.style.strokeDashoffset = offset;
-                planRing.style.stroke = user.estado === 'Activo' ? 'var(--neon-green)' : 'var(--neon-orange)';
-                planNumero.textContent = progreso + '%';
-                planNumero.className = 'number ' + (user.estado === 'Activo' ? 'verde' : 'naranja');
-                planTexto.textContent = user.plan + ' · ' + (user.estado === 'Activo' ? 'Activo' : 'Pendiente');
-            } else {
-                planRing.style.strokeDashoffset = circunferencia;
-                planRing.style.stroke = 'var(--text-muted)';
-                planNumero.textContent = '0%';
-                planNumero.className = 'number';
-                planTexto.textContent = 'Selecciona un plan';
-            }
-
-            // 3. ANILLO DE ESTADO GENERAL
-            const estadoRing = document.getElementById('estadoRing');
-            const estadoNumero = document.getElementById('estadoNumero');
-            const estadoTexto = document.getElementById('estadoTexto');
-            
-            const estado = (user.estado || 'Pendiente').toLowerCase();
-            let color, icono, texto, porcentajeEstado;
-            
-            switch(estado) {
-                case 'activo':
-                    color = 'var(--neon-green)';
-                    icono = '✓';
-                    texto = 'Membresía Activa';
-                    porcentajeEstado = 100;
-                    estadoNumero.className = 'number estado-ok';
-                    break;
-                case 'pendiente':
-                    color = 'var(--neon-orange)';
-                    icono = '⏳';
-                    texto = 'Pendiente de aprobación';
-                    porcentajeEstado = 50;
-                    estadoNumero.className = 'number estado-warning';
-                    break;
-                case 'suspendido':
-                    color = 'var(--neon-pink)';
-                    icono = '⛔';
-                    texto = 'Membresía Suspendida';
-                    porcentajeEstado = 25;
-                    estadoNumero.className = 'number estado-danger';
-                    break;
-                case 'vencido':
-                    color = 'var(--neon-pink)';
-                    icono = '❌';
-                    texto = 'Membresía Vencida';
-                    porcentajeEstado = 0;
-                    estadoNumero.className = 'number estado-danger';
-                    break;
-                default:
-                    color = 'var(--text-muted)';
-                    icono = '●';
-                    texto = 'Sin estado definido';
-                    porcentajeEstado = 0;
-                    estadoNumero.className = 'number';
-            }
-            
-            const offsetEstado = circunferencia - (circunferencia * porcentajeEstado / 100);
-            estadoRing.style.strokeDashoffset = offsetEstado;
-            estadoRing.style.stroke = color;
-            estadoNumero.textContent = icono;
-            estadoTexto.textContent = texto;
-        }
-
-        // ================================================================
-        // 14. RENDER SELECCIÓN DE PLAN
+        // 12. RENDER SELECCIÓN DE PLAN
         // ================================================================
         function renderSeleccionPlan(user) {
             var planOptions = document.querySelectorAll('#planSelector .option');
@@ -2054,11 +1807,11 @@
             document.getElementById('statusMetodo').textContent = user.metodo_pago || 'No seleccionado';
             document.getElementById('statusMetodo').className = 'value' + (user.metodo_pago ? ' active' : '');
             document.getElementById('statusEstado').textContent = user.estado || 'Pendiente';
-            document.getElementById('statusEstado').className = 'value ' + getStatusClass(user.estado).replace('badge-', '');
+            document.getElementById('statusEstado').className = 'value ' + (user.estado || 'pending').toLowerCase();
         }
 
         // ================================================================
-        // 15. VERIFICAR VENCIMIENTO
+        // 13. VERIFICAR VENCIMIENTO
         // ================================================================
         function verificarVencimiento(user) {
             var mensajeContainer = document.getElementById('mensajeVencimiento');
@@ -2101,7 +1854,7 @@
         }
 
         // ================================================================
-        // 16. ABRIR CONFIG PLAN
+        // 14. ABRIR CONFIG PLAN
         // ================================================================
         function abrirConfigPlan() {
             if (!socioData) {
@@ -2119,7 +1872,7 @@
         }
 
         // ================================================================
-        // 17. SELECCIÓN UI
+        // 15. SELECCIÓN UI
         // ================================================================
         function seleccionarPlanUI(plan) {
             document.querySelectorAll('#planSelector .option').forEach(function(el) {
@@ -2174,7 +1927,7 @@
         });
 
         // ================================================================
-        // 18. CONFIRMAR CONFIGURACIÓN
+        // 16. CONFIRMAR CONFIGURACIÓN
         // ================================================================
         async function confirmarConfiguracion() {
             if (!socioData) { showToast('⚠️ Espera a que carguen los datos', 'warning'); return; }
@@ -2184,8 +1937,7 @@
                 showToast('⚠️ Debes subir el comprobante de transferencia', 'warning');
                 return;
             }
-            if (socioData.plan === planSeleccionado && socioData.metodo_pago === metodoSeleccionado && socioData
-                .comprobante_url) {
+            if (socioData.plan === planSeleccionado && socioData.metodo_pago === metodoSeleccionado && socioData.comprobante_url) {
                 showToast('ℹ️ Ya tienes esta configuración activa', 'info');
                 return;
             }
@@ -2249,8 +2001,7 @@
                     return;
                 }
 
-                var mensaje =
-                    `👤 ${socioData.nombre} (@${socioData.username}) seleccionó ${planSeleccionado} - ${metodoSeleccionado}`;
+                var mensaje = `👤 ${socioData.nombre} (@${socioData.username}) seleccionó ${planSeleccionado} - ${metodoSeleccionado}`;
                 if (metodoSeleccionado === 'Transferencia') mensaje += ' (con comprobante)';
                 await supabaseClient.from('notificaciones').insert([{
                     tipo: 'nuevo_socio',
@@ -2273,7 +2024,6 @@
                 document.getElementById('statusEstado').textContent = 'Pendiente';
                 document.getElementById('statusEstado').className = 'value pending';
                 renderProfile(socioData);
-                actualizarAnillos(socioData);
 
                 planSeleccionado = null;
                 metodoSeleccionado = null;
@@ -2295,7 +2045,7 @@
         }
 
         // ================================================================
-        // 19. RENOVAR MEMBRESIA
+        // 17. RENOVAR MEMBRESIA
         // ================================================================
         async function renovarMembresia() {
             if (!socioData) { showToast('⚠️ Espera a que carguen los datos', 'warning'); return; }
@@ -2358,7 +2108,7 @@
         }
 
         // ================================================================
-        // 20. RENDER HISTORIAL
+        // 18. RENDER HISTORIAL
         // ================================================================
         function renderHistorial() {
             var tbody = document.getElementById('historialTableBody');
@@ -2376,8 +2126,7 @@
                     '<td>' + (p.metodo || 'N/A') + '</td>' +
                     '<td><span class="badge ' + getStatusClass(estadoPago) + '">' + estadoPago + '</span></td>' +
                     '<td>' + (p.comprobante_url ?
-                        '<button class="btn btn-secondary btn-sm" onclick="verComprobante(\'' + p
-                        .comprobante_url + '\')"><i class="fas fa-eye"></i></button>' :
+                        '<button class="btn btn-secondary btn-sm" onclick="verComprobante(\'' + p.comprobante_url + '\')"><i class="fas fa-eye"></i></button>' :
                         '-') +
                     '</td></tr>';
             }).join('');
@@ -2388,14 +2137,13 @@
         }
 
         // ================================================================
-        // 21. AVATAR
+        // 19. AVATAR
         // ================================================================
         function abrirModalAvatar() {
             if (!socioData) { showToast('⚠️ Espera a que carguen los datos', 'warning'); return; }
             document.getElementById('uploadAvatarInput').value = '';
             document.getElementById('avatarPreviewFile').style.display = 'none';
-            document.getElementById('avatarPreview').src = document.getElementById('socioAvatar') ? document
-                .getElementById('socioAvatar').src :
+            document.getElementById('avatarPreview').src = document.getElementById('socioAvatar') ? document.getElementById('socioAvatar').src :
                 'data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'80\' height=\'80\' viewBox=\'0 0 80 80\'%3E%3Ccircle cx=\'40\' cy=\'40\' r=\'40\' fill=\'%23111122\'/%3E%3Ccircle cx=\'40\' cy=\'26\' r=\'12\' fill=\'%23222244\'/%3E%3Cpath d=\'M10 72c0-12 16-20 30-20s30 8 30 20\' fill=\'%23222244\'/%3E%3C/svg%3E';
             document.getElementById('uploadAvatarBtn').disabled = false;
             document.getElementById('uploadAvatarBtn').innerHTML = '<i class="fas fa-cloud-upload-alt"></i> Subir Foto';
@@ -2452,8 +2200,7 @@
 
                 var { error: uploadError } = await supabaseClient.storage
                     .from('avatars')
-                    .upload(fileName, avatarFile, { cacheControl: '3600', upsert: false, contentType: avatarFile
-                            .type });
+                    .upload(fileName, avatarFile, { cacheControl: '3600', upsert: false, contentType: avatarFile.type });
                 if (uploadError) {
                     showToast('❌ Error al subir: ' + uploadError.message, 'error');
                     btn.disabled = false;
@@ -2489,7 +2236,7 @@
         }
 
         // ================================================================
-        // 22. MODAL
+        // 20. MODAL
         // ================================================================
         function closeModal(id) {
             document.getElementById(id).classList.remove('active');
@@ -2509,14 +2256,285 @@
         });
 
         // ================================================================
-        // 23. CERRAR SESIÓN
+        // 21. CERRAR SESIÓN
         // ================================================================
         function handleLogout() {
             if (!confirm('¿Cerrar sesión?')) return;
-            try { localStorage.removeItem('fly_user_session');
-                sessionStorage.clear(); } catch (e) {}
+            
+            try {
+                const sessionUser = getCurrentUser();
+                if (sessionUser) {
+                    localStorage.removeItem(`fly_noticias_leidas_${sessionUser.id}`);
+                }
+            } catch (e) {}
+            
+            try { 
+                localStorage.removeItem('fly_user_session');
+                sessionStorage.clear(); 
+            } catch (e) {}
+            
             showToast('🔒 Sesión cerrada', 'info');
-            setTimeout(function() { window.location.href = 'index.html'; }, 1000);
+            setTimeout(function() { 
+                window.location.href = 'index.html'; 
+            }, 1000);
+        }
+
+        // ================================================================
+        // 22. NOTICIAS - FUNCIONES
+        // ================================================================
+        async function loadNoticiasSocio() {
+            try {
+                const sessionUser = getCurrentUser();
+                if (!sessionUser) {
+                    console.warn('⚠️ No hay sesión de usuario');
+                    return;
+                }
+
+                console.log('🔄 Cargando noticias para socio:', sessionUser.id);
+
+                const { data: noticias, error } = await supabaseClient
+                    .from('noticias_gastos')
+                    .select('*')
+                    .eq('para_todos', true)
+                    .order('fecha_evento', { ascending: false });
+
+                if (error) {
+                    console.error('❌ Error al cargar noticias:', error);
+                    throw error;
+                }
+
+                console.log('✅ Noticias encontradas:', noticias ? noticias.length : 0);
+
+                let noticiasLeidas = [];
+                try {
+                    const { data: socio, error: socioError } = await supabaseClient
+                        .from('socios')
+                        .select('noticias_leidas')
+                        .eq('id', sessionUser.id)
+                        .single();
+                        
+                    if (!socioError && socio && socio.noticias_leidas) {
+                        if (typeof socio.noticias_leidas === 'string') {
+                            noticiasLeidas = JSON.parse(socio.noticias_leidas);
+                        } else if (Array.isArray(socio.noticias_leidas)) {
+                            noticiasLeidas = socio.noticias_leidas;
+                        }
+                    }
+                } catch (e) {
+                    console.warn('⚠️ Error obteniendo noticias leídas:', e);
+                }
+
+                noticiasCache = noticias || [];
+
+                const noLeidas = noticiasCache.filter(n => !noticiasLeidas.includes(n.id));
+                const badge = document.getElementById('noticiasBadge');
+                if (badge) {
+                    if (noLeidas.length > 0) {
+                        badge.style.display = 'block';
+                        badge.textContent = noLeidas.length;
+                    } else {
+                        badge.style.display = 'none';
+                    }
+                }
+
+                renderNoticiasSocio(noticiasCache, noticiasLeidas);
+
+            } catch (error) {
+                console.error('❌ Error en loadNoticiasSocio:', error);
+                const container = document.getElementById('noticiasSocioContainer');
+                if (container) {
+                    container.innerHTML = `
+                        <div style="text-align:center;padding:40px 20px;color:var(--text-muted);">
+                            <i class="fas fa-exclamation-triangle" style="font-size:1.5rem;display:block;margin-bottom:12px;color:var(--neon-orange);"></i>
+                            <p style="font-size:0.8rem;">Error al cargar noticias</p>
+                            <p style="font-size:0.65rem;color:var(--text-muted);">${error.message || 'Intenta nuevamente'}</p>
+                        </div>
+                    `;
+                }
+            }
+        }
+
+        function renderNoticiasSocio(noticias, noticiasLeidas) {
+            const container = document.getElementById('noticiasSocioContainer');
+            if (!container) return;
+
+            if (!noticias || noticias.length === 0) {
+                container.innerHTML = `
+                    <div style="text-align:center;padding:40px 20px;color:var(--text-muted);">
+                        <i class="fas fa-newspaper" style="font-size:2.5rem;display:block;margin-bottom:12px;opacity:0.3;"></i>
+                        <p style="font-size:0.85rem;font-weight:600;color:var(--text-secondary);">No hay noticias disponibles</p>
+                        <p style="font-size:0.65rem;color:var(--text-muted);">Pronto llegarán novedades de FLY FUTBOLEROS</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = noticias.map(n => {
+                const esLeida = noticiasLeidas.includes(n.id);
+                const tipoClase = n.tipo === 'gasto' ? 'gasto' : 'anuncio';
+                const icono = n.tipo === 'gasto' ? 'fa-receipt' : 'fa-bullhorn';
+                const tituloTipo = n.tipo === 'gasto' ? 'Gasto' : 'Anuncio';
+                
+                let montoHTML = '';
+                if (n.monto) {
+                    montoHTML = `<div class="monto">💰 Gasto: Gs. ${n.monto.toLocaleString()}</div>`;
+                }
+
+                return `
+                    <div class="noticia-item ${!esLeida ? 'no-leida' : ''}" onclick="marcarNoticiaLeida('${n.id}')" data-id="${n.id}">
+                        <div class="noticia-header">
+                            <div class="noticia-icono ${tipoClase}">
+                                <i class="fas ${icono}"></i>
+                            </div>
+                            <div class="noticia-contenido">
+                                <div class="titulo">
+                                    ${n.titulo || 'Sin título'}
+                                    <span class="badge-tipo ${tipoClase}">${tituloTipo}</span>
+                                    ${!esLeida ? '<span style="font-size:0.5rem;color:var(--neon-blue);">● Nuevo</span>' : ''}
+                                </div>
+                                <div class="descripcion">${n.descripcion || 'Sin descripción'}</div>
+                                ${montoHTML}
+                                <div class="noticia-footer">
+                                    <span class="fecha"><i class="far fa-clock"></i> ${new Date(n.fecha_evento).toLocaleString()}</span>
+                                    ${n.categoria ? `<span class="categoria">${n.categoria}</span>` : ''}
+                                    <span class="estado-lectura ${esLeida ? 'leida' : 'no-leida'}">
+                                        ${esLeida ? '✓ Leída' : '● No leída'}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        async function marcarNoticiaLeida(noticiaId) {
+            try {
+                const sessionUser = getCurrentUser();
+                if (!sessionUser) return;
+
+                let leidas = obtenerNoticiasLeidas(sessionUser.id);
+                
+                if (leidas.includes(noticiaId)) return;
+
+                leidas.push(noticiaId);
+                
+                const { error } = await supabaseClient
+                    .from('socios')
+                    .update({ noticias_leidas: leidas })
+                    .eq('id', sessionUser.id);
+
+                if (error) {
+                    console.warn('⚠️ Error guardando noticias leídas:', error);
+                    guardarNoticiasLeidasLocal(sessionUser.id, leidas);
+                }
+
+                const noLeidas = noticiasCache.filter(n => !leidas.includes(n.id));
+                const badge = document.getElementById('noticiasBadge');
+                if (badge) {
+                    if (noLeidas.length > 0) {
+                        badge.style.display = 'block';
+                        badge.textContent = noLeidas.length;
+                    } else {
+                        badge.style.display = 'none';
+                    }
+                }
+
+                renderNoticiasSocio(noticiasCache, leidas);
+                
+                console.log('✅ Noticia marcada como leída:', noticiaId);
+
+            } catch (error) {
+                console.error('❌ Error marcando noticia como leída:', error);
+                showToast('❌ Error al marcar noticia como leída', 'error');
+            }
+        }
+
+        async function marcarTodasNoticiasLeidas() {
+            try {
+                const sessionUser = getCurrentUser();
+                if (!sessionUser) return;
+
+                const leidas = noticiasCache.map(n => n.id);
+                
+                const { error } = await supabaseClient
+                    .from('socios')
+                    .update({ noticias_leidas: leidas })
+                    .eq('id', sessionUser.id);
+
+                if (error) {
+                    console.warn('⚠️ Error guardando noticias leídas:', error);
+                    guardarNoticiasLeidasLocal(sessionUser.id, leidas);
+                }
+
+                const badge = document.getElementById('noticiasBadge');
+                if (badge) badge.style.display = 'none';
+
+                renderNoticiasSocio(noticiasCache, leidas);
+                
+                showToast('✅ Todas las noticias marcadas como leídas', 'success');
+
+            } catch (error) {
+                console.error('❌ Error marcando todas como leídas:', error);
+                showToast('❌ Error al marcar todas como leídas', 'error');
+            }
+        }
+
+        function obtenerNoticiasLeidas(socioId) {
+            try {
+                const key = `fly_noticias_leidas_${socioId}`;
+                const data = localStorage.getItem(key);
+                if (data) {
+                    return JSON.parse(data);
+                }
+            } catch (e) {
+                console.warn('⚠️ Error obteniendo noticias leídas de localStorage:', e);
+            }
+            return [];
+        }
+
+        function guardarNoticiasLeidasLocal(socioId, leidas) {
+            try {
+                const key = `fly_noticias_leidas_${socioId}`;
+                localStorage.setItem(key, JSON.stringify(leidas));
+                console.log('✅ Noticias leídas guardadas en localStorage');
+            } catch (e) {
+                console.warn('⚠️ Error guardando en localStorage:', e);
+            }
+        }
+
+        // ================================================================
+        // 23. SUSCRIPCIÓN A NUEVAS NOTICIAS
+        // ================================================================
+        let noticiasSubscription = null;
+
+        function suscribirseANoticias() {
+            if (noticiasSubscription) {
+                noticiasSubscription.unsubscribe();
+            }
+
+            const sessionUser = getCurrentUser();
+            if (!sessionUser) return;
+
+            noticiasSubscription = supabaseClient
+                .channel('noticias_changes')
+                .on('postgres_changes', {
+                    event: 'INSERT',
+                    schema: 'public',
+                    table: 'noticias_gastos',
+                    filter: 'para_todos=eq.true'
+                }, (payload) => {
+                    console.log('📰 Nueva noticia recibida:', payload);
+                    const nuevaNoticia = payload.new;
+                    
+                    const leidas = obtenerNoticiasLeidas(sessionUser.id);
+                    
+                    if (!leidas.includes(nuevaNoticia.id)) {
+                        showToast(`📰 Nueva noticia: ${nuevaNoticia.titulo}`, 'info');
+                        loadNoticiasSocio();
+                    }
+                })
+                .subscribe();
         }
 
         // ================================================================
@@ -2524,15 +2542,25 @@
         // ================================================================
         document.addEventListener('DOMContentLoaded', function() {
             loadSocioData();
+            
+            setTimeout(() => {
+                loadNoticiasSocio();
+            }, 1500);
+            
+            setInterval(() => {
+                const sectionNoticias = document.getElementById('section-noticias');
+                if (sectionNoticias && sectionNoticias.classList.contains('active')) {
+                    loadNoticiasSocio();
+                }
+            }, 300000);
         });
 
-        console.log('👤 FLY FUTBOLEROS · Panel del Socio (CON ANILLOS)');
-        console.log('✅ Anillos en perfil: Días, Progreso, Estado');
-        console.log('✅ Footer fuera del main - SIN SUPERPOSICIÓN');
-        console.log('✅ Tarjetas Tradición/Compromiso/Pasión en UNA SOLA LÍNEA en móvil');
-        console.log('✅ Conexión real a Supabase');
-        console.log('✅ Suscripción a cambios en tiempo real');
+        console.log('👤 FLY FUTBOLEROS · Panel del Socio');
+        console.log('✅ Conexión real a Supabase para socios activos');
+        console.log('✅ Dashboard con estadísticas en tiempo real');
+        console.log('✅ Gráficos de anillo con datos reales');
+        console.log('✅ Socios recientes desde la base de datos');
+        console.log('✅ Noticias con marcación de leídas');
     </script>
-
 </body>
 </html>
