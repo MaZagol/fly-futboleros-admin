@@ -226,10 +226,11 @@
         .pagination .btn:hover{transform:translateY(-1px)}
         .form-group{margin-bottom:12px}
         .form-group label{display:block;color:var(--text-secondary);margin-bottom:4px;font-size:0.7rem;font-weight:500}
-        .form-group input,.form-group select{width:100%;padding:8px 12px;background:var(--bg-card);border:1px solid var(--border-glow);border-radius:var(--radius-xs);color:var(--text-primary);font-size:0.8rem;outline:none;font-family:'Inter',sans-serif}
-        .form-group input:focus,.form-group select:focus{border-color:rgba(0,212,255,0.2)}
+        .form-group input,.form-group select,.form-group textarea{width:100%;padding:8px 12px;background:var(--bg-card);border:1px solid var(--border-glow);border-radius:var(--radius-xs);color:var(--text-primary);font-size:0.8rem;outline:none;font-family:'Inter',sans-serif}
+        .form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:rgba(0,212,255,0.2)}
         .form-group select option{background:var(--bg-deep)}
-        @media(max-width:480px){.form-group input,.form-group select{font-size:0.7rem;padding:6px 10px}}
+        .form-group textarea{resize:vertical;min-height:60px}
+        @media(max-width:480px){.form-group input,.form-group select,.form-group textarea{font-size:0.7rem;padding:6px 10px}}
         .bank-item{padding:12px 16px;background:var(--bg-card);border-radius:var(--radius-sm);border:1px solid var(--border-glow)}
         .bank-item:hover{border-color:rgba(0,212,255,0.1)}
         .bank-item label{display:block;font-size:0.6rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px}
@@ -293,6 +294,80 @@
         .notification-item-full .status-label{font-size:0.5rem;color:var(--text-muted);flex-shrink:0}
         .spinner-small{display:inline-block;width:14px;height:14px;border:2px solid rgba(255,255,255,0.06);border-top-color:var(--neon-blue);border-radius:50%;animation:spin 0.8s linear infinite;vertical-align:middle}
         .avatar-iniciales-small{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:var(--gradient-primary);color:#fff;font-size:0.6rem;font-weight:700;flex-shrink:0}
+
+        /* ===== ESTILOS PARA NOTICIAS EN ADMIN ===== */
+        .noticia-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-glow);
+            border-radius: var(--radius-sm);
+            padding: 16px 18px;
+            transition: all 0.3s ease;
+            margin-bottom: 12px;
+        }
+        .noticia-card:hover {
+            border-color: rgba(0,212,255,0.15);
+            transform: translateY(-2px);
+        }
+        .noticia-card .noticia-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .noticia-card .noticia-header .info h4 {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+        .noticia-card .noticia-header .info .meta {
+            font-size: 0.6rem;
+            color: var(--text-muted);
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 4px;
+        }
+        .noticia-card .noticia-header .info .meta span {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .noticia-card .noticia-body {
+            margin-top: 8px;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+        .noticia-card .noticia-body .monto {
+            display: inline-block;
+            padding: 2px 12px;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 0.7rem;
+            margin-top: 4px;
+            color: var(--neon-orange);
+            background: rgba(255,106,0,0.06);
+            border: 1px solid rgba(255,106,0,0.08);
+        }
+        .noticia-card .noticia-actions {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid var(--border-glow);
+        }
+        .noticias-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 8px;
+        }
+        @media(min-width:768px) {
+            .noticias-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
     </style>
 </head>
 <body>
@@ -307,6 +382,7 @@
             <li data-tab="socios"><i class="fas fa-users"></i><span class="label">Socios</span><span class="badge" id="sociosBadge">0</span></li>
             <li data-tab="pagos"><i class="fas fa-credit-card"></i><span class="label">Pagos</span></li>
             <li data-tab="comprobantes"><i class="fas fa-file-invoice"></i><span class="label">Comprobantes</span></li>
+            <li data-tab="noticias"><i class="fas fa-newspaper"></i><span class="label">Noticias</span></li>
             <li data-tab="notificaciones"><i class="fas fa-bell"></i><span class="label">Notificaciones</span><span class="badge" id="notifBadgeSidebar">0</span></li>
             <li data-tab="bancarios"><i class="fas fa-university"></i><span class="label">Datos Bancarios</span></li>
             <li data-tab="configuracion"><i class="fas fa-cog"></i><span class="label">Configuración</span></li>
@@ -355,7 +431,7 @@
 
         <div class="admin-content">
 
-            <!-- DASHBOARD -->
+            <!-- ===== DASHBOARD ===== -->
             <div class="tab-content active" id="tab-dashboard">
                 <div class="stats-grid" id="statsGrid"></div>
                 <div class="charts-row">
@@ -368,7 +444,7 @@
                 </div>
             </div>
 
-            <!-- SOCIOS -->
+            <!-- ===== SOCIOS ===== -->
             <div class="tab-content" id="tab-socios">
                 <div class="table-controls">
                     <div class="search-box"><i class="fas fa-search"></i><input type="text" id="searchSocios" placeholder="Buscar socio..." oninput="sociosPage=1;loadSocios();"></div>
@@ -387,22 +463,57 @@
                 <div class="pagination" id="sociosPagination"></div>
             </div>
 
-            <!-- PAGOS -->
+            <!-- ===== PAGOS ===== -->
             <div class="tab-content" id="tab-pagos">
                 <div class="table-container"><table class="admin-table"><thead><tr><th>Socio</th><th>Plan</th><th>Monto</th><th>Fecha</th><th>Método</th><th>Estado</th><th>Acciones</th></tr></thead><tbody id="pagosTableBody"></tbody></table></div>
             </div>
 
-            <!-- COMPROBANTES -->
+            <!-- ===== COMPROBANTES ===== -->
             <div class="tab-content" id="tab-comprobantes">
                 <div class="table-container"><table class="admin-table"><thead><tr><th>Socio</th><th>Archivo</th><th>Fecha</th><th>Estado</th><th>Acciones</th></tr></thead><tbody id="comprobantesTableBody"></tbody></table></div>
             </div>
 
-            <!-- NOTIFICACIONES -->
+            <!-- ===== NOTICIAS (ADMIN) ===== -->
+            <div class="tab-content" id="tab-noticias">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:10px;">
+                    <div>
+                        <h3 style="font-size:0.9rem;color:var(--text-secondary);">📰 Gestión de Noticias</h3>
+                        <p style="font-size:0.6rem;color:var(--text-muted);">Publica noticias y gastos que verán todos los socios</p>
+                    </div>
+                    <button class="btn btn-primary" onclick="abrirModalNuevaNoticia()">
+                        <i class="fas fa-plus-circle"></i> Nueva Noticia
+                    </button>
+                </div>
+
+                <!-- Estadísticas de noticias -->
+                <div class="stats-grid" style="grid-template-columns:repeat(auto-fill,minmax(140px,1fr));margin-bottom:16px;">
+                    <div class="stat-card">
+                        <div class="top"><div class="icon blue"><i class="fas fa-newspaper"></i></div></div>
+                        <div class="value" id="totalNoticias">0</div>
+                        <div class="label">Total Noticias</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="top"><div class="icon orange"><i class="fas fa-receipt"></i></div></div>
+                        <div class="value" id="totalGastos">Gs. 0</div>
+                        <div class="label">Total Gastos</div>
+                    </div>
+                </div>
+
+                <!-- Contenedor de noticias -->
+                <div id="noticiasAdminContainer" class="noticias-grid">
+                    <div style="text-align:center;padding:40px;color:var(--text-muted);grid-column:1/-1;">
+                        <i class="fas fa-spinner fa-spin" style="font-size:1.5rem;display:block;margin-bottom:12px;color:var(--neon-blue);"></i>
+                        <p style="font-size:0.8rem;">Cargando noticias...</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===== NOTIFICACIONES ===== -->
             <div class="tab-content" id="tab-notificaciones">
                 <div class="notifications-list" id="notificationsFullList"></div>
             </div>
 
-            <!-- DATOS BANCARIOS -->
+            <!-- ===== DATOS BANCARIOS ===== -->
             <div class="tab-content" id="tab-bancarios">
                 <div class="chart-card">
                     <div class="header"><h3>🏦 Datos Bancarios</h3><span class="badge badge-status active">Cuenta Principal</span></div>
@@ -421,7 +532,7 @@
                 </div>
             </div>
 
-            <!-- CONFIGURACIÓN -->
+            <!-- ===== CONFIGURACIÓN ===== -->
             <div class="tab-content" id="tab-configuracion">
                 <div class="chart-card">
                     <div class="header"><h3>⚙️ Configuración</h3></div>
@@ -442,6 +553,8 @@
     </main>
 
     <!-- ===== MODALES ===== -->
+
+    <!-- Modal Socio -->
     <div class="modal" id="socioModal">
         <div class="modal-content">
             <div class="modal-header"><h2 id="modalTitle">Detalle del Socio</h2><button class="modal-close" onclick="closeModal('socioModal')">&times;</button></div>
@@ -449,10 +562,115 @@
         </div>
     </div>
 
+    <!-- Modal Editar Socio -->
     <div class="modal" id="editModal">
         <div class="modal-content">
             <div class="modal-header"><h2 id="editModalTitle">Editar Socio</h2><button class="modal-close" onclick="closeModal('editModal')">&times;</button></div>
             <div class="modal-body" id="editModalBody"></div>
+        </div>
+    </div>
+
+    <!-- ===== MODAL NUEVA NOTICIA ===== -->
+    <div class="modal" id="nuevaNoticiaModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>📰 Nueva Noticia / Gasto</h2>
+                <button class="modal-close" onclick="closeModal('nuevaNoticiaModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="formNuevaNoticia">
+                    <div class="form-group">
+                        <label>Título *</label>
+                        <input type="text" id="noticiaTitulo" placeholder="Ej: Compra de balones oficiales" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Descripción *</label>
+                        <textarea id="noticiaDescripcion" rows="3" placeholder="Detalles de la noticia..." required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Tipo</label>
+                        <select id="noticiaTipo">
+                            <option value="anuncio">📢 Anuncio</option>
+                            <option value="gasto">💰 Gasto</option>
+                        </select>
+                    </div>
+                    <div class="form-group" id="noticiaMontoGroup">
+                        <label>Monto (Gs.)</label>
+                        <input type="number" id="noticiaMonto" placeholder="150000">
+                        <div style="font-size:0.55rem;color:var(--text-muted);margin-top:4px;">
+                            <i class="fas fa-info-circle"></i> Solo si es un gasto
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Categoría</label>
+                        <select id="noticiaCategoria">
+                            <option value="">Sin categoría</option>
+                            <option value="Material">Material Deportivo</option>
+                            <option value="Alquiler">Alquiler de Cancha</option>
+                            <option value="Inscripcion">Inscripciones</option>
+                            <option value="Premios">Premios y Trofeos</option>
+                            <option value="Refrigerio">Refrigerios</option>
+                            <option value="Evento">Evento</option>
+                            <option value="Otros">Otros</option>
+                        </select>
+                    </div>
+                    <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap;">
+                        <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Publicar</button>
+                        <button type="button" class="btn btn-secondary" onclick="closeModal('nuevaNoticiaModal')">Cancelar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== MODAL EDITAR NOTICIA ===== -->
+    <div class="modal" id="editarNoticiaModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>✏️ Editar Noticia</h2>
+                <button class="modal-close" onclick="closeModal('editarNoticiaModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="formEditarNoticia">
+                    <input type="hidden" id="editNoticiaId">
+                    <div class="form-group">
+                        <label>Título *</label>
+                        <input type="text" id="editNoticiaTitulo" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Descripción *</label>
+                        <textarea id="editNoticiaDescripcion" rows="3" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Tipo</label>
+                        <select id="editNoticiaTipo">
+                            <option value="anuncio">📢 Anuncio</option>
+                            <option value="gasto">💰 Gasto</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Monto (Gs.)</label>
+                        <input type="number" id="editNoticiaMonto" placeholder="150000">
+                    </div>
+                    <div class="form-group">
+                        <label>Categoría</label>
+                        <select id="editNoticiaCategoria">
+                            <option value="">Sin categoría</option>
+                            <option value="Material">Material Deportivo</option>
+                            <option value="Alquiler">Alquiler de Cancha</option>
+                            <option value="Inscripcion">Inscripciones</option>
+                            <option value="Premios">Premios y Trofeos</option>
+                            <option value="Refrigerio">Refrigerios</option>
+                            <option value="Evento">Evento</option>
+                            <option value="Otros">Otros</option>
+                        </select>
+                    </div>
+                    <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap;">
+                        <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Guardar Cambios</button>
+                        <button type="button" class="btn btn-secondary" onclick="closeModal('editarNoticiaModal')">Cancelar</button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 
@@ -487,7 +705,7 @@
         updateClock();
 
         // ================================================================
-        // 3. CLIMA CON CACHÉ Y DÍA/NOCHE
+        // 3. CLIMA
         // ================================================================
         const CACHE_KEY = 'fly_weather_cache';
         const CACHE_TTL = 10 * 60 * 1000;
@@ -495,20 +713,15 @@
         function getDayNightIcon() {
             const now = new Date();
             const hour = now.getHours();
-            const isDay = hour >= 6 && hour < 19;
-            return isDay ? '☀️' : '🌙';
+            return (hour >= 6 && hour < 19) ? '☀️' : '🌙';
         }
 
         function getWeatherIcon(code) {
             const map = {
-                '01d': '☀️', '01n': '🌙',
-                '02d': '⛅', '02n': '☁️',
-                '03d': '☁️', '03n': '☁️',
-                '04d': '☁️', '04n': '☁️',
-                '09d': '🌧️', '09n': '🌧️',
-                '10d': '🌦️', '10n': '🌧️',
-                '11d': '⛈️', '11n': '⛈️',
-                '13d': '❄️', '13n': '❄️',
+                '01d': '☀️', '01n': '🌙', '02d': '⛅', '02n': '☁️',
+                '03d': '☁️', '03n': '☁️', '04d': '☁️', '04n': '☁️',
+                '09d': '🌧️', '09n': '🌧️', '10d': '🌦️', '10n': '🌧️',
+                '11d': '⛈️', '11n': '⛈️', '13d': '❄️', '13n': '❄️',
                 '50d': '🌫️', '50n': '🌫️'
             };
             return map[code] || getDayNightIcon();
@@ -519,17 +732,14 @@
             if (cached) {
                 try {
                     const data = JSON.parse(cached);
-                    const age = Date.now() - data.timestamp;
-                    if (age < CACHE_TTL) {
-                        const icon = getDayNightIcon();
-                        return { temperatura: data.temperatura, icono: icon };
+                    if (Date.now() - data.timestamp < CACHE_TTL) {
+                        return { temperatura: data.temperatura, icono: getDayNightIcon() };
                     }
                 } catch (e) {}
             }
 
-            let temperatura = null;
+            let temperatura = 22;
             let icono = getDayNightIcon();
-
             try {
                 const geoResponse = await fetch('https://ipapi.co/json/');
                 if (geoResponse.ok) {
@@ -549,30 +759,9 @@
                         }
                     }
                 }
-            } catch (error) {
-                console.warn('Error obteniendo clima real:', error);
-            }
-
-            if (temperatura === null) {
-                if (cached) {
-                    try {
-                        const old = JSON.parse(cached);
-                        temperatura = old.temperatura || 22;
-                    } catch (e) {
-                        temperatura = 22;
-                    }
-                } else {
-                    temperatura = 22;
-                }
-                icono = getDayNightIcon();
-            }
-
-            localStorage.setItem(CACHE_KEY, JSON.stringify({
-                temperatura: temperatura,
-                timestamp: Date.now()
-            }));
-
-            return { temperatura: temperatura, icono: icono };
+            } catch (error) { console.warn('Error obteniendo clima:', error); }
+            localStorage.setItem(CACHE_KEY, JSON.stringify({ temperatura, timestamp: Date.now() }));
+            return { temperatura, icono };
         }
 
         async function actualizarClima() {
@@ -580,50 +769,30 @@
                 const clima = await obtenerTemperatura();
                 const tempDisplay = document.getElementById('tempDisplay');
                 const iconDisplay = document.getElementById('weatherIcon');
-                if (tempDisplay && clima.temperatura !== undefined) {
-                    tempDisplay.textContent = clima.temperatura + '°C';
-                }
-                if (iconDisplay && clima.icono) {
-                    iconDisplay.textContent = clima.icono;
-                }
+                if (tempDisplay) tempDisplay.textContent = clima.temperatura + '°C';
+                if (iconDisplay) iconDisplay.textContent = clima.icono;
             } catch (error) {
                 console.warn('Error actualizando clima:', error);
-                const icon = getDayNightIcon();
-                const tempDisplay = document.getElementById('tempDisplay');
-                const iconDisplay = document.getElementById('weatherIcon');
-                if (tempDisplay) tempDisplay.textContent = '22°C';
-                if (iconDisplay) iconDisplay.textContent = icon;
             }
         }
-
         actualizarClima();
         setInterval(actualizarClima, 600000);
 
-        setInterval(function() {
-            const icon = getDayNightIcon();
-            const iconDisplay = document.getElementById('weatherIcon');
-            if (iconDisplay) iconDisplay.textContent = icon;
-        }, 1800000);
-
         // ================================================================
-        // 4. TOASTS MEJORADOS
+        // 4. TOASTS
         // ================================================================
         function showToast(message, type) {
             if (type === undefined) type = 'info';
             var colors = { success: '#00ff7f', error: '#ff2d8a', warning: '#ff6a00', info: '#00d4ff' };
             var icons = { success: 'fa-check-circle', error: 'fa-exclamation-circle', warning: 'fa-exclamation-triangle',
                 info: 'fa-info-circle' };
-
             var existing = document.querySelector('.toast');
             if (existing) existing.remove();
-
             var el = document.createElement('div');
             el.className = 'toast';
-            el.innerHTML =
-                '<i class="fas ' + icons[type] + ' icon ' + type + '"></i><span>' + message + '</span>';
+            el.innerHTML = '<i class="fas ' + icons[type] + ' icon ' + type + '"></i><span>' + message + '</span>';
             el.style.borderColor = colors[type];
             document.body.appendChild(el);
-
             setTimeout(function() {
                 el.style.opacity = '0';
                 el.style.transform = 'translateY(20px)';
@@ -632,12 +801,11 @@
         }
 
         // ================================================================
-        // 5. SUPABASE CONFIG
+        // 5. SUPABASE
         // ================================================================
         const SUPABASE_URL = 'https://abgtdybklkfozoazfmiw.supabase.co';
         const SUPABASE_ANON_KEY =
             'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFiZ3RkeWJrbGtmb3pvYXpmbWl3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQ5Njg4MzcsImV4cCI6MjEwMDU0NDgzN30.H0WeLq7vXOYC_On43SfRUivc2thzz0zBq4r11NX8FOA';
-
         const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
         // ================================================================
@@ -650,8 +818,16 @@
             document.querySelectorAll('.tab-content').forEach(function(el) {
                 el.classList.toggle('active', el.id === 'tab-' + tab);
             });
-            var titles = { dashboard: 'Dashboard', socios: 'Socios', pagos: 'Pagos', comprobantes: 'Comprobantes',
-                notificaciones: 'Notificaciones', bancarios: 'Datos Bancarios', configuracion: 'Configuración' };
+            var titles = {
+                dashboard: 'Dashboard',
+                socios: 'Socios',
+                pagos: 'Pagos',
+                comprobantes: 'Comprobantes',
+                noticias: 'Noticias',
+                notificaciones: 'Notificaciones',
+                bancarios: 'Datos Bancarios',
+                configuracion: 'Configuración'
+            };
             document.getElementById('pageTitle').textContent = titles[tab] || tab;
             if (window.innerWidth <= 768) {
                 document.getElementById('adminSidebar').classList.remove('mobile-open');
@@ -660,6 +836,7 @@
             if (tab === 'socios') loadSocios();
             if (tab === 'pagos') loadPagos();
             if (tab === 'comprobantes') loadComprobantes();
+            if (tab === 'noticias') loadNoticiasAdmin();
             if (tab === 'notificaciones') loadNotificationsFull();
         }
 
@@ -742,8 +919,16 @@
             }
         }
 
+        function getCurrentUser() {
+            try {
+                var session = localStorage.getItem('fly_user_session');
+                if (session) return JSON.parse(session);
+            } catch (e) { console.warn('Error parsing session:', e); }
+            return null;
+        }
+
         // ================================================================
-        // 8. CARGAR DATOS DEL DASHBOARD
+        // 8. DASHBOARD
         // ================================================================
         async function loadDashboardData() {
             try {
@@ -770,9 +955,6 @@
                     .order('created_at', { ascending: false });
 
                 if (notifsError) throw notifsError;
-
-                console.log('✅ Socios:', socios ? socios.length : 0, 'Pagos:', pagos ? pagos.length : 0,
-                    'Notificaciones:', notifs ? notifs.length : 0);
 
                 window._socios = socios || [];
                 window._pagos = pagos || [];
@@ -808,10 +990,8 @@
                     badge.className = 'badge-dot' + (notifs && notifs.length > 0 ? ' show' : '');
                 }
 
-                console.log('✅ Dashboard actualizado');
-
             } catch (error) {
-                console.error('❌ Error loading dashboard:', error);
+                console.error('Error loading dashboard:', error);
                 showToast('Error al cargar datos: ' + error.message, 'error');
             }
         }
@@ -895,9 +1075,6 @@
             }).join('');
         }
 
-        // ================================================================
-        // 9. RENDER ACTIVIDADES
-        // ================================================================
         function renderActividades(pagos, socios) {
             var container = document.getElementById('activityList');
             var sociosMap = {};
@@ -953,9 +1130,6 @@
             }).join('');
         }
 
-        // ================================================================
-        // 10. RENDER PRÓXIMOS A VENCER
-        // ================================================================
         function renderProximosVencer(socios) {
             var container = document.getElementById('expiringList');
             var proximos = [];
@@ -989,7 +1163,7 @@
         }
 
         // ================================================================
-        // 11. NOTIFICACIONES DROPDOWN
+        // 9. NOTIFICACIONES DROPDOWN
         // ================================================================
         function renderNotificacionesDropdown(notificaciones) {
             var container = document.getElementById('notificationList');
@@ -1032,17 +1206,11 @@
             }).join('');
         }
 
-        // ================================================================
-        // 12. VER SOCIO DESDE NOTIFICACIÓN
-        // ================================================================
         function verSocioDesdeNotificacion(socioId) {
             document.getElementById('notificationDropdown').classList.remove('open');
             viewSocio(socioId);
         }
 
-        // ================================================================
-        // 13. MARCAR TODAS LAS NOTIFICACIONES
-        // ================================================================
         async function marcarTodasLeidas() {
             try {
                 const { data: notifs, error: fetchError } = await supabaseClient
@@ -1066,20 +1234,18 @@
                 if (updateError) throw updateError;
 
                 showToast('✅ ' + notifs.length + ' notificaciones marcadas como leídas', 'success');
-
                 document.getElementById('notificationDropdown').classList.remove('open');
-
                 await loadDashboardData();
                 await loadNotificationsFull();
 
             } catch (error) {
-                console.error('Error al marcar notificaciones como leídas:', error);
+                console.error('Error:', error);
                 showToast('❌ Error al marcar notificaciones', 'error');
             }
         }
 
         // ================================================================
-        // 14. NOTIFICACIONES FULL
+        // 10. NOTIFICACIONES FULL
         // ================================================================
         async function loadNotificationsFull() {
             try {
@@ -1133,7 +1299,7 @@
         }
 
         // ================================================================
-        // 15. SOCIOS - VERSIÓN CORREGIDA (CON ID EXPLÍCITO)
+        // 11. SOCIOS
         // ================================================================
         var sociosPage = 1;
         var sociosPageSize = 10;
@@ -1147,7 +1313,6 @@
                 var plan = document.getElementById('filterPlan').value;
                 var metodo = document.getElementById('filterMetodo').value;
 
-                // ✅ CORREGIDO: Seleccionar explícitamente el campo id
                 var query = supabaseClient
                     .from('socios')
                     .select('id, username, nombre, telefono, email, password_hash, plan, metodo_pago, foto_url, comprobante_url, estado, role, fecha_registro, fecha_inicio, fecha_vencimiento, created_at, updated_at', { count: 'exact' })
@@ -1166,14 +1331,12 @@
                 const { data, error, count } = await query.range(start, end);
 
                 if (error) {
-                    console.error('❌ Error en la consulta:', error);
+                    console.error('Error en la consulta:', error);
                     throw error;
                 }
 
-                console.log('✅ Socios encontrados:', data ? data.length : 0, 'Total:', count || 0);
-                console.log('🔍 Primer socio:', data && data.length > 0 ? data[0] : 'No hay datos');
+                console.log('Socios encontrados:', data ? data.length : 0, 'Total:', count || 0);
 
-                // Si no hay datos, mostrar mensaje vacío
                 if (!data || data.length === 0) {
                     var tbody = document.getElementById('sociosTableBody');
                     tbody.innerHTML =
@@ -1185,9 +1348,8 @@
                 renderSocios(data || [], count || 0);
 
             } catch (error) {
-                console.error('❌ Error loading socios:', error);
+                console.error('Error loading socios:', error);
                 showToast('Error al cargar socios: ' + (error.message || 'Error desconocido'), 'error');
-
                 var tbody = document.getElementById('sociosTableBody');
                 tbody.innerHTML =
                     '<tr><td colspan="8" style="text-align:center;padding:40px;color:var(--text-muted);;"><i class="fas fa-exclamation-triangle" style="font-size:1.5rem;display:block;margin-bottom:8px;color:var(--neon-orange);"></i>Error al cargar socios<br><span style="font-size:0.7rem;">' +
@@ -1196,53 +1358,50 @@
         }
 
         function renderSocios(socios, total) {
-    var tbody = document.getElementById('sociosTableBody');
+            var tbody = document.getElementById('sociosTableBody');
 
-    if (!socios || socios.length === 0) {
-        tbody.innerHTML =
-            '<tr><td colspan="8" style="text-align:center;padding:40px;color:var(--text-muted);;"><i class="fas fa-inbox" style="font-size:2rem;display:block;margin-bottom:10px;"></i>No hay socios</td></tr>';
-        renderPagination(total);
-        return;
-    }
+            if (!socios || socios.length === 0) {
+                tbody.innerHTML =
+                    '<tr><td colspan="8" style="text-align:center;padding:40px;color:var(--text-muted);;"><i class="fas fa-inbox" style="font-size:2rem;display:block;margin-bottom:10px;"></i>No hay socios</td></tr>';
+                renderPagination(total);
+                return;
+            }
 
-    tbody.innerHTML = socios.map(function(s) {
-        var avatarHtml = getAvatarHtml(s, 28);
-        var importe = s.plan === 'Sabatero' ? '20.000' : s.plan === 'Finder' ? '5.000' : '0';
-        var planDisplay = s.plan || 'Sin plan';
-        var metodoDisplay = s.metodo_pago || 'Sin método';
-        var estadoDisplay = s.estado || 'Pendiente';
+            tbody.innerHTML = socios.map(function(s) {
+                var avatarHtml = getAvatarHtml(s, 28);
+                var importe = s.plan === 'Sabatero' ? '20.000' : s.plan === 'Finder' ? '5.000' : '0';
+                var planDisplay = s.plan || 'Sin plan';
+                var metodoDisplay = s.metodo_pago || 'Sin método';
+                var estadoDisplay = s.estado || 'Pendiente';
+                var idDisplay = s.id ? (typeof s.id === 'string' ? s.id.substring(0, 8) : s.id) : 'N/A';
 
-        // ✅ CORREGIDO: Funciona con números y strings
-        var idDisplay = s.id ? (typeof s.id === 'string' ? s.id.substring(0, 8) : s.id) : 'N/A';
+                return '<tr><td>' + avatarHtml +
+                    '</td><td><strong style="font-size:0.75rem;">' + (s.nombre || 'Sin nombre') +
+                    '</strong><div style="font-size:0.6rem;color:var(--text-muted);">@' + (s.username || 'sin usuario') +
+                    '</div></td><td style="font-size:0.7rem;">#' + idDisplay +
+                    '</td><td><span class="badge-status ' + (s.plan === 'Sabatero' ? 'active' : 'pending') +
+                    '">' + planDisplay +
+                    '</span></td><td>' + getStatusBadge(estadoDisplay) +
+                    '</td><td style="font-size:0.7rem;">' + metodoDisplay +
+                    '</td><td style="font-size:0.7rem;">Gs. ' + importe +
+                    '</td><td><div class="action-buttons"><button class="btn btn-secondary btn-sm" onclick="viewSocio(\'' +
+                    s.id + '\')"><i class="fas fa-eye"></i></button>' +
+                    '<button class="btn btn-primary btn-sm" onclick="editSocio(\'' + s.id +
+                    '\')"><i class="fas fa-edit"></i></button>' +
+                    (s.estado === 'Pendiente' && s.plan && s.metodo_pago ?
+                        '<button class="btn btn-success btn-sm" onclick="aprobarSocio(\'' + s.id +
+                        '\')"><i class="fas fa-check"></i></button>' : '') +
+                    (s.estado === 'Activo' ?
+                        '<button class="btn btn-warning btn-sm" onclick="suspendSocio(\'' + s.id +
+                        '\')"><i class="fas fa-pause"></i></button>' : '') +
+                    (s.estado === 'Suspendido' ?
+                        '<button class="btn btn-success btn-sm" onclick="activateSocio(\'' + s.id +
+                        '\')"><i class="fas fa-play"></i></button>' : '') +
+                    '<button class="btn btn-danger btn-sm" onclick="deleteSocio(\'' + s.id +
+                    '\')"><i class="fas fa-trash"></i></button></div></td></tr>';
+            }).join('');
 
-        return '<tr><td>' + avatarHtml +
-            '</td><td><strong style="font-size:0.75rem;">' + (s.nombre || 'Sin nombre') +
-            '</strong><div style="font-size:0.6rem;color:var(--text-muted);">@' + (s.username || 'sin usuario') +
-            '</div></td><td style="font-size:0.7rem;">#' + idDisplay +
-            '</td><td><span class="badge-status ' + (s.plan === 'Sabatero' ? 'active' : 'pending') +
-            '">' + planDisplay +
-            '</span></td><td>' + getStatusBadge(estadoDisplay) +
-            '</td><td style="font-size:0.7rem;">' + metodoDisplay +
-            '</td><td style="font-size:0.7rem;">Gs. ' + importe +
-            '</td><td><div class="action-buttons"><button class="btn btn-secondary btn-sm" onclick="viewSocio(\'' +
-            s.id + '\')"><i class="fas fa-eye"></i></button>' +
-            '<button class="btn btn-primary btn-sm" onclick="editSocio(\'' + s.id +
-            '\')"><i class="fas fa-edit"></i></button>' +
-            (s.estado === 'Pendiente' && s.plan && s.metodo_pago ?
-                '<button class="btn btn-success btn-sm" onclick="aprobarSocio(\'' + s.id +
-                '\')"><i class="fas fa-check"></i></button>' : '') +
-            (s.estado === 'Activo' ?
-                '<button class="btn btn-warning btn-sm" onclick="suspendSocio(\'' + s.id +
-                '\')"><i class="fas fa-pause"></i></button>' : '') +
-            (s.estado === 'Suspendido' ?
-                '<button class="btn btn-success btn-sm" onclick="activateSocio(\'' + s.id +
-                '\')"><i class="fas fa-play"></i></button>' : '') +
-            '<button class="btn btn-danger btn-sm" onclick="deleteSocio(\'' + s.id +
-            '\')"><i class="fas fa-trash"></i></button></div></td></tr>';
-    }).join('');
-
-    renderPagination(total);
-
+            renderPagination(total);
         }
 
         function renderPagination(total) {
@@ -1263,7 +1422,7 @@
         }
 
         // ================================================================
-        // 16. ACCIONES DE SOCIOS
+        // 12. ACCIONES DE SOCIOS
         // ================================================================
         async function viewSocio(id) {
             try {
@@ -1353,9 +1512,6 @@
             }
         }
 
-        // ================================================================
-        // 17. APROBAR SOCIO
-        // ================================================================
         async function aprobarSocio(id) {
             if (!confirm('¿Confirmar que este socio ha completado su perfil y puede ser activado?')) return;
 
@@ -1411,8 +1567,6 @@
 
                 if (pagoError) {
                     console.error('Error al registrar pago:', pagoError);
-                } else {
-                    console.log('✅ Pago registrado correctamente');
                 }
 
                 await supabaseClient.from('notificaciones').insert([{
@@ -1435,176 +1589,6 @@
             }
         }
 
-        // ================================================================
-        // 18. COMPROBANTES
-        // ================================================================
-        async function loadComprobantes() {
-            try {
-                console.log('🔄 Cargando comprobantes...');
-
-                const { data: comprobantes, error: compError } = await supabaseClient
-                    .from('comprobantes')
-                    .select('*')
-                    .order('fecha_subida', { ascending: false });
-
-                if (compError) {
-                    console.error('❌ Error al cargar comprobantes:', compError);
-                    throw compError;
-                }
-
-                const { data: socios, error: sociosError } = await supabaseClient
-                    .from('socios')
-                    .select('id, nombre, username, foto_url, plan, metodo_pago, estado');
-
-                if (sociosError) {
-                    console.warn('Error al cargar socios:', sociosError);
-                }
-
-                var sociosMap = {};
-                if (socios) {
-                    socios.forEach(function(s) { sociosMap[s.id] = s; });
-                }
-
-                var tbody = document.getElementById('comprobantesTableBody');
-
-                console.log('📊 Comprobantes encontrados:', comprobantes ? comprobantes.length : 0);
-
-                if (!comprobantes || comprobantes.length === 0) {
-                    tbody.innerHTML =
-                        '<tr><td colspan="5" style="text-align:center;padding:40px;color:var(--text-muted);;"><i class="fas fa-file-invoice" style="font-size:1.5rem;display:block;margin-bottom:8px;"></i>No hay comprobantes</td></tr>';
-                    return;
-                }
-
-                tbody.innerHTML = comprobantes.map(function(c) {
-                    var socio = sociosMap[c.socio_id];
-                    var nombre = socio ? socio.nombre : 'Socio eliminado';
-                    var username = socio ? socio.username : 'desconocido';
-
-                    var avatarHtml = getAvatarHtml({ nombre: nombre, foto_url: socio ? socio.foto_url : null }, 24);
-
-                    var estadoComprobante = c.estado || 'Pendiente';
-                    var mostrarAprobar = (estadoComprobante === 'Pendiente' || estadoComprobante === 'pendiente');
-
-                    return '<tr><td style="display:flex;align-items:center;gap:8px;">' + avatarHtml +
-                        '<div><strong style="font-size:0.75rem;">' + nombre +
-                        '</strong><div style="font-size:0.6rem;color:var(--text-muted);">@' + username +
-                        '</div></div></td>' +
-                        '<td><a href="' + c.archivo_url +
-                        '" target="_blank" class="btn btn-primary btn-sm"><i class="fas fa-eye"></i> Ver</a>' +
-                        ' <a href="' + c.archivo_url +
-                        '" download class="btn btn-secondary btn-sm"><i class="fas fa-download"></i></a></td>' +
-                        '<td style="font-size:0.7rem;">' + (c.fecha_subida ? new Date(c.fecha_subida)
-                            .toLocaleDateString() : 'N/A') + '</td>' +
-                        '<td>' + getStatusBadge(estadoComprobante) + '</td>' +
-                        '<td>' +
-                        (mostrarAprobar ?
-                            '<button class="btn btn-success btn-sm" onclick="aprobarComprobante(\'' + c.id +
-                            '\', ' + c.socio_id + ')"><i class="fas fa-check"></i> Aprobar</button>' :
-                            '<span class="badge-status approved">✅ Aprobado</span>') +
-                        '</td></tr>';
-                }).join('');
-
-                console.log('✅ Comprobantes cargados correctamente');
-
-            } catch (error) {
-                console.error('❌ Error loading comprobantes:', error);
-                showToast('Error al cargar comprobantes: ' + error.message, 'error');
-
-                var tbody = document.getElementById('comprobantesTableBody');
-                tbody.innerHTML =
-                    '<tr><td colspan="5" style="text-align:center;padding:40px;color:var(--text-muted);;"><i class="fas fa-exclamation-triangle" style="font-size:1.5rem;display:block;margin-bottom:8px;color:var(--neon-orange);"></i>Error al cargar comprobantes<br><span style="font-size:0.7rem;">' +
-                    error.message + '</span></td></tr>';
-            }
-        }
-
-        // ================================================================
-        // 19. APROBAR COMPROBANTE
-        // ================================================================
-        async function aprobarComprobante(comprobanteId, socioId) {
-            if (!confirm('¿Confirmar este comprobante y activar al socio?')) return;
-
-            try {
-                console.log('🔄 Aprobando comprobante:', comprobanteId, 'para socio:', socioId);
-
-                const { error: compError } = await supabaseClient
-                    .from('comprobantes')
-                    .update({ estado: 'Aprobado' })
-                    .eq('id', comprobanteId);
-
-                if (compError) throw compError;
-
-                const { data: socio, error: socioDataError } = await supabaseClient
-                    .from('socios')
-                    .select('*')
-                    .eq('id', socioId)
-                    .single();
-
-                if (socioDataError || !socio) {
-                    showToast('❌ Socio no encontrado', 'error');
-                    return;
-                }
-
-                if (!socio.plan) {
-                    showToast('⚠️ El socio debe seleccionar un plan primero', 'warning');
-                    return;
-                }
-
-                const hoy = new Date();
-                const fechaVencimiento = new Date(hoy);
-                fechaVencimiento.setDate(fechaVencimiento.getDate() + 30);
-
-                const { error: updateError } = await supabaseClient
-                    .from('socios')
-                    .update({
-                        estado: 'Activo',
-                        fecha_inicio: hoy.toISOString().split('T')[0],
-                        fecha_vencimiento: fechaVencimiento.toISOString().split('T')[0]
-                    })
-                    .eq('id', socioId);
-
-                if (updateError) throw updateError;
-
-                const monto = socio.plan === 'Sabatero' ? 20000 : 5000;
-                const { error: pagoError } = await supabaseClient
-                    .from('pagos')
-                    .insert([{
-                        socio_id: socioId,
-                        monto: monto,
-                        plan: socio.plan,
-                        metodo: socio.metodo_pago || 'Transferencia',
-                        estado: 'Aprobado',
-                        fecha: new Date().toISOString(),
-                        comprobante_url: socio.comprobante_url || null
-                    }]);
-
-                if (pagoError) {
-                    console.error('Error al registrar pago:', pagoError);
-                } else {
-                    console.log('✅ Pago registrado correctamente');
-                }
-
-                await supabaseClient.from('notificaciones').insert([{
-                    tipo: 'pago_confirmado',
-                    mensaje: '✅ Comprobante de ' + socio.nombre + ' aprobado',
-                    leida: false,
-                    data: { socio_id: socioId, username: socio.username }
-                }]);
-
-                showToast('✅ Comprobante aprobado y socio activado', 'success');
-
-                await loadComprobantes();
-                await loadDashboardData();
-                await loadSocios();
-
-            } catch (error) {
-                console.error('❌ Error al aprobar comprobante:', error);
-                showToast('❌ Error al aprobar comprobante: ' + error.message, 'error');
-            }
-        }
-
-        // ================================================================
-        // 20. OTRAS FUNCIONES DE SOCIOS
-        // ================================================================
         async function suspendSocio(id) {
             if (!confirm('¿Suspender este socio?')) return;
             try {
@@ -1721,7 +1705,7 @@
         }
 
         // ================================================================
-        // 21. PAGOS
+        // 13. PAGOS
         // ================================================================
         async function loadPagos() {
             try {
@@ -1772,7 +1756,465 @@
         }
 
         // ================================================================
-        // 22. OTRAS FUNCIONES
+        // 14. COMPROBANTES
+        // ================================================================
+        async function loadComprobantes() {
+            try {
+                console.log('🔄 Cargando comprobantes...');
+
+                const { data: comprobantes, error: compError } = await supabaseClient
+                    .from('comprobantes')
+                    .select('*')
+                    .order('fecha_subida', { ascending: false });
+
+                if (compError) {
+                    console.error('Error al cargar comprobantes:', compError);
+                    throw compError;
+                }
+
+                const { data: socios, error: sociosError } = await supabaseClient
+                    .from('socios')
+                    .select('id, nombre, username, foto_url, plan, metodo_pago, estado');
+
+                if (sociosError) {
+                    console.warn('Error al cargar socios:', sociosError);
+                }
+
+                var sociosMap = {};
+                if (socios) {
+                    socios.forEach(function(s) { sociosMap[s.id] = s; });
+                }
+
+                var tbody = document.getElementById('comprobantesTableBody');
+
+                console.log('Comprobantes encontrados:', comprobantes ? comprobantes.length : 0);
+
+                if (!comprobantes || comprobantes.length === 0) {
+                    tbody.innerHTML =
+                        '<tr><td colspan="5" style="text-align:center;padding:40px;color:var(--text-muted);;"><i class="fas fa-file-invoice" style="font-size:1.5rem;display:block;margin-bottom:8px;"></i>No hay comprobantes</td></tr>';
+                    return;
+                }
+
+                tbody.innerHTML = comprobantes.map(function(c) {
+                    var socio = sociosMap[c.socio_id];
+                    var nombre = socio ? socio.nombre : 'Socio eliminado';
+                    var username = socio ? socio.username : 'desconocido';
+
+                    var avatarHtml = getAvatarHtml({ nombre: nombre, foto_url: socio ? socio.foto_url : null }, 24);
+
+                    var estadoComprobante = c.estado || 'Pendiente';
+                    var mostrarAprobar = (estadoComprobante === 'Pendiente' || estadoComprobante === 'pendiente');
+
+                    return '<tr><td style="display:flex;align-items:center;gap:8px;">' + avatarHtml +
+                        '<div><strong style="font-size:0.75rem;">' + nombre +
+                        '</strong><div style="font-size:0.6rem;color:var(--text-muted);">@' + username +
+                        '</div></div></td>' +
+                        '<td><a href="' + c.archivo_url +
+                        '" target="_blank" class="btn btn-primary btn-sm"><i class="fas fa-eye"></i> Ver</a>' +
+                        ' <a href="' + c.archivo_url +
+                        '" download class="btn btn-secondary btn-sm"><i class="fas fa-download"></i></a></td>' +
+                        '<td style="font-size:0.7rem;">' + (c.fecha_subida ? new Date(c.fecha_subida)
+                            .toLocaleDateString() : 'N/A') + '</td>' +
+                        '<td>' + getStatusBadge(estadoComprobante) + '</td>' +
+                        '<td>' +
+                        (mostrarAprobar ?
+                            '<button class="btn btn-success btn-sm" onclick="aprobarComprobante(\'' + c.id +
+                            '\', ' + c.socio_id + ')"><i class="fas fa-check"></i> Aprobar</button>' :
+                            '<span class="badge-status approved">✅ Aprobado</span>') +
+                        '</td></tr>';
+                }).join('');
+
+            } catch (error) {
+                console.error('Error loading comprobantes:', error);
+                showToast('Error al cargar comprobantes: ' + error.message, 'error');
+                var tbody = document.getElementById('comprobantesTableBody');
+                tbody.innerHTML =
+                    '<tr><td colspan="5" style="text-align:center;padding:40px;color:var(--text-muted);;"><i class="fas fa-exclamation-triangle" style="font-size:1.5rem;display:block;margin-bottom:8px;color:var(--neon-orange);"></i>Error al cargar comprobantes<br><span style="font-size:0.7rem;">' +
+                    error.message + '</span></td></tr>';
+            }
+        }
+
+        async function aprobarComprobante(comprobanteId, socioId) {
+            if (!confirm('¿Confirmar este comprobante y activar al socio?')) return;
+
+            try {
+                console.log('🔄 Aprobando comprobante:', comprobanteId, 'para socio:', socioId);
+
+                const { error: compError } = await supabaseClient
+                    .from('comprobantes')
+                    .update({ estado: 'Aprobado' })
+                    .eq('id', comprobanteId);
+
+                if (compError) throw compError;
+
+                const { data: socio, error: socioDataError } = await supabaseClient
+                    .from('socios')
+                    .select('*')
+                    .eq('id', socioId)
+                    .single();
+
+                if (socioDataError || !socio) {
+                    showToast('❌ Socio no encontrado', 'error');
+                    return;
+                }
+
+                if (!socio.plan) {
+                    showToast('⚠️ El socio debe seleccionar un plan primero', 'warning');
+                    return;
+                }
+
+                const hoy = new Date();
+                const fechaVencimiento = new Date(hoy);
+                fechaVencimiento.setDate(fechaVencimiento.getDate() + 30);
+
+                const { error: updateError } = await supabaseClient
+                    .from('socios')
+                    .update({
+                        estado: 'Activo',
+                        fecha_inicio: hoy.toISOString().split('T')[0],
+                        fecha_vencimiento: fechaVencimiento.toISOString().split('T')[0]
+                    })
+                    .eq('id', socioId);
+
+                if (updateError) throw updateError;
+
+                const monto = socio.plan === 'Sabatero' ? 20000 : 5000;
+                const { error: pagoError } = await supabaseClient
+                    .from('pagos')
+                    .insert([{
+                        socio_id: socioId,
+                        monto: monto,
+                        plan: socio.plan,
+                        metodo: socio.metodo_pago || 'Transferencia',
+                        estado: 'Aprobado',
+                        fecha: new Date().toISOString(),
+                        comprobante_url: socio.comprobante_url || null
+                    }]);
+
+                if (pagoError) {
+                    console.error('Error al registrar pago:', pagoError);
+                }
+
+                await supabaseClient.from('notificaciones').insert([{
+                    tipo: 'pago_confirmado',
+                    mensaje: '✅ Comprobante de ' + socio.nombre + ' aprobado',
+                    leida: false,
+                    data: { socio_id: socioId, username: socio.username }
+                }]);
+
+                showToast('✅ Comprobante aprobado y socio activado', 'success');
+
+                await loadComprobantes();
+                await loadDashboardData();
+                await loadSocios();
+
+            } catch (error) {
+                console.error('Error al aprobar comprobante:', error);
+                showToast('❌ Error al aprobar comprobante: ' + error.message, 'error');
+            }
+        }
+
+        // ================================================================
+        // 15. NOTICIAS - ADMIN
+        // ================================================================
+        async function loadNoticiasAdmin() {
+            try {
+                console.log('🔄 Cargando noticias para admin...');
+
+                const { data: noticias, error } = await supabaseClient
+                    .from('noticias_gastos')
+                    .select('*')
+                    .order('fecha_evento', { ascending: false });
+
+                if (error) {
+                    console.error('❌ Error al cargar noticias:', error);
+                    throw error;
+                }
+
+                console.log('✅ Noticias encontradas:', noticias ? noticias.length : 0);
+
+                const container = document.getElementById('noticiasAdminContainer');
+
+                if (!noticias || noticias.length === 0) {
+                    container.innerHTML = `
+                        <div style="text-align:center;padding:60px 20px;color:var(--text-muted);grid-column:1/-1;">
+                            <i class="fas fa-newspaper" style="font-size:2.5rem;display:block;margin-bottom:12px;opacity:0.3;"></i>
+                            <p style="font-size:0.85rem;font-weight:600;color:var(--text-secondary);">No hay noticias publicadas</p>
+                            <p style="font-size:0.65rem;color:var(--text-muted);">Crea tu primera noticia usando el botón "Nueva Noticia"</p>
+                            <button class="btn btn-primary" onclick="abrirModalNuevaNoticia()" style="margin-top:12px;">
+                                <i class="fas fa-plus-circle"></i> Crear Noticia
+                            </button>
+                        </div>
+                    `;
+                    document.getElementById('totalNoticias').textContent = '0';
+                    document.getElementById('totalGastos').textContent = 'Gs. 0';
+                    return;
+                }
+
+                // Calcular totales
+                const totalGastos = noticias
+                    .filter(n => n.tipo === 'gasto' && n.monto)
+                    .reduce((sum, n) => sum + Number(n.monto), 0);
+
+                document.getElementById('totalNoticias').textContent = noticias.length;
+                document.getElementById('totalGastos').textContent = 'Gs. ' + totalGastos.toLocaleString();
+
+                container.innerHTML = noticias.map(n => {
+                    const fecha = n.fecha_evento ? new Date(n.fecha_evento) : new Date();
+                    const fechaStr = fecha.toLocaleDateString('es', {
+                        day: '2-digit',
+                        month: '2-digit',
+                        year: 'numeric',
+                        hour: '2-digit',
+                        minute: '2-digit'
+                    });
+                    const tipoClase = n.tipo === 'gasto' ? 'gasto' : 'anuncio';
+                    const icono = n.tipo === 'gasto' ? '💰' : '📢';
+
+                    return `
+                        <div class="noticia-card">
+                            <div class="noticia-header">
+                                <div class="info">
+                                    <h4>${icono} ${n.titulo || 'Sin título'}</h4>
+                                    <div class="meta">
+                                        <span><i class="far fa-calendar-alt"></i> ${fechaStr}</span>
+                                        <span><i class="fas fa-tag"></i> ${n.tipo || 'Anuncio'}</span>
+                                        ${n.categoria ? `<span><i class="fas fa-folder"></i> ${n.categoria}</span>` : ''}
+                                        ${n.monto ? `<span><i class="fas fa-money-bill-wave"></i> Gs. ${Number(n.monto).toLocaleString()}</span>` : ''}
+                                    </div>
+                                </div>
+                                <div>
+                                    <span class="badge-status ${n.tipo === 'gasto' ? 'active' : 'pending'}">${n.tipo || 'Anuncio'}</span>
+                                </div>
+                            </div>
+                            <div class="noticia-body">
+                                ${n.descripcion || 'Sin descripción'}
+                                ${n.monto ? `<div class="monto">💰 Gasto: Gs. ${Number(n.monto).toLocaleString()}</div>` : ''}
+                            </div>
+                            <div class="noticia-actions">
+                                <button class="btn btn-primary btn-sm" onclick="editarNoticia('${n.id}')">
+                                    <i class="fas fa-edit"></i> Editar
+                                </button>
+                                <button class="btn btn-danger btn-sm" onclick="eliminarNoticia('${n.id}')">
+                                    <i class="fas fa-trash"></i> Eliminar
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+
+            } catch (error) {
+                console.error('❌ Error en loadNoticiasAdmin:', error);
+                const container = document.getElementById('noticiasAdminContainer');
+                if (container) {
+                    container.innerHTML = `
+                        <div style="text-align:center;padding:40px 20px;color:var(--text-muted);grid-column:1/-1;">
+                            <i class="fas fa-exclamation-triangle" style="font-size:1.5rem;display:block;margin-bottom:12px;color:var(--neon-orange);"></i>
+                            <p style="font-size:0.8rem;">Error al cargar noticias</p>
+                            <p style="font-size:0.65rem;color:var(--text-muted);">${error.message || 'Intenta nuevamente'}</p>
+                            <button class="btn btn-primary btn-sm" onclick="loadNoticiasAdmin()" style="margin-top:12px;">
+                                <i class="fas fa-sync"></i> Reintentar
+                            </button>
+                        </div>
+                    `;
+                }
+            }
+        }
+
+        // ================================================================
+        // 16. MODAL NUEVA NOTICIA
+        // ================================================================
+        function abrirModalNuevaNoticia() {
+            document.getElementById('formNuevaNoticia').reset();
+            document.getElementById('noticiaMontoGroup').style.display = 'block';
+            document.getElementById('nuevaNoticiaModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        document.getElementById('noticiaTipo').addEventListener('change', function() {
+            const montoGroup = document.getElementById('noticiaMontoGroup');
+            if (this.value === 'gasto') {
+                montoGroup.style.display = 'block';
+            } else {
+                montoGroup.style.display = 'none';
+                document.getElementById('noticiaMonto').value = '';
+            }
+        });
+
+        document.getElementById('formNuevaNoticia').addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const titulo = document.getElementById('noticiaTitulo').value.trim();
+            const descripcion = document.getElementById('noticiaDescripcion').value.trim();
+            const tipo = document.getElementById('noticiaTipo').value;
+            const monto = tipo === 'gasto' ? parseFloat(document.getElementById('noticiaMonto').value) || null : null;
+            const categoria = document.getElementById('noticiaCategoria').value || null;
+
+            if (!titulo || !descripcion) {
+                showToast('⚠️ Completa todos los campos requeridos', 'warning');
+                return;
+            }
+
+            const sessionUser = getCurrentUser();
+            if (!sessionUser) {
+                showToast('⚠️ Sesión no encontrada', 'error');
+                return;
+            }
+
+            const btn = this.querySelector('.btn-primary');
+            btn.disabled = true;
+            btn.innerHTML = '<span class="spinner-small"></span> Publicando...';
+
+            try {
+                const { data, error } = await supabaseClient
+                    .from('noticias_gastos')
+                    .insert([{
+                        titulo: titulo,
+                        descripcion: descripcion,
+                        tipo: tipo,
+                        monto: monto,
+                        categoria: categoria,
+                        para_todos: true,
+                        fecha_evento: new Date().toISOString(),
+                        created_by: sessionUser.id
+                    }])
+                    .select();
+
+                if (error) throw error;
+
+                showToast('✅ Noticia publicada exitosamente', 'success');
+                closeModal('nuevaNoticiaModal');
+                loadNoticiasAdmin();
+
+                // Notificar a los socios
+                try {
+                    await supabaseClient.from('notificaciones').insert([{
+                        tipo: 'nuevo_gasto',
+                        mensaje: `📰 ${tipo === 'gasto' ? '💰 Gasto' : '📢 Anuncio'}: ${titulo}`,
+                        leida: false,
+                        data: {
+                            noticia_id: data[0].id,
+                            titulo: titulo,
+                            tipo: tipo
+                        }
+                    }]);
+                    console.log('✅ Notificación enviada a socios');
+                } catch (e) {
+                    console.warn('⚠️ Error enviando notificación:', e);
+                }
+
+            } catch (error) {
+                console.error('❌ Error publicando noticia:', error);
+                showToast('❌ Error al publicar: ' + error.message, 'error');
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-save"></i> Publicar';
+            }
+        });
+
+        // ================================================================
+        // 17. EDITAR NOTICIA
+        // ================================================================
+        async function editarNoticia(id) {
+            try {
+                const { data: noticia, error } = await supabaseClient
+                    .from('noticias_gastos')
+                    .select('*')
+                    .eq('id', id)
+                    .single();
+
+                if (error || !noticia) {
+                    showToast('❌ Noticia no encontrada', 'error');
+                    return;
+                }
+
+                document.getElementById('editNoticiaId').value = noticia.id;
+                document.getElementById('editNoticiaTitulo').value = noticia.titulo || '';
+                document.getElementById('editNoticiaDescripcion').value = noticia.descripcion || '';
+                document.getElementById('editNoticiaTipo').value = noticia.tipo || 'anuncio';
+                document.getElementById('editNoticiaMonto').value = noticia.monto || '';
+                document.getElementById('editNoticiaCategoria').value = noticia.categoria || '';
+
+                document.getElementById('editarNoticiaModal').classList.add('active');
+                document.body.style.overflow = 'hidden';
+
+            } catch (error) {
+                console.error('❌ Error cargando noticia:', error);
+                showToast('❌ Error al cargar datos', 'error');
+            }
+        }
+
+        document.getElementById('formEditarNoticia').addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const id = document.getElementById('editNoticiaId').value;
+            const titulo = document.getElementById('editNoticiaTitulo').value.trim();
+            const descripcion = document.getElementById('editNoticiaDescripcion').value.trim();
+            const tipo = document.getElementById('editNoticiaTipo').value;
+            const monto = tipo === 'gasto' ? parseFloat(document.getElementById('editNoticiaMonto').value) || null : null;
+            const categoria = document.getElementById('editNoticiaCategoria').value || null;
+
+            if (!titulo || !descripcion) {
+                showToast('⚠️ Completa todos los campos requeridos', 'warning');
+                return;
+            }
+
+            const btn = this.querySelector('.btn-primary');
+            btn.disabled = true;
+            btn.innerHTML = '<span class="spinner-small"></span> Guardando...';
+
+            try {
+                const { error } = await supabaseClient
+                    .from('noticias_gastos')
+                    .update({
+                        titulo: titulo,
+                        descripcion: descripcion,
+                        tipo: tipo,
+                        monto: monto,
+                        categoria: categoria
+                    })
+                    .eq('id', id);
+
+                if (error) throw error;
+
+                showToast('✅ Noticia actualizada exitosamente', 'success');
+                closeModal('editarNoticiaModal');
+                loadNoticiasAdmin();
+
+            } catch (error) {
+                console.error('❌ Error actualizando noticia:', error);
+                showToast('❌ Error al actualizar: ' + error.message, 'error');
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-save"></i> Guardar Cambios';
+            }
+        });
+
+        // ================================================================
+        // 18. ELIMINAR NOTICIA
+        // ================================================================
+        async function eliminarNoticia(id) {
+            if (!confirm('¿Eliminar esta noticia permanentemente?')) return;
+
+            try {
+                const { error } = await supabaseClient
+                    .from('noticias_gastos')
+                    .delete()
+                    .eq('id', id);
+
+                if (error) throw error;
+
+                showToast('✅ Noticia eliminada', 'success');
+                loadNoticiasAdmin();
+
+            } catch (error) {
+                console.error('❌ Error eliminando noticia:', error);
+                showToast('❌ Error al eliminar: ' + error.message, 'error');
+            }
+        }
+
+        // ================================================================
+        // 19. OTRAS FUNCIONES
         // ================================================================
         function copiarDatosAdmin() {
             var datos =
@@ -1804,7 +2246,7 @@
         }
 
         // ================================================================
-        // 23. CERRAR SESIÓN
+        // 20. CERRAR SESIÓN
         // ================================================================
         function handleLogout() {
             if (!confirm('¿Cerrar sesión?')) return;
@@ -1818,7 +2260,7 @@
         }
 
         // ================================================================
-        // 24. INICIALIZAR
+        // 21. INICIALIZAR
         // ================================================================
         async function initAdmin() {
             console.log('🚀 Iniciando panel de administración...');
@@ -1848,17 +2290,23 @@
             await loadSocios();
             await loadPagos();
             await loadComprobantes();
+            await loadNoticiasAdmin();
             await loadNotificationsFull();
 
             setInterval(function() {
-                loadDashboardData();
+                const tabActivo = document.querySelector('.tab-content.active');
+                if (tabActivo) {
+                    const id = tabActivo.id;
+                    if (id === 'tab-dashboard') loadDashboardData();
+                    if (id === 'tab-noticias') loadNoticiasAdmin();
+                }
             }, 30000);
 
             console.log('✅ Panel de administración listo');
         }
 
         // ================================================================
-        // 25. EVENTOS DE NOTIFICACIONES
+        // 22. EVENTOS DE NOTIFICACIONES
         // ================================================================
         document.getElementById('notificationBell').addEventListener('click', function(e) {
             e.stopPropagation();
@@ -1870,15 +2318,14 @@
         });
 
         // ================================================================
-        // 26. INICIALIZAR
+        // 23. INICIALIZAR
         // ================================================================
         document.addEventListener('DOMContentLoaded', initAdmin);
 
-        console.log('📦 FLY FUTBOLEROS · Panel de Administración (VERSIÓN FINAL)');
-        console.log('✅ ID de socios mostrado correctamente');
-        console.log('✅ Consulta con selección explícita de id');
-        console.log('✅ Todos los errores de renderizado corregidos');
-        console.log('🔗 Conectado a:', SUPABASE_URL);
+        console.log('📦 FLY FUTBOLEROS · Panel de Administración (CON NOTICIAS)');
+        console.log('✅ Gestión de noticias integrada');
+        console.log('✅ Publicación y edición de noticias');
+        console.log('✅ Notificaciones en tiempo real para socios');
     </script>
 
 </body>
