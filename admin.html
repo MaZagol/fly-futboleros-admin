@@ -2024,7 +2024,7 @@
         }
 
         // ================================================================
-        // 14. FINANZAS - SISTEMA DE CAJA
+        // 14. FINANZAS - SISTEMA DE CAJA (VERSIÓN CORREGIDA CON VISTA)
         // ================================================================
         let transaccionesCache = [];
         let finanzasPage = 1;
@@ -2039,9 +2039,10 @@
                 const fechaInicio = document.getElementById('filtroFechaInicio')?.value;
                 const fechaFin = document.getElementById('filtroFechaFin')?.value;
 
+                // ✅ USAR LA VISTA - Solución definitiva al error PGRST201
                 let query = supabaseClient
-                    .from('transacciones')
-                    .select('*, socio:socios(id, nombre, username)', { count: 'exact' })
+                    .from('v_transacciones')
+                    .select('*', { count: 'exact' })
                     .order('fecha', { ascending: false });
 
                 if (tipo !== 'todos') query = query.eq('tipo', tipo);
@@ -2063,13 +2064,13 @@
                 
                 console.log('✅ Transacciones cargadas:', transaccionesCache.length, 'Total:', count || 0);
 
-                await calcularResumenCompleto(tipo, categoria, fechaInicio, fechaFin);
+                await calcularResumenConVista(tipo, categoria, fechaInicio, fechaFin);
                 renderTransacciones(transaccionesCache);
                 renderPaginacionFinanzas(count || 0);
 
             } catch (error) {
                 console.error('❌ Error cargando finanzas:', error);
-                showToast('❌ Error al cargar datos financieros: ' + error.message, 'error');
+                showToast('❌ Error al cargar datos financieros: ' + (error.message || 'Error desconocido'), 'error');
                 const tbody = document.getElementById('transaccionesTableBody');
                 if (tbody) {
                     tbody.innerHTML = `
@@ -2077,25 +2078,27 @@
                             <i class="fas fa-exclamation-triangle" style="font-size:1.5rem;display:block;margin-bottom:8px;color:var(--neon-orange);"></i>
                             Error al cargar transacciones<br>
                             <span style="font-size:0.7rem;">${error.message || 'Error desconocido'}</span>
+                            <br><button class="btn btn-primary btn-sm" onclick="loadFinanzas()" style="margin-top:8px;">
+                                <i class="fas fa-sync"></i> Reintentar
+                            </button>
                         </td></tr>
                     `;
                 }
             }
         }
 
-        async function calcularResumenCompleto(tipo, categoria, fechaInicio, fechaFin) {
+        async function calcularResumenConVista(tipo, categoria, fechaInicio, fechaFin) {
             try {
                 let query = supabaseClient
-                    .from('transacciones')
-                    .select('*');
+                    .from('v_transacciones')
+                    .select('tipo, monto, fecha');
 
                 if (tipo !== 'todos') query = query.eq('tipo', tipo);
                 if (categoria !== 'todos') query = query.eq('categoria', categoria);
                 if (fechaInicio) query = query.gte('fecha', fechaInicio + ' 00:00:00');
                 if (fechaFin) query = query.lte('fecha', fechaFin + ' 23:59:59');
 
-                const { data: todas, error } = await query;
-
+                const { data, error } = await query;
                 if (error) throw error;
 
                 let ingresos = 0;
@@ -2105,12 +2108,11 @@
                 const añoActual = hoy.getFullYear();
                 let ingresosMes = 0;
 
-                (todas || []).forEach(t => {
-                    const fecha = new Date(t.fecha);
+                (data || []).forEach(t => {
                     const monto = Number(t.monto) || 0;
-                    
                     if (t.tipo === 'ingreso') {
                         ingresos += monto;
+                        const fecha = new Date(t.fecha);
                         if (fecha.getMonth() === mesActual && fecha.getFullYear() === añoActual) {
                             ingresosMes += monto;
                         }
@@ -2156,8 +2158,9 @@
                 const tipoColor = t.tipo === 'ingreso' ? 'var(--neon-green)' : 'var(--neon-pink)';
                 const tipoClase = t.tipo === 'ingreso' ? 'transaccion-ingreso' : 'transaccion-egreso';
                 
-                const socioNombre = t.socio ? t.socio.nombre : 'N/A';
-                const socioUsername = t.socio ? t.socio.username : '';
+                // ✅ Los nombres vienen directamente de la vista
+                const socioNombre = t.socio_nombre || 'N/A';
+                const socioUsername = t.socio_username || '';
                 
                 const fecha = new Date(t.fecha).toLocaleDateString('es', {
                     day: '2-digit',
@@ -2270,6 +2273,7 @@
                     throw error;
                 }
 
+                // Si es un egreso, crear noticia automática
                 if (tipo === 'egreso' && data && data[0]) {
                     try {
                         await supabaseClient
@@ -2290,6 +2294,7 @@
                     }
                 }
 
+                // Notificar si aplica a un socio
                 if (socioId) {
                     try {
                         const { data: socio } = await supabaseClient
@@ -2354,9 +2359,10 @@
 
         async function verTransaccion(id) {
             try {
+                // Usar la vista para obtener los datos
                 const { data: transaccion, error } = await supabaseClient
-                    .from('transacciones')
-                    .select('*, socio:socios(id, nombre, username, email, telefono)')
+                    .from('v_transacciones')
+                    .select('*')
                     .eq('id', id)
                     .single();
 
@@ -2364,12 +2370,6 @@
                     showToast('❌ Transacción no encontrada', 'error');
                     return;
                 }
-
-                const { data: creador } = await supabaseClient
-                    .from('socios')
-                    .select('nombre, username')
-                    .eq('id', transaccion.created_by)
-                    .single();
 
                 const fecha = new Date(transaccion.fecha).toLocaleString('es', {
                     day: '2-digit',
@@ -2414,14 +2414,13 @@
                         </div>
                         <div class="stat-card" style="padding:12px;">
                             <div style="font-size:0.5rem;color:var(--text-muted);text-transform:uppercase;">Registrado por</div>
-                            <div style="font-size:0.7rem;">${creador ? creador.nombre + ' (@' + creador.username + ')' : 'N/A'}</div>
+                            <div style="font-size:0.7rem;">${transaccion.creador_nombre || 'N/A'} ${transaccion.creador_username ? '(@'+transaccion.creador_username+')' : ''}</div>
                         </div>
                     </div>
-                    ${transaccion.socio ? `
+                    ${transaccion.socio_nombre ? `
                         <div class="stat-card" style="padding:12px;margin-top:10px;border-color:rgba(0,212,255,0.1);">
                             <div style="font-size:0.5rem;color:var(--text-muted);text-transform:uppercase;">Socio relacionado</div>
-                            <div style="font-size:0.75rem;font-weight:600;">${transaccion.socio.nombre} (@${transaccion.socio.username})</div>
-                            <div style="font-size:0.65rem;color:var(--text-muted);">${transaccion.socio.email || ''} ${transaccion.socio.telefono ? '· ' + transaccion.socio.telefono : ''}</div>
+                            <div style="font-size:0.75rem;font-weight:600;">${transaccion.socio_nombre} (@${transaccion.socio_username || ''})</div>
                         </div>
                     ` : ''}
                     <div style="display:flex;gap:8px;margin-top:14px;">
@@ -2530,7 +2529,7 @@
                 let csv = 'Fecha,Tipo,Categoría,Descripción,Monto,Socio,Metodo\n';
                 transaccionesCache.forEach(t => {
                     const fecha = new Date(t.fecha).toLocaleDateString('es');
-                    const socioNombre = t.socio ? t.socio.nombre : 'N/A';
+                    const socioNombre = t.socio_nombre || 'N/A';
                     csv += `${fecha},${t.tipo},${t.categoria || ''},"${t.descripcion || ''}",${Number(t.monto).toLocaleString()},${socioNombre},${t.metodo_pago || ''}\n`;
                 });
 
@@ -2947,9 +2946,10 @@
         // ================================================================
         document.addEventListener('DOMContentLoaded', initAdmin);
 
-        console.log('📦 FLY FUTBOLEROS · Panel de Administración (CON SISTEMA DE CAJA)');
+        console.log('📦 FLY FUTBOLEROS · Panel de Administración (CON SISTEMA DE CAJA Y VISTA)');
         console.log('✅ Gestión de noticias integrada');
         console.log('✅ Sistema de caja con ingresos y egresos');
+        console.log('✅ Vista v_transacciones para evitar errores de relación');
         console.log('✅ Reportes exportables a CSV');
         console.log('✅ Notificaciones en tiempo real para socios');
     </script>
