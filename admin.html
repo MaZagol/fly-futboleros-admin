@@ -2024,7 +2024,7 @@
         }
 
         // ================================================================
-        // 14. FINANZAS - SISTEMA DE CAJA (VERSIÓN CORREGIDA CON VISTA)
+        // 14. FINANZAS - SISTEMA DE CAJA CORREGIDO
         // ================================================================
         let transaccionesCache = [];
         let finanzasPage = 1;
@@ -2039,32 +2039,114 @@
                 const fechaInicio = document.getElementById('filtroFechaInicio')?.value;
                 const fechaFin = document.getElementById('filtroFechaFin')?.value;
 
-                // ✅ USAR LA VISTA - Solución definitiva al error PGRST201
-                let query = supabaseClient
-                    .from('v_transacciones')
-                    .select('*', { count: 'exact' })
-                    .order('fecha', { ascending: false });
+                // ✅ USAR VISTA O TABLA DIRECTAMENTE
+                let usarVista = false;
+                try {
+                    const { error: testError } = await supabaseClient
+                        .from('v_transacciones')
+                        .select('id')
+                        .limit(1);
+                    
+                    if (!testError) {
+                        usarVista = true;
+                        console.log('✅ Usando vista v_transacciones');
+                    }
+                } catch (e) {
+                    console.warn('⚠️ Vista no disponible, usando tabla directamente');
+                }
 
-                if (tipo !== 'todos') query = query.eq('tipo', tipo);
-                if (categoria !== 'todos') query = query.eq('categoria', categoria);
-                if (fechaInicio) query = query.gte('fecha', fechaInicio + ' 00:00:00');
-                if (fechaFin) query = query.lte('fecha', fechaFin + ' 23:59:59');
+                let transacciones = [];
+                let count = 0;
 
-                const start = (finanzasPage - 1) * finanzasPageSize;
-                const end = start + finanzasPageSize - 1;
+                if (usarVista) {
+                    let query = supabaseClient
+                        .from('v_transacciones')
+                        .select('*', { count: 'exact' })
+                        .order('fecha', { ascending: false });
 
-                const { data: transacciones, error, count } = await query.range(start, end);
+                    if (tipo !== 'todos') query = query.eq('tipo', tipo);
+                    if (categoria !== 'todos') query = query.eq('categoria', categoria);
+                    if (fechaInicio) query = query.gte('fecha', fechaInicio + ' 00:00:00');
+                    if (fechaFin) query = query.lte('fecha', fechaFin + ' 23:59:59');
 
-                if (error) {
-                    console.error('❌ Error en consulta:', error);
-                    throw error;
+                    const start = (finanzasPage - 1) * finanzasPageSize;
+                    const end = start + finanzasPageSize - 1;
+
+                    const { data, error, count: total } = await query.range(start, end);
+
+                    if (error) {
+                        console.warn('⚠️ Error con vista, usando tabla:', error);
+                        usarVista = false;
+                    } else {
+                        transacciones = data || [];
+                        count = total || 0;
+                    }
+                }
+
+                if (!usarVista) {
+                    console.log('🔄 Usando tabla transacciones directamente...');
+                    
+                    let query = supabaseClient
+                        .from('transacciones')
+                        .select('*', { count: 'exact' })
+                        .order('fecha', { ascending: false });
+
+                    if (tipo !== 'todos') query = query.eq('tipo', tipo);
+                    if (categoria !== 'todos') query = query.eq('categoria', categoria);
+                    if (fechaInicio) query = query.gte('fecha', fechaInicio + ' 00:00:00');
+                    if (fechaFin) query = query.lte('fecha', fechaFin + ' 23:59:59');
+
+                    const start = (finanzasPage - 1) * finanzasPageSize;
+                    const end = start + finanzasPageSize - 1;
+
+                    const { data, error, count: total } = await query.range(start, end);
+
+                    if (error) throw error;
+
+                    transacciones = data || [];
+                    count = total || 0;
+
+                    // ✅ OBTENER NOMBRES DE SOCIOS POR SEPARADO
+                    if (transacciones.length > 0) {
+                        const socioIds = transacciones
+                            .filter(t => t.socio_id)
+                            .map(t => t.socio_id);
+                        
+                        const creadorIds = transacciones
+                            .filter(t => t.created_by)
+                            .map(t => t.created_by);
+
+                        const todosIds = [...new Set([...socioIds, ...creadorIds])];
+
+                        let sociosMap = {};
+                        if (todosIds.length > 0) {
+                            const { data: socios } = await supabaseClient
+                                .from('socios')
+                                .select('id, nombre, username')
+                                .in('id', todosIds);
+                            
+                            if (socios) {
+                                socios.forEach(s => {
+                                    sociosMap[s.id] = s;
+                                });
+                            }
+                        }
+
+                        transacciones = transacciones.map(t => ({
+                            ...t,
+                            socio_nombre: t.socio_id ? (sociosMap[t.socio_id]?.nombre || 'N/A') : null,
+                            socio_username: t.socio_id ? (sociosMap[t.socio_id]?.username || '') : null,
+                            creador_nombre: t.created_by ? (sociosMap[t.created_by]?.nombre || 'N/A') : null,
+                            creador_username: t.created_by ? (sociosMap[t.created_by]?.username || '') : null
+                        }));
+                    }
                 }
 
                 transaccionesCache = transacciones || [];
                 
-                console.log('✅ Transacciones cargadas:', transaccionesCache.length, 'Total:', count || 0);
+                console.log('✅ Transacciones cargadas:', transaccionesCache.length, 'Total:', count);
 
-                await calcularResumenConVista(tipo, categoria, fechaInicio, fechaFin);
+                await calcularResumen(tipo, categoria, fechaInicio, fechaFin);
                 renderTransacciones(transaccionesCache);
                 renderPaginacionFinanzas(count || 0);
 
@@ -2087,11 +2169,11 @@
             }
         }
 
-        async function calcularResumenConVista(tipo, categoria, fechaInicio, fechaFin) {
+        async function calcularResumen(tipo, categoria, fechaInicio, fechaFin) {
             try {
                 let query = supabaseClient
-                    .from('v_transacciones')
-                    .select('tipo, monto, fecha');
+                    .from('transacciones')
+                    .select('*');
 
                 if (tipo !== 'todos') query = query.eq('tipo', tipo);
                 if (categoria !== 'todos') query = query.eq('categoria', categoria);
@@ -2109,7 +2191,9 @@
                 let ingresosMes = 0;
 
                 (data || []).forEach(t => {
+                    // ✅ CORRECCIÓN: Asegurar que el monto sea número
                     const monto = Number(t.monto) || 0;
+                    
                     if (t.tipo === 'ingreso') {
                         ingresos += monto;
                         const fecha = new Date(t.fecha);
@@ -2123,10 +2207,10 @@
 
                 const saldo = ingresos - egresos;
 
-                document.getElementById('totalIngresos').textContent = 'Gs. ' + ingresos.toLocaleString();
-                document.getElementById('totalEgresos').textContent = 'Gs. ' + egresos.toLocaleString();
-                document.getElementById('saldoActual').textContent = 'Gs. ' + saldo.toLocaleString();
-                document.getElementById('ingresosMes').textContent = 'Gs. ' + ingresosMes.toLocaleString();
+                document.getElementById('totalIngresos').textContent = 'Gs. ' + ingresos.toLocaleString('es');
+                document.getElementById('totalEgresos').textContent = 'Gs. ' + egresos.toLocaleString('es');
+                document.getElementById('saldoActual').textContent = 'Gs. ' + saldo.toLocaleString('es');
+                document.getElementById('ingresosMes').textContent = 'Gs. ' + ingresosMes.toLocaleString('es');
 
                 const saldoEl = document.getElementById('saldoActual');
                 if (saldoEl) {
@@ -2158,7 +2242,6 @@
                 const tipoColor = t.tipo === 'ingreso' ? 'var(--neon-green)' : 'var(--neon-pink)';
                 const tipoClase = t.tipo === 'ingreso' ? 'transaccion-ingreso' : 'transaccion-egreso';
                 
-                // ✅ Los nombres vienen directamente de la vista
                 const socioNombre = t.socio_nombre || 'N/A';
                 const socioUsername = t.socio_username || '';
                 
@@ -2170,7 +2253,12 @@
                     minute: '2-digit'
                 });
 
-                const montoFormateado = Number(t.monto).toLocaleString();
+                // ✅ CORRECCIÓN: Asegurar que el monto sea número
+                const montoNum = Number(t.monto) || 0;
+                const montoFormateado = montoNum.toLocaleString('es', {
+                    minimumFractionDigits: 0,
+                    maximumFractionDigits: 0
+                });
 
                 return `
                     <tr class="${tipoClase}">
@@ -2229,7 +2317,7 @@
             const socioId = document.getElementById('transaccionSocio').value || null;
             const metodoPago = document.getElementById('transaccionMetodo').value;
 
-            if (!categoria || !descripcion || !monto || monto <= 0) {
+            if (!categoria || !descripcion || !monto || monto <= 0 || isNaN(monto)) {
                 showToast('⚠️ Completa todos los campos requeridos', 'warning');
                 return;
             }
@@ -2352,23 +2440,80 @@
             modal.classList.add('active');
             document.body.style.overflow = 'hidden';
             
-            if (document.getElementById('transaccionCategoria').options.length <= 1) {
-                cargarCategoriasYSocios();
-            }
+            // Cargar categorías y socios
+            cargarCategoriasYSocios();
         }
 
         async function verTransaccion(id) {
             try {
-                // Usar la vista para obtener los datos
-                const { data: transaccion, error } = await supabaseClient
-                    .from('v_transacciones')
-                    .select('*')
-                    .eq('id', id)
-                    .single();
+                // Intentar usar la vista primero
+                let transaccion = null;
+                let error = null;
+                
+                try {
+                    const { data, error: viewError } = await supabaseClient
+                        .from('v_transacciones')
+                        .select('*')
+                        .eq('id', id)
+                        .single();
+                    
+                    if (!viewError && data) {
+                        transaccion = data;
+                    } else {
+                        error = viewError;
+                    }
+                } catch (e) {
+                    error = e;
+                }
 
-                if (error || !transaccion) {
-                    showToast('❌ Transacción no encontrada', 'error');
-                    return;
+                // Si la vista falló, usar la tabla
+                if (!transaccion) {
+                    const { data, error: tableError } = await supabaseClient
+                        .from('transacciones')
+                        .select('*')
+                        .eq('id', id)
+                        .single();
+
+                    if (tableError || !data) {
+                        showToast('❌ Transacción no encontrada', 'error');
+                        return;
+                    }
+
+                    // Obtener nombres de socios
+                    let socioNombre = null, socioUsername = null;
+                    let creadorNombre = null, creadorUsername = null;
+
+                    if (data.socio_id) {
+                        const { data: socio } = await supabaseClient
+                            .from('socios')
+                            .select('nombre, username')
+                            .eq('id', data.socio_id)
+                            .single();
+                        if (socio) {
+                            socioNombre = socio.nombre;
+                            socioUsername = socio.username;
+                        }
+                    }
+
+                    if (data.created_by) {
+                        const { data: creador } = await supabaseClient
+                            .from('socios')
+                            .select('nombre, username')
+                            .eq('id', data.created_by)
+                            .single();
+                        if (creador) {
+                            creadorNombre = creador.nombre;
+                            creadorUsername = creador.username;
+                        }
+                    }
+
+                    transaccion = {
+                        ...data,
+                        socio_nombre: socioNombre,
+                        socio_username: socioUsername,
+                        creador_nombre: creadorNombre,
+                        creador_username: creadorUsername
+                    };
                 }
 
                 const fecha = new Date(transaccion.fecha).toLocaleString('es', {
@@ -2377,6 +2522,12 @@
                     year: 'numeric',
                     hour: '2-digit',
                     minute: '2-digit'
+                });
+
+                const montoNum = Number(transaccion.monto) || 0;
+                const montoFormateado = montoNum.toLocaleString('es', {
+                    minimumFractionDigits: 0,
+                    maximumFractionDigits: 0
                 });
 
                 const cuerpo = document.getElementById('verTransaccionBody');
@@ -2391,7 +2542,7 @@
                         <div class="stat-card" style="padding:12px;">
                             <div style="font-size:0.5rem;color:var(--text-muted);text-transform:uppercase;">Monto</div>
                             <div style="font-size:0.85rem;font-weight:700;color:${transaccion.tipo === 'ingreso' ? 'var(--neon-green)' : 'var(--neon-pink)'};">
-                                ${transaccion.tipo === 'ingreso' ? '+' : '-'} Gs. ${Number(transaccion.monto).toLocaleString()}
+                                ${transaccion.tipo === 'ingreso' ? '+' : '-'} Gs. ${montoFormateado}
                             </div>
                         </div>
                         <div class="stat-card" style="padding:12px;">
@@ -2420,7 +2571,7 @@
                     ${transaccion.socio_nombre ? `
                         <div class="stat-card" style="padding:12px;margin-top:10px;border-color:rgba(0,212,255,0.1);">
                             <div style="font-size:0.5rem;color:var(--text-muted);text-transform:uppercase;">Socio relacionado</div>
-                            <div style="font-size:0.75rem;font-weight:600;">${transaccion.socio_nombre} (@${transaccion.socio_username || ''})</div>
+                            <div style="font-size:0.75rem;font-weight:600;">${transaccion.socio_nombre} ${transaccion.socio_username ? '(@'+transaccion.socio_username+')' : ''}</div>
                         </div>
                     ` : ''}
                     <div style="display:flex;gap:8px;margin-top:14px;">
@@ -2463,50 +2614,102 @@
 
         async function cargarCategoriasYSocios() {
             try {
+                console.log('🔄 Cargando categorías y socios...');
+
+                // Cargar categorías
                 const { data: categorias, error: catError } = await supabaseClient
                     .from('categorias_gastos')
                     .select('*')
                     .order('nombre');
 
-                if (!catError && categorias) {
-                    const selectCategoria = document.getElementById('transaccionCategoria');
-                    const selectFiltro = document.getElementById('filtroCategoria');
-                    
-                    selectCategoria.innerHTML = '<option value="">Seleccionar categoría...</option>';
-                    selectFiltro.innerHTML = '<option value="todos">📂 Todas las categorías</option>';
-                    
+                if (catError) {
+                    console.error('❌ Error cargando categorías:', catError);
+                    // Insertar categorías por defecto si no hay
+                    await insertarCategoriasDefault();
+                    // Recargar
+                    setTimeout(() => cargarCategoriasYSocios(), 500);
+                    return;
+                }
+
+                const selectCategoria = document.getElementById('transaccionCategoria');
+                const selectFiltro = document.getElementById('filtroCategoria');
+                
+                selectCategoria.innerHTML = '<option value="">Seleccionar categoría...</option>';
+                selectFiltro.innerHTML = '<option value="todos">📂 Todas las categorías</option>';
+                
+                if (categorias && categorias.length > 0) {
                     categorias.forEach(c => {
                         const opt1 = document.createElement('option');
                         opt1.value = c.nombre;
-                        opt1.textContent = c.nombre;
+                        opt1.textContent = `${c.icono || '📌'} ${c.nombre}`;
                         selectCategoria.appendChild(opt1);
                         
                         const opt2 = document.createElement('option');
                         opt2.value = c.nombre;
-                        opt2.textContent = c.nombre;
+                        opt2.textContent = `${c.icono || '📌'} ${c.nombre}`;
                         selectFiltro.appendChild(opt2);
                     });
+                    console.log('✅ Categorías cargadas:', categorias.length);
+                } else {
+                    console.log('⚠️ No hay categorías, insertando predeterminadas...');
+                    await insertarCategoriasDefault();
+                    setTimeout(() => cargarCategoriasYSocios(), 500);
+                    return;
                 }
 
+                // Cargar socios
                 const { data: socios, error: socError } = await supabaseClient
                     .from('socios')
                     .select('id, nombre, username')
                     .order('nombre');
 
-                if (!socError && socios) {
-                    const selectSocio = document.getElementById('transaccionSocio');
-                    selectSocio.innerHTML = '<option value="">Ninguno</option>';
-                    
+                if (socError) {
+                    console.error('❌ Error cargando socios:', socError);
+                }
+
+                const selectSocio = document.getElementById('transaccionSocio');
+                selectSocio.innerHTML = '<option value="">Ninguno</option>';
+                
+                if (socios) {
                     socios.forEach(s => {
                         const option = document.createElement('option');
                         option.value = s.id;
                         option.textContent = `${s.nombre} (@${s.username})`;
                         selectSocio.appendChild(option);
                     });
+                    console.log('✅ Socios cargados:', socios.length);
                 }
 
             } catch (error) {
                 console.error('❌ Error cargando selectores:', error);
+                showToast('⚠️ Error cargando categorías. Intenta recargar.', 'warning');
+            }
+        }
+
+        async function insertarCategoriasDefault() {
+            try {
+                const categoriasDefault = [
+                    { nombre: 'Material Deportivo', icono: '⚽', color: '#00d4ff' },
+                    { nombre: 'Alquiler de Cancha', icono: '🏟️', color: '#ff6a00' },
+                    { nombre: 'Inscripciones', icono: '📝', color: '#8b3cff' },
+                    { nombre: 'Premios y Trofeos', icono: '🏆', color: '#ffd700' },
+                    { nombre: 'Refrigerios', icono: '🍕', color: '#00ff7f' },
+                    { nombre: 'Eventos', icono: '🎉', color: '#ff2d8a' },
+                    { nombre: 'Mantenimiento', icono: '🔧', color: '#ff6a00' },
+                    { nombre: 'Otros', icono: '📦', color: '#9a9ab0' }
+                ];
+
+                const { error } = await supabaseClient
+                    .from('categorias_gastos')
+                    .insert(categoriasDefault);
+
+                if (error) {
+                    console.error('❌ Error insertando categorías:', error);
+                } else {
+                    console.log('✅ Categorías insertadas correctamente');
+                }
+            } catch (error) {
+                console.error('❌ Error:', error);
             }
         }
 
@@ -2530,7 +2733,8 @@
                 transaccionesCache.forEach(t => {
                     const fecha = new Date(t.fecha).toLocaleDateString('es');
                     const socioNombre = t.socio_nombre || 'N/A';
-                    csv += `${fecha},${t.tipo},${t.categoria || ''},"${t.descripcion || ''}",${Number(t.monto).toLocaleString()},${socioNombre},${t.metodo_pago || ''}\n`;
+                    const monto = Number(t.monto) || 0;
+                    csv += `${fecha},${t.tipo},${t.categoria || ''},"${t.descripcion || ''}",${monto},${socioNombre},${t.metodo_pago || ''}\n`;
                 });
 
                 const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
@@ -2603,6 +2807,7 @@
                     });
                     const tipoClase = n.tipo === 'gasto' ? 'gasto' : 'anuncio';
                     const icono = n.tipo === 'gasto' ? '💰' : '📢';
+                    const montoNum = Number(n.monto) || 0;
 
                     return `
                         <div class="noticia-card">
@@ -2613,7 +2818,7 @@
                                         <span><i class="far fa-calendar-alt"></i> ${fechaStr}</span>
                                         <span><i class="fas fa-tag"></i> ${n.tipo || 'Anuncio'}</span>
                                         ${n.categoria ? `<span><i class="fas fa-folder"></i> ${n.categoria}</span>` : ''}
-                                        ${n.monto ? `<span><i class="fas fa-money-bill-wave"></i> Gs. ${Number(n.monto).toLocaleString()}</span>` : ''}
+                                        ${n.monto ? `<span><i class="fas fa-money-bill-wave"></i> Gs. ${montoNum.toLocaleString()}</span>` : ''}
                                     </div>
                                 </div>
                                 <div>
@@ -2622,7 +2827,7 @@
                             </div>
                             <div class="noticia-body">
                                 ${n.descripcion || 'Sin descripción'}
-                                ${n.monto ? `<div class="monto">💰 Gasto: Gs. ${Number(n.monto).toLocaleString()}</div>` : ''}
+                                ${n.monto ? `<div class="monto">💰 Gasto: Gs. ${montoNum.toLocaleString()}</div>` : ''}
                             </div>
                             <div class="noticia-actions">
                                 <button class="btn btn-primary btn-sm" onclick="editarNoticia('${n.id}')">
@@ -2946,10 +3151,10 @@
         // ================================================================
         document.addEventListener('DOMContentLoaded', initAdmin);
 
-        console.log('📦 FLY FUTBOLEROS · Panel de Administración (CON SISTEMA DE CAJA Y VISTA)');
+        console.log('📦 FLY FUTBOLEROS · Panel de Administración (SISTEMA COMPLETO)');
         console.log('✅ Gestión de noticias integrada');
         console.log('✅ Sistema de caja con ingresos y egresos');
-        console.log('✅ Vista v_transacciones para evitar errores de relación');
+        console.log('✅ Montos formateados correctamente');
         console.log('✅ Reportes exportables a CSV');
         console.log('✅ Notificaciones en tiempo real para socios');
     </script>
