@@ -47,32 +47,6 @@
         .glass-card:hover{border-color:rgba(0,212,255,0.1)}
         .glass-card::before{content:'';position:absolute;inset:-1px;border-radius:var(--radius);padding:1px;background:var(--gradient-primary);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;opacity:0.04;pointer-events:none}
         .glass-card:active{transform:scale(0.99)}
-        .profile-header{display:flex;align-items:center;gap:20px;flex-wrap:wrap}
-        .profile-avatar{position:relative;flex-shrink:0}
-        .profile-avatar img{width:clamp(80px,12vw,100px);height:clamp(80px,12vw,100px);border-radius:50%;object-fit:cover;border:2px solid var(--neon-blue);box-shadow:0 0 30px rgba(0,212,255,0.06);background:#111122;transition:var(--transition-fast)}
-        .profile-avatar img:hover{border-color:var(--neon-purple)}
-        .profile-avatar .edit-btn{position:absolute;bottom:0;right:0;background:var(--gradient-primary);border:none;border-radius:50%;width:32px;height:32px;color:#fff;font-size:0.7rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:var(--transition-fast);box-shadow:0 0 20px rgba(0,212,255,0.08);z-index:2}
-        .profile-avatar .edit-btn:active{transform:scale(0.85)}
-        .profile-avatar .edit-btn:hover{transform:scale(1.05)}
-        .profile-avatar .edit-btn.loading{opacity:0.5;pointer-events:none}
-        .profile-info h1{font-size:clamp(1.1rem,2.5vw,1.4rem);font-weight:700;color:#ffffff;text-shadow:0 0 40px rgba(0,212,255,0.05)}
-        .profile-info p{color:var(--text-secondary);font-size:clamp(0.7rem,1.2vw,0.85rem);margin:2px 0}
-        .profile-info p strong{color:#d0d0e8;font-weight:600}
-        .badge{display:inline-block;padding:2px 10px;border-radius:12px;font-size:clamp(0.45rem,1vw,0.6rem);font-weight:700;text-transform:uppercase;letter-spacing:0.5px}
-        .badge-active{background:rgba(0,255,127,0.12);color:#44ffbb;border:1px solid rgba(0,255,127,0.2);box-shadow:0 0 20px rgba(0,255,127,0.04)}
-        .badge-pending{background:rgba(255,106,0,0.12);color:#ff9944;border:1px solid rgba(255,106,0,0.2);box-shadow:0 0 20px rgba(255,106,0,0.04)}
-        .badge-suspended{background:rgba(255,45,138,0.12);color:#ff6699;border:1px solid rgba(255,45,138,0.2);box-shadow:0 0 20px rgba(255,45,138,0.04)}
-        .badge-expired{background:rgba(255,45,138,0.12);color:#ff6699;border:1px solid rgba(255,45,138,0.2);box-shadow:0 0 20px rgba(255,45,138,0.04)}
-        .badge-warning{background:rgba(255,106,0,0.12);color:#ff9944;border:1px solid rgba(255,106,0,0.2)}
-        .socio-table{width:100%;border-collapse:collapse;font-size:clamp(0.6rem,1.1vw,0.75rem)}
-        .socio-table th{padding:8px 10px;text-align:left;color:var(--text-secondary);font-weight:600;font-size:clamp(0.45rem,0.9vw,0.6rem);text-transform:uppercase;letter-spacing:0.5px;border-bottom:1px solid var(--border-glow)}
-        .socio-table td{padding:6px 10px;border-bottom:1px solid rgba(255,255,255,0.015);vertical-align:middle;color:#c8c8dd}
-        .table-container{overflow-x:auto;-webkit-overflow-scrolling:touch}
-        .recordatorio{padding:14px 18px;border:1px solid rgba(255,106,0,0.12);background:rgba(255,106,0,0.02);border-radius:var(--radius);margin-bottom:16px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;transition:var(--transition-fast)}
-        .recordatorio:hover{border-color:rgba(255,106,0,0.2)}
-        .recordatorio i{color:var(--neon-orange);font-size:1.3rem;flex-shrink:0}
-        .recordatorio .content h4{color:#ff8833;font-size:clamp(0.75rem,1.2vw,0.9rem)}
-        .recordatorio .content p{color:#d0d0e0;font-size:clamp(0.65rem,1vw,0.8rem)}
         .modal{position:fixed;inset:0;background:rgba(0,0,0,0.85);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);z-index:2000;display:none;align-items:center;justify-content:center;padding:16px}
         .modal.active{display:flex}
         .modal-content{width:100%;max-width:500px;max-height:90vh;overflow-y:auto;background:rgba(6,6,14,0.98);border:1px solid var(--border-glow);border-radius:var(--radius);padding:0;animation:fadeInUp 0.3s ease;box-shadow:var(--shadow-card)}
@@ -435,107 +409,6 @@
             margin-bottom: 6px;
         }
 
-        .comprobante-futurista {
-            position: relative;
-            background: linear-gradient(135deg, rgba(0,212,255,0.03), rgba(139,60,255,0.03));
-            border: 1px solid rgba(0,212,255,0.15);
-            border-radius: var(--radius-sm);
-            padding: 16px;
-            margin-top: 12px;
-            transition: all 0.4s ease;
-            overflow: hidden;
-        }
-        .comprobante-futurista::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: conic-gradient(from 0deg at 50% 50%, rgba(0,212,255,0.05), rgba(139,60,255,0.05), rgba(0,212,255,0.05));
-            animation: comprobante-glow 6s linear infinite;
-            opacity: 0;
-            transition: opacity 0.5s ease;
-        }
-        .comprobante-futurista:hover::before { opacity: 1; }
-        .comprobante-futurista:hover {
-            border-color: rgba(0,212,255,0.3);
-            box-shadow: 0 0 40px rgba(0,212,255,0.05);
-        }
-        @keyframes comprobante-glow {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        .comprobante-futurista .drop-zone {
-            position: relative;
-            z-index: 1;
-            border: 2px dashed rgba(0,212,255,0.2);
-            border-radius: var(--radius-xs);
-            padding: 20px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            background: rgba(0,0,0,0.2);
-        }
-        .comprobante-futurista .drop-zone:hover {
-            border-color: rgba(0,212,255,0.5);
-            background: rgba(0,212,255,0.03);
-        }
-        .comprobante-futurista .drop-zone .icon-wrapper {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 56px;
-            height: 56px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, rgba(0,212,255,0.1), rgba(139,60,255,0.1));
-            border: 1px solid rgba(0,212,255,0.1);
-            margin-bottom: 8px;
-            transition: all 0.3s ease;
-        }
-        .comprobante-futurista .drop-zone:hover .icon-wrapper {
-            transform: scale(1.05);
-            border-color: rgba(0,212,255,0.3);
-        }
-        .comprobante-futurista .drop-zone .icon-wrapper i { font-size: 1.6rem; color: var(--neon-blue); }
-        .comprobante-futurista .drop-zone p { font-size: 0.75rem; color: var(--text-secondary); margin: 0; }
-        .comprobante-futurista .drop-zone .sub-text { font-size: 0.55rem; color: var(--text-muted); margin-top: 4px; }
-        .comprobante-futurista .file-info {
-            position: relative;
-            z-index: 1;
-            margin-top: 10px;
-            padding: 10px 14px;
-            background: rgba(0,212,255,0.04);
-            border: 1px solid rgba(0,212,255,0.06);
-            border-radius: var(--radius-xs);
-            display: none;
-            align-items: center;
-            gap: 12px;
-        }
-        .comprobante-futurista .file-info.show { display: flex; }
-        .comprobante-futurista .file-info .file-icon { font-size: 1.2rem; color: var(--neon-blue); }
-        .comprobante-futurista .file-info .file-name {
-            flex: 1;
-            font-size: 0.7rem;
-            color: var(--text-primary);
-            word-break: break-all;
-        }
-        .comprobante-futurista .file-info .file-remove {
-            color: var(--neon-pink);
-            cursor: pointer;
-            font-size: 0.8rem;
-            padding: 4px;
-            transition: all 0.2s ease;
-        }
-        .comprobante-futurista .file-info .file-remove:hover { transform: scale(1.2); }
-        .comprobante-futurista .file-info .file-status {
-            font-size: 0.55rem;
-            color: var(--neon-green);
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
         .fechas-footer {
             position: fixed;
             bottom: calc(var(--bottom-nav-height) + 10px);
@@ -808,6 +681,432 @@
             animation: noticiaNueva 2s ease;
         }
 
+        /* ================================================================
+           PERFIL FUTURISTA - ESTILOS
+           ================================================================ */
+
+        /* Fondo animado del perfil */
+        .perfil-futurista {
+            position: relative;
+            overflow: hidden;
+            background: radial-gradient(ellipse at 30% 20%, rgba(0,212,255,0.04) 0%, transparent 60%),
+                        radial-gradient(ellipse at 70% 80%, rgba(139,60,255,0.04) 0%, transparent 60%),
+                        var(--bg-card);
+            border: 1px solid rgba(0,212,255,0.08);
+        }
+
+        .perfil-bg-animado {
+            position: absolute;
+            inset: 0;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(0,212,255,0.03) 0%, transparent 50%),
+                radial-gradient(circle at 80% 50%, rgba(139,60,255,0.03) 0%, transparent 50%);
+            animation: perfilBgPulse 8s ease-in-out infinite alternate;
+            z-index: 0;
+        }
+
+        @keyframes perfilBgPulse {
+            0% { opacity: 0.5; transform: scale(1); }
+            100% { opacity: 1; transform: scale(1.05); }
+        }
+
+        /* Header del perfil */
+        .profile-header-futurista {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            margin-bottom: 24px;
+            position: relative;
+            z-index: 1;
+            flex-wrap: wrap;
+        }
+
+        @media(max-width:480px) {
+            .profile-header-futurista {
+                flex-direction: column;
+                text-align: center;
+                gap: 16px;
+            }
+        }
+
+        /* Avatar futurista */
+        .profile-avatar-futurista {
+            position: relative;
+            flex-shrink: 0;
+            width: 100px;
+            height: 100px;
+        }
+
+        .profile-avatar-futurista img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid rgba(0,212,255,0.2);
+            box-shadow: 0 0 40px rgba(0,212,255,0.05);
+            background: #111122;
+            transition: all 0.4s ease;
+        }
+
+        .profile-avatar-futurista img:hover {
+            border-color: rgba(0,212,255,0.4);
+            box-shadow: 0 0 60px rgba(0,212,255,0.08);
+        }
+
+        /* Anillo alrededor del avatar */
+        .avatar-ring {
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            width: 120px;
+            height: 120px;
+            transform: rotate(-90deg);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .avatar-ring-progress {
+            transition: stroke-dashoffset 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        /* Botón editar avatar */
+        .edit-btn-futurista {
+            position: absolute;
+            bottom: 4px;
+            right: 4px;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--gradient-primary);
+            border: 2px solid var(--bg-deep);
+            color: #fff;
+            font-size: 0.7rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 30px rgba(0,212,255,0.1);
+            z-index: 2;
+        }
+
+        .edit-btn-futurista:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 50px rgba(0,212,255,0.2);
+        }
+
+        .edit-btn-futurista:active {
+            transform: scale(0.85);
+        }
+
+        /* Info del perfil */
+        .profile-info-futurista {
+            flex: 1;
+        }
+
+        .nombre-badge {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .nombre-badge h1 {
+            font-size: clamp(1.2rem, 2.5vw, 1.6rem);
+            font-weight: 800;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.5px;
+        }
+
+        .badge-role {
+            font-size: 0.5rem;
+            font-weight: 700;
+            padding: 2px 12px;
+            border-radius: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            background: rgba(0,212,255,0.06);
+            color: var(--neon-blue);
+            border: 1px solid rgba(0,212,255,0.1);
+        }
+
+        .username-futurista {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            margin-top: 2px;
+        }
+
+        .username-futurista i {
+            color: var(--neon-blue);
+            font-size: 0.65rem;
+        }
+
+        .id-futurista {
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            margin-top: 1px;
+        }
+
+        .id-futurista i {
+            color: var(--neon-purple);
+            font-size: 0.55rem;
+        }
+
+        /* ================================================================
+           ANILLOS CONTADORES
+           ================================================================ */
+
+        .anillos-container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            margin: 20px 0 16px 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        @media(max-width:768px) {
+            .anillos-container {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 16px;
+            }
+        }
+
+        @media(max-width:480px) {
+            .anillos-container {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
+            }
+        }
+
+        .anillo-item {
+            display: flex;
+            justify-content: center;
+        }
+
+        .anillo-circular {
+            position: relative;
+            width: 110px;
+            height: 110px;
+        }
+
+        @media(max-width:480px) {
+            .anillo-circular {
+                width: 90px;
+                height: 90px;
+            }
+        }
+
+        .anillo-circular svg {
+            width: 100%;
+            height: 100%;
+            transform: rotate(-90deg);
+        }
+
+        .anillo-progreso {
+            transition: stroke-dashoffset 1.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .anillo-centro {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            width: 80%;
+        }
+
+        .anillo-centro i {
+            font-size: 0.85rem;
+            color: var(--neon-blue);
+            display: block;
+            margin-bottom: 1px;
+            opacity: 0.7;
+        }
+
+        @media(max-width:480px) {
+            .anillo-centro i {
+                font-size: 0.7rem;
+            }
+        }
+
+        .anillo-valor {
+            font-size: 0.6rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            display: block;
+            line-height: 1.2;
+            word-break: break-word;
+        }
+
+        @media(max-width:480px) {
+            .anillo-valor {
+                font-size: 0.5rem;
+            }
+        }
+
+        .anillo-label {
+            font-size: 0.45rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: block;
+            margin-top: 1px;
+        }
+
+        @media(max-width:480px) {
+            .anillo-label {
+                font-size: 0.4rem;
+                letter-spacing: 0.5px;
+            }
+        }
+
+        /* Colores de los anillos */
+        .plan-progreso { stroke: url(#gradPlan); }
+        .estado-progreso { stroke: url(#gradEstado); }
+        .inicio-progreso { stroke: url(#gradInicio); }
+        .vencimiento-progreso { stroke: url(#gradVencimiento); }
+
+        /* ================================================================
+           DÍAS RESTANTES
+           ================================================================ */
+
+        .dias-restantes-futurista {
+            background: rgba(0,212,255,0.03);
+            border: 1px solid rgba(0,212,255,0.06);
+            border-radius: var(--radius-sm);
+            padding: 10px 16px;
+            margin-bottom: 16px;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .dias-restantes-futurista::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(90deg, transparent, rgba(0,212,255,0.04), transparent);
+            animation: diasShine 3s ease-in-out infinite;
+        }
+
+        @keyframes diasShine {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .dias-restantes-inner {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .dias-icono {
+            font-size: 1.2rem;
+        }
+
+        .dias-numero {
+            font-size: 1.8rem;
+            font-weight: 900;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1;
+        }
+
+        .dias-texto {
+            font-size: 0.65rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        @media(max-width:480px) {
+            .dias-numero {
+                font-size: 1.4rem;
+            }
+            .dias-texto {
+                font-size: 0.55rem;
+            }
+        }
+
+        /* ================================================================
+           BOTÓN CONFIGURAR PLAN FUTURISTA
+           ================================================================ */
+
+        .btn-configurar-plan-futurista {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            padding: 14px 20px;
+            background: var(--gradient-primary);
+            border: none;
+            border-radius: var(--radius-sm);
+            color: #fff;
+            font-size: 0.8rem;
+            font-weight: 700;
+            font-family: 'Inter', sans-serif;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .btn-configurar-plan-futurista:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 40px rgba(0,212,255,0.2);
+        }
+
+        .btn-configurar-plan-futurista:active {
+            transform: scale(0.97);
+        }
+
+        .btn-configurar-plan-futurista .btn-glow {
+            position: absolute;
+            inset: -2px;
+            border-radius: var(--radius-sm);
+            background: var(--gradient-primary);
+            filter: blur(12px);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            z-index: -1;
+        }
+
+        .btn-configurar-plan-futurista:hover .btn-glow {
+            opacity: 0.5;
+        }
+
+        .btn-configurar-plan-futurista i {
+            font-size: 1rem;
+        }
+
+        /* ================================================================
+           GRADIENTES PARA LOS ANILLOS (OCULTOS)
+           ================================================================ */
+
+        .perfil-gradients {
+            position: absolute;
+            width: 0;
+            height: 0;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
         @media(max-width:480px){
             .fly-info-grid{grid-template-columns:1fr 1fr;gap:10px}
             .fly-info-grid .info-card .icon-circle{width:48px;height:48px;font-size:1.3rem}
@@ -827,8 +1126,6 @@
             .recordatorio i{font-size:1.1rem}
             .status-bar{font-size:0.5rem;gap:4px;padding:2px 8px}
             .status-bar .sep{display:none}
-            .profile-header{flex-direction:column;text-align:center}
-            .recordatorio{flex-direction:column;text-align:center;justify-content:center}
             .socio-header .header-content{flex-direction:column;align-items:stretch;text-align:center}
             .socio-header .header-actions{justify-content:center}
             .btn{width:100%;justify-content:center}
@@ -839,6 +1136,15 @@
             .ring-chart-container{flex-direction:column;align-items:center}
             .ring-chart{width:130px;height:130px}
             .ring-legend{min-width:100px}
+            .profile-header-futurista{flex-direction:column;text-align:center;gap:16px}
+            .profile-avatar-futurista{width:80px;height:80px}
+            .profile-avatar-futurista img{width:80px;height:80px}
+            .avatar-ring{width:100px;height:100px;top:-10px;left:-10px}
+            .nombre-badge{justify-content:center}
+            .anillos-container{grid-template-columns:repeat(2,1fr);gap:10px}
+            .anillo-circular{width:90px;height:90px}
+            .dias-numero{font-size:1.4rem}
+            .dias-texto{font-size:0.55rem}
         }
         @media(max-width:380px){
             .bottom-nav .nav-item{min-width:44px;min-height:42px;padding:3px 4px}
@@ -849,6 +1155,10 @@
             .profile-avatar img{width:56px;height:56px}
             .profile-info h1{font-size:1rem}
             .stats-dashboard{grid-template-columns:1fr}
+            .anillo-circular{width:75px;height:75px}
+            .anillo-centro i{font-size:0.6rem}
+            .anillo-valor{font-size:0.45rem}
+            .anillo-label{font-size:0.35rem}
         }
         @media(min-width:768px){
             .bottom-nav .nav-item{max-width:120px}
@@ -863,6 +1173,49 @@
     </style>
 </head>
 <body>
+
+    <!-- Gradientes para los anillos -->
+    <svg class="perfil-gradients" aria-hidden="true">
+        <defs>
+            <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#00d4ff"/>
+                <stop offset="50%" stop-color="#8b3cff"/>
+                <stop offset="100%" stop-color="#00d4ff"/>
+            </linearGradient>
+            <linearGradient id="gradPlan" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#00d4ff"/>
+                <stop offset="100%" stop-color="#8b3cff"/>
+            </linearGradient>
+            <linearGradient id="gradEstado" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#00ff7f"/>
+                <stop offset="100%" stop-color="#00d4ff"/>
+            </linearGradient>
+            <linearGradient id="gradInicio" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#ffd700"/>
+                <stop offset="100%" stop-color="#ff6a00"/>
+            </linearGradient>
+            <linearGradient id="gradVencimiento" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#ff2d8a"/>
+                <stop offset="100%" stop-color="#ff6a00"/>
+            </linearGradient>
+            <linearGradient id="gradSabatero" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#00d4ff"/>
+                <stop offset="100%" stop-color="#8b3cff"/>
+            </linearGradient>
+            <linearGradient id="gradFinder" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#ff6a00"/>
+                <stop offset="100%" stop-color="#ffd700"/>
+            </linearGradient>
+            <linearGradient id="gradActivos" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#00ff7f"/>
+                <stop offset="100%" stop-color="#00d4ff"/>
+            </linearGradient>
+            <linearGradient id="gradInactivos" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#ff2d8a"/>
+                <stop offset="100%" stop-color="#ff6a00"/>
+            </linearGradient>
+        </defs>
+    </svg>
 
     <div id="particles"></div>
 
@@ -891,31 +1244,128 @@
 
     <main class="socio-main" id="socioMain">
 
-        <!-- ===== SECCIÓN PERFIL ===== -->
+        <!-- ===== SECCIÓN PERFIL FUTURISTA ===== -->
         <div class="section-page active" id="section-perfil">
-            <div class="glass-card">
-                <div class="profile-header">
-                    <div class="profile-avatar">
-                        <div id="avatarContainer">
-                            <img id="socioAvatar" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Ccircle cx='40' cy='40' r='40' fill='%23111122'/%3E%3Ccircle cx='40' cy='26' r='12' fill='%23222244'/%3E%3Cpath d='M10 72c0-12 16-20 30-20s30 8 30 20' fill='%23222244'/%3E%3C/svg%3E" alt="Foto de perfil">
+            
+            <!-- Tarjeta principal con efecto holográfico -->
+            <div class="glass-card perfil-futurista" style="padding:0;overflow:hidden;position:relative;">
+                
+                <!-- Fondo con gradiente animado -->
+                <div class="perfil-bg-animado"></div>
+                
+                <!-- Contenido del perfil -->
+                <div style="position:relative;z-index:1;padding:24px 24px 20px 24px;">
+                    
+                    <!-- Header con avatar y nombre -->
+                    <div class="profile-header-futurista">
+                        <div class="profile-avatar-futurista">
+                            <div id="avatarContainerFuturista">
+                                <img id="socioAvatarFuturista" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='48' fill='%23111122' stroke='%2300d4ff' stroke-width='2'/%3E%3Ccircle cx='50' cy='32' r='14' fill='%23222244'/%3E%3Cpath d='M12 82c0-14 18-24 38-24s38 10 38 24' fill='%23222244'/%3E%3C/svg%3E" alt="Foto de perfil">
+                            </div>
+                            <button class="edit-btn-futurista" onclick="abrirModalAvatar()">
+                                <i class="fas fa-camera"></i>
+                            </button>
+                            <!-- Anillo de estado alrededor del avatar -->
+                            <svg class="avatar-ring" viewBox="0 0 120 120">
+                                <circle cx="60" cy="60" r="54" fill="none" stroke="rgba(0,212,255,0.06)" stroke-width="3"/>
+                                <circle class="avatar-ring-progress" cx="60" cy="60" r="54" fill="none" stroke="url(#ringGrad)" stroke-width="3" stroke-linecap="round" stroke-dasharray="339.292" stroke-dashoffset="339.292"/>
+                            </svg>
                         </div>
-                        <button class="edit-btn" id="avatarEditBtn" onclick="abrirModalAvatar()">
-                            <i class="fas fa-camera"></i>
-                        </button>
+                        
+                        <div class="profile-info-futurista">
+                            <div class="nombre-badge">
+                                <h1 id="socioNombreFuturista">Cargando...</h1>
+                                <span class="badge-role" id="socioRoleFuturista">SOCIO</span>
+                            </div>
+                            <p class="username-futurista"><i class="fas fa-at"></i> <span id="socioUsernameFuturista">@cargando</span></p>
+                            <p class="id-futurista"><i class="fas fa-fingerprint"></i> ID: <span id="socioIdFuturista">#0000</span></p>
+                        </div>
                     </div>
-                    <div class="profile-info">
-                        <h1 id="socioNombre">Cargando...</h1>
-                        <p><strong>Usuario:</strong> <span id="socioUsername">@cargando</span></p>
-                        <p><strong>ID:</strong> <span id="socioId">#0000</span></p>
-                        <p><strong>Plan:</strong> <span id="socioPlan" class="badge badge-pending">Sin plan</span></p>
-                        <p><strong>Estado:</strong> <span id="socioEstado" class="badge badge-pending">Pendiente</span></p>
-                        <p><strong>Inicio:</strong> <span id="socioInicio">No definida</span></p>
-                        <p><strong>Vencimiento:</strong> <span id="socioVencimiento">No definida</span></p>
-                        <p><strong>Días restantes:</strong> <span id="socioDias">-</span></p>
+
+                    <!-- ANILLOS CONTADORES FUTURISTAS -->
+                    <div class="anillos-container">
+                        
+                        <!-- Anillo 1: Plan -->
+                        <div class="anillo-item">
+                            <div class="anillo-circular">
+                                <svg viewBox="0 0 120 120">
+                                    <circle cx="60" cy="60" r="50" fill="none" stroke="rgba(0,212,255,0.06)" stroke-width="4"/>
+                                    <circle class="anillo-progreso plan-progreso" cx="60" cy="60" r="50" fill="none" stroke="url(#gradPlan)" stroke-width="4" stroke-linecap="round" stroke-dasharray="314.159" stroke-dashoffset="314.159"/>
+                                </svg>
+                                <div class="anillo-centro">
+                                    <i class="fas fa-rocket"></i>
+                                    <span class="anillo-valor" id="planValor">Sin plan</span>
+                                    <span class="anillo-label">PLAN</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Anillo 2: Estado -->
+                        <div class="anillo-item">
+                            <div class="anillo-circular">
+                                <svg viewBox="0 0 120 120">
+                                    <circle cx="60" cy="60" r="50" fill="none" stroke="rgba(0,212,255,0.06)" stroke-width="4"/>
+                                    <circle class="anillo-progreso estado-progreso" cx="60" cy="60" r="50" fill="none" stroke="url(#gradEstado)" stroke-width="4" stroke-linecap="round" stroke-dasharray="314.159" stroke-dashoffset="314.159"/>
+                                </svg>
+                                <div class="anillo-centro">
+                                    <i class="fas fa-shield-alt"></i>
+                                    <span class="anillo-valor" id="estadoValor">Pendiente</span>
+                                    <span class="anillo-label">ESTADO</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Anillo 3: Inicio -->
+                        <div class="anillo-item">
+                            <div class="anillo-circular">
+                                <svg viewBox="0 0 120 120">
+                                    <circle cx="60" cy="60" r="50" fill="none" stroke="rgba(0,212,255,0.06)" stroke-width="4"/>
+                                    <circle class="anillo-progreso inicio-progreso" cx="60" cy="60" r="50" fill="none" stroke="url(#gradInicio)" stroke-width="4" stroke-linecap="round" stroke-dasharray="314.159" stroke-dashoffset="314.159"/>
+                                </svg>
+                                <div class="anillo-centro">
+                                    <i class="fas fa-calendar-plus"></i>
+                                    <span class="anillo-valor" id="inicioValor">--/--/----</span>
+                                    <span class="anillo-label">INICIO</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Anillo 4: Vencimiento -->
+                        <div class="anillo-item">
+                            <div class="anillo-circular">
+                                <svg viewBox="0 0 120 120">
+                                    <circle cx="60" cy="60" r="50" fill="none" stroke="rgba(0,212,255,0.06)" stroke-width="4"/>
+                                    <circle class="anillo-progreso vencimiento-progreso" cx="60" cy="60" r="50" fill="none" stroke="url(#gradVencimiento)" stroke-width="4" stroke-linecap="round" stroke-dasharray="314.159" stroke-dashoffset="314.159"/>
+                                </svg>
+                                <div class="anillo-centro">
+                                    <i class="fas fa-calendar-times"></i>
+                                    <span class="anillo-valor" id="vencimientoValor">--/--/----</span>
+                                    <span class="anillo-label">VENCIMIENTO</span>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
+
+                    <!-- Días restantes (destacado) -->
+                    <div class="dias-restantes-futurista" id="diasRestantesContainer">
+                        <div class="dias-restantes-inner">
+                            <span class="dias-icono">⏳</span>
+                            <span class="dias-numero" id="diasRestantesNumero">--</span>
+                            <span class="dias-texto">días restantes</span>
+                        </div>
+                    </div>
+
+                    <!-- Botón Configurar Plan -->
+                    <button class="btn-configurar-plan-futurista" onclick="abrirConfigPlan()">
+                        <i class="fas fa-cog fa-spin" style="animation-duration:8s;"></i> Configurar Mi Plan
+                        <span class="btn-glow"></span>
+                    </button>
+
                 </div>
             </div>
 
+            <!-- Mensaje de vencimiento -->
             <div id="mensajeVencimiento" class="hidden" style="margin-bottom:16px;">
                 <div class="glass-card mensaje-vencimiento-card">
                     <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;">
@@ -930,10 +1380,6 @@
                     </div>
                 </div>
             </div>
-
-            <button class="btn-configurar-plan" onclick="abrirConfigPlan()">
-                <i class="fas fa-cog"></i> Configurar Mi Plan
-            </button>
         </div>
 
         <!-- ===== SECCIÓN HISTORIAL ===== -->
@@ -1005,16 +1451,6 @@
                         <div class="ring-chart-container">
                             <div class="ring-chart">
                                 <svg viewBox="0 0 120 120">
-                                    <defs>
-                                        <linearGradient id="gradActivos" x1="0%" y1="0%" x2="100%" y2="100%">
-                                            <stop offset="0%" stop-color="#00ff7f"/>
-                                            <stop offset="100%" stop-color="#00d4ff"/>
-                                        </linearGradient>
-                                        <linearGradient id="gradInactivos" x1="0%" y1="0%" x2="100%" y2="100%">
-                                            <stop offset="0%" stop-color="#ff2d8a"/>
-                                            <stop offset="100%" stop-color="#ff6a00"/>
-                                        </linearGradient>
-                                    </defs>
                                     <circle class="ring-bg" cx="60" cy="60" r="48"/>
                                     <circle class="ring-segment activos" cx="60" cy="60" r="48" 
                                             stroke-dasharray="301.6" stroke-dashoffset="301.6"/>
@@ -1029,16 +1465,6 @@
 
                             <div class="ring-chart">
                                 <svg viewBox="0 0 120 120">
-                                    <defs>
-                                        <linearGradient id="gradSabatero" x1="0%" y1="0%" x2="100%" y2="100%">
-                                            <stop offset="0%" stop-color="#00d4ff"/>
-                                            <stop offset="100%" stop-color="#8b3cff"/>
-                                        </linearGradient>
-                                        <linearGradient id="gradFinder" x1="0%" y1="0%" x2="100%" y2="100%">
-                                            <stop offset="0%" stop-color="#ff6a00"/>
-                                            <stop offset="100%" stop-color="#ffd700"/>
-                                        </linearGradient>
-                                    </defs>
                                     <circle class="ring-bg" cx="60" cy="60" r="48"/>
                                     <circle class="ring-segment sabatero" cx="60" cy="60" r="48" 
                                             stroke-dasharray="301.6" stroke-dashoffset="301.6"/>
@@ -1047,7 +1473,7 @@
                                 </svg>
                                 <div class="ring-center">
                                     <span class="number">0%</span>
-                                    <span class="label">Sabatero</span>
+                                    <span class="label">Mensual</span>
                                 </div>
                             </div>
 
@@ -1063,11 +1489,11 @@
                                 <div style="border-top:1px solid var(--border-glow);margin:4px 0;"></div>
                                 <div class="legend-item">
                                     <span class="color-dot sabatero"></span>
-                                    Sabatero <span class="percent">0%</span>
+                                    Mensual <span class="percent">0%</span>
                                 </div>
                                 <div class="legend-item">
                                     <span class="color-dot finder"></span>
-                                    Finder <span class="percent">0%</span>
+                                    Por Partido <span class="percent">0%</span>
                                 </div>
                                 <div class="legend-item" style="color:var(--text-muted);font-size:0.55rem;">
                                     <span>⚡</span>
@@ -1181,7 +1607,7 @@
         </div>
     </div>
 
-    <!-- ===== MODAL CONFIGURAR PLAN (SIN DATOS BANCARIOS) ===== -->
+    <!-- ===== MODAL CONFIGURAR PLAN ===== -->
     <div class="modal modal-config-plan" id="configPlanModal">
         <div class="modal-content">
             <div class="modal-header">
@@ -1192,15 +1618,15 @@
                 <div class="config-section">
                     <label>Selecciona tu plan</label>
                     <div class="selector-group" id="planSelector">
-                        <div class="option" data-plan="Sabatero" onclick="seleccionarPlanUI('Sabatero')">
-                            <span class="icon">⚡</span>
-                            <span class="name">Plan Sabatero</span>
+                        <div class="option" data-plan="Mensual" onclick="seleccionarPlanUI('Mensual')">
+                            <span class="icon">📆</span>
+                            <span class="name">Plan Mensual</span>
                             <span class="price">Gs. 20.000 / mes</span>
                             <span class="check"><i class="fas fa-check-circle"></i></span>
                         </div>
-                        <div class="option" data-plan="Finder" onclick="seleccionarPlanUI('Finder')">
-                            <span class="icon">🏃</span>
-                            <span class="name">Plan Finder</span>
+                        <div class="option" data-plan="Por Partido" onclick="seleccionarPlanUI('Por Partido')">
+                            <span class="icon">⚽</span>
+                            <span class="name">Plan por Partido</span>
                             <span class="price">Gs. 5.000 / partido</span>
                             <span class="check"><i class="fas fa-check-circle"></i></span>
                         </div>
@@ -1229,29 +1655,6 @@
                     <div class="item"><span class="label">Plan:</span><span class="value" id="statusPlan">No seleccionado</span></div>
                     <div class="item"><span class="label">Método:</span><span class="value" id="statusMetodo">No seleccionado</span></div>
                     <div class="item"><span class="label">Estado:</span><span class="value" id="statusEstado">Pendiente</span></div>
-                </div>
-
-                <!-- SOLO COMPROBANTE - SIN DATOS BANCARIOS -->
-                <div id="comprobanteSection" class="hidden" style="margin-top:12px;">
-                    <div class="comprobante-futurista">
-                        <div class="drop-zone" onclick="document.getElementById('uploadReceiptConfirm').click()">
-                            <div class="icon-wrapper">
-                                <i class="fas fa-cloud-upload-alt"></i>
-                            </div>
-                            <p><strong>Sube tu comprobante</strong></p>
-                            <div class="sub-text">JPG, PNG o PDF · Máx. 5MB</div>
-                            <input type="file" id="uploadReceiptConfirm" accept=".jpg,.jpeg,.png,.pdf">
-                        </div>
-                        <div class="file-info" id="uploadPreviewConfirm">
-                            <i class="fas fa-file file-icon"></i>
-                            <span class="file-name" id="uploadFileNameConfirm">archivo.jpg</span>
-                            <span class="file-status"><i class="fas fa-check-circle"></i> Listo</span>
-                            <span class="file-remove" onclick="eliminarComprobante()">✕</span>
-                        </div>
-                        <div style="font-size:0.55rem;color:var(--text-muted);margin-top:8px;text-align:center;position:relative;z-index:1;">
-                            <i class="fas fa-lock" style="margin-right:4px;"></i> Transferencia segura
-                        </div>
-                    </div>
                 </div>
 
                 <button class="btn btn-confirmar" onclick="confirmarConfiguracion()" id="btnConfirmarConfig">
@@ -1478,7 +1881,6 @@
         var historialPagos = [];
         var planSeleccionado = null;
         var metodoSeleccionado = null;
-        var comprobanteSubido = null;
         var avatarFile = null;
         var noticiasCache = [];
 
@@ -1529,7 +1931,6 @@
                 verificarVencimiento(socio);
                 planSeleccionado = null;
                 metodoSeleccionado = null;
-                comprobanteSubido = null;
 
                 if (socio.role === 'admin') {
                     var headerActions = document.querySelector('.socio-header .header-actions');
@@ -1574,17 +1975,17 @@
                 const suspendidos = socios.filter(s => (s.estado || '').toLowerCase() === 'suspendido').length;
                 const inactivos = vencidos + suspendidos;
 
-                const sabatero = socios.filter(s => (s.plan || '').toLowerCase() === 'sabatero').length;
-                const finder = socios.filter(s => (s.plan || '').toLowerCase() === 'finder').length;
+                const mensual = socios.filter(s => (s.plan || '').toLowerCase() === 'mensual').length;
+                const porPartido = socios.filter(s => (s.plan || '').toLowerCase() === 'por partido').length;
                 const sinPlan = socios.filter(s => !s.plan || s.plan === '' || s.plan === null).length;
 
                 const pctActivos = total > 0 ? Math.round((activos / total) * 100) : 0;
                 const pctInactivos = total > 0 ? Math.round(((inactivos + pendientes) / total) * 100) : 0;
-                const pctSabatero = total > 0 ? Math.round((sabatero / total) * 100) : 0;
-                const pctFinder = total > 0 ? Math.round((finder / total) * 100) : 0;
+                const pctMensual = total > 0 ? Math.round((mensual / total) * 100) : 0;
+                const pctPorPartido = total > 0 ? Math.round((porPartido / total) * 100) : 0;
                 const pctSinPlan = total > 0 ? Math.round((sinPlan / total) * 100) : 0;
 
-                actualizarDashboard(total, activos, pendientes, inactivos, pctActivos, pctInactivos, pctSabatero, pctFinder, pctSinPlan);
+                actualizarDashboard(total, activos, pendientes, inactivos, pctActivos, pctInactivos, pctMensual, pctPorPartido, pctSinPlan);
 
             } catch (error) {
                 console.error('❌ Error al cargar estadísticas:', error);
@@ -1594,7 +1995,7 @@
         // ================================================================
         // 9. ACTUALIZAR DASHBOARD
         // ================================================================
-        function actualizarDashboard(total, activos, pendientes, inactivos, pctActivos, pctInactivos, pctSabatero, pctFinder, pctSinPlan) {
+        function actualizarDashboard(total, activos, pendientes, inactivos, pctActivos, pctInactivos, pctMensual, pctPorPartido, pctSinPlan) {
             document.getElementById('totalSocios').textContent = total || 0;
             document.getElementById('sociosActivos').textContent = activos || 0;
             document.getElementById('sociosPendientes').textContent = pendientes || 0;
@@ -1604,8 +2005,8 @@
 
             const offsetActivos = circunferencia - (circunferencia * (pctActivos || 0) / 100);
             const offsetInactivos = circunferencia - (circunferencia * (pctInactivos || 0) / 100);
-            const offsetSabatero = circunferencia - (circunferencia * (pctSabatero || 0) / 100);
-            const offsetFinder = circunferencia - (circunferencia * (pctFinder || 0) / 100);
+            const offsetMensual = circunferencia - (circunferencia * (pctMensual || 0) / 100);
+            const offsetPorPartido = circunferencia - (circunferencia * (pctPorPartido || 0) / 100);
 
             const anilloActivos = document.querySelector('.ring-segment.activos');
             const anilloInactivos = document.querySelector('.ring-segment.inactivos');
@@ -1614,8 +2015,8 @@
 
             if (anilloActivos) anilloActivos.style.strokeDashoffset = offsetActivos;
             if (anilloInactivos) anilloInactivos.style.strokeDashoffset = offsetInactivos;
-            if (anilloSabatero) anilloSabatero.style.strokeDashoffset = offsetSabatero;
-            if (anilloFinder) anilloFinder.style.strokeDashoffset = offsetFinder;
+            if (anilloSabatero) anilloSabatero.style.strokeDashoffset = offsetMensual;
+            if (anilloFinder) anilloFinder.style.strokeDashoffset = offsetPorPartido;
 
             const center1 = document.querySelector('.ring-chart:first-child .ring-center');
             if (center1) {
@@ -1625,8 +2026,8 @@
 
             const center2 = document.querySelector('.ring-chart:last-child .ring-center');
             if (center2) {
-                center2.querySelector('.number').textContent = (pctSabatero || 0) + '%';
-                center2.querySelector('.label').textContent = 'Sabatero';
+                center2.querySelector('.number').textContent = (pctMensual || 0) + '%';
+                center2.querySelector('.label').textContent = 'Mensual';
             }
 
             const legendItems = document.querySelectorAll('.ring-legend .legend-item');
@@ -1637,11 +2038,11 @@
                 const inactivosText = legendItems[1].querySelector('.percent');
                 if (inactivosText) inactivosText.textContent = (pctInactivos || 0) + '%';
 
-                const sabateroText = legendItems[2].querySelector('.percent');
-                if (sabateroText) sabateroText.textContent = (pctSabatero || 0) + '%';
+                const mensualText = legendItems[2].querySelector('.percent');
+                if (mensualText) mensualText.textContent = (pctMensual || 0) + '%';
 
-                const finderText = legendItems[3].querySelector('.percent');
-                if (finderText) finderText.textContent = (pctFinder || 0) + '%';
+                const porPartidoText = legendItems[3].querySelector('.percent');
+                if (porPartidoText) porPartidoText.textContent = (pctPorPartido || 0) + '%';
 
                 const sinPlanText = legendItems[4].querySelector('.percent');
                 if (sinPlanText) sinPlanText.textContent = (pctSinPlan || 0) + '%';
@@ -1705,48 +2106,158 @@
         }
 
         // ================================================================
-        // 11. RENDER PERFIL
+        // 11. RENDER PERFIL FUTURISTA
         // ================================================================
         function renderProfile(user) {
-            document.getElementById('socioNombre').textContent = user.nombre || 'Sin nombre';
-            document.getElementById('socioUsername').textContent = '@' + user.username;
-            document.getElementById('socioId').textContent = '#' + user.id;
+            // Nombre
+            document.getElementById('socioNombreFuturista').textContent = user.nombre || 'Sin nombre';
+            document.getElementById('socioUsernameFuturista').textContent = '@' + user.username;
+            document.getElementById('socioIdFuturista').textContent = '#' + user.id;
 
-            var planEl = document.getElementById('socioPlan');
+            // Role
+            const roleEl = document.getElementById('socioRoleFuturista');
+            if (user.role === 'admin') {
+                roleEl.textContent = 'ADMIN';
+                roleEl.style.background = 'rgba(255,215,0,0.12)';
+                roleEl.style.color = '#ffd700';
+                roleEl.style.borderColor = 'rgba(255,215,0,0.2)';
+            } else {
+                roleEl.textContent = 'SOCIO';
+                roleEl.style.background = 'rgba(0,212,255,0.06)';
+                roleEl.style.color = 'var(--neon-blue)';
+                roleEl.style.borderColor = 'rgba(0,212,255,0.1)';
+            }
+
+            // Plan - Anillo 1
+            const planValor = document.getElementById('planValor');
+            const planProgreso = document.querySelector('.plan-progreso');
             if (user.plan) {
-                planEl.textContent = user.plan;
-                planEl.className = 'badge ' + (user.plan === 'Sabatero' ? 'badge-active' : 'badge-warning');
+                planValor.textContent = user.plan;
+                planValor.style.color = user.plan === 'Mensual' ? 'var(--neon-green)' : 'var(--neon-orange)';
+                if (planProgreso) {
+                    planProgreso.style.strokeDashoffset = '0';
+                }
             } else {
-                planEl.textContent = 'Sin plan';
-                planEl.className = 'badge badge-pending';
+                planValor.textContent = 'Sin plan';
+                planValor.style.color = 'var(--text-muted)';
+                if (planProgreso) {
+                    planProgreso.style.strokeDashoffset = '314.159';
+                }
             }
 
-            var estadoEl = document.getElementById('socioEstado');
-            estadoEl.textContent = user.estado || 'Pendiente';
-            estadoEl.className = 'badge ' + getStatusClass(user.estado);
+            // Estado - Anillo 2
+            const estadoValor = document.getElementById('estadoValor');
+            const estadoProgreso = document.querySelector('.estado-progreso');
+            const estado = user.estado || 'Pendiente';
+            estadoValor.textContent = estado;
+            
+            const estadoColors = {
+                'Activo': 'var(--neon-green)',
+                'Pendiente': 'var(--neon-orange)',
+                'Suspendido': 'var(--neon-pink)',
+                'Vencido': 'var(--neon-pink)'
+            };
+            estadoValor.style.color = estadoColors[estado] || 'var(--text-muted)';
+            
+            if (estadoProgreso) {
+                if (estado === 'Activo') {
+                    estadoProgreso.style.strokeDashoffset = '0';
+                } else if (estado === 'Pendiente') {
+                    estadoProgreso.style.strokeDashoffset = '78.54';
+                } else {
+                    estadoProgreso.style.strokeDashoffset = '235.62';
+                }
+            }
 
-            var inicioEl = document.getElementById('socioInicio');
-            var vencEl = document.getElementById('socioVencimiento');
+            // Inicio - Anillo 3
+            const inicioValor = document.getElementById('inicioValor');
+            const inicioProgreso = document.querySelector('.inicio-progreso');
             if (user.fecha_inicio) {
-                inicioEl.textContent = new Date(user.fecha_inicio).toLocaleDateString();
+                const fecha = new Date(user.fecha_inicio);
+                inicioValor.textContent = fecha.toLocaleDateString('es');
+                if (inicioProgreso) {
+                    inicioProgreso.style.strokeDashoffset = '0';
+                }
             } else {
-                inicioEl.textContent = 'No definida';
-            }
-            if (user.fecha_vencimiento) {
-                vencEl.textContent = new Date(user.fecha_vencimiento).toLocaleDateString();
-            } else {
-                vencEl.textContent = 'No definida';
+                inicioValor.textContent = '--/--/----';
+                inicioValor.style.color = 'var(--text-muted)';
+                if (inicioProgreso) {
+                    inicioProgreso.style.strokeDashoffset = '314.159';
+                }
             }
 
-            var avatarContainer = document.getElementById('avatarContainer');
+            // Vencimiento - Anillo 4
+            const vencimientoValor = document.getElementById('vencimientoValor');
+            const vencimientoProgreso = document.querySelector('.vencimiento-progreso');
+            if (user.fecha_vencimiento) {
+                const fecha = new Date(user.fecha_vencimiento);
+                vencimientoValor.textContent = fecha.toLocaleDateString('es');
+                const hoy = new Date();
+                const diff = Math.ceil((fecha - hoy) / (1000 * 60 * 60 * 24));
+                if (diff > 0) {
+                    const progreso = Math.min(100, (diff / 30) * 100);
+                    const offset = 314.159 - (314.159 * (progreso / 100));
+                    if (vencimientoProgreso) {
+                        vencimientoProgreso.style.strokeDashoffset = offset;
+                    }
+                    vencimientoValor.style.color = diff > 7 ? 'var(--neon-green)' : diff > 0 ? 'var(--neon-orange)' : 'var(--neon-pink)';
+                } else {
+                    if (vencimientoProgreso) {
+                        vencimientoProgreso.style.strokeDashoffset = '314.159';
+                    }
+                    vencimientoValor.style.color = 'var(--neon-pink)';
+                }
+            } else {
+                vencimientoValor.textContent = '--/--/----';
+                vencimientoValor.style.color = 'var(--text-muted)';
+                if (vencimientoProgreso) {
+                    vencimientoProgreso.style.strokeDashoffset = '314.159';
+                }
+            }
+
+            // Días restantes
+            const diasNumero = document.getElementById('diasRestantesNumero');
+            if (user.plan === 'Mensual' && user.fecha_vencimiento) {
+                const hoy = new Date();
+                const venc = new Date(user.fecha_vencimiento);
+                const diff = Math.ceil((venc - hoy) / (1000 * 60 * 60 * 24));
+                if (diff > 0) {
+                    diasNumero.textContent = diff;
+                    diasNumero.style.color = diff > 7 ? 'var(--neon-green)' : 'var(--neon-orange)';
+                    diasNumero.style.fontSize = '1.8rem';
+                } else {
+                    diasNumero.textContent = 'Vencido';
+                    diasNumero.style.color = 'var(--neon-pink)';
+                    diasNumero.style.fontSize = '1.2rem';
+                }
+            } else {
+                diasNumero.textContent = '--';
+                diasNumero.style.color = 'var(--text-muted)';
+                diasNumero.style.fontSize = '1.8rem';
+            }
+
+            // Avatar
+            const avatarContainer = document.getElementById('avatarContainerFuturista');
             if (user.foto_url) {
-                avatarContainer.innerHTML = '<img id="socioAvatar" src="' + user.foto_url + '" alt="Foto de perfil">';
+                avatarContainer.innerHTML = `<img id="socioAvatarFuturista" src="${user.foto_url}" alt="Foto de perfil" style="width:100px;height:100px;border-radius:50%;object-fit:cover;border:2px solid rgba(0,212,255,0.2);background:#111122;">`;
             } else if (user.nombre) {
                 var iniciales = user.nombre.split(' ').map(function(n) { return n.charAt(0); }).join('').substring(0, 2).toUpperCase();
-                avatarContainer.innerHTML = '<div class="avatar-iniciales">' + iniciales + '</div>';
+                avatarContainer.innerHTML = `<div style="width:100px;height:100px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:var(--gradient-primary);color:#fff;font-size:2rem;font-weight:700;border:2px solid rgba(0,212,255,0.2);box-shadow:0 0 30px rgba(0,212,255,0.06);">${iniciales}</div>`;
             } else {
-                avatarContainer.innerHTML =
-                    '<img id="socioAvatar" src="data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'80\' height=\'80\' viewBox=\'0 0 80 80\'%3E%3Ccircle cx=\'40\' cy=\'40\' r=\'40\' fill=\'%23111122\'/%3E%3Ccircle cx=\'40\' cy=\'26\' r=\'12\' fill=\'%23222244\'/%3E%3Cpath d=\'M10 72c0-12 16-20 30-20s30 8 30 20\' fill=\'%23222244\'/%3E%3C/svg%3E" alt="Foto de perfil">';
+                avatarContainer.innerHTML = `<img id="socioAvatarFuturista" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='48' fill='%23111122' stroke='%2300d4ff' stroke-width='2'/%3E%3Ccircle cx='50' cy='32' r='14' fill='%23222244'/%3E%3Cpath d='M12 82c0-14 18-24 38-24s38 10 38 24' fill='%23222244'/%3E%3C/svg%3E" alt="Foto de perfil" style="width:100px;height:100px;border-radius:50%;object-fit:cover;border:2px solid rgba(0,212,255,0.2);background:#111122;">`;
+            }
+
+            // Anillo del avatar (progreso según estado)
+            const avatarRing = document.querySelector('.avatar-ring-progress');
+            if (avatarRing) {
+                const estado = user.estado || 'Pendiente';
+                if (estado === 'Activo') {
+                    avatarRing.style.strokeDashoffset = '0';
+                } else if (estado === 'Pendiente') {
+                    avatarRing.style.strokeDashoffset = '84.823';
+                } else {
+                    avatarRing.style.strokeDashoffset = '254.469';
+                }
             }
         }
 
@@ -1769,13 +2280,6 @@
                 el.classList.toggle('selected', el.dataset.metodo === user.metodo_pago);
             });
 
-            var comprobanteSection = document.getElementById('comprobanteSection');
-            if (user.metodo_pago === 'Transferencia') {
-                comprobanteSection.classList.remove('hidden');
-            } else {
-                comprobanteSection.classList.add('hidden');
-            }
-
             document.getElementById('statusPlan').textContent = user.plan || 'No seleccionado';
             document.getElementById('statusPlan').className = 'value' + (user.plan ? ' active' : '');
             document.getElementById('statusMetodo').textContent = user.metodo_pago || 'No seleccionado';
@@ -1791,39 +2295,24 @@
             var mensajeContainer = document.getElementById('mensajeVencimiento');
             var titulo = document.getElementById('mensajeVencimientoTitulo');
             var texto = document.getElementById('mensajeVencimientoTexto');
-            var diasEl = document.getElementById('socioDias');
 
-            if (user.estado === 'Vencido') {
-                mensajeContainer.classList.remove('hidden');
-                titulo.textContent = '❌ Tu membresía ha vencido';
-                texto.textContent = 'Renueva ahora para seguir disfrutando de los beneficios.';
-                if (diasEl) { diasEl.textContent = 'Vencido';
-                    diasEl.className = 'dias-rojo'; }
-                return;
-            }
-
-            if (user.plan !== 'Sabatero' || !user.fecha_vencimiento) {
-                mensajeContainer.classList.add('hidden');
-                if (diasEl) { diasEl.textContent = '-';
-                    diasEl.className = ''; }
-                return;
-            }
-
-            var hoy = new Date();
-            var venc = new Date(user.fecha_vencimiento);
-            var diff = Math.ceil((venc - hoy) / (1000 * 60 * 60 * 24));
-
-            if (diasEl) {
-                diasEl.textContent = diff > 0 ? diff + ' días' : 'Vencido';
-                diasEl.className = diff > 7 ? 'dias-verde' : diff > 0 ? 'dias-naranja' : 'dias-rojo';
-            }
-
-            if (diff <= 0) {
+            if (user.estado === 'Vencido' || (user.plan === 'Mensual' && user.fecha_vencimiento && new Date(user.fecha_vencimiento) < new Date())) {
                 mensajeContainer.classList.remove('hidden');
                 titulo.textContent = '❌ Tu membresía ha vencido';
                 texto.textContent = 'Renueva ahora para seguir disfrutando de los beneficios.';
                 return;
             }
+            
+            if (user.plan === 'Mensual' && user.fecha_vencimiento) {
+                var diff = Math.ceil((new Date(user.fecha_vencimiento) - new Date()) / (1000 * 60 * 60 * 24));
+                if (diff <= 7 && diff > 0) {
+                    mensajeContainer.classList.remove('hidden');
+                    titulo.textContent = '⚠️ Tu membresía está por vencer';
+                    texto.textContent = `Te quedan ${diff} días. Renueva para no perder los beneficios.`;
+                    return;
+                }
+            }
+            
             mensajeContainer.classList.add('hidden');
         }
 
@@ -1837,9 +2326,6 @@
             }
             planSeleccionado = null;
             metodoSeleccionado = null;
-            comprobanteSubido = null;
-            document.getElementById('uploadReceiptConfirm').value = '';
-            document.getElementById('uploadPreviewConfirm').classList.remove('show');
             renderSeleccionPlan(socioData);
             document.getElementById('configPlanModal').classList.add('active');
             document.body.style.overflow = 'hidden';
@@ -1859,59 +2345,26 @@
         }
 
         // ================================================================
-        // 16. SELECCIÓN MÉTODO (SIN DATOS BANCARIOS)
+        // 16. SELECCIÓN MÉTODO (SIN COMPROBANTE)
         // ================================================================
         function seleccionarMetodoUI(metodo) {
             document.querySelectorAll('#metodoSelector .option').forEach(function(el) {
                 el.classList.toggle('selected', el.dataset.metodo === metodo);
             });
             metodoSeleccionado = metodo;
-            var comprobanteSection = document.getElementById('comprobanteSection');
-            if (metodo === 'Transferencia') {
-                comprobanteSection.classList.remove('hidden');
-                comprobanteSubido = null;
-                document.getElementById('uploadReceiptConfirm').value = '';
-                document.getElementById('uploadPreviewConfirm').classList.remove('show');
-            } else {
-                comprobanteSection.classList.add('hidden');
-                comprobanteSubido = null;
-            }
             document.getElementById('statusMetodo').textContent = metodo;
             document.getElementById('statusMetodo').className = 'value active';
             showToast('💳 Método seleccionado: ' + metodo, 'info');
         }
 
-        function eliminarComprobante() {
-            document.getElementById('uploadReceiptConfirm').value = '';
-            document.getElementById('uploadPreviewConfirm').classList.remove('show');
-            comprobanteSubido = null;
-        }
-
-        document.getElementById('uploadReceiptConfirm').addEventListener('change', function() {
-            var preview = document.getElementById('uploadPreviewConfirm');
-            var name = document.getElementById('uploadFileNameConfirm');
-            if (this.files && this.files[0]) {
-                name.textContent = this.files[0].name;
-                preview.classList.add('show');
-                comprobanteSubido = this.files[0];
-            } else {
-                preview.classList.remove('show');
-                comprobanteSubido = null;
-            }
-        });
-
         // ================================================================
-        // 17. CONFIRMAR CONFIGURACIÓN
+        // 17. CONFIRMAR CONFIGURACIÓN (SIN COMPROBANTE)
         // ================================================================
         async function confirmarConfiguracion() {
             if (!socioData) { showToast('⚠️ Espera a que carguen los datos', 'warning'); return; }
             if (!planSeleccionado) { showToast('⚠️ Selecciona un plan primero', 'warning'); return; }
             if (!metodoSeleccionado) { showToast('⚠️ Selecciona un método de pago', 'warning'); return; }
-            if (metodoSeleccionado === 'Transferencia' && !comprobanteSubido) {
-                showToast('⚠️ Debes subir el comprobante de transferencia', 'warning');
-                return;
-            }
-            if (socioData.plan === planSeleccionado && socioData.metodo_pago === metodoSeleccionado && socioData.comprobante_url) {
+            if (socioData.plan === planSeleccionado && socioData.metodo_pago === metodoSeleccionado) {
                 showToast('ℹ️ Ya tienes esta configuración activa', 'info');
                 return;
             }
@@ -1929,36 +2382,7 @@
                     return;
                 }
 
-                var url = null;
-                if (comprobanteSubido) {
-                    const ext = comprobanteSubido.name.split('.').pop();
-                    const path = `${sessionUser.id}/comprobante_${Date.now()}.${ext}`;
-                    const { error: uploadError } = await supabaseClient.storage
-                        .from('comprobantes')
-                        .upload(path, comprobanteSubido, {
-                            cacheControl: '3600',
-                            upsert: false,
-                            contentType: comprobanteSubido.type
-                        });
-                    if (uploadError) {
-                        showToast('❌ Error al subir comprobante: ' + uploadError.message, 'error');
-                        btn.disabled = false;
-                        btn.innerHTML = '<i class="fas fa-check-circle"></i> CONFIRMAR';
-                        return;
-                    }
-                    url = supabaseClient.storage.from('comprobantes').getPublicUrl(path).data.publicUrl;
-                    await supabaseClient.from('comprobantes').insert([{
-                        socio_id: sessionUser.id,
-                        archivo_url: url,
-                        tipo: 'transferencia',
-                        estado: 'Pendiente',
-                        fecha_subida: new Date().toISOString(),
-                        nombre_archivo: comprobanteSubido.name
-                    }]);
-                }
-
                 const updates = { plan: planSeleccionado, metodo_pago: metodoSeleccionado, estado: 'Pendiente' };
-                if (url) updates.comprobante_url = url;
                 if (socioData.plan !== planSeleccionado) {
                     updates.fecha_inicio = null;
                     updates.fecha_vencimiento = null;
@@ -1976,7 +2400,6 @@
                 }
 
                 var mensaje = `👤 ${socioData.nombre} (@${socioData.username}) seleccionó ${planSeleccionado} - ${metodoSeleccionado}`;
-                if (metodoSeleccionado === 'Transferencia') mensaje += ' (con comprobante)';
                 await supabaseClient.from('notificaciones').insert([{
                     tipo: 'nuevo_socio',
                     mensaje: mensaje,
@@ -1985,15 +2408,13 @@
                         socio_id: socioData.id,
                         username: socioData.username,
                         plan: planSeleccionado,
-                        metodo: metodoSeleccionado,
-                        comprobante_url: url
+                        metodo: metodoSeleccionado
                     }
                 }]);
 
                 socioData.plan = planSeleccionado;
                 socioData.metodo_pago = metodoSeleccionado;
                 socioData.estado = 'Pendiente';
-                if (url) socioData.comprobante_url = url;
 
                 document.getElementById('statusEstado').textContent = 'Pendiente';
                 document.getElementById('statusEstado').className = 'value pending';
@@ -2001,9 +2422,6 @@
 
                 planSeleccionado = null;
                 metodoSeleccionado = null;
-                comprobanteSubido = null;
-                document.getElementById('uploadReceiptConfirm').value = '';
-                document.getElementById('uploadPreviewConfirm').classList.remove('show');
 
                 showToast('✅ Configuración guardada. Espera aprobación del administrador.', 'success');
                 closeModal('configPlanModal');
@@ -2025,10 +2443,6 @@
             if (!socioData) { showToast('⚠️ Espera a que carguen los datos', 'warning'); return; }
             if (!socioData.plan || !socioData.metodo_pago) {
                 showToast('⚠️ Primero selecciona un plan y método de pago', 'warning');
-                return;
-            }
-            if (socioData.metodo_pago === 'Transferencia' && !socioData.comprobante_url) {
-                showToast('⚠️ Debes subir un comprobante de transferencia', 'warning');
                 return;
             }
             if (!confirm('¿Renovar tu membresía por 30 días más?')) return;
@@ -2354,6 +2768,15 @@
                     montoHTML = `<div class="monto">💰 Gasto: Gs. ${Number(n.monto).toLocaleString()}</div>`;
                 }
 
+                const fecha = new Date(n.fecha_evento);
+                const fechaStr = fecha.toLocaleDateString('es', {
+                    day: '2-digit',
+                    month: '2-digit',
+                    year: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+
                 return `
                     <div class="noticia-item ${!esLeida ? 'no-leida' : ''}" onclick="marcarNoticiaLeida('${n.id}')" data-id="${n.id}">
                         <div class="noticia-header">
@@ -2369,7 +2792,7 @@
                                 <div class="descripcion">${n.descripcion || 'Sin descripción'}</div>
                                 ${montoHTML}
                                 <div class="noticia-footer">
-                                    <span class="fecha"><i class="far fa-clock"></i> ${new Date(n.fecha_evento).toLocaleString()}</span>
+                                    <span class="fecha"><i class="far fa-clock"></i> ${fechaStr}</span>
                                     ${n.categoria ? `<span class="categoria">${n.categoria}</span>` : ''}
                                     <span class="estado-lectura ${esLeida ? 'leida' : 'no-leida'}">
                                         ${esLeida ? '✓ Leída' : '● No leída'}
@@ -2535,7 +2958,9 @@
         console.log('✅ Gráficos de anillo con datos reales');
         console.log('✅ Socios recientes desde la base de datos');
         console.log('✅ Noticias con marcación de leídas');
-        console.log('✅ Datos bancarios eliminados del modal de configuración');
+        console.log('✅ Perfil futurista con anillos contadores');
+        console.log('✅ Planes: Mensual y Por Partido');
+        console.log('✅ Footer corregido: Fundación 2012 · Formato 6v6 · Años +10');
     </script>
 
 </body>
