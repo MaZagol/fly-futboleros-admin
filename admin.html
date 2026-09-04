@@ -294,80 +294,22 @@
         .notification-item-full .status-label{font-size:0.5rem;color:var(--text-muted);flex-shrink:0}
         .spinner-small{display:inline-block;width:14px;height:14px;border:2px solid rgba(255,255,255,0.06);border-top-color:var(--neon-blue);border-radius:50%;animation:spin 0.8s linear infinite;vertical-align:middle}
         .avatar-iniciales-small{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:var(--gradient-primary);color:#fff;font-size:0.6rem;font-weight:700;flex-shrink:0}
-
-        /* ===== ESTILOS PARA NOTICIAS EN ADMIN ===== */
-        .noticia-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border-glow);
-            border-radius: var(--radius-sm);
-            padding: 16px 18px;
-            transition: all 0.3s ease;
-            margin-bottom: 12px;
-        }
-        .noticia-card:hover {
-            border-color: rgba(0,212,255,0.15);
-            transform: translateY(-2px);
-        }
-        .noticia-card .noticia-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            gap: 12px;
-            flex-wrap: wrap;
-        }
-        .noticia-card .noticia-header .info h4 {
-            font-size: 0.85rem;
-            font-weight: 700;
-            color: var(--text-primary);
-        }
-        .noticia-card .noticia-header .info .meta {
-            font-size: 0.6rem;
-            color: var(--text-muted);
-            display: flex;
-            gap: 12px;
-            flex-wrap: wrap;
-            margin-top: 4px;
-        }
-        .noticia-card .noticia-header .info .meta span {
-            display: flex;
-            align-items: center;
-            gap: 4px;
-        }
-        .noticia-card .noticia-body {
-            margin-top: 8px;
-            font-size: 0.75rem;
-            color: var(--text-secondary);
-            line-height: 1.6;
-        }
-        .noticia-card .noticia-body .monto {
-            display: inline-block;
-            padding: 2px 12px;
-            border-radius: 12px;
-            font-weight: 700;
-            font-size: 0.7rem;
-            margin-top: 4px;
-            color: var(--neon-orange);
-            background: rgba(255,106,0,0.06);
-            border: 1px solid rgba(255,106,0,0.08);
-        }
-        .noticia-card .noticia-actions {
-            display: flex;
-            gap: 6px;
-            flex-wrap: wrap;
-            margin-top: 10px;
-            padding-top: 10px;
-            border-top: 1px solid var(--border-glow);
-        }
-        .noticias-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 8px;
-        }
-        @media(min-width:768px) {
-            .noticias-grid {
-                grid-template-columns: 1fr 1fr;
-            }
-        }
+        .saldo-positivo{background:linear-gradient(135deg,#00ff7f,#00d4ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+        .saldo-negativo{background:linear-gradient(135deg,#ff2d8a,#ff6a00);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+        .saldo-cero{color:var(--text-muted)}
+        .transaccion-ingreso{border-left:3px solid var(--neon-green)}
+        .transaccion-egreso{border-left:3px solid var(--neon-pink)}
+        .noticia-card{background:var(--bg-card);border:1px solid var(--border-glow);border-radius:var(--radius-sm);padding:16px 18px;transition:all 0.3s ease;margin-bottom:12px}
+        .noticia-card:hover{border-color:rgba(0,212,255,0.15);transform:translateY(-2px)}
+        .noticia-card .noticia-header{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap}
+        .noticia-card .noticia-header .info h4{font-size:0.85rem;font-weight:700;color:var(--text-primary)}
+        .noticia-card .noticia-header .info .meta{font-size:0.6rem;color:var(--text-muted);display:flex;gap:12px;flex-wrap:wrap;margin-top:4px}
+        .noticia-card .noticia-header .info .meta span{display:flex;align-items:center;gap:4px}
+        .noticia-card .noticia-body{margin-top:8px;font-size:0.75rem;color:var(--text-secondary);line-height:1.6}
+        .noticia-card .noticia-body .monto{display:inline-block;padding:2px 12px;border-radius:12px;font-weight:700;font-size:0.7rem;margin-top:4px;color:var(--neon-orange);background:rgba(255,106,0,0.06);border:1px solid rgba(255,106,0,0.08)}
+        .noticia-card .noticia-actions{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px;padding-top:10px;border-top:1px solid var(--border-glow)}
+        .noticias-grid{display:grid;grid-template-columns:1fr;gap:8px}
+        @media(min-width:768px){.noticias-grid{grid-template-columns:1fr 1fr}}
     </style>
 </head>
 <body>
@@ -382,6 +324,7 @@
             <li data-tab="socios"><i class="fas fa-users"></i><span class="label">Socios</span><span class="badge" id="sociosBadge">0</span></li>
             <li data-tab="pagos"><i class="fas fa-credit-card"></i><span class="label">Pagos</span></li>
             <li data-tab="comprobantes"><i class="fas fa-file-invoice"></i><span class="label">Comprobantes</span></li>
+            <li data-tab="finanzas"><i class="fas fa-coins"></i><span class="label">Finanzas</span></li>
             <li data-tab="noticias"><i class="fas fa-newspaper"></i><span class="label">Noticias</span></li>
             <li data-tab="notificaciones"><i class="fas fa-bell"></i><span class="label">Notificaciones</span><span class="badge" id="notifBadgeSidebar">0</span></li>
             <li data-tab="bancarios"><i class="fas fa-university"></i><span class="label">Datos Bancarios</span></li>
@@ -473,7 +416,102 @@
                 <div class="table-container"><table class="admin-table"><thead><tr><th>Socio</th><th>Archivo</th><th>Fecha</th><th>Estado</th><th>Acciones</th></tr></thead><tbody id="comprobantesTableBody"></tbody></table></div>
             </div>
 
-            <!-- ===== NOTICIAS (ADMIN) ===== -->
+            <!-- ===== FINANZAS ===== -->
+            <div class="tab-content" id="tab-finanzas">
+                
+                <!-- Resumen Financiero -->
+                <div class="stats-grid" style="grid-template-columns:repeat(auto-fill,minmax(180px,1fr));margin-bottom:16px;">
+                    <div class="stat-card">
+                        <div class="top"><div class="icon green"><i class="fas fa-arrow-down"></i></div></div>
+                        <div class="value" id="totalIngresos">Gs. 0</div>
+                        <div class="label">Total Ingresos</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="top"><div class="icon pink"><i class="fas fa-arrow-up"></i></div></div>
+                        <div class="value" id="totalEgresos">Gs. 0</div>
+                        <div class="label">Total Egresos</div>
+                    </div>
+                    <div class="stat-card" id="saldoCard">
+                        <div class="top"><div class="icon blue"><i class="fas fa-wallet"></i></div></div>
+                        <div class="value" id="saldoActual">Gs. 0</div>
+                        <div class="label">Saldo Actual</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="top"><div class="icon purple"><i class="fas fa-calendar-alt"></i></div></div>
+                        <div class="value" id="ingresosMes">Gs. 0</div>
+                        <div class="label">Ingresos del Mes</div>
+                    </div>
+                </div>
+
+                <!-- Botones de acción -->
+                <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px;">
+                    <button class="btn btn-success" onclick="abrirModalTransaccion('ingreso')">
+                        <i class="fas fa-plus-circle"></i> Nuevo Ingreso
+                    </button>
+                    <button class="btn btn-danger" onclick="abrirModalTransaccion('egreso')">
+                        <i class="fas fa-minus-circle"></i> Nuevo Egreso
+                    </button>
+                    <button class="btn btn-secondary" onclick="loadFinanzas()">
+                        <i class="fas fa-sync"></i> Actualizar
+                    </button>
+                    <button class="btn btn-secondary" onclick="exportarReporteFinanzas()">
+                        <i class="fas fa-file-excel"></i> Exportar Reporte
+                    </button>
+                </div>
+
+                <!-- Filtros -->
+                <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px;align-items:center;">
+                    <div style="flex:1;min-width:120px;">
+                        <select id="filtroTipo" onchange="loadFinanzas()" style="width:100%;padding:8px 12px;background:var(--bg-card);border:1px solid var(--border-glow);border-radius:var(--radius-xs);color:var(--text-primary);font-size:0.7rem;outline:none;">
+                            <option value="todos">📋 Todos los tipos</option>
+                            <option value="ingreso">📈 Ingresos</option>
+                            <option value="egreso">📉 Egresos</option>
+                        </select>
+                    </div>
+                    <div style="flex:1;min-width:120px;">
+                        <select id="filtroCategoria" onchange="loadFinanzas()" style="width:100%;padding:8px 12px;background:var(--bg-card);border:1px solid var(--border-glow);border-radius:var(--radius-xs);color:var(--text-primary);font-size:0.7rem;outline:none;">
+                            <option value="todos">📂 Todas las categorías</option>
+                        </select>
+                    </div>
+                    <div style="flex:1;min-width:120px;">
+                        <input type="date" id="filtroFechaInicio" onchange="loadFinanzas()" style="width:100%;padding:8px 12px;background:var(--bg-card);border:1px solid var(--border-glow);border-radius:var(--radius-xs);color:var(--text-primary);font-size:0.7rem;outline:none;">
+                    </div>
+                    <div style="flex:1;min-width:120px;">
+                        <input type="date" id="filtroFechaFin" onchange="loadFinanzas()" style="width:100%;padding:8px 12px;background:var(--bg-card);border:1px solid var(--border-glow);border-radius:var(--radius-xs);color:var(--text-primary);font-size:0.7rem;outline:none;">
+                    </div>
+                    <button class="btn btn-secondary btn-sm" onclick="limpiarFiltrosFinanzas()">
+                        <i class="fas fa-times"></i> Limpiar
+                    </button>
+                </div>
+
+                <!-- Tabla de transacciones -->
+                <div class="table-container">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Fecha</th>
+                                <th>Tipo</th>
+                                <th>Categoría</th>
+                                <th>Descripción</th>
+                                <th>Monto</th>
+                                <th>Socio</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="transaccionesTableBody">
+                            <tr><td colspan="7" style="text-align:center;padding:40px;color:var(--text-muted);">
+                                <i class="fas fa-spinner fa-spin" style="font-size:1.5rem;display:block;margin-bottom:12px;color:var(--neon-blue);"></i>
+                                Cargando transacciones...
+                            </td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <!-- Paginación -->
+                <div class="pagination" id="finanzasPagination"></div>
+            </div>
+
+            <!-- ===== NOTICIAS ===== -->
             <div class="tab-content" id="tab-noticias">
                 <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:10px;">
                     <div>
@@ -485,7 +523,6 @@
                     </button>
                 </div>
 
-                <!-- Estadísticas de noticias -->
                 <div class="stats-grid" style="grid-template-columns:repeat(auto-fill,minmax(140px,1fr));margin-bottom:16px;">
                     <div class="stat-card">
                         <div class="top"><div class="icon blue"><i class="fas fa-newspaper"></i></div></div>
@@ -499,7 +536,6 @@
                     </div>
                 </div>
 
-                <!-- Contenedor de noticias -->
                 <div id="noticiasAdminContainer" class="noticias-grid">
                     <div style="text-align:center;padding:40px;color:var(--text-muted);grid-column:1/-1;">
                         <i class="fas fa-spinner fa-spin" style="font-size:1.5rem;display:block;margin-bottom:12px;color:var(--neon-blue);"></i>
@@ -674,6 +710,80 @@
         </div>
     </div>
 
+    <!-- ===== MODAL NUEVA TRANSACCIÓN ===== -->
+    <div class="modal" id="modalTransaccion">
+        <div class="modal-content" style="max-width:500px;">
+            <div class="modal-header">
+                <h2 id="modalTransaccionTitulo">💰 Nueva Transacción</h2>
+                <button class="modal-close" onclick="closeModal('modalTransaccion')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="formTransaccion">
+                    <div class="form-group">
+                        <label>Tipo *</label>
+                        <select id="transaccionTipo" required style="width:100%;padding:10px 12px;background:var(--bg-card);border:1px solid var(--border-glow);border-radius:var(--radius-xs);color:var(--text-primary);font-size:0.8rem;outline:none;">
+                            <option value="ingreso">📈 Ingreso</option>
+                            <option value="egreso">📉 Egreso</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Categoría *</label>
+                        <select id="transaccionCategoria" required style="width:100%;padding:10px 12px;background:var(--bg-card);border:1px solid var(--border-glow);border-radius:var(--radius-xs);color:var(--text-primary);font-size:0.8rem;outline:none;">
+                            <option value="">Seleccionar categoría...</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Descripción *</label>
+                        <input type="text" id="transaccionDescripcion" placeholder="Ej: Compra de balones oficiales" required style="width:100%;padding:10px 12px;background:var(--bg-card);border:1px solid var(--border-glow);border-radius:var(--radius-xs);color:var(--text-primary);font-size:0.8rem;outline:none;">
+                    </div>
+                    <div class="form-group">
+                        <label>Monto (Gs.) *</label>
+                        <input type="number" id="transaccionMonto" placeholder="0" required min="1" step="100" style="width:100%;padding:10px 12px;background:var(--bg-card);border:1px solid var(--border-glow);border-radius:var(--radius-xs);color:var(--text-primary);font-size:0.8rem;outline:none;">
+                    </div>
+                    <div class="form-group">
+                        <label>Socio (opcional)</label>
+                        <select id="transaccionSocio" style="width:100%;padding:10px 12px;background:var(--bg-card);border:1px solid var(--border-glow);border-radius:var(--radius-xs);color:var(--text-primary);font-size:0.8rem;outline:none;">
+                            <option value="">Ninguno</option>
+                        </select>
+                        <div style="font-size:0.55rem;color:var(--text-muted);margin-top:4px;">
+                            <i class="fas fa-info-circle"></i> Solo si aplica a un socio específico
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Método de Pago</label>
+                        <select id="transaccionMetodo" style="width:100%;padding:10px 12px;background:var(--bg-card);border:1px solid var(--border-glow);border-radius:var(--radius-xs);color:var(--text-primary);font-size:0.8rem;outline:none;">
+                            <option value="Efectivo">💵 Efectivo</option>
+                            <option value="Transferencia">💻 Transferencia</option>
+                            <option value="Tarjeta">💳 Tarjeta</option>
+                            <option value="Otro">📦 Otro</option>
+                        </select>
+                    </div>
+                    <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap;">
+                        <button type="submit" class="btn btn-primary" style="flex:1;">
+                            <i class="fas fa-save"></i> Registrar Transacción
+                        </button>
+                        <button type="button" class="btn btn-secondary" onclick="closeModal('modalTransaccion')">
+                            Cancelar
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== MODAL VER TRANSACCIÓN ===== -->
+    <div class="modal" id="modalVerTransaccion">
+        <div class="modal-content" style="max-width:500px;">
+            <div class="modal-header">
+                <h2>📋 Detalle de Transacción</h2>
+                <button class="modal-close" onclick="closeModal('modalVerTransaccion')">&times;</button>
+            </div>
+            <div class="modal-body" id="verTransaccionBody">
+                <!-- Se llena dinámicamente -->
+            </div>
+        </div>
+    </div>
+
     <script>
         // ================================================================
         // 1. PARTÍCULAS
@@ -809,50 +919,7 @@
         const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
         // ================================================================
-        // 6. NAVEGACIÓN
-        // ================================================================
-        function switchTab(tab) {
-            document.querySelectorAll('.sidebar-nav li').forEach(function(el) {
-                el.classList.toggle('active', el.dataset.tab === tab);
-            });
-            document.querySelectorAll('.tab-content').forEach(function(el) {
-                el.classList.toggle('active', el.id === 'tab-' + tab);
-            });
-            var titles = {
-                dashboard: 'Dashboard',
-                socios: 'Socios',
-                pagos: 'Pagos',
-                comprobantes: 'Comprobantes',
-                noticias: 'Noticias',
-                notificaciones: 'Notificaciones',
-                bancarios: 'Datos Bancarios',
-                configuracion: 'Configuración'
-            };
-            document.getElementById('pageTitle').textContent = titles[tab] || tab;
-            if (window.innerWidth <= 768) {
-                document.getElementById('adminSidebar').classList.remove('mobile-open');
-            }
-            if (tab === 'dashboard') loadDashboardData();
-            if (tab === 'socios') loadSocios();
-            if (tab === 'pagos') loadPagos();
-            if (tab === 'comprobantes') loadComprobantes();
-            if (tab === 'noticias') loadNoticiasAdmin();
-            if (tab === 'notificaciones') loadNotificationsFull();
-        }
-
-        document.getElementById('toggleSidebar').addEventListener('click', function() {
-            document.getElementById('adminSidebar').classList.toggle('mobile-open');
-        });
-
-        document.querySelectorAll('.sidebar-nav li').forEach(function(item) {
-            item.addEventListener('click', function() {
-                var tab = this.dataset.tab;
-                if (tab) switchTab(tab);
-            });
-        });
-
-        // ================================================================
-        // 7. FUNCIONES AUXILIARES
+        // 6. FUNCIONES AUXILIARES
         // ================================================================
         function openModal(id) {
             document.getElementById(id).classList.add('active');
@@ -926,6 +993,51 @@
             } catch (e) { console.warn('Error parsing session:', e); }
             return null;
         }
+
+        // ================================================================
+        // 7. NAVEGACIÓN
+        // ================================================================
+        function switchTab(tab) {
+            document.querySelectorAll('.sidebar-nav li').forEach(function(el) {
+                el.classList.toggle('active', el.dataset.tab === tab);
+            });
+            document.querySelectorAll('.tab-content').forEach(function(el) {
+                el.classList.toggle('active', el.id === 'tab-' + tab);
+            });
+            var titles = {
+                dashboard: 'Dashboard',
+                socios: 'Socios',
+                pagos: 'Pagos',
+                comprobantes: 'Comprobantes',
+                finanzas: 'Finanzas',
+                noticias: 'Noticias',
+                notificaciones: 'Notificaciones',
+                bancarios: 'Datos Bancarios',
+                configuracion: 'Configuración'
+            };
+            document.getElementById('pageTitle').textContent = titles[tab] || tab;
+            if (window.innerWidth <= 768) {
+                document.getElementById('adminSidebar').classList.remove('mobile-open');
+            }
+            if (tab === 'dashboard') loadDashboardData();
+            if (tab === 'socios') loadSocios();
+            if (tab === 'pagos') loadPagos();
+            if (tab === 'comprobantes') loadComprobantes();
+            if (tab === 'finanzas') loadFinanzas();
+            if (tab === 'noticias') loadNoticiasAdmin();
+            if (tab === 'notificaciones') loadNotificationsFull();
+        }
+
+        document.getElementById('toggleSidebar').addEventListener('click', function() {
+            document.getElementById('adminSidebar').classList.toggle('mobile-open');
+        });
+
+        document.querySelectorAll('.sidebar-nav li').forEach(function(item) {
+            item.addEventListener('click', function() {
+                var tab = this.dataset.tab;
+                if (tab) switchTab(tab);
+            });
+        });
 
         // ================================================================
         // 8. DASHBOARD
@@ -1163,7 +1275,7 @@
         }
 
         // ================================================================
-        // 9. NOTIFICACIONES DROPDOWN
+        // 9. NOTIFICACIONES
         // ================================================================
         function renderNotificacionesDropdown(notificaciones) {
             var container = document.getElementById('notificationList');
@@ -1244,9 +1356,6 @@
             }
         }
 
-        // ================================================================
-        // 10. NOTIFICACIONES FULL
-        // ================================================================
         async function loadNotificationsFull() {
             try {
                 const { data, error } = await supabaseClient
@@ -1259,7 +1368,7 @@
                 var container = document.getElementById('notificationsFullList');
                 if (!data || data.length === 0) {
                     container.innerHTML =
-                        '<div style="text-align:center;padding:60px 20px;color:var(--text-muted);"><i class="fas fa-bell-slash" style="font-size:2.5rem;display:block;margin-bottom:12px;opacity:0.3;"></i><h3 style="font-weight:400;font-size:1rem;">No hay notificaciones</h3></div>';
+                        '<div style="text-align:center;padding:60px 20px;color:var(--text-muted);;"><i class="fas fa-bell-slash" style="font-size:2.5rem;display:block;margin-bottom:12px;opacity:0.3;"></i><h3 style="font-weight:400;font-size:1rem;">No hay notificaciones</h3></div>';
                     return;
                 }
 
@@ -1299,7 +1408,7 @@
         }
 
         // ================================================================
-        // 11. SOCIOS
+        // 10. SOCIOS
         // ================================================================
         var sociosPage = 1;
         var sociosPageSize = 10;
@@ -1422,7 +1531,7 @@
         }
 
         // ================================================================
-        // 12. ACCIONES DE SOCIOS
+        // 11. ACCIONES DE SOCIOS
         // ================================================================
         async function viewSocio(id) {
             try {
@@ -1705,7 +1814,7 @@
         }
 
         // ================================================================
-        // 13. PAGOS
+        // 12. PAGOS
         // ================================================================
         async function loadPagos() {
             try {
@@ -1756,7 +1865,7 @@
         }
 
         // ================================================================
-        // 14. COMPROBANTES
+        // 13. COMPROBANTES
         // ================================================================
         async function loadComprobantes() {
             try {
@@ -1915,6 +2024,532 @@
         }
 
         // ================================================================
+        // 14. FINANZAS - SISTEMA DE CAJA
+        // ================================================================
+        let transaccionesCache = [];
+        let finanzasPage = 1;
+        let finanzasPageSize = 20;
+
+        async function loadFinanzas() {
+            try {
+                console.log('🔄 Cargando datos financieros...');
+
+                const tipo = document.getElementById('filtroTipo')?.value || 'todos';
+                const categoria = document.getElementById('filtroCategoria')?.value || 'todos';
+                const fechaInicio = document.getElementById('filtroFechaInicio')?.value;
+                const fechaFin = document.getElementById('filtroFechaFin')?.value;
+
+                let query = supabaseClient
+                    .from('transacciones')
+                    .select('*, socio:socios(id, nombre, username)', { count: 'exact' })
+                    .order('fecha', { ascending: false });
+
+                if (tipo !== 'todos') query = query.eq('tipo', tipo);
+                if (categoria !== 'todos') query = query.eq('categoria', categoria);
+                if (fechaInicio) query = query.gte('fecha', fechaInicio + ' 00:00:00');
+                if (fechaFin) query = query.lte('fecha', fechaFin + ' 23:59:59');
+
+                const start = (finanzasPage - 1) * finanzasPageSize;
+                const end = start + finanzasPageSize - 1;
+
+                const { data: transacciones, error, count } = await query.range(start, end);
+
+                if (error) {
+                    console.error('❌ Error en consulta:', error);
+                    throw error;
+                }
+
+                transaccionesCache = transacciones || [];
+                
+                console.log('✅ Transacciones cargadas:', transaccionesCache.length, 'Total:', count || 0);
+
+                await calcularResumenCompleto(tipo, categoria, fechaInicio, fechaFin);
+                renderTransacciones(transaccionesCache);
+                renderPaginacionFinanzas(count || 0);
+
+            } catch (error) {
+                console.error('❌ Error cargando finanzas:', error);
+                showToast('❌ Error al cargar datos financieros: ' + error.message, 'error');
+                const tbody = document.getElementById('transaccionesTableBody');
+                if (tbody) {
+                    tbody.innerHTML = `
+                        <tr><td colspan="7" style="text-align:center;padding:40px;color:var(--text-muted);">
+                            <i class="fas fa-exclamation-triangle" style="font-size:1.5rem;display:block;margin-bottom:8px;color:var(--neon-orange);"></i>
+                            Error al cargar transacciones<br>
+                            <span style="font-size:0.7rem;">${error.message || 'Error desconocido'}</span>
+                        </td></tr>
+                    `;
+                }
+            }
+        }
+
+        async function calcularResumenCompleto(tipo, categoria, fechaInicio, fechaFin) {
+            try {
+                let query = supabaseClient
+                    .from('transacciones')
+                    .select('*');
+
+                if (tipo !== 'todos') query = query.eq('tipo', tipo);
+                if (categoria !== 'todos') query = query.eq('categoria', categoria);
+                if (fechaInicio) query = query.gte('fecha', fechaInicio + ' 00:00:00');
+                if (fechaFin) query = query.lte('fecha', fechaFin + ' 23:59:59');
+
+                const { data: todas, error } = await query;
+
+                if (error) throw error;
+
+                let ingresos = 0;
+                let egresos = 0;
+                const hoy = new Date();
+                const mesActual = hoy.getMonth();
+                const añoActual = hoy.getFullYear();
+                let ingresosMes = 0;
+
+                (todas || []).forEach(t => {
+                    const fecha = new Date(t.fecha);
+                    const monto = Number(t.monto) || 0;
+                    
+                    if (t.tipo === 'ingreso') {
+                        ingresos += monto;
+                        if (fecha.getMonth() === mesActual && fecha.getFullYear() === añoActual) {
+                            ingresosMes += monto;
+                        }
+                    } else if (t.tipo === 'egreso') {
+                        egresos += monto;
+                    }
+                });
+
+                const saldo = ingresos - egresos;
+
+                document.getElementById('totalIngresos').textContent = 'Gs. ' + ingresos.toLocaleString();
+                document.getElementById('totalEgresos').textContent = 'Gs. ' + egresos.toLocaleString();
+                document.getElementById('saldoActual').textContent = 'Gs. ' + saldo.toLocaleString();
+                document.getElementById('ingresosMes').textContent = 'Gs. ' + ingresosMes.toLocaleString();
+
+                const saldoEl = document.getElementById('saldoActual');
+                if (saldoEl) {
+                    saldoEl.className = 'value ' + (saldo > 0 ? 'saldo-positivo' : saldo < 0 ? 'saldo-negativo' : 'saldo-cero');
+                }
+
+            } catch (error) {
+                console.error('❌ Error calculando resumen:', error);
+            }
+        }
+
+        function renderTransacciones(transacciones) {
+            const tbody = document.getElementById('transaccionesTableBody');
+            
+            if (!tbody) return;
+
+            if (!transacciones || transacciones.length === 0) {
+                tbody.innerHTML = `
+                    <tr><td colspan="7" style="text-align:center;padding:40px;color:var(--text-muted);">
+                        <i class="fas fa-coins" style="font-size:1.5rem;display:block;margin-bottom:8px;opacity:0.3;"></i>
+                        No hay transacciones registradas
+                    </td></tr>
+                `;
+                return;
+            }
+
+            tbody.innerHTML = transacciones.map(t => {
+                const tipoIcon = t.tipo === 'ingreso' ? '📈' : '📉';
+                const tipoColor = t.tipo === 'ingreso' ? 'var(--neon-green)' : 'var(--neon-pink)';
+                const tipoClase = t.tipo === 'ingreso' ? 'transaccion-ingreso' : 'transaccion-egreso';
+                
+                const socioNombre = t.socio ? t.socio.nombre : 'N/A';
+                const socioUsername = t.socio ? t.socio.username : '';
+                
+                const fecha = new Date(t.fecha).toLocaleDateString('es', {
+                    day: '2-digit',
+                    month: '2-digit',
+                    year: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+
+                const montoFormateado = Number(t.monto).toLocaleString();
+
+                return `
+                    <tr class="${tipoClase}">
+                        <td style="font-size:0.7rem;white-space:nowrap;">${fecha}</td>
+                        <td><span style="color:${tipoColor};font-weight:600;">${tipoIcon} ${t.tipo === 'ingreso' ? 'Ingreso' : 'Egreso'}</span></td>
+                        <td><span class="badge-status">${t.categoria || 'Sin categoría'}</span></td>
+                        <td style="font-size:0.75rem;max-width:200px;word-break:break-word;">${t.descripcion || 'Sin descripción'}</td>
+                        <td style="font-weight:700;color:${t.tipo === 'ingreso' ? 'var(--neon-green)' : 'var(--neon-pink)'};">
+                            ${t.tipo === 'ingreso' ? '+' : '-'} Gs. ${montoFormateado}
+                        </td>
+                        <td style="font-size:0.65rem;">
+                            ${socioNombre} ${socioUsername ? '<span style="color:var(--text-muted);">@'+socioUsername+'</span>' : ''}
+                        </td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="btn btn-secondary btn-sm" onclick="verTransaccion('${t.id}')" title="Ver detalle">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                                <button class="btn btn-danger btn-sm" onclick="eliminarTransaccion('${t.id}')" title="Eliminar">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function renderPaginacionFinanzas(total) {
+            const container = document.getElementById('finanzasPagination');
+            if (!container) return;
+            
+            const totalPages = Math.ceil(total / finanzasPageSize);
+            if (totalPages <= 1) { container.innerHTML = ''; return; }
+            
+            let html = '';
+            for (let i = 1; i <= totalPages; i++) {
+                html += `<button class="btn ${i === finanzasPage ? 'btn-primary' : 'btn-secondary'} btn-sm" onclick="goToFinanzasPage(${i})">${i}</button>`;
+            }
+            container.innerHTML = html;
+        }
+
+        function goToFinanzasPage(page) {
+            finanzasPage = page;
+            loadFinanzas();
+        }
+
+        // Registrar transacción
+        document.getElementById('formTransaccion')?.addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const tipo = document.getElementById('transaccionTipo').value;
+            const categoria = document.getElementById('transaccionCategoria').value;
+            const descripcion = document.getElementById('transaccionDescripcion').value.trim();
+            const monto = parseFloat(document.getElementById('transaccionMonto').value);
+            const socioId = document.getElementById('transaccionSocio').value || null;
+            const metodoPago = document.getElementById('transaccionMetodo').value;
+
+            if (!categoria || !descripcion || !monto || monto <= 0) {
+                showToast('⚠️ Completa todos los campos requeridos', 'warning');
+                return;
+            }
+
+            const sessionUser = getCurrentUser();
+            if (!sessionUser) {
+                showToast('⚠️ Sesión no encontrada', 'error');
+                return;
+            }
+
+            const btn = this.querySelector('.btn-primary');
+            btn.disabled = true;
+            btn.innerHTML = '<span class="spinner-small"></span> Guardando...';
+
+            try {
+                let socioIdNum = null;
+                if (socioId) {
+                    socioIdNum = parseInt(socioId);
+                }
+
+                const transaccionData = {
+                    tipo: tipo,
+                    categoria: categoria,
+                    descripcion: descripcion,
+                    monto: monto,
+                    socio_id: socioIdNum,
+                    metodo_pago: metodoPago,
+                    fecha: new Date().toISOString(),
+                    created_by: parseInt(sessionUser.id) || null
+                };
+
+                console.log('📝 Registrando transacción:', transaccionData);
+
+                const { data, error } = await supabaseClient
+                    .from('transacciones')
+                    .insert([transaccionData])
+                    .select();
+
+                if (error) {
+                    console.error('❌ Error detallado:', error);
+                    throw error;
+                }
+
+                if (tipo === 'egreso' && data && data[0]) {
+                    try {
+                        await supabaseClient
+                            .from('noticias_gastos')
+                            .insert([{
+                                titulo: `💸 ${categoria}: ${descripcion.substring(0, 50)}`,
+                                descripcion: `Se registró un gasto de Gs. ${monto.toLocaleString()} en ${categoria}${socioId ? ' para el socio' : ''}`,
+                                tipo: 'gasto',
+                                monto: monto,
+                                categoria: categoria,
+                                para_todos: true,
+                                fecha_evento: new Date().toISOString(),
+                                created_by: parseInt(sessionUser.id) || null
+                            }]);
+                        console.log('✅ Noticia de gasto creada automáticamente');
+                    } catch (e) {
+                        console.warn('⚠️ Error creando noticia de gasto:', e);
+                    }
+                }
+
+                if (socioId) {
+                    try {
+                        const { data: socio } = await supabaseClient
+                            .from('socios')
+                            .select('nombre, username')
+                            .eq('id', socioId)
+                            .single();
+
+                        if (socio) {
+                            await supabaseClient.from('notificaciones').insert([{
+                                tipo: 'pago_efectivo',
+                                mensaje: `💰 ${tipo === 'ingreso' ? 'Ingreso' : 'Egreso'} registrado: ${descripcion} - Gs. ${monto.toLocaleString()}`,
+                                leida: false,
+                                data: {
+                                    socio_id: socioId,
+                                    transaccion_id: data[0].id,
+                                    tipo: tipo
+                                }
+                            }]);
+                        }
+                    } catch (e) {
+                        console.warn('⚠️ Error enviando notificación:', e);
+                    }
+                }
+
+                showToast('✅ Transacción registrada exitosamente', 'success');
+                closeModal('modalTransaccion');
+                
+                finanzasPage = 1;
+                loadFinanzas();
+
+            } catch (error) {
+                console.error('❌ Error registrando transacción:', error);
+                showToast('❌ Error al registrar: ' + (error.message || 'Error desconocido'), 'error');
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-save"></i> Registrar Transacción';
+            }
+        });
+
+        function abrirModalTransaccion(tipo) {
+            const modal = document.getElementById('modalTransaccion');
+            const titulo = document.getElementById('modalTransaccionTitulo');
+            
+            if (tipo === 'ingreso') {
+                titulo.textContent = '📈 Nuevo Ingreso';
+                document.getElementById('transaccionTipo').value = 'ingreso';
+            } else {
+                titulo.textContent = '📉 Nuevo Egreso';
+                document.getElementById('transaccionTipo').value = 'egreso';
+            }
+            
+            document.getElementById('formTransaccion').reset();
+            document.getElementById('transaccionMonto').value = '';
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+            
+            if (document.getElementById('transaccionCategoria').options.length <= 1) {
+                cargarCategoriasYSocios();
+            }
+        }
+
+        async function verTransaccion(id) {
+            try {
+                const { data: transaccion, error } = await supabaseClient
+                    .from('transacciones')
+                    .select('*, socio:socios(id, nombre, username, email, telefono)')
+                    .eq('id', id)
+                    .single();
+
+                if (error || !transaccion) {
+                    showToast('❌ Transacción no encontrada', 'error');
+                    return;
+                }
+
+                const { data: creador } = await supabaseClient
+                    .from('socios')
+                    .select('nombre, username')
+                    .eq('id', transaccion.created_by)
+                    .single();
+
+                const fecha = new Date(transaccion.fecha).toLocaleString('es', {
+                    day: '2-digit',
+                    month: '2-digit',
+                    year: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+
+                const cuerpo = document.getElementById('verTransaccionBody');
+                cuerpo.innerHTML = `
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px;">
+                        <div class="stat-card" style="padding:12px;">
+                            <div style="font-size:0.5rem;color:var(--text-muted);text-transform:uppercase;">Tipo</div>
+                            <div style="font-size:0.85rem;font-weight:600;color:${transaccion.tipo === 'ingreso' ? 'var(--neon-green)' : 'var(--neon-pink)'};">
+                                ${transaccion.tipo === 'ingreso' ? '📈 Ingreso' : '📉 Egreso'}
+                            </div>
+                        </div>
+                        <div class="stat-card" style="padding:12px;">
+                            <div style="font-size:0.5rem;color:var(--text-muted);text-transform:uppercase;">Monto</div>
+                            <div style="font-size:0.85rem;font-weight:700;color:${transaccion.tipo === 'ingreso' ? 'var(--neon-green)' : 'var(--neon-pink)'};">
+                                ${transaccion.tipo === 'ingreso' ? '+' : '-'} Gs. ${Number(transaccion.monto).toLocaleString()}
+                            </div>
+                        </div>
+                        <div class="stat-card" style="padding:12px;">
+                            <div style="font-size:0.5rem;color:var(--text-muted);text-transform:uppercase;">Categoría</div>
+                            <div style="font-size:0.8rem;font-weight:600;">${transaccion.categoria || 'Sin categoría'}</div>
+                        </div>
+                        <div class="stat-card" style="padding:12px;">
+                            <div style="font-size:0.5rem;color:var(--text-muted);text-transform:uppercase;">Método</div>
+                            <div style="font-size:0.8rem;font-weight:600;">${transaccion.metodo_pago || 'N/A'}</div>
+                        </div>
+                    </div>
+                    <div class="stat-card" style="padding:12px;margin-bottom:10px;">
+                        <div style="font-size:0.5rem;color:var(--text-muted);text-transform:uppercase;">Descripción</div>
+                        <div style="font-size:0.8rem;color:var(--text-primary);">${transaccion.descripcion || 'Sin descripción'}</div>
+                    </div>
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+                        <div class="stat-card" style="padding:12px;">
+                            <div style="font-size:0.5rem;color:var(--text-muted);text-transform:uppercase;">Fecha</div>
+                            <div style="font-size:0.7rem;">${fecha}</div>
+                        </div>
+                        <div class="stat-card" style="padding:12px;">
+                            <div style="font-size:0.5rem;color:var(--text-muted);text-transform:uppercase;">Registrado por</div>
+                            <div style="font-size:0.7rem;">${creador ? creador.nombre + ' (@' + creador.username + ')' : 'N/A'}</div>
+                        </div>
+                    </div>
+                    ${transaccion.socio ? `
+                        <div class="stat-card" style="padding:12px;margin-top:10px;border-color:rgba(0,212,255,0.1);">
+                            <div style="font-size:0.5rem;color:var(--text-muted);text-transform:uppercase;">Socio relacionado</div>
+                            <div style="font-size:0.75rem;font-weight:600;">${transaccion.socio.nombre} (@${transaccion.socio.username})</div>
+                            <div style="font-size:0.65rem;color:var(--text-muted);">${transaccion.socio.email || ''} ${transaccion.socio.telefono ? '· ' + transaccion.socio.telefono : ''}</div>
+                        </div>
+                    ` : ''}
+                    <div style="display:flex;gap:8px;margin-top:14px;">
+                        <button class="btn btn-danger btn-sm" onclick="eliminarTransaccion('${transaccion.id}')">
+                            <i class="fas fa-trash"></i> Eliminar
+                        </button>
+                        <button class="btn btn-secondary btn-sm" onclick="closeModal('modalVerTransaccion')">Cerrar</button>
+                    </div>
+                `;
+
+                document.getElementById('modalVerTransaccion').classList.add('active');
+                document.body.style.overflow = 'hidden';
+
+            } catch (error) {
+                console.error('❌ Error viendo transacción:', error);
+                showToast('❌ Error al cargar detalle', 'error');
+            }
+        }
+
+        async function eliminarTransaccion(id) {
+            if (!confirm('⚠️ ¿Eliminar esta transacción permanentemente?\nEsta acción no se puede deshacer.')) return;
+
+            try {
+                const { error } = await supabaseClient
+                    .from('transacciones')
+                    .delete()
+                    .eq('id', id);
+
+                if (error) throw error;
+
+                showToast('✅ Transacción eliminada correctamente', 'success');
+                closeModal('modalVerTransaccion');
+                loadFinanzas();
+
+            } catch (error) {
+                console.error('❌ Error eliminando transacción:', error);
+                showToast('❌ Error al eliminar: ' + error.message, 'error');
+            }
+        }
+
+        async function cargarCategoriasYSocios() {
+            try {
+                const { data: categorias, error: catError } = await supabaseClient
+                    .from('categorias_gastos')
+                    .select('*')
+                    .order('nombre');
+
+                if (!catError && categorias) {
+                    const selectCategoria = document.getElementById('transaccionCategoria');
+                    const selectFiltro = document.getElementById('filtroCategoria');
+                    
+                    selectCategoria.innerHTML = '<option value="">Seleccionar categoría...</option>';
+                    selectFiltro.innerHTML = '<option value="todos">📂 Todas las categorías</option>';
+                    
+                    categorias.forEach(c => {
+                        const opt1 = document.createElement('option');
+                        opt1.value = c.nombre;
+                        opt1.textContent = c.nombre;
+                        selectCategoria.appendChild(opt1);
+                        
+                        const opt2 = document.createElement('option');
+                        opt2.value = c.nombre;
+                        opt2.textContent = c.nombre;
+                        selectFiltro.appendChild(opt2);
+                    });
+                }
+
+                const { data: socios, error: socError } = await supabaseClient
+                    .from('socios')
+                    .select('id, nombre, username')
+                    .order('nombre');
+
+                if (!socError && socios) {
+                    const selectSocio = document.getElementById('transaccionSocio');
+                    selectSocio.innerHTML = '<option value="">Ninguno</option>';
+                    
+                    socios.forEach(s => {
+                        const option = document.createElement('option');
+                        option.value = s.id;
+                        option.textContent = `${s.nombre} (@${s.username})`;
+                        selectSocio.appendChild(option);
+                    });
+                }
+
+            } catch (error) {
+                console.error('❌ Error cargando selectores:', error);
+            }
+        }
+
+        function limpiarFiltrosFinanzas() {
+            document.getElementById('filtroTipo').value = 'todos';
+            document.getElementById('filtroCategoria').value = 'todos';
+            document.getElementById('filtroFechaInicio').value = '';
+            document.getElementById('filtroFechaFin').value = '';
+            finanzasPage = 1;
+            loadFinanzas();
+        }
+
+        function exportarReporteFinanzas() {
+            if (!transaccionesCache || transaccionesCache.length === 0) {
+                showToast('⚠️ No hay datos para exportar', 'warning');
+                return;
+            }
+
+            try {
+                let csv = 'Fecha,Tipo,Categoría,Descripción,Monto,Socio,Metodo\n';
+                transaccionesCache.forEach(t => {
+                    const fecha = new Date(t.fecha).toLocaleDateString('es');
+                    const socioNombre = t.socio ? t.socio.nombre : 'N/A';
+                    csv += `${fecha},${t.tipo},${t.categoria || ''},"${t.descripcion || ''}",${Number(t.monto).toLocaleString()},${socioNombre},${t.metodo_pago || ''}\n`;
+                });
+
+                const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+                const link = document.createElement('a');
+                link.href = URL.createObjectURL(blob);
+                link.download = `Reporte_Finanzas_${new Date().toISOString().split('T')[0]}.csv`;
+                link.click();
+                URL.revokeObjectURL(link.href);
+
+                showToast('✅ Reporte exportado exitosamente', 'success');
+
+            } catch (error) {
+                console.error('❌ Error exportando reporte:', error);
+                showToast('❌ Error al exportar reporte', 'error');
+            }
+        }
+
+        // ================================================================
         // 15. NOTICIAS - ADMIN
         // ================================================================
         async function loadNoticiasAdmin() {
@@ -1951,7 +2586,6 @@
                     return;
                 }
 
-                // Calcular totales
                 const totalGastos = noticias
                     .filter(n => n.tipo === 'gasto' && n.monto)
                     .reduce((sum, n) => sum + Number(n.monto), 0);
@@ -2021,9 +2655,6 @@
             }
         }
 
-        // ================================================================
-        // 16. MODAL NUEVA NOTICIA
-        // ================================================================
         function abrirModalNuevaNoticia() {
             document.getElementById('formNuevaNoticia').reset();
             document.getElementById('noticiaMontoGroup').style.display = 'block';
@@ -2031,7 +2662,7 @@
             document.body.style.overflow = 'hidden';
         }
 
-        document.getElementById('noticiaTipo').addEventListener('change', function() {
+        document.getElementById('noticiaTipo')?.addEventListener('change', function() {
             const montoGroup = document.getElementById('noticiaMontoGroup');
             if (this.value === 'gasto') {
                 montoGroup.style.display = 'block';
@@ -2041,7 +2672,7 @@
             }
         });
 
-        document.getElementById('formNuevaNoticia').addEventListener('submit', async function(e) {
+        document.getElementById('formNuevaNoticia')?.addEventListener('submit', async function(e) {
             e.preventDefault();
 
             const titulo = document.getElementById('noticiaTitulo').value.trim();
@@ -2076,7 +2707,7 @@
                         categoria: categoria,
                         para_todos: true,
                         fecha_evento: new Date().toISOString(),
-                        created_by: sessionUser.id
+                        created_by: parseInt(sessionUser.id) || null
                     }])
                     .select();
 
@@ -2086,7 +2717,6 @@
                 closeModal('nuevaNoticiaModal');
                 loadNoticiasAdmin();
 
-                // Notificar a los socios
                 try {
                     await supabaseClient.from('notificaciones').insert([{
                         tipo: 'nuevo_gasto',
@@ -2098,7 +2728,6 @@
                             tipo: tipo
                         }
                     }]);
-                    console.log('✅ Notificación enviada a socios');
                 } catch (e) {
                     console.warn('⚠️ Error enviando notificación:', e);
                 }
@@ -2112,9 +2741,6 @@
             }
         });
 
-        // ================================================================
-        // 17. EDITAR NOTICIA
-        // ================================================================
         async function editarNoticia(id) {
             try {
                 const { data: noticia, error } = await supabaseClient
@@ -2144,7 +2770,7 @@
             }
         }
 
-        document.getElementById('formEditarNoticia').addEventListener('submit', async function(e) {
+        document.getElementById('formEditarNoticia')?.addEventListener('submit', async function(e) {
             e.preventDefault();
 
             const id = document.getElementById('editNoticiaId').value;
@@ -2190,9 +2816,6 @@
             }
         });
 
-        // ================================================================
-        // 18. ELIMINAR NOTICIA
-        // ================================================================
         async function eliminarNoticia(id) {
             if (!confirm('¿Eliminar esta noticia permanentemente?')) return;
 
@@ -2214,7 +2837,7 @@
         }
 
         // ================================================================
-        // 19. OTRAS FUNCIONES
+        // 16. OTRAS FUNCIONES
         // ================================================================
         function copiarDatosAdmin() {
             var datos =
@@ -2246,7 +2869,7 @@
         }
 
         // ================================================================
-        // 20. CERRAR SESIÓN
+        // 17. CERRAR SESIÓN
         // ================================================================
         function handleLogout() {
             if (!confirm('¿Cerrar sesión?')) return;
@@ -2260,7 +2883,7 @@
         }
 
         // ================================================================
-        // 21. INICIALIZAR
+        // 18. INICIALIZAR
         // ================================================================
         async function initAdmin() {
             console.log('🚀 Iniciando panel de administración...');
@@ -2290,6 +2913,7 @@
             await loadSocios();
             await loadPagos();
             await loadComprobantes();
+            await loadFinanzas();
             await loadNoticiasAdmin();
             await loadNotificationsFull();
 
@@ -2298,6 +2922,7 @@
                 if (tabActivo) {
                     const id = tabActivo.id;
                     if (id === 'tab-dashboard') loadDashboardData();
+                    if (id === 'tab-finanzas') loadFinanzas();
                     if (id === 'tab-noticias') loadNoticiasAdmin();
                 }
             }, 30000);
@@ -2306,7 +2931,7 @@
         }
 
         // ================================================================
-        // 22. EVENTOS DE NOTIFICACIONES
+        // 19. EVENTOS DE NOTIFICACIONES
         // ================================================================
         document.getElementById('notificationBell').addEventListener('click', function(e) {
             e.stopPropagation();
@@ -2318,13 +2943,14 @@
         });
 
         // ================================================================
-        // 23. INICIALIZAR
+        // 20. INICIALIZAR
         // ================================================================
         document.addEventListener('DOMContentLoaded', initAdmin);
 
-        console.log('📦 FLY FUTBOLEROS · Panel de Administración (CON NOTICIAS)');
+        console.log('📦 FLY FUTBOLEROS · Panel de Administración (CON SISTEMA DE CAJA)');
         console.log('✅ Gestión de noticias integrada');
-        console.log('✅ Publicación y edición de noticias');
+        console.log('✅ Sistema de caja con ingresos y egresos');
+        console.log('✅ Reportes exportables a CSV');
         console.log('✅ Notificaciones en tiempo real para socios');
     </script>
 
