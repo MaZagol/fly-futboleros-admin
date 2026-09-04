@@ -127,14 +127,6 @@
         .plan-status .item .value.pending{color:var(--neon-orange)}
         .plan-status .item .value.suspended{color:var(--neon-pink)}
         .plan-status .item .value.expired{color:var(--neon-pink)}
-        .bank-data{background:rgba(0,0,0,0.2);border-radius:var(--radius-sm);padding:12px 14px;border:1px solid rgba(0,212,255,0.04);margin-top:8px}
-        .bank-data .row{display:grid;grid-template-columns:80px 1fr;gap:2px 10px;font-size:0.7rem;padding:2px 0}
-        .bank-data .row .label{color:var(--text-muted);font-size:0.6rem;text-transform:uppercase;letter-spacing:0.5px}
-        .bank-data .row .value{color:var(--text-secondary);font-weight:500}
-        .bank-data .row .value.highlight{color:var(--neon-blue);font-weight:700}
-        .bank-data .row .value.highlight-green{color:var(--neon-green);font-weight:700}
-        .bank-data .alert{margin-top:8px;padding:8px 12px;background:rgba(255,106,0,0.04);border:1px solid rgba(255,106,0,0.06);border-radius:var(--radius-xs);font-size:0.65rem;color:var(--neon-orange)}
-        .bank-data .alert i{margin-right:6px}
         .futboleros-header{display:flex;align-items:center;gap:12px;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--border-glow)}
         .futboleros-header .icono-grande{font-size:2rem;line-height:1}
         .futboleros-header .titulo-seccion h3{font-size:clamp(1rem,2vw,1.3rem);font-weight:800;color:#ffffff;text-shadow:0 0 40px rgba(0,212,255,0.05)}
@@ -166,7 +158,6 @@
         .avatar-iniciales-small{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:var(--gradient-primary);color:#fff;font-size:0.7rem;font-weight:700}
         .spinner-small{display:inline-block;width:14px;height:14px;border:2px solid rgba(255,255,255,0.06);border-top-color:var(--neon-blue);border-radius:50%;animation:spin 0.8s linear infinite;vertical-align:middle}
 
-        /* ===== ESTADÍSTICAS Y ANILLOS ===== */
         .stats-dashboard {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
@@ -779,7 +770,6 @@
             letter-spacing: 0.5px;
         }
 
-        /* Responsive noticias */
         @media(max-width:480px) {
             .noticia-item .noticia-header {
                 flex-direction: row;
@@ -809,7 +799,6 @@
             }
         }
 
-        /* Animación para nuevas noticias */
         @keyframes noticiaNueva {
             0% { background: rgba(0,212,255,0.08); border-color: var(--neon-blue); }
             100% { background: var(--bg-card); border-color: var(--border-glow); }
@@ -1192,7 +1181,7 @@
         </div>
     </div>
 
-    <!-- ===== MODAL CONFIGURAR PLAN ===== -->
+    <!-- ===== MODAL CONFIGURAR PLAN (SIN DATOS BANCARIOS) ===== -->
     <div class="modal modal-config-plan" id="configPlanModal">
         <div class="modal-content">
             <div class="modal-header">
@@ -1242,6 +1231,7 @@
                     <div class="item"><span class="label">Estado:</span><span class="value" id="statusEstado">Pendiente</span></div>
                 </div>
 
+                <!-- SOLO COMPROBANTE - SIN DATOS BANCARIOS -->
                 <div id="comprobanteSection" class="hidden" style="margin-top:12px;">
                     <div class="comprobante-futurista">
                         <div class="drop-zone" onclick="document.getElementById('uploadReceiptConfirm').click()">
@@ -1259,21 +1249,8 @@
                             <span class="file-remove" onclick="eliminarComprobante()">✕</span>
                         </div>
                         <div style="font-size:0.55rem;color:var(--text-muted);margin-top:8px;text-align:center;position:relative;z-index:1;">
-                            <i class="fas fa-lock" style="margin-right:4px;"></i> Transferencia segura · Alias: <strong style="color:var(--neon-blue);">+595961101538</strong>
+                            <i class="fas fa-lock" style="margin-right:4px;"></i> Transferencia segura
                         </div>
-                    </div>
-                </div>
-
-                <div id="datosBancarios" class="hidden" style="margin-top:12px;">
-                    <div class="bank-data">
-                        <div class="row"><span class="label">Titular:</span><span class="value">Alberto Mariano Ramirez Zarate</span></div>
-                        <div class="row"><span class="label">CI:</span><span class="value">3.652.362</span></div>
-                        <div class="row"><span class="label">Entidad:</span><span class="value">Ueno Bank</span></div>
-                        <div class="row"><span class="label">N° Cuenta:</span><span class="value highlight">619315284</span></div>
-                        <div class="row"><span class="label">Alias:</span><span class="value highlight-green">+595961101538</span></div>
-                    </div>
-                    <div class="alert">
-                        <i class="fas fa-lightbulb"></i> Usa el alias <strong>+595961101538</strong> para transferencias rápidas.
                     </div>
                 </div>
 
@@ -1793,13 +1770,10 @@
             });
 
             var comprobanteSection = document.getElementById('comprobanteSection');
-            var datosBancarios = document.getElementById('datosBancarios');
             if (user.metodo_pago === 'Transferencia') {
                 comprobanteSection.classList.remove('hidden');
-                datosBancarios.classList.remove('hidden');
             } else {
                 comprobanteSection.classList.add('hidden');
-                datosBancarios.classList.add('hidden');
             }
 
             document.getElementById('statusPlan').textContent = user.plan || 'No seleccionado';
@@ -1884,21 +1858,21 @@
             showToast('📋 Plan seleccionado: ' + plan, 'info');
         }
 
+        // ================================================================
+        // 16. SELECCIÓN MÉTODO (SIN DATOS BANCARIOS)
+        // ================================================================
         function seleccionarMetodoUI(metodo) {
             document.querySelectorAll('#metodoSelector .option').forEach(function(el) {
                 el.classList.toggle('selected', el.dataset.metodo === metodo);
             });
             metodoSeleccionado = metodo;
-            var datosBancarios = document.getElementById('datosBancarios');
             var comprobanteSection = document.getElementById('comprobanteSection');
             if (metodo === 'Transferencia') {
-                datosBancarios.classList.remove('hidden');
                 comprobanteSection.classList.remove('hidden');
                 comprobanteSubido = null;
                 document.getElementById('uploadReceiptConfirm').value = '';
                 document.getElementById('uploadPreviewConfirm').classList.remove('show');
             } else {
-                datosBancarios.classList.add('hidden');
                 comprobanteSection.classList.add('hidden');
                 comprobanteSubido = null;
             }
@@ -1927,7 +1901,7 @@
         });
 
         // ================================================================
-        // 16. CONFIRMAR CONFIGURACIÓN
+        // 17. CONFIRMAR CONFIGURACIÓN
         // ================================================================
         async function confirmarConfiguracion() {
             if (!socioData) { showToast('⚠️ Espera a que carguen los datos', 'warning'); return; }
@@ -2045,7 +2019,7 @@
         }
 
         // ================================================================
-        // 17. RENOVAR MEMBRESIA
+        // 18. RENOVAR MEMBRESIA
         // ================================================================
         async function renovarMembresia() {
             if (!socioData) { showToast('⚠️ Espera a que carguen los datos', 'warning'); return; }
@@ -2108,7 +2082,7 @@
         }
 
         // ================================================================
-        // 18. RENDER HISTORIAL
+        // 19. RENDER HISTORIAL
         // ================================================================
         function renderHistorial() {
             var tbody = document.getElementById('historialTableBody');
@@ -2137,7 +2111,7 @@
         }
 
         // ================================================================
-        // 19. AVATAR
+        // 20. AVATAR
         // ================================================================
         function abrirModalAvatar() {
             if (!socioData) { showToast('⚠️ Espera a que carguen los datos', 'warning'); return; }
@@ -2236,7 +2210,7 @@
         }
 
         // ================================================================
-        // 20. MODAL
+        // 21. MODAL
         // ================================================================
         function closeModal(id) {
             document.getElementById(id).classList.remove('active');
@@ -2256,7 +2230,7 @@
         });
 
         // ================================================================
-        // 21. CERRAR SESIÓN
+        // 22. CERRAR SESIÓN
         // ================================================================
         function handleLogout() {
             if (!confirm('¿Cerrar sesión?')) return;
@@ -2280,7 +2254,7 @@
         }
 
         // ================================================================
-        // 22. NOTICIAS - FUNCIONES
+        // 23. NOTICIAS - FUNCIONES
         // ================================================================
         async function loadNoticiasSocio() {
             try {
@@ -2377,7 +2351,7 @@
                 
                 let montoHTML = '';
                 if (n.monto) {
-                    montoHTML = `<div class="monto">💰 Gasto: Gs. ${n.monto.toLocaleString()}</div>`;
+                    montoHTML = `<div class="monto">💰 Gasto: Gs. ${Number(n.monto).toLocaleString()}</div>`;
                 }
 
                 return `
@@ -2504,7 +2478,7 @@
         }
 
         // ================================================================
-        // 23. SUSCRIPCIÓN A NUEVAS NOTICIAS
+        // 24. SUSCRIPCIÓN A NUEVAS NOTICIAS
         // ================================================================
         let noticiasSubscription = null;
 
@@ -2538,7 +2512,7 @@
         }
 
         // ================================================================
-        // 24. INICIALIZAR
+        // 25. INICIALIZAR
         // ================================================================
         document.addEventListener('DOMContentLoaded', function() {
             loadSocioData();
@@ -2561,6 +2535,8 @@
         console.log('✅ Gráficos de anillo con datos reales');
         console.log('✅ Socios recientes desde la base de datos');
         console.log('✅ Noticias con marcación de leídas');
+        console.log('✅ Datos bancarios eliminados del modal de configuración');
     </script>
+
 </body>
 </html>
