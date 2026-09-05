@@ -231,13 +231,6 @@
         .form-group select option{background:var(--bg-deep)}
         .form-group textarea{resize:vertical;min-height:60px}
         @media(max-width:480px){.form-group input,.form-group select,.form-group textarea{font-size:0.7rem;padding:6px 10px}}
-        .bank-item{padding:12px 16px;background:var(--bg-card);border-radius:var(--radius-sm);border:1px solid var(--border-glow)}
-        .bank-item:hover{border-color:rgba(0,212,255,0.1)}
-        .bank-item label{display:block;font-size:0.6rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px}
-        .bank-item span{font-size:0.95rem;font-weight:500;color:var(--text-primary);margin-top:2px;display:block}
-        .bank-item.highlight{border-color:rgba(0,212,255,0.15);background:rgba(0,212,255,0.03)}
-        .bank-item .neon{color:var(--neon-blue);font-weight:700;font-size:1.1rem}
-        .bank-item .neon-green{color:var(--neon-green);font-weight:700;font-size:1.1rem}
         .toast{position:fixed;bottom:20px;right:20px;left:20px;max-width:400px;margin:0 auto;padding:14px 20px;background:rgba(6,6,14,0.96);border:1px solid var(--border-glow);border-radius:var(--radius-sm);color:var(--text-primary);z-index:9999;animation:fadeInUp 0.3s ease;box-shadow:var(--shadow-card);backdrop-filter:blur(16px);display:flex;align-items:center;gap:12px;font-size:0.85rem;transition:var(--transition-fast)}
         .toast .icon{font-size:1.1rem;flex-shrink:0}
         .toast .icon.success{color:var(--neon-green)}
@@ -310,6 +303,77 @@
         .noticia-card .noticia-actions{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px;padding-top:10px;border-top:1px solid var(--border-glow)}
         .noticias-grid{display:grid;grid-template-columns:1fr;gap:8px}
         @media(min-width:768px){.noticias-grid{grid-template-columns:1fr 1fr}}
+        /* ===== SALDO DESTACADO ===== */
+        #saldoCard {
+            border: 2px solid rgba(0,212,255,0.15);
+            background: rgba(0,212,255,0.03);
+            transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            position: relative;
+            overflow: hidden;
+        }
+        #saldoCard::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: var(--gradient-primary);
+            opacity: 0.02;
+            animation: saldoPulse 3s ease-in-out infinite;
+        }
+        @keyframes saldoPulse {
+            0%, 100% { opacity: 0.02; }
+            50% { opacity: 0.06; }
+        }
+        #saldoCard .value {
+            font-size: 1.8rem;
+            font-weight: 900;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            transition: all 0.5s ease;
+        }
+        #saldoCard .value.saldo-positivo {
+            background: linear-gradient(135deg, #00ff7f, #00d4ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        #saldoCard .value.saldo-negativo {
+            background: linear-gradient(135deg, #ff2d8a, #ff6a00);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        #saldoCard .value.saldo-cero {
+            background: var(--text-muted);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        #saldoCard .trend {
+            font-size: 0.55rem;
+            font-weight: 600;
+            padding: 1px 8px;
+            border-radius: 12px;
+        }
+        #saldoCard .trend.up { color: var(--neon-green); background: rgba(0,255,127,0.06); }
+        #saldoCard .trend.down { color: var(--neon-pink); background: rgba(255,45,138,0.06); }
+        #saldoCard .trend.neutral { color: var(--text-muted); background: rgba(255,255,255,0.03); }
+        #ultimaActualizacion {
+            font-size: 0.5rem;
+            color: var(--text-muted);
+            margin-top: 4px;
+            transition: all 0.3s ease;
+        }
+        @keyframes saldoUpdate {
+            0% { transform: scale(1); }
+            30% { transform: scale(1.1); }
+            60% { transform: scale(0.95); }
+            100% { transform: scale(1); }
+        }
+        .saldo-updating .value {
+            animation: saldoUpdate 0.5s ease;
+        }
     </style>
 </head>
 <body>
@@ -323,11 +387,9 @@
             <li class="active" data-tab="dashboard"><i class="fas fa-chart-pie"></i><span class="label">Dashboard</span></li>
             <li data-tab="socios"><i class="fas fa-users"></i><span class="label">Socios</span><span class="badge" id="sociosBadge">0</span></li>
             <li data-tab="pagos"><i class="fas fa-credit-card"></i><span class="label">Pagos</span></li>
-            <li data-tab="comprobantes"><i class="fas fa-file-invoice"></i><span class="label">Comprobantes</span></li>
             <li data-tab="finanzas"><i class="fas fa-coins"></i><span class="label">Finanzas</span></li>
             <li data-tab="noticias"><i class="fas fa-newspaper"></i><span class="label">Noticias</span></li>
             <li data-tab="notificaciones"><i class="fas fa-bell"></i><span class="label">Notificaciones</span><span class="badge" id="notifBadgeSidebar">0</span></li>
-            <li data-tab="bancarios"><i class="fas fa-university"></i><span class="label">Datos Bancarios</span></li>
             <li data-tab="configuracion"><i class="fas fa-cog"></i><span class="label">Configuración</span></li>
         </ul>
         <div class="sidebar-footer">
@@ -411,11 +473,6 @@
                 <div class="table-container"><table class="admin-table"><thead><tr><th>Socio</th><th>Plan</th><th>Monto</th><th>Fecha</th><th>Método</th><th>Estado</th><th>Acciones</th></tr></thead><tbody id="pagosTableBody"></tbody></table></div>
             </div>
 
-            <!-- ===== COMPROBANTES ===== -->
-            <div class="tab-content" id="tab-comprobantes">
-                <div class="table-container"><table class="admin-table"><thead><tr><th>Socio</th><th>Archivo</th><th>Fecha</th><th>Estado</th><th>Acciones</th></tr></thead><tbody id="comprobantesTableBody"></tbody></table></div>
-            </div>
-
             <!-- ===== FINANZAS ===== -->
             <div class="tab-content" id="tab-finanzas">
                 
@@ -432,9 +489,13 @@
                         <div class="label">Total Egresos</div>
                     </div>
                     <div class="stat-card" id="saldoCard">
-                        <div class="top"><div class="icon blue"><i class="fas fa-wallet"></i></div></div>
-                        <div class="value" id="saldoActual">Gs. 0</div>
+                        <div class="top">
+                            <div class="icon blue"><i class="fas fa-wallet"></i></div>
+                            <span class="trend neutral" id="saldoTrend">─ 0%</span>
+                        </div>
+                        <div class="value saldo-cero" id="saldoActual">Gs. 0</div>
                         <div class="label">Saldo Actual</div>
+                        <div id="ultimaActualizacion">Última actualización: ahora</div>
                     </div>
                     <div class="stat-card">
                         <div class="top"><div class="icon purple"><i class="fas fa-calendar-alt"></i></div></div>
@@ -547,25 +608,6 @@
             <!-- ===== NOTIFICACIONES ===== -->
             <div class="tab-content" id="tab-notificaciones">
                 <div class="notifications-list" id="notificationsFullList"></div>
-            </div>
-
-            <!-- ===== DATOS BANCARIOS ===== -->
-            <div class="tab-content" id="tab-bancarios">
-                <div class="chart-card">
-                    <div class="header"><h3>🏦 Datos Bancarios</h3><span class="badge badge-status active">Cuenta Principal</span></div>
-                    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px;margin-top:12px;">
-                        <div class="bank-item"><label>Titular</label><span>Alberto Mariano Ramirez Zarate</span></div>
-                        <div class="bank-item"><label>CI</label><span>3.652.362</span></div>
-                        <div class="bank-item"><label>Entidad</label><span>Ueno Bank</span></div>
-                        <div class="bank-item highlight"><label>N° Cuenta</label><span class="neon">619315284</span></div>
-                        <div class="bank-item"><label>Moneda</label><span>Guaraníes (Gs.)</span></div>
-                        <div class="bank-item highlight"><label>Alias</label><span class="neon-green">+595961101538</span></div>
-                    </div>
-                    <div style="margin-top:14px;display:flex;gap:8px;flex-wrap:wrap;">
-                        <button class="btn btn-secondary btn-sm" onclick="copiarDatosAdmin()"><i class="fas fa-copy"></i> Copiar</button>
-                        <button class="btn btn-secondary btn-sm" onclick="window.open('https://www.ueno.com.py/','_blank')"><i class="fas fa-external-link-alt"></i> Ueno</button>
-                    </div>
-                </div>
             </div>
 
             <!-- ===== CONFIGURACIÓN ===== -->
@@ -1008,11 +1050,9 @@
                 dashboard: 'Dashboard',
                 socios: 'Socios',
                 pagos: 'Pagos',
-                comprobantes: 'Comprobantes',
                 finanzas: 'Finanzas',
                 noticias: 'Noticias',
                 notificaciones: 'Notificaciones',
-                bancarios: 'Datos Bancarios',
                 configuracion: 'Configuración'
             };
             document.getElementById('pageTitle').textContent = titles[tab] || tab;
@@ -1022,7 +1062,6 @@
             if (tab === 'dashboard') loadDashboardData();
             if (tab === 'socios') loadSocios();
             if (tab === 'pagos') loadPagos();
-            if (tab === 'comprobantes') loadComprobantes();
             if (tab === 'finanzas') loadFinanzas();
             if (tab === 'noticias') loadNoticiasAdmin();
             if (tab === 'notificaciones') loadNotificationsFull();
@@ -1068,7 +1107,6 @@
 
                 if (notifsError) throw notifsError;
 
-                // ✅ Usar variables locales en lugar de window
                 let sociosData = socios || [];
                 let pagosData = pagos || [];
                 let notificacionesData = notifs || [];
@@ -1634,9 +1672,6 @@
             }
         }
 
-        // ================================================================
-        // 12. APROBAR SOCIO (CORREGIDO)
-        // ================================================================
         async function aprobarSocio(id) {
             if (!confirm('¿Confirmar que este socio ha completado su perfil y puede ser activado?')) return;
 
@@ -1722,7 +1757,6 @@
 
                 await loadDashboardData();
                 await loadSocios();
-                await loadComprobantes();
                 closeModal('socioModal');
 
             } catch (error) {
@@ -1731,106 +1765,6 @@
             }
         }
 
-        // ================================================================
-        // 13. APROBAR COMPROBANTE (CORREGIDO)
-        // ================================================================
-        async function aprobarComprobante(comprobanteId, socioId) {
-            if (!confirm('¿Confirmar este comprobante y activar al socio?')) return;
-
-            try {
-                console.log('🔄 Aprobando comprobante:', comprobanteId, 'para socio:', socioId);
-
-                const { error: compError } = await supabaseClient
-                    .from('comprobantes')
-                    .update({ estado: 'Aprobado' })
-                    .eq('id', comprobanteId);
-
-                if (compError) throw compError;
-
-                const { data: socio, error: socioDataError } = await supabaseClient
-                    .from('socios')
-                    .select('*')
-                    .eq('id', socioId)
-                    .single();
-
-                if (socioDataError || !socio) {
-                    showToast('❌ Socio no encontrado', 'error');
-                    return;
-                }
-
-                if (!socio.plan) {
-                    showToast('⚠️ El socio debe seleccionar un plan primero', 'warning');
-                    return;
-                }
-
-                const hoy = new Date();
-                let fechaVencimiento = null;
-                let estado = 'Activo';
-                let monto = 20000;
-
-                if (socio.plan === 'Mensual') {
-                    fechaVencimiento = new Date(hoy);
-                    fechaVencimiento.setDate(fechaVencimiento.getDate() + 30);
-                    estado = 'Activo';
-                    monto = 20000;
-                } else if (socio.plan === 'Por Partido') {
-                    estado = 'Pendiente';
-                    monto = 5000;
-                }
-
-                const { error: updateError } = await supabaseClient
-                    .from('socios')
-                    .update({
-                        estado: estado,
-                        fecha_inicio: socio.plan === 'Mensual' ? hoy.toISOString().split('T')[0] : null,
-                        fecha_vencimiento: socio.plan === 'Mensual' ? fechaVencimiento.toISOString().split('T')[0] : null
-                    })
-                    .eq('id', socioId);
-
-                if (updateError) throw updateError;
-
-                const { error: pagoError } = await supabaseClient
-                    .from('pagos')
-                    .insert([{
-                        socio_id: socioId,
-                        monto: monto,
-                        plan: socio.plan,
-                        metodo: socio.metodo_pago || 'Transferencia',
-                        estado: 'Aprobado',
-                        fecha: new Date().toISOString(),
-                        comprobante_url: socio.comprobante_url || null
-                    }]);
-
-                if (pagoError) {
-                    console.error('Error al registrar pago:', pagoError);
-                }
-
-                const mensajeNotificacion = socio.plan === 'Mensual'
-                    ? `✅ Comprobante de ${socio.nombre} aprobado - Socio activado`
-                    : `✅ Comprobante de ${socio.nombre} aprobado - Plan por Partido (estado: Pendiente)`;
-
-                await supabaseClient.from('notificaciones').insert([{
-                    tipo: 'pago_confirmado',
-                    mensaje: mensajeNotificacion,
-                    leida: false,
-                    data: { socio_id: socioId, username: socio.username }
-                }]);
-
-                showToast(`✅ Comprobante aprobado y socio ${socio.plan === 'Mensual' ? 'activado' : 'confirmado'}`, 'success');
-
-                await loadComprobantes();
-                await loadDashboardData();
-                await loadSocios();
-
-            } catch (error) {
-                console.error('Error al aprobar comprobante:', error);
-                showToast('❌ Error al aprobar comprobante: ' + error.message, 'error');
-            }
-        }
-
-        // ================================================================
-        // 14. OTRAS ACCIONES DE SOCIOS
-        // ================================================================
         async function suspendSocio(id) {
             if (!confirm('¿Suspender este socio?')) return;
             try {
@@ -1986,7 +1920,7 @@
         }
 
         // ================================================================
-        // 15. PAGOS
+        // 12. PAGOS
         // ================================================================
         async function loadPagos() {
             try {
@@ -2037,86 +1971,7 @@
         }
 
         // ================================================================
-        // 16. COMPROBANTES
-        // ================================================================
-        async function loadComprobantes() {
-            try {
-                console.log('🔄 Cargando comprobantes...');
-
-                const { data: comprobantes, error: compError } = await supabaseClient
-                    .from('comprobantes')
-                    .select('*')
-                    .order('fecha_subida', { ascending: false });
-
-                if (compError) {
-                    console.error('Error al cargar comprobantes:', compError);
-                    throw compError;
-                }
-
-                const { data: socios, error: sociosError } = await supabaseClient
-                    .from('socios')
-                    .select('id, nombre, username, foto_url, plan, metodo_pago, estado');
-
-                if (sociosError) {
-                    console.warn('Error al cargar socios:', sociosError);
-                }
-
-                var sociosMap = {};
-                if (socios) {
-                    socios.forEach(function(s) { sociosMap[s.id] = s; });
-                }
-
-                var tbody = document.getElementById('comprobantesTableBody');
-
-                console.log('Comprobantes encontrados:', comprobantes ? comprobantes.length : 0);
-
-                if (!comprobantes || comprobantes.length === 0) {
-                    tbody.innerHTML =
-                        '<tr><td colspan="5" style="text-align:center;padding:40px;color:var(--text-muted);;"><i class="fas fa-file-invoice" style="font-size:1.5rem;display:block;margin-bottom:8px;"></i>No hay comprobantes</td></tr>';
-                    return;
-                }
-
-                tbody.innerHTML = comprobantes.map(function(c) {
-                    var socio = sociosMap[c.socio_id];
-                    var nombre = socio ? socio.nombre : 'Socio eliminado';
-                    var username = socio ? socio.username : 'desconocido';
-
-                    var avatarHtml = getAvatarHtml({ nombre: nombre, foto_url: socio ? socio.foto_url : null }, 24);
-
-                    var estadoComprobante = c.estado || 'Pendiente';
-                    var mostrarAprobar = (estadoComprobante === 'Pendiente' || estadoComprobante === 'pendiente');
-
-                    return '<tr><td style="display:flex;align-items:center;gap:8px;">' + avatarHtml +
-                        '<div><strong style="font-size:0.75rem;">' + nombre +
-                        '</strong><div style="font-size:0.6rem;color:var(--text-muted);">@' + username +
-                        '</div></div></td>' +
-                        '<td><a href="' + c.archivo_url +
-                        '" target="_blank" class="btn btn-primary btn-sm"><i class="fas fa-eye"></i> Ver</a>' +
-                        ' <a href="' + c.archivo_url +
-                        '" download class="btn btn-secondary btn-sm"><i class="fas fa-download"></i></a></td>' +
-                        '<td style="font-size:0.7rem;">' + (c.fecha_subida ? new Date(c.fecha_subida)
-                            .toLocaleDateString() : 'N/A') + '</td>' +
-                        '<td>' + getStatusBadge(estadoComprobante) + '</td>' +
-                        '<td>' +
-                        (mostrarAprobar ?
-                            '<button class="btn btn-success btn-sm" onclick="aprobarComprobante(\'' + c.id +
-                            '\', ' + c.socio_id + ')"><i class="fas fa-check"></i> Aprobar</button>' :
-                            '<span class="badge-status approved">✅ Aprobado</span>') +
-                        '</td></tr>';
-                }).join('');
-
-            } catch (error) {
-                console.error('Error loading comprobantes:', error);
-                showToast('Error al cargar comprobantes: ' + error.message, 'error');
-                var tbody = document.getElementById('comprobantesTableBody');
-                tbody.innerHTML =
-                    '<tr><td colspan="5" style="text-align:center;padding:40px;color:var(--text-muted);;"><i class="fas fa-exclamation-triangle" style="font-size:1.5rem;display:block;margin-bottom:8px;color:var(--neon-orange);"></i>Error al cargar comprobantes<br><span style="font-size:0.7rem;">' +
-                    error.message + '</span></td></tr>';
-            }
-        }
-
-        // ================================================================
-        // 17. FINANZAS - SISTEMA DE CAJA (CORREGIDO)
+        // 13. FINANZAS - SISTEMA DE CAJA (CON SALDO ACTUAL)
         // ================================================================
         let transaccionesCache = [];
         let finanzasPage = 1;
@@ -2131,54 +1986,103 @@
                 const fechaInicio = document.getElementById('filtroFechaInicio')?.value;
                 const fechaFin = document.getElementById('filtroFechaFin')?.value;
 
-                // ✅ Usar la tabla directamente
-                let query = supabaseClient
+                // ✅ Obtener TODAS las transacciones para el saldo general
+                const { data: todasTransacciones, error: errorTodas } = await supabaseClient
                     .from('transacciones')
-                    .select('*', { count: 'exact' })
+                    .select('*')
                     .order('fecha', { ascending: false });
 
-                if (tipo !== 'todos') query = query.eq('tipo', tipo);
-                if (categoria !== 'todos') query = query.eq('categoria', categoria);
-                if (fechaInicio) query = query.gte('fecha', fechaInicio + ' 00:00:00');
-                if (fechaFin) query = query.lte('fecha', fechaFin + ' 23:59:59');
-
-                const start = (finanzasPage - 1) * finanzasPageSize;
-                const end = start + finanzasPageSize - 1;
-
-                const { data: transacciones, error, count } = await query.range(start, end);
-
-                if (error) {
-                    console.error('❌ Error en consulta:', error);
-                    throw error;
+                if (errorTodas) {
+                    console.error('❌ Error al obtener transacciones:', errorTodas);
+                    throw errorTodas;
                 }
 
-                // ✅ Si no hay transacciones, mostrar mensaje
-                if (!transacciones || transacciones.length === 0) {
-                    transaccionesCache = [];
-                    const tbody = document.getElementById('transaccionesTableBody');
-                    if (tbody) {
-                        tbody.innerHTML = `
-                            <tr><td colspan="7" style="text-align:center;padding:40px;color:var(--text-muted);">
-                                <i class="fas fa-coins" style="font-size:1.5rem;display:block;margin-bottom:8px;opacity:0.3;"></i>
-                                No hay transacciones registradas
-                            </td></tr>
-                        `;
+                // ✅ Calcular saldo
+                let ingresosTotal = 0;
+                let egresosTotal = 0;
+                const hoy = new Date();
+                const mesActual = hoy.getMonth();
+                const añoActual = hoy.getFullYear();
+                let ingresosMes = 0;
+
+                (todasTransacciones || []).forEach(t => {
+                    const monto = Number(t.monto) || 0;
+                    const fecha = new Date(t.fecha);
+                    
+                    if (t.tipo === 'ingreso') {
+                        ingresosTotal += monto;
+                        if (fecha.getMonth() === mesActual && fecha.getFullYear() === añoActual) {
+                            ingresosMes += monto;
+                        }
+                    } else if (t.tipo === 'egreso') {
+                        egresosTotal += monto;
                     }
-                    document.getElementById('totalIngresos').textContent = 'Gs. 0';
-                    document.getElementById('totalEgresos').textContent = 'Gs. 0';
-                    document.getElementById('saldoActual').textContent = 'Gs. 0';
-                    document.getElementById('ingresosMes').textContent = 'Gs. 0';
-                    document.getElementById('finanzasPagination').innerHTML = '';
-                    return;
+                });
+
+                const saldo = ingresosTotal - egresosTotal;
+
+                // ✅ Mostrar saldo
+                const saldoEl = document.getElementById('saldoActual');
+                if (saldoEl) {
+                    saldoEl.textContent = 'Gs. ' + saldo.toLocaleString('es');
+                    saldoEl.className = 'value ' + (saldo > 0 ? 'saldo-positivo' : saldo < 0 ? 'saldo-negativo' : 'saldo-cero');
                 }
+
+                document.getElementById('totalIngresos').textContent = 'Gs. ' + ingresosTotal.toLocaleString('es');
+                document.getElementById('totalEgresos').textContent = 'Gs. ' + egresosTotal.toLocaleString('es');
+                document.getElementById('ingresosMes').textContent = 'Gs. ' + ingresosMes.toLocaleString('es');
+
+                // ✅ Actualizar trending
+                await actualizarTendencia(saldo, ingresosMes);
+
+                // ✅ Actualizar timestamp
+                const ahora = new Date();
+                const timeStr = ahora.toLocaleTimeString('es', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+                const fechaStr = ahora.toLocaleDateString('es', { day: '2-digit', month: '2-digit', year: 'numeric' });
+                const updateEl = document.getElementById('ultimaActualizacion');
+                if (updateEl) {
+                    updateEl.textContent = `Última actualización: ${fechaStr} ${timeStr}`;
+                }
+
+                // ✅ Animación
+                const saldoCard = document.getElementById('saldoCard');
+                if (saldoCard) {
+                    saldoCard.classList.remove('saldo-updating');
+                    void saldoCard.offsetWidth;
+                    saldoCard.classList.add('saldo-updating');
+                }
+
+                // ✅ Paginación para la tabla
+                let transaccionesPaginadas = todasTransacciones || [];
+                transaccionesCache = transaccionesPaginadas;
+                
+                // ✅ Aplicar filtros
+                let transaccionesFiltradas = transaccionesPaginadas;
+                if (tipo !== 'todos') {
+                    transaccionesFiltradas = transaccionesFiltradas.filter(t => t.tipo === tipo);
+                }
+                if (categoria !== 'todos') {
+                    transaccionesFiltradas = transaccionesFiltradas.filter(t => t.categoria === categoria);
+                }
+                if (fechaInicio) {
+                    transaccionesFiltradas = transaccionesFiltradas.filter(t => t.fecha >= fechaInicio);
+                }
+                if (fechaFin) {
+                    transaccionesFiltradas = transaccionesFiltradas.filter(t => t.fecha <= fechaFin + ' 23:59:59');
+                }
+
+                // ✅ Paginar
+                const start = (finanzasPage - 1) * finanzasPageSize;
+                const end = start + finanzasPageSize;
+                const transaccionesPagina = transaccionesFiltradas.slice(start, end);
 
                 // ✅ Obtener nombres de socios
-                if (transacciones.length > 0) {
-                    const socioIds = transacciones
+                if (transaccionesPagina.length > 0) {
+                    const socioIds = transaccionesPagina
                         .filter(t => t.socio_id)
                         .map(t => t.socio_id);
                     
-                    const creadorIds = transacciones
+                    const creadorIds = transaccionesPagina
                         .filter(t => t.created_by)
                         .map(t => t.created_by);
 
@@ -2198,7 +2102,7 @@
                         }
                     }
 
-                    transaccionesCache = transacciones.map(t => ({
+                    transaccionesCache = transaccionesPagina.map(t => ({
                         ...t,
                         socio_nombre: t.socio_id ? (sociosMap[t.socio_id]?.nombre || 'N/A') : null,
                         socio_username: t.socio_id ? (sociosMap[t.socio_id]?.username || '') : null,
@@ -2206,14 +2110,13 @@
                         creador_username: t.created_by ? (sociosMap[t.created_by]?.username || '') : null
                     }));
                 } else {
-                    transaccionesCache = transacciones || [];
+                    transaccionesCache = transaccionesPagina || [];
                 }
                 
-                console.log('✅ Transacciones cargadas:', transaccionesCache.length, 'Total:', count || 0);
+                console.log('✅ Transacciones cargadas:', transaccionesCache.length, 'Total:', transaccionesFiltradas.length);
 
-                await calcularResumen(tipo, categoria, fechaInicio, fechaFin);
                 renderTransacciones(transaccionesCache);
-                renderPaginacionFinanzas(count || 0);
+                renderPaginacionFinanzas(transaccionesFiltradas.length);
 
             } catch (error) {
                 console.error('❌ Error cargando finanzas:', error);
@@ -2234,59 +2137,65 @@
             }
         }
 
-        async function calcularResumen(tipo, categoria, fechaInicio, fechaFin) {
+        async function actualizarTendencia(saldoActual, ingresosMes) {
             try {
-                let query = supabaseClient
-                    .from('transacciones')
-                    .select('*');
+                const trendEl = document.getElementById('saldoTrend');
+                if (!trendEl) return;
 
-                if (tipo !== 'todos') query = query.eq('tipo', tipo);
-                if (categoria !== 'todos') query = query.eq('categoria', categoria);
-                if (fechaInicio) query = query.gte('fecha', fechaInicio + ' 00:00:00');
-                if (fechaFin) query = query.lte('fecha', fechaFin + ' 23:59:59');
-
-                const { data, error } = await query;
-                if (error) throw error;
-
-                let ingresos = 0;
-                let egresos = 0;
                 const hoy = new Date();
-                const mesActual = hoy.getMonth();
-                const añoActual = hoy.getFullYear();
-                let ingresosMes = 0;
+                const mesAnterior = hoy.getMonth() - 1;
+                const añoAnterior = hoy.getFullYear();
+                
+                const { data: transaccionesMesAnterior } = await supabaseClient
+                    .from('transacciones')
+                    .select('*')
+                    .gte('fecha', new Date(añoAnterior, mesAnterior, 1).toISOString().split('T')[0])
+                    .lte('fecha', new Date(añoAnterior, mesAnterior + 1, 0).toISOString().split('T')[0]);
 
-                (data || []).forEach(t => {
+                let ingresosAnterior = 0;
+                let egresosAnterior = 0;
+                (transaccionesMesAnterior || []).forEach(t => {
                     const monto = Number(t.monto) || 0;
-                    
-                    if (t.tipo === 'ingreso') {
-                        ingresos += monto;
-                        const fecha = new Date(t.fecha);
-                        if (fecha.getMonth() === mesActual && fecha.getFullYear() === añoActual) {
-                            ingresosMes += monto;
-                        }
-                    } else if (t.tipo === 'egreso') {
-                        egresos += monto;
-                    }
+                    if (t.tipo === 'ingreso') ingresosAnterior += monto;
+                    else if (t.tipo === 'egreso') egresosAnterior += monto;
                 });
 
-                const saldo = ingresos - egresos;
+                const saldoAnterior = ingresosAnterior - egresosAnterior;
+                
+                let cambio = 0;
+                let trendClass = 'neutral';
+                let trendText = '─ 0%';
 
-                document.getElementById('totalIngresos').textContent = 'Gs. ' + ingresos.toLocaleString('es');
-                document.getElementById('totalEgresos').textContent = 'Gs. ' + egresos.toLocaleString('es');
-                document.getElementById('saldoActual').textContent = 'Gs. ' + saldo.toLocaleString('es');
-                document.getElementById('ingresosMes').textContent = 'Gs. ' + ingresosMes.toLocaleString('es');
-
-                const saldoEl = document.getElementById('saldoActual');
-                if (saldoEl) {
-                    saldoEl.className = 'value ' + (saldo > 0 ? 'saldo-positivo' : saldo < 0 ? 'saldo-negativo' : 'saldo-cero');
+                if (saldoAnterior !== 0) {
+                    cambio = ((saldoActual - saldoAnterior) / Math.abs(saldoAnterior)) * 100;
+                    if (cambio > 0) {
+                        trendClass = 'up';
+                        trendText = `▲ ${Math.round(cambio)}%`;
+                    } else if (cambio < 0) {
+                        trendClass = 'down';
+                        trendText = `▼ ${Math.abs(Math.round(cambio))}%`;
+                    }
+                } else if (saldoActual > 0) {
+                    trendClass = 'up';
+                    trendText = '▲ Nuevo';
+                } else if (saldoActual < 0) {
+                    trendClass = 'down';
+                    trendText = '▼ Nuevo';
                 }
 
+                trendEl.className = 'trend ' + trendClass;
+                trendEl.textContent = trendText;
+
             } catch (error) {
-                console.error('❌ Error calculando resumen:', error);
+                console.warn('⚠️ Error calculando tendencia:', error);
+                const trendEl = document.getElementById('saldoTrend');
+                if (trendEl) {
+                    trendEl.className = 'trend neutral';
+                    trendEl.textContent = '─ 0%';
+                }
             }
         }
 
-        // ✅ FUNCIÓN RENDER TRANSACCIONES CORREGIDA
         function renderTransacciones(transacciones) {
             const tbody = document.getElementById('transaccionesTableBody');
             
@@ -2318,15 +2227,11 @@
                     minute: '2-digit'
                 });
 
-                // ✅ Asegurar que el monto sea un número
-                const montoNum = typeof t.monto === 'number' ? t.monto : Number(t.monto) || 0;
+                const montoNum = Number(t.monto) || 0;
                 const montoFormateado = montoNum.toLocaleString('es', {
                     minimumFractionDigits: 0,
                     maximumFractionDigits: 0
                 });
-
-                // ✅ Si el monto es 0, mostrar "0" en lugar de "NaN"
-                const displayMonto = montoNum === 0 ? '0' : montoFormateado;
 
                 return `
                     <tr class="${tipoClase}">
@@ -2335,7 +2240,7 @@
                         <td><span class="badge-status">${t.categoria || 'Sin categoría'}</span></td>
                         <td style="font-size:0.75rem;max-width:200px;word-break:break-word;">${t.descripcion || 'Sin descripción'}</td>
                         <td style="font-weight:700;color:${t.tipo === 'ingreso' ? 'var(--neon-green)' : 'var(--neon-pink)'};">
-                            ${t.tipo === 'ingreso' ? '+' : '-'} Gs. ${displayMonto}
+                            ${t.tipo === 'ingreso' ? '+' : '-'} Gs. ${montoFormateado}
                         </td>
                         <td style="font-size:0.65rem;">
                             ${socioNombre} ${socioUsername ? '<span style="color:var(--text-muted);">@'+socioUsername+'</span>' : ''}
@@ -2375,7 +2280,7 @@
         }
 
         // ================================================================
-        // 18. REGISTRAR TRANSACCIÓN (SIN CREAR NOTICIA AUTOMÁTICA)
+        // 14. REGISTRAR TRANSACCIÓN (CON ACTUALIZACIÓN DE SALDO)
         // ================================================================
         document.getElementById('formTransaccion')?.addEventListener('submit', async function(e) {
             e.preventDefault();
@@ -2431,36 +2336,10 @@
                     throw error;
                 }
 
-                // ✅ ELIMINADO: Ya no se crea noticia automática desde finanzas
-                // Los gastos de finanzas NO deben aparecer como noticias para socios
+                // ✅ Mostrar animación de cambio de saldo
+                animarCambioSaldo(tipo, monto);
 
-                // Notificar si aplica a un socio
-                if (socioId) {
-                    try {
-                        const { data: socio } = await supabaseClient
-                            .from('socios')
-                            .select('nombre, username')
-                            .eq('id', socioId)
-                            .single();
-
-                        if (socio) {
-                            await supabaseClient.from('notificaciones').insert([{
-                                tipo: 'pago_efectivo',
-                                mensaje: `💰 ${tipo === 'ingreso' ? 'Ingreso' : 'Egreso'} registrado: ${descripcion} - Gs. ${monto.toLocaleString()}`,
-                                leida: false,
-                                data: {
-                                    socio_id: socioId,
-                                    transaccion_id: data[0].id,
-                                    tipo: tipo
-                                }
-                            }]);
-                        }
-                    } catch (e) {
-                        console.warn('⚠️ Error enviando notificación:', e);
-                    }
-                }
-
-                showToast('✅ Transacción registrada exitosamente', 'success');
+                showToast(`✅ ${tipo === 'ingreso' ? 'Ingreso' : 'Egreso'} registrado correctamente`, 'success');
                 closeModal('modalTransaccion');
                 
                 finanzasPage = 1;
@@ -2474,6 +2353,51 @@
                 btn.innerHTML = '<i class="fas fa-save"></i> Registrar Transacción';
             }
         });
+
+        function animarCambioSaldo(tipo, monto) {
+            const saldoEl = document.getElementById('saldoActual');
+            if (!saldoEl) return;
+            
+            // Crear indicador flotante
+            const cambio = tipo === 'ingreso' ? `+${monto.toLocaleString()}` : `-${monto.toLocaleString()}`;
+            const cambioColor = tipo === 'ingreso' ? 'var(--neon-green)' : 'var(--neon-pink)';
+            
+            const indicator = document.createElement('div');
+            indicator.style.cssText = `
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                font-size: 2rem;
+                font-weight: 900;
+                color: ${cambioColor};
+                background: rgba(6,6,14,0.95);
+                padding: 20px 30px;
+                border-radius: 16px;
+                border: 2px solid ${cambioColor};
+                box-shadow: 0 0 60px rgba(0,0,0,0.8);
+                z-index: 9999;
+                pointer-events: none;
+                opacity: 0;
+                transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+                text-shadow: 0 0 40px ${cambioColor}40;
+            `;
+            indicator.textContent = `${tipo === 'ingreso' ? '📈' : '📉'} ${cambio} Gs.`;
+            document.body.appendChild(indicator);
+            
+            // Mostrar y ocultar
+            setTimeout(() => { indicator.style.opacity = '1'; }, 50);
+            setTimeout(() => { 
+                indicator.style.opacity = '0';
+                indicator.style.transform = 'translate(-50%, -80%)';
+            }, 1200);
+            setTimeout(() => { indicator.remove(); }, 1600);
+            
+            // Animar el saldo
+            saldoEl.classList.remove('saldo-updating');
+            void saldoEl.offsetWidth;
+            saldoEl.classList.add('saldo-updating');
+        }
 
         function abrirModalTransaccion(tipo) {
             const modal = document.getElementById('modalTransaccion');
@@ -2497,23 +2421,13 @@
 
         async function verTransaccion(id) {
             try {
-                let transaccion = null;
-                
-                try {
-                    const { data, error: viewError } = await supabaseClient
-                        .from('transacciones')
-                        .select('*')
-                        .eq('id', id)
-                        .single();
-                    
-                    if (!viewError && data) {
-                        transaccion = data;
-                    }
-                } catch (e) {
-                    console.error(e);
-                }
+                const { data: transaccion, error } = await supabaseClient
+                    .from('transacciones')
+                    .select('*')
+                    .eq('id', id)
+                    .single();
 
-                if (!transaccion) {
+                if (error || !transaccion) {
                     showToast('❌ Transacción no encontrada', 'error');
                     return;
                 }
@@ -2643,8 +2557,6 @@
 
         async function cargarCategoriasYSocios() {
             try {
-                console.log('🔄 Cargando categorías y socios...');
-
                 const { data: categorias, error: catError } = await supabaseClient
                     .from('categorias_gastos')
                     .select('*')
@@ -2675,9 +2587,7 @@
                         opt2.textContent = `${c.icono || '📌'} ${c.nombre}`;
                         selectFiltro.appendChild(opt2);
                     });
-                    console.log('✅ Categorías cargadas:', categorias.length);
                 } else {
-                    console.log('⚠️ No hay categorías, insertando predeterminadas...');
                     await insertarCategoriasDefault();
                     setTimeout(() => cargarCategoriasYSocios(), 500);
                     return;
@@ -2702,7 +2612,6 @@
                         option.textContent = `${s.nombre} (@${s.username})`;
                         selectSocio.appendChild(option);
                     });
-                    console.log('✅ Socios cargados:', socios.length);
                 }
 
             } catch (error) {
@@ -2730,8 +2639,6 @@
 
                 if (error) {
                     console.error('❌ Error insertando categorías:', error);
-                } else {
-                    console.log('✅ Categorías insertadas correctamente');
                 }
             } catch (error) {
                 console.error('❌ Error:', error);
@@ -2778,7 +2685,7 @@
         }
 
         // ================================================================
-        // 19. NOTICIAS - ADMIN
+        // 15. NOTICIAS - ADMIN
         // ================================================================
         async function loadNoticiasAdmin() {
             try {
@@ -3066,29 +2973,8 @@
         }
 
         // ================================================================
-        // 20. OTRAS FUNCIONES
+        // 16. OTRAS FUNCIONES
         // ================================================================
-        function copiarDatosAdmin() {
-            var datos =
-                '🏦 DATOS PARA TRANSFERENCIA - FLY FUTBOLEROS\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\nTitular: Alberto Mariano Ramirez Zarate\nCI: 3.652.362\nEntidad: Ueno Bank\nN° de Cuenta: 619315284\nMoneda: Guaraníes (Gs.)\nAlias (Ueno): +595961101538\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━';
-            if (navigator.clipboard) {
-                navigator.clipboard.writeText(datos).then(function() { showToast('✅ Datos copiados', 'success'); })
-                    .catch(function() { fallbackCopy(datos); });
-            } else { fallbackCopy(datos); }
-        }
-
-        function fallbackCopy(text) {
-            var ta = document.createElement('textarea');
-            ta.value = text;
-            ta.style.position = 'fixed';
-            ta.style.left = '-9999px';
-            document.body.appendChild(ta);
-            ta.select();
-            try { document.execCommand('copy');
-                showToast('✅ Datos copiados', 'success'); } catch (e) { showToast('Error al copiar', 'error'); }
-            document.body.removeChild(ta);
-        }
-
         function saveConfig() {
             var mensual = document.getElementById('configMensual') ? document.getElementById('configMensual').value : 20000;
             var porPartido = document.getElementById('configPorPartido') ? document.getElementById('configPorPartido').value : 5000;
@@ -3096,9 +2982,6 @@
             showToast('✅ Configuración guardada', 'success');
         }
 
-        // ================================================================
-        // 21. CERRAR SESIÓN
-        // ================================================================
         function handleLogout() {
             if (!confirm('¿Cerrar sesión?')) return;
             try {
@@ -3111,7 +2994,7 @@
         }
 
         // ================================================================
-        // 22. INICIALIZAR
+        // 17. INICIALIZAR
         // ================================================================
         async function initAdmin() {
             console.log('🚀 Iniciando panel de administración...');
@@ -3140,7 +3023,6 @@
             await loadDashboardData();
             await loadSocios();
             await loadPagos();
-            await loadComprobantes();
             await loadFinanzas();
             await loadNoticiasAdmin();
             await loadNotificationsFull();
@@ -3159,7 +3041,7 @@
         }
 
         // ================================================================
-        // 23. EVENTOS DE NOTIFICACIONES
+        // 18. EVENTOS DE NOTIFICACIONES
         // ================================================================
         document.getElementById('notificationBell').addEventListener('click', function(e) {
             e.stopPropagation();
@@ -3170,22 +3052,19 @@
             document.getElementById('notificationDropdown').classList.remove('open');
         });
 
-        // ================================================================
-        // 24. INICIALIZAR
-        // ================================================================
         document.addEventListener('DOMContentLoaded', initAdmin);
 
-        console.log('📦 FLY FUTBOLEROS · Panel de Administración (CORREGIDO)');
+        console.log('📦 FLY FUTBOLEROS · Panel de Administración');
         console.log('✅ Plan Sabatero → Mensual');
         console.log('✅ Plan Finder → Por Partido');
         console.log('✅ Solo planes Mensual pueden estar Activos');
         console.log('✅ Planes Por Partido siempre en Pendiente');
-        console.log('✅ GASTOS DE FINANZAS NO CREAN NOTICIAS');
-        console.log('✅ Montos de finanzas corregidos (Number)');
-        console.log('✅ Variables de dashboard sin conflictos');
+        console.log('✅ SALDO ACTUAL EN FINANZAS');
+        console.log('✅ Ingresos y egresos actualizan saldo');
         console.log('✅ Gestión de noticias integrada');
         console.log('✅ Sistema de caja con ingresos y egresos');
         console.log('✅ Reportes exportables a CSV');
+        console.log('✅ Eliminado: Datos Bancarios y Comprobantes');
     </script>
 
 </body>
