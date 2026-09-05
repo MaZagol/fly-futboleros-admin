@@ -1769,6 +1769,31 @@
         var chatSocioId = null;
         var chatSocioNombre = '';
 
+        // ================================================================
+        // FUNCIONES AUXILIARES
+        // ================================================================
+        function timeAgo(date) {
+            if (!date) return 'recientemente';
+            
+            const now = new Date();
+            const past = new Date(date);
+            const diffMs = now - past;
+            const diffSec = Math.floor(diffMs / 1000);
+            const diffMin = Math.floor(diffSec / 60);
+            const diffHour = Math.floor(diffMin / 60);
+            const diffDay = Math.floor(diffHour / 24);
+            const diffMonth = Math.floor(diffDay / 30);
+            const diffYear = Math.floor(diffDay / 365);
+
+            if (diffSec < 60) return 'ahora mismo';
+            if (diffMin < 60) return `hace ${diffMin} min`;
+            if (diffHour < 24) return `hace ${diffHour} h`;
+            if (diffDay < 7) return `hace ${diffDay} d`;
+            if (diffDay < 30) return `hace ${Math.floor(diffDay / 7)} sem`;
+            if (diffMonth < 12) return `hace ${diffMonth} meses`;
+            return `hace ${diffYear} años`;
+        }
+
         function getCurrentUser() {
             try {
                 var session = localStorage.getItem('fly_user_session');
@@ -2646,7 +2671,6 @@
                 }
                 console.log('🔄 Cargando conversaciones...');
 
-                // Obtener todos los socios excepto el actual
                 const { data: socios, error } = await supabaseClient
                     .from('socios')
                     .select('id, nombre, username, foto_url')
@@ -2664,7 +2688,6 @@
                     return;
                 }
 
-                // Obtener últimos mensajes para cada socio
                 let conversaciones = [];
                 for (const socio of socios) {
                     const { data: mensajes } = await supabaseClient
@@ -2677,7 +2700,6 @@
 
                     const ultimoMensaje = mensajes && mensajes.length > 0 ? mensajes[0] : null;
                     
-                    // Contar no leídos
                     const { count: noLeidos } = await supabaseClient
                         .from('mensajes')
                         .select('*', { count: 'exact', head: true })
@@ -2692,14 +2714,12 @@
                     });
                 }
 
-                // Ordenar por fecha del último mensaje
                 conversaciones.sort((a, b) => {
                     if (!a.ultimoMensaje) return 1;
                     if (!b.ultimoMensaje) return -1;
                     return new Date(b.ultimoMensaje.created_at) - new Date(a.ultimoMensaje.created_at);
                 });
 
-                // Actualizar badge de mensajes
                 const totalNoLeidos = conversaciones.reduce((sum, c) => sum + c.noLeidos, 0);
                 const badgeMensajes = document.getElementById('mensajesBadge');
                 if (badgeMensajes) {
@@ -2738,7 +2758,6 @@
                 const iniciales = socio.nombre ? socio.nombre.split(' ').map(n => n.charAt(0)).join('').substring(0, 2).toUpperCase() : '??';
                 const ultimoTexto = c.ultimoMensaje ? c.ultimoMensaje.mensaje.substring(0, 50) + (c.ultimoMensaje.mensaje.length > 50 ? '...' : '') : 'Sin mensajes';
                 const tiempo = c.ultimoMensaje ? timeAgo(c.ultimoMensaje.created_at) : '';
-                const esLeido = c.ultimoMensaje ? c.ultimoMensaje.leido : true;
                 const esRemitente = c.ultimoMensaje ? c.ultimoMensaje.remitente_id === socio.id : false;
 
                 return `<div class="conversacion-item" onclick="abrirChat(${socio.id}, '${socio.nombre}')">
@@ -2763,10 +2782,8 @@
                 document.getElementById('chatModal').classList.add('active');
                 document.body.style.overflow = 'hidden';
 
-                // Cargar mensajes
                 await cargarMensajesChat(socioId);
 
-                // Enfocar input
                 setTimeout(() => {
                     document.getElementById('chatInput').focus();
                 }, 300);
@@ -2800,7 +2817,6 @@
                     return;
                 }
 
-                // Marcar como leídos los mensajes recibidos
                 const mensajesNoLeidos = mensajes.filter(m => m.destinatario_id === sessionUser.id && !m.leido);
                 if (mensajesNoLeidos.length > 0) {
                     for (const m of mensajesNoLeidos) {
@@ -2809,7 +2825,6 @@
                             .update({ leido: true })
                             .eq('id', m.id);
                     }
-                    // Actualizar badge
                     loadConversaciones();
                 }
 
@@ -2822,7 +2837,6 @@
                     </div>`;
                 }).join('');
 
-                // Scroll al final
                 container.scrollTop = container.scrollHeight;
 
             } catch (error) {
@@ -2863,7 +2877,6 @@
                 await cargarMensajesChat(chatSocioId);
                 loadConversaciones();
 
-                // Notificar al destinatario
                 try {
                     await supabaseClient.from('notificaciones').insert([{
                         tipo: 'nuevo_mensaje',
@@ -2913,13 +2926,9 @@
                     console.log('📨 Nuevo mensaje recibido:', payload);
                     const nuevoMensaje = payload.new;
                     
-                    // Mostrar toast
                     showToast(`💬 Nuevo mensaje de ${nuevoMensaje.remitente_id}`, 'info');
-                    
-                    // Actualizar conversaciones
                     loadConversaciones();
                     
-                    // Si el chat está abierto, recargar mensajes
                     if (chatSocioId && document.getElementById('chatModal').classList.contains('active')) {
                         cargarMensajesChat(chatSocioId);
                     }
