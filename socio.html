@@ -55,16 +55,6 @@
         .modal-close{background:none;border:none;color:var(--text-secondary);font-size:1.2rem;cursor:pointer;transition:var(--transition-fast);padding:4px}
         .modal-close:hover{color:var(--neon-pink)}
         .modal-body{padding:16px 18px}
-        .modal-body .file-upload-area{border:2px dashed var(--border-glow);border-radius:var(--radius-sm);padding:24px 16px;text-align:center;cursor:pointer;transition:var(--transition-fast);background:rgba(0,0,0,0.15)}
-        .modal-body .file-upload-area:hover{border-color:var(--neon-blue);background:rgba(0,212,255,0.02)}
-        .modal-body .file-upload-area i{font-size:1.8rem;color:var(--text-muted);display:block;margin-bottom:6px}
-        .modal-body .file-upload-area p{color:var(--text-secondary);font-size:clamp(0.65rem,1vw,0.8rem)}
-        .modal-body .file-upload-area input[type=file]{display:none}
-        .modal-body .file-preview{margin-top:8px;padding:8px 12px;background:rgba(0,212,255,0.04);border-radius:var(--radius-xs);border:1px solid rgba(0,212,255,0.06);display:flex;align-items:center;gap:10px}
-        .modal-body .file-preview i{color:var(--neon-blue);font-size:0.9rem}
-        .modal-body .file-preview .name{flex:1;font-size:0.7rem;color:var(--text-primary);word-break:break-all}
-        .modal-body .file-preview .remove{color:var(--neon-pink);cursor:pointer;font-size:0.8rem;padding:4px}
-        @keyframes fadeInUp{from{opacity:0;transform:translateY(16px) scale(0.96)}to{opacity:1;transform:translateY(0) scale(1)}}
         .toast{position:fixed;bottom:calc(var(--bottom-nav-height)+40px);right:20px;left:20px;max-width:400px;margin:0 auto;padding:14px 20px;background:rgba(6,6,14,0.96);border:1px solid var(--border-glow);border-radius:var(--radius-sm);color:var(--text-primary);z-index:9999;animation:fadeInUp 0.3s ease;box-shadow:var(--shadow-card);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);display:flex;align-items:center;gap:12px;font-size:clamp(0.7rem,1.2vw,0.85rem);transition:var(--transition-fast)}
         .toast .icon{font-size:1.1rem;flex-shrink:0}
         .toast .icon.success{color:var(--neon-green)}
@@ -409,7 +399,6 @@
             margin-bottom: 6px;
         }
 
-        /* ===== FOOTER CORREGIDO - SIN SUPERPOSICIÓN ===== */
         .fechas-footer {
             position: relative;
             width: 100%;
@@ -470,29 +459,6 @@
         }
         .fechas-footer .separador { color: rgba(255,255,255,0.06); font-size: 0.6rem; }
 
-        @media(max-width:480px) {
-            .fechas-footer {
-                padding: 10px 12px;
-                gap: 10px;
-                margin-bottom: 70px;
-                flex-wrap: wrap;
-            }
-            .fechas-footer .fecha-item {
-                font-size: 0.55rem;
-                gap: 4px;
-            }
-            .fechas-footer .fecha-item .numero {
-                font-size: 0.7rem;
-            }
-            .fechas-footer .fecha-item .label {
-                font-size: 0.4rem;
-                letter-spacing: 0.3px;
-            }
-            .fechas-footer .separador {
-                display: none;
-            }
-        }
-
         .spinner {
             display: inline-block;
             width: 18px;
@@ -507,210 +473,9 @@
             100% { transform: rotate(360deg); }
         }
 
-        /* ===== ESTILOS PARA NOTICIAS ===== */
-        .noticia-item {
-            background: var(--bg-card);
-            border: 1px solid var(--border-glow);
-            border-radius: var(--radius-sm);
-            padding: 16px 18px;
-            transition: all 0.3s ease;
-            position: relative;
-            cursor: pointer;
-            border-left: 3px solid transparent;
-        }
-
-        .noticia-item:hover {
-            border-color: rgba(0,212,255,0.15);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
-        }
-
-        .noticia-item:active {
-            transform: scale(0.98);
-        }
-
-        .noticia-item.no-leida {
-            border-left-color: var(--neon-blue);
-            background: rgba(0,212,255,0.02);
-        }
-
-        .noticia-item .noticia-header {
-            display: flex;
-            gap: 14px;
-            align-items: flex-start;
-        }
-
-        .noticia-item .noticia-icono {
-            width: 44px;
-            height: 44px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.1rem;
-            flex-shrink: 0;
-            transition: all 0.3s ease;
-        }
-
-        .noticia-item .noticia-icono.gasto {
-            background: rgba(255,106,0,0.12);
-            color: var(--neon-orange);
-        }
-
-        .noticia-item .noticia-icono.anuncio {
-            background: rgba(0,212,255,0.12);
-            color: var(--neon-blue);
-        }
-
-        .noticia-item .noticia-contenido {
-            flex: 1;
-            min-width: 0;
-        }
-
-        .noticia-item .noticia-contenido .titulo {
-            font-size: 0.85rem;
-            font-weight: 700;
-            color: #ffffff;
-            display: flex;
-            gap: 8px;
-            align-items: center;
-            flex-wrap: wrap;
-        }
-
-        .noticia-item .noticia-contenido .titulo .badge-tipo {
-            font-size: 0.45rem;
-            padding: 1px 8px;
-            border-radius: 12px;
-            text-transform: uppercase;
-            font-weight: 700;
-            letter-spacing: 0.5px;
-        }
-
-        .noticia-item .noticia-contenido .titulo .badge-tipo.gasto {
-            background: rgba(255,106,0,0.12);
-            color: var(--neon-orange);
-            border: 1px solid rgba(255,106,0,0.15);
-        }
-
-        .noticia-item .noticia-contenido .titulo .badge-tipo.anuncio {
-            background: rgba(0,212,255,0.12);
-            color: var(--neon-blue);
-            border: 1px solid rgba(0,212,255,0.15);
-        }
-
-        .noticia-item .noticia-contenido .descripcion {
-            font-size: 0.75rem;
-            color: var(--text-secondary);
-            margin: 4px 0 6px 0;
-            line-height: 1.6;
-        }
-
-        .noticia-item .noticia-contenido .monto {
-            font-size: 0.75rem;
-            font-weight: 700;
-            display: inline-block;
-            padding: 2px 12px;
-            border-radius: 12px;
-            margin: 4px 0;
-            color: var(--neon-orange);
-            background: rgba(255,106,0,0.06);
-            border: 1px solid rgba(255,106,0,0.08);
-        }
-
-        .noticia-item .noticia-footer {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 8px;
-            padding-top: 8px;
-            border-top: 1px solid rgba(255,255,255,0.03);
-            flex-wrap: wrap;
-            gap: 4px;
-        }
-
-        .noticia-item .noticia-footer .fecha {
-            font-size: 0.55rem;
-            color: var(--text-muted);
-            display: flex;
-            align-items: center;
-            gap: 4px;
-        }
-
-        .noticia-item .noticia-footer .estado-lectura {
-            font-size: 0.5rem;
-            padding: 1px 10px;
-            border-radius: 12px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .noticia-item .noticia-footer .estado-lectura.leida {
-            color: var(--text-muted);
-            background: rgba(255,255,255,0.02);
-            border: 1px solid var(--border-glow);
-        }
-
-        .noticia-item .noticia-footer .estado-lectura.no-leida {
-            color: var(--neon-blue);
-            background: rgba(0,212,255,0.06);
-            border: 1px solid rgba(0,212,255,0.06);
-        }
-
-        .noticia-item .noticia-footer .categoria {
-            font-size: 0.5rem;
-            padding: 1px 10px;
-            border-radius: 12px;
-            background: rgba(255,255,255,0.03);
-            color: var(--text-muted);
-            border: 1px solid var(--border-glow);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        @media(max-width:480px) {
-            .noticia-item .noticia-header {
-                flex-direction: row;
-                gap: 10px;
-            }
-            .noticia-item .noticia-icono {
-                width: 36px;
-                height: 36px;
-                font-size: 0.9rem;
-            }
-            .noticia-item .noticia-contenido .titulo {
-                font-size: 0.75rem;
-            }
-            .noticia-item .noticia-contenido .descripcion {
-                font-size: 0.7rem;
-            }
-            .noticia-item .noticia-contenido .monto {
-                font-size: 0.65rem;
-            }
-            .noticia-item .noticia-footer .fecha {
-                font-size: 0.5rem;
-            }
-            .noticia-item .noticia-footer .estado-lectura,
-            .noticia-item .noticia-footer .categoria {
-                font-size: 0.4rem;
-                padding: 0px 6px;
-            }
-        }
-
-        @keyframes noticiaNueva {
-            0% { background: rgba(0,212,255,0.08); border-color: var(--neon-blue); }
-            100% { background: var(--bg-card); border-color: var(--border-glow); }
-        }
-
-        .noticia-item.nueva {
-            animation: noticiaNueva 2s ease;
-        }
-
         /* ================================================================
-           PERFIL FUTURISTA - ESTILOS
+           PERFIL - VERSIÓN ORIGINAL (SIN ARO)
            ================================================================ */
-
-        /* Fondo animado del perfil */
         .perfil-futurista {
             position: relative;
             overflow: hidden;
@@ -719,23 +484,6 @@
                         var(--bg-card);
             border: 1px solid rgba(0,212,255,0.08);
         }
-
-        .perfil-bg-animado {
-            position: absolute;
-            inset: 0;
-            background: 
-                radial-gradient(circle at 20% 50%, rgba(0,212,255,0.03) 0%, transparent 50%),
-                radial-gradient(circle at 80% 50%, rgba(139,60,255,0.03) 0%, transparent 50%);
-            animation: perfilBgPulse 8s ease-in-out infinite alternate;
-            z-index: 0;
-        }
-
-        @keyframes perfilBgPulse {
-            0% { opacity: 0.5; transform: scale(1); }
-            100% { opacity: 1; transform: scale(1.05); }
-        }
-
-        /* Header del perfil */
         .profile-header-futurista {
             display: flex;
             align-items: center;
@@ -745,23 +493,12 @@
             z-index: 1;
             flex-wrap: wrap;
         }
-
-        @media(max-width:480px) {
-            .profile-header-futurista {
-                flex-direction: column;
-                text-align: center;
-                gap: 16px;
-            }
-        }
-
-        /* Avatar futurista */
         .profile-avatar-futurista {
             position: relative;
             flex-shrink: 0;
             width: 100px;
             height: 100px;
         }
-
         .profile-avatar-futurista img {
             width: 100px;
             height: 100px;
@@ -772,29 +509,6 @@
             background: #111122;
             transition: all 0.4s ease;
         }
-
-        .profile-avatar-futurista img:hover {
-            border-color: rgba(0,212,255,0.4);
-            box-shadow: 0 0 60px rgba(0,212,255,0.08);
-        }
-
-        /* Anillo alrededor del avatar - CORREGIDO */
-        .avatar-ring {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) rotate(-90deg);
-            width: 120px;
-            height: 120px;
-            pointer-events: none;
-            z-index: 0;
-        }
-
-        .avatar-ring-progress {
-            transition: stroke-dashoffset 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-        }
-
-        /* Botón editar avatar */
         .edit-btn-futurista {
             position: absolute;
             bottom: 4px;
@@ -814,28 +528,23 @@
             box-shadow: 0 0 30px rgba(0,212,255,0.1);
             z-index: 2;
         }
-
         .edit-btn-futurista:hover {
             transform: scale(1.1);
             box-shadow: 0 0 50px rgba(0,212,255,0.2);
         }
-
         .edit-btn-futurista:active {
             transform: scale(0.85);
         }
 
-        /* Info del perfil */
         .profile-info-futurista {
             flex: 1;
         }
-
         .nombre-badge {
             display: flex;
             align-items: center;
             gap: 12px;
             flex-wrap: wrap;
         }
-
         .nombre-badge h1 {
             font-size: clamp(1.2rem, 2.5vw, 1.6rem);
             font-weight: 800;
@@ -845,7 +554,6 @@
             background-clip: text;
             letter-spacing: -0.5px;
         }
-
         .badge-role {
             font-size: 0.5rem;
             font-weight: 700;
@@ -857,33 +565,26 @@
             color: var(--neon-blue);
             border: 1px solid rgba(0,212,255,0.1);
         }
-
         .username-futurista {
             font-size: 0.75rem;
             color: var(--text-secondary);
             margin-top: 2px;
         }
-
         .username-futurista i {
             color: var(--neon-blue);
             font-size: 0.65rem;
         }
-
         .id-futurista {
             font-size: 0.65rem;
             color: var(--text-muted);
             margin-top: 1px;
         }
-
         .id-futurista i {
             color: var(--neon-purple);
             font-size: 0.55rem;
         }
 
-        /* ================================================================
-           ANILLOS CONTADORES
-           ================================================================ */
-
+        /* ANILLOS CONTADORES */
         .anillos-container {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -892,49 +593,41 @@
             position: relative;
             z-index: 1;
         }
-
         @media(max-width:768px) {
             .anillos-container {
                 grid-template-columns: repeat(2, 1fr);
                 gap: 16px;
             }
         }
-
         @media(max-width:480px) {
             .anillos-container {
                 grid-template-columns: repeat(2, 1fr);
                 gap: 10px;
             }
         }
-
         .anillo-item {
             display: flex;
             justify-content: center;
         }
-
         .anillo-circular {
             position: relative;
             width: 110px;
             height: 110px;
         }
-
         @media(max-width:480px) {
             .anillo-circular {
                 width: 90px;
                 height: 90px;
             }
         }
-
         .anillo-circular svg {
             width: 100%;
             height: 100%;
             transform: rotate(-90deg);
         }
-
         .anillo-progreso {
             transition: stroke-dashoffset 1.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
-
         .anillo-centro {
             position: absolute;
             top: 50%;
@@ -943,7 +636,6 @@
             text-align: center;
             width: 80%;
         }
-
         .anillo-centro i {
             font-size: 0.85rem;
             color: var(--neon-blue);
@@ -951,13 +643,6 @@
             margin-bottom: 1px;
             opacity: 0.7;
         }
-
-        @media(max-width:480px) {
-            .anillo-centro i {
-                font-size: 0.7rem;
-            }
-        }
-
         .anillo-valor {
             font-size: 0.6rem;
             font-weight: 700;
@@ -966,13 +651,6 @@
             line-height: 1.2;
             word-break: break-word;
         }
-
-        @media(max-width:480px) {
-            .anillo-valor {
-                font-size: 0.5rem;
-            }
-        }
-
         .anillo-label {
             font-size: 0.45rem;
             font-weight: 600;
@@ -982,24 +660,12 @@
             display: block;
             margin-top: 1px;
         }
-
-        @media(max-width:480px) {
-            .anillo-label {
-                font-size: 0.4rem;
-                letter-spacing: 0.5px;
-            }
-        }
-
-        /* Colores de los anillos */
         .plan-progreso { stroke: url(#gradPlan); }
         .estado-progreso { stroke: url(#gradEstado); }
         .inicio-progreso { stroke: url(#gradInicio); }
         .vencimiento-progreso { stroke: url(#gradVencimiento); }
 
-        /* ================================================================
-           DÍAS RESTANTES
-           ================================================================ */
-
+        /* DÍAS RESTANTES */
         .dias-restantes-futurista {
             background: rgba(0,212,255,0.03);
             border: 1px solid rgba(0,212,255,0.06);
@@ -1011,20 +677,6 @@
             z-index: 1;
             overflow: hidden;
         }
-
-        .dias-restantes-futurista::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(90deg, transparent, rgba(0,212,255,0.04), transparent);
-            animation: diasShine 3s ease-in-out infinite;
-        }
-
-        @keyframes diasShine {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(100%); }
-        }
-
         .dias-restantes-inner {
             display: flex;
             align-items: center;
@@ -1033,11 +685,7 @@
             position: relative;
             z-index: 1;
         }
-
-        .dias-icono {
-            font-size: 1.2rem;
-        }
-
+        .dias-icono { font-size: 1.2rem; }
         .dias-numero {
             font-size: 1.8rem;
             font-weight: 900;
@@ -1047,7 +695,6 @@
             background-clip: text;
             line-height: 1;
         }
-
         .dias-texto {
             font-size: 0.65rem;
             color: var(--text-secondary);
@@ -1055,19 +702,6 @@
             text-transform: uppercase;
             letter-spacing: 1px;
         }
-
-        @media(max-width:480px) {
-            .dias-numero {
-                font-size: 1.4rem;
-            }
-            .dias-texto {
-                font-size: 0.55rem;
-            }
-        }
-
-        /* ================================================================
-           BOTÓN CONFIGURAR PLAN FUTURISTA
-           ================================================================ */
 
         .btn-configurar-plan-futurista {
             position: relative;
@@ -1091,16 +725,11 @@
             justify-content: center;
             gap: 10px;
         }
-
         .btn-configurar-plan-futurista:hover {
             transform: translateY(-2px);
             box-shadow: 0 8px 40px rgba(0,212,255,0.2);
         }
-
-        .btn-configurar-plan-futurista:active {
-            transform: scale(0.97);
-        }
-
+        .btn-configurar-plan-futurista:active { transform: scale(0.97); }
         .btn-configurar-plan-futurista .btn-glow {
             position: absolute;
             inset: -2px;
@@ -1111,18 +740,8 @@
             transition: opacity 0.5s ease;
             z-index: -1;
         }
-
-        .btn-configurar-plan-futurista:hover .btn-glow {
-            opacity: 0.5;
-        }
-
-        .btn-configurar-plan-futurista i {
-            font-size: 1rem;
-        }
-
-        /* ================================================================
-           GRADIENTES PARA LOS ANILLOS (OCULTOS)
-           ================================================================ */
+        .btn-configurar-plan-futurista:hover .btn-glow { opacity: 0.5; }
+        .btn-configurar-plan-futurista i { font-size: 1rem; }
 
         .perfil-gradients {
             position: absolute;
@@ -1132,6 +751,309 @@
             pointer-events: none;
         }
 
+        /* ================================================================
+           NOTICIAS
+           ================================================================ */
+        .noticia-item {
+            background: var(--bg-card);
+            border: 1px solid var(--border-glow);
+            border-radius: var(--radius-sm);
+            padding: 16px 18px;
+            transition: all 0.3s ease;
+            position: relative;
+            cursor: pointer;
+            border-left: 3px solid transparent;
+        }
+        .noticia-item:hover {
+            border-color: rgba(0,212,255,0.15);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+        }
+        .noticia-item:active { transform: scale(0.98); }
+        .noticia-item.no-leida {
+            border-left-color: var(--neon-blue);
+            background: rgba(0,212,255,0.02);
+        }
+        .noticia-item .noticia-header {
+            display: flex;
+            gap: 14px;
+            align-items: flex-start;
+        }
+        .noticia-item .noticia-icono {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            flex-shrink: 0;
+            transition: all 0.3s ease;
+        }
+        .noticia-item .noticia-icono.gasto {
+            background: rgba(255,106,0,0.12);
+            color: var(--neon-orange);
+        }
+        .noticia-item .noticia-icono.anuncio {
+            background: rgba(0,212,255,0.12);
+            color: var(--neon-blue);
+        }
+        .noticia-item .noticia-contenido { flex: 1; min-width: 0; }
+        .noticia-item .noticia-contenido .titulo {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #ffffff;
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .noticia-item .noticia-contenido .titulo .badge-tipo {
+            font-size: 0.45rem;
+            padding: 1px 8px;
+            border-radius: 12px;
+            text-transform: uppercase;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+        .noticia-item .noticia-contenido .titulo .badge-tipo.gasto {
+            background: rgba(255,106,0,0.12);
+            color: var(--neon-orange);
+            border: 1px solid rgba(255,106,0,0.15);
+        }
+        .noticia-item .noticia-contenido .titulo .badge-tipo.anuncio {
+            background: rgba(0,212,255,0.12);
+            color: var(--neon-blue);
+            border: 1px solid rgba(0,212,255,0.15);
+        }
+        .noticia-item .noticia-contenido .descripcion {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            margin: 4px 0 6px 0;
+            line-height: 1.6;
+        }
+        .noticia-item .noticia-contenido .monto {
+            font-size: 0.75rem;
+            font-weight: 700;
+            display: inline-block;
+            padding: 2px 12px;
+            border-radius: 12px;
+            margin: 4px 0;
+            color: var(--neon-orange);
+            background: rgba(255,106,0,0.06);
+            border: 1px solid rgba(255,106,0,0.08);
+        }
+        .noticia-item .noticia-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 8px;
+            padding-top: 8px;
+            border-top: 1px solid rgba(255,255,255,0.03);
+            flex-wrap: wrap;
+            gap: 4px;
+        }
+        .noticia-item .noticia-footer .fecha {
+            font-size: 0.55rem;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .noticia-item .noticia-footer .estado-lectura {
+            font-size: 0.5rem;
+            padding: 1px 10px;
+            border-radius: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .noticia-item .noticia-footer .estado-lectura.leida {
+            color: var(--text-muted);
+            background: rgba(255,255,255,0.02);
+            border: 1px solid var(--border-glow);
+        }
+        .noticia-item .noticia-footer .estado-lectura.no-leida {
+            color: var(--neon-blue);
+            background: rgba(0,212,255,0.06);
+            border: 1px solid rgba(0,212,255,0.06);
+        }
+        .noticia-item .noticia-footer .categoria {
+            font-size: 0.5rem;
+            padding: 1px 10px;
+            border-radius: 12px;
+            background: rgba(255,255,255,0.03);
+            color: var(--text-muted);
+            border: 1px solid var(--border-glow);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        @keyframes noticiaNueva {
+            0% { background: rgba(0,212,255,0.08); border-color: var(--neon-blue); }
+            100% { background: var(--bg-card); border-color: var(--border-glow); }
+        }
+        .noticia-item.nueva { animation: noticiaNueva 2s ease; }
+
+        /* ================================================================
+           MENSAJERÍA INTERNA - ESTILOS
+           ================================================================ */
+        .conversacion-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 12px 14px;
+            border-radius: var(--radius-sm);
+            transition: var(--transition-fast);
+            cursor: pointer;
+            border-bottom: 1px solid rgba(255,255,255,0.03);
+        }
+        .conversacion-item:hover {
+            background: rgba(0,212,255,0.02);
+        }
+        .conversacion-item:active { transform: scale(0.98); }
+        .conversacion-item .avatar-chat {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: var(--gradient-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #fff;
+            flex-shrink: 0;
+        }
+        .conversacion-item .info-chat { flex: 1; min-width: 0; }
+        .conversacion-item .info-chat .nombre-chat {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        .conversacion-item .info-chat .ultimo-mensaje {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .conversacion-item .info-chat .tiempo-chat {
+            font-size: 0.55rem;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+        .conversacion-item .badge-no-leidos {
+            background: var(--neon-pink);
+            color: #fff;
+            font-size: 0.5rem;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 12px;
+            min-width: 20px;
+            text-align: center;
+        }
+
+        /* Chat interno */
+        .chat-mensajes {
+            max-height: 300px;
+            overflow-y: auto;
+            padding: 4px 0;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .chat-mensaje {
+            max-width: 85%;
+            padding: 10px 14px;
+            border-radius: var(--radius-sm);
+            font-size: 0.75rem;
+            line-height: 1.5;
+            word-break: break-word;
+        }
+        .chat-mensaje.enviado {
+            align-self: flex-end;
+            background: var(--gradient-primary);
+            color: #fff;
+            border-bottom-right-radius: 4px;
+        }
+        .chat-mensaje.recibido {
+            align-self: flex-start;
+            background: var(--bg-card);
+            color: var(--text-primary);
+            border: 1px solid var(--border-glow);
+            border-bottom-left-radius: 4px;
+        }
+        .chat-mensaje .hora {
+            font-size: 0.5rem;
+            opacity: 0.6;
+            margin-top: 4px;
+            display: block;
+            text-align: right;
+        }
+        .chat-input-container {
+            display: flex;
+            gap: 8px;
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid var(--border-glow);
+        }
+        .chat-input-container input {
+            flex: 1;
+            padding: 10px 14px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-glow);
+            border-radius: var(--radius-sm);
+            color: var(--text-primary);
+            font-size: 0.75rem;
+            font-family: 'Inter', sans-serif;
+            outline: none;
+        }
+        .chat-input-container input:focus {
+            border-color: rgba(0,212,255,0.2);
+        }
+        .chat-input-container .btn-enviar {
+            padding: 10px 16px;
+            background: var(--gradient-primary);
+            border: none;
+            border-radius: var(--radius-sm);
+            color: #fff;
+            cursor: pointer;
+            transition: var(--transition-fast);
+        }
+        .chat-input-container .btn-enviar:active { transform: scale(0.92); }
+        .chat-input-container .btn-enviar:hover { opacity: 0.8; }
+        .chat-input-container .btn-enviar:disabled { opacity: 0.5; cursor: not-allowed; }
+
+        .chat-vacio {
+            text-align: center;
+            padding: 30px 20px;
+            color: var(--text-muted);
+            font-size: 0.75rem;
+        }
+        .chat-vacio i {
+            font-size: 2rem;
+            display: block;
+            margin-bottom: 10px;
+            opacity: 0.3;
+        }
+
+        .mensaje-nuevo-indicador {
+            background: var(--neon-pink);
+            color: #fff;
+            font-size: 0.5rem;
+            padding: 2px 10px;
+            border-radius: 12px;
+            margin-left: 6px;
+        }
+
+        /* Scrollbar para chat */
+        .chat-mensajes::-webkit-scrollbar { width: 3px; }
+        .chat-mensajes::-webkit-scrollbar-track { background: transparent; }
+        .chat-mensajes::-webkit-scrollbar-thumb { background: var(--neon-blue); border-radius: 10px; }
+
+        /* ================================================================
+           RESPONSIVE
+           ================================================================ */
         @media(max-width:480px){
             .fly-info-grid{grid-template-columns:1fr 1fr;gap:10px}
             .fly-info-grid .info-card .icon-circle{width:48px;height:48px;font-size:1.3rem}
@@ -1164,7 +1086,6 @@
             .profile-header-futurista{flex-direction:column;text-align:center;gap:16px}
             .profile-avatar-futurista{width:80px;height:80px}
             .profile-avatar-futurista img{width:80px;height:80px}
-            .avatar-ring{width:100px;height:100px}
             .nombre-badge{justify-content:center}
             .anillos-container{grid-template-columns:repeat(2,1fr);gap:10px}
             .anillo-circular{width:90px;height:90px}
@@ -1175,6 +1096,19 @@
             .fechas-footer .fecha-item .numero{font-size:0.7rem}
             .fechas-footer .fecha-item .label{font-size:0.45rem}
             .fechas-footer .separador{display:none}
+            .noticia-item .noticia-header{flex-direction:row;gap:10px}
+            .noticia-item .noticia-icono{width:36px;height:36px;font-size:0.9rem}
+            .noticia-item .noticia-contenido .titulo{font-size:0.75rem}
+            .noticia-item .noticia-contenido .descripcion{font-size:0.7rem}
+            .noticia-item .noticia-contenido .monto{font-size:0.65rem}
+            .noticia-item .noticia-footer .fecha{font-size:0.5rem}
+            .noticia-item .noticia-footer .estado-lectura,
+            .noticia-item .noticia-footer .categoria{font-size:0.4rem;padding:0px 6px}
+            .modal-content{max-width:100%;border-radius:var(--radius-sm)}
+            .chat-mensajes{max-height:200px}
+            .conversacion-item .avatar-chat{width:40px;height:40px;font-size:0.9rem}
+            .conversacion-item .info-chat .nombre-chat{font-size:0.7rem}
+            .conversacion-item .info-chat .ultimo-mensaje{font-size:0.6rem}
         }
         @media(max-width:380px){
             .bottom-nav .nav-item{min-width:44px;min-height:42px;padding:3px 4px}
@@ -1278,19 +1212,13 @@
 
     <main class="socio-main" id="socioMain">
 
-        <!-- ===== SECCIÓN PERFIL FUTURISTA ===== -->
+        <!-- ===== SECCIÓN PERFIL (SIN ARO) ===== -->
         <div class="section-page active" id="section-perfil">
             
-            <!-- Tarjeta principal con efecto holográfico -->
             <div class="glass-card perfil-futurista" style="padding:0;overflow:hidden;position:relative;">
-                
-                <!-- Fondo con gradiente animado -->
                 <div class="perfil-bg-animado"></div>
-                
-                <!-- Contenido del perfil -->
                 <div style="position:relative;z-index:1;padding:24px 24px 20px 24px;">
                     
-                    <!-- Header con avatar y nombre -->
                     <div class="profile-header-futurista">
                         <div class="profile-avatar-futurista">
                             <div id="avatarContainerFuturista">
@@ -1299,13 +1227,7 @@
                             <button class="edit-btn-futurista" onclick="abrirModalAvatar()">
                                 <i class="fas fa-camera"></i>
                             </button>
-                            <!-- Anillo de estado alrededor del avatar - CORREGIDO -->
-                            <svg class="avatar-ring" viewBox="0 0 120 120">
-                                <circle cx="60" cy="60" r="54" fill="none" stroke="rgba(0,212,255,0.06)" stroke-width="3"/>
-                                <circle class="avatar-ring-progress" cx="60" cy="60" r="54" fill="none" stroke="url(#ringGrad)" stroke-width="3" stroke-linecap="round" stroke-dasharray="339.292" stroke-dashoffset="339.292"/>
-                            </svg>
                         </div>
-                        
                         <div class="profile-info-futurista">
                             <div class="nombre-badge">
                                 <h1 id="socioNombreFuturista">Cargando...</h1>
@@ -1316,10 +1238,8 @@
                         </div>
                     </div>
 
-                    <!-- ANILLOS CONTADORES FUTURISTAS -->
+                    <!-- Anillos contadores -->
                     <div class="anillos-container">
-                        
-                        <!-- Anillo 1: Plan -->
                         <div class="anillo-item">
                             <div class="anillo-circular">
                                 <svg viewBox="0 0 120 120">
@@ -1333,8 +1253,6 @@
                                 </div>
                             </div>
                         </div>
-
-                        <!-- Anillo 2: Estado -->
                         <div class="anillo-item">
                             <div class="anillo-circular">
                                 <svg viewBox="0 0 120 120">
@@ -1348,8 +1266,6 @@
                                 </div>
                             </div>
                         </div>
-
-                        <!-- Anillo 3: Inicio -->
                         <div class="anillo-item">
                             <div class="anillo-circular">
                                 <svg viewBox="0 0 120 120">
@@ -1363,8 +1279,6 @@
                                 </div>
                             </div>
                         </div>
-
-                        <!-- Anillo 4: Vencimiento -->
                         <div class="anillo-item">
                             <div class="anillo-circular">
                                 <svg viewBox="0 0 120 120">
@@ -1378,10 +1292,8 @@
                                 </div>
                             </div>
                         </div>
-
                     </div>
 
-                    <!-- Días restantes (destacado) -->
                     <div class="dias-restantes-futurista" id="diasRestantesContainer">
                         <div class="dias-restantes-inner">
                             <span class="dias-icono">⏳</span>
@@ -1390,7 +1302,6 @@
                         </div>
                     </div>
 
-                    <!-- Botón Configurar Plan -->
                     <button class="btn-configurar-plan-futurista" onclick="abrirConfigPlan()">
                         <i class="fas fa-cog fa-spin" style="animation-duration:8s;"></i> Configurar Mi Plan
                         <span class="btn-glow"></span>
@@ -1399,7 +1310,6 @@
                 </div>
             </div>
 
-            <!-- Mensaje de vencimiento -->
             <div id="mensajeVencimiento" class="hidden" style="margin-bottom:16px;">
                 <div class="glass-card mensaje-vencimiento-card">
                     <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;">
@@ -1456,83 +1366,38 @@
                     </div>
 
                     <div class="stats-dashboard">
-                        <div class="stat-card">
-                            <span class="stat-icon">👥</span>
-                            <span class="stat-number" id="totalSocios">0</span>
-                            <span class="stat-label">Total Socios</span>
-                        </div>
-                        <div class="stat-card">
-                            <span class="stat-icon">✅</span>
-                            <span class="stat-number" id="sociosActivos">0</span>
-                            <span class="stat-label">Socios Activos</span>
-                            <span class="stat-change positive" id="tendenciaActivos">+0% este mes</span>
-                        </div>
-                        <div class="stat-card">
-                            <span class="stat-icon">⏳</span>
-                            <span class="stat-number" id="sociosPendientes">0</span>
-                            <span class="stat-label">Pendientes</span>
-                        </div>
-                        <div class="stat-card">
-                            <span class="stat-icon">🚫</span>
-                            <span class="stat-number" id="sociosInactivos">0</span>
-                            <span class="stat-label">Inactivos</span>
-                        </div>
+                        <div class="stat-card"><span class="stat-icon">👥</span><span class="stat-number" id="totalSocios">0</span><span class="stat-label">Total Socios</span></div>
+                        <div class="stat-card"><span class="stat-icon">✅</span><span class="stat-number" id="sociosActivos">0</span><span class="stat-label">Socios Activos</span><span class="stat-change positive" id="tendenciaActivos">+0% este mes</span></div>
+                        <div class="stat-card"><span class="stat-icon">⏳</span><span class="stat-number" id="sociosPendientes">0</span><span class="stat-label">Pendientes</span></div>
+                        <div class="stat-card"><span class="stat-icon">🚫</span><span class="stat-number" id="sociosInactivos">0</span><span class="stat-label">Inactivos</span></div>
                     </div>
 
                     <div style="background:var(--bg-card);border:1px solid var(--border-glow);border-radius:var(--radius-sm);padding:16px;margin-bottom:16px;">
                         <h4 style="font-size:0.7rem;font-weight:700;color:var(--text-secondary);text-transform:uppercase;letter-spacing:1px;margin-bottom:12px;text-align:center;">📊 Distribución de Socios</h4>
-                        
                         <div class="ring-chart-container">
                             <div class="ring-chart">
                                 <svg viewBox="0 0 120 120">
                                     <circle class="ring-bg" cx="60" cy="60" r="48"/>
-                                    <circle class="ring-segment activos" cx="60" cy="60" r="48" 
-                                            stroke-dasharray="301.6" stroke-dashoffset="301.6"/>
-                                    <circle class="ring-segment inactivos" cx="60" cy="60" r="48" 
-                                            stroke-dasharray="301.6" stroke-dashoffset="301.6"/>
+                                    <circle class="ring-segment activos" cx="60" cy="60" r="48" stroke-dasharray="301.6" stroke-dashoffset="301.6"/>
+                                    <circle class="ring-segment inactivos" cx="60" cy="60" r="48" stroke-dasharray="301.6" stroke-dashoffset="301.6"/>
                                 </svg>
-                                <div class="ring-center">
-                                    <span class="number">0%</span>
-                                    <span class="label">Activos</span>
-                                </div>
+                                <div class="ring-center"><span class="number">0%</span><span class="label">Activos</span></div>
                             </div>
-
                             <div class="ring-chart">
                                 <svg viewBox="0 0 120 120">
                                     <circle class="ring-bg" cx="60" cy="60" r="48"/>
-                                    <circle class="ring-segment sabatero" cx="60" cy="60" r="48" 
-                                            stroke-dasharray="301.6" stroke-dashoffset="301.6"/>
-                                    <circle class="ring-segment finder" cx="60" cy="60" r="48" 
-                                            stroke-dasharray="301.6" stroke-dashoffset="301.6"/>
+                                    <circle class="ring-segment sabatero" cx="60" cy="60" r="48" stroke-dasharray="301.6" stroke-dashoffset="301.6"/>
+                                    <circle class="ring-segment finder" cx="60" cy="60" r="48" stroke-dasharray="301.6" stroke-dashoffset="301.6"/>
                                 </svg>
-                                <div class="ring-center">
-                                    <span class="number">0%</span>
-                                    <span class="label">Mensual</span>
-                                </div>
+                                <div class="ring-center"><span class="number">0%</span><span class="label">Mensual</span></div>
                             </div>
-
                             <div class="ring-legend">
-                                <div class="legend-item">
-                                    <span class="color-dot activos"></span>
-                                    Activos <span class="percent">0%</span>
-                                </div>
-                                <div class="legend-item">
-                                    <span class="color-dot inactivos"></span>
-                                    Inactivos <span class="percent">0%</span>
-                                </div>
+                                <div class="legend-item"><span class="color-dot activos"></span>Activos <span class="percent">0%</span></div>
+                                <div class="legend-item"><span class="color-dot inactivos"></span>Inactivos <span class="percent">0%</span></div>
                                 <div style="border-top:1px solid var(--border-glow);margin:4px 0;"></div>
-                                <div class="legend-item">
-                                    <span class="color-dot sabatero"></span>
-                                    Mensual <span class="percent">0%</span>
-                                </div>
-                                <div class="legend-item">
-                                    <span class="color-dot finder"></span>
-                                    Por Partido <span class="percent">0%</span>
-                                </div>
-                                <div class="legend-item" style="color:var(--text-muted);font-size:0.55rem;">
-                                    <span>⚡</span>
-                                    Sin plan <span class="percent">0%</span>
-                                </div>
+                                <div class="legend-item"><span class="color-dot sabatero"></span>Mensual <span class="percent">0%</span></div>
+                                <div class="legend-item"><span class="color-dot finder"></span>Por Partido <span class="percent">0%</span></div>
+                                <div class="legend-item" style="color:var(--text-muted);font-size:0.55rem;"><span>⚡</span>Sin plan <span class="percent">0%</span></div>
                             </div>
                         </div>
                     </div>
@@ -1540,37 +1405,17 @@
                     <div class="activity-widget glass-card" style="padding:16px;margin-bottom:16px;background:var(--bg-card);border:1px solid var(--border-glow);border-radius:var(--radius-sm);">
                         <h4>🔄 Socios Recientes</h4>
                         <div id="sociosRecientes">
-                            <div class="activity-item">
-                                <div class="activity-icon"><i class="fas fa-spinner fa-spin"></i></div>
-                                <div class="activity-content">
-                                    <p>Cargando socios...</p>
-                                    <span class="activity-time">Espere un momento</span>
-                                </div>
-                            </div>
+                            <div class="activity-item"><div class="activity-icon"><i class="fas fa-spinner fa-spin"></i></div><div class="activity-content"><p>Cargando socios...</p><span class="activity-time">Espere un momento</span></div></div>
                         </div>
                     </div>
 
                     <div class="fly-info-grid">
-                        <div class="info-card">
-                            <div class="icon-circle trophy"><span>🏆</span></div>
-                            <div class="title">Tradición</div>
-                            <div class="sub">Más de 10 años</div>
-                        </div>
-                        <div class="info-card">
-                            <div class="icon-circle handshake"><span>🤝</span></div>
-                            <div class="title">Compromiso</div>
-                            <div class="sub">Causas benéficas</div>
-                        </div>
-                        <div class="info-card">
-                            <div class="icon-circle lightning"><span>⚡</span></div>
-                            <div class="title">Pasión</div>
-                            <div class="sub">Juego limpio</div>
-                        </div>
+                        <div class="info-card"><div class="icon-circle trophy"><span>🏆</span></div><div class="title">Tradición</div><div class="sub">Más de 10 años</div></div>
+                        <div class="info-card"><div class="icon-circle handshake"><span>🤝</span></div><div class="title">Compromiso</div><div class="sub">Causas benéficas</div></div>
+                        <div class="info-card"><div class="icon-circle lightning"><span>⚡</span></div><div class="title">Pasión</div><div class="sub">Juego limpio</div></div>
                     </div>
 
-                    <div class="fly-cita">
-                        <p>"Reconocida y altamente valorada por sus socios, promovemos la integración de nuevos valores y la organización semanal de partidos sin complicaciones."</p>
-                    </div>
+                    <div class="fly-cita"><p>"Reconocida y altamente valorada por sus socios, promovemos la integración de nuevos valores y la organización semanal de partidos sin complicaciones."</p></div>
 
                     <div style="display:flex;flex-wrap:wrap;gap:6px 12px;justify-content:space-between;align-items:center;padding-top:12px;border-top:1px solid var(--border-glow);">
                         <div class="fly-tags" style="display:flex;flex-wrap:wrap;gap:4px 12px;">
@@ -1580,32 +1425,17 @@
                         </div>
                     </div>
 
-                    <!-- FOOTER CORREGIDO - DENTRO DE LA SECCIÓN FUTBOLEROS -->
                     <div class="fechas-footer">
-                        <div class="fecha-item">
-                            <span class="numero">2012</span>
-                            <span class="label">Fundación</span>
-                        </div>
+                        <div class="fecha-item"><span class="numero">2012</span><span class="label">Fundación</span></div>
                         <span class="separador">|</span>
-                        <div class="fecha-item">
-                            <span class="numero verde">6v6</span>
-                            <span class="label">Formato</span>
-                        </div>
+                        <div class="fecha-item"><span class="numero verde">6v6</span><span class="label">Formato</span></div>
                         <span class="separador">|</span>
-                        <div class="fecha-item">
-                            <span class="numero morado">+10</span>
-                            <span class="label">Años</span>
-                        </div>
+                        <div class="fecha-item"><span class="numero morado">+10</span><span class="label">Años</span></div>
                         <span class="separador">|</span>
-                        <div class="fecha-item">
-                            <span class="numero naranja">⚡</span>
-                            <span class="label">Pasión</span>
-                        </div>
+                        <div class="fecha-item"><span class="numero naranja">⚡</span><span class="label">Pasión</span></div>
                     </div>
 
-                    <div class="fly-footer" style="margin-top:0;padding-top:8px;">
-                        © 2026 FLY FUTBOLEROS · Todos los derechos reservados
-                    </div>
+                    <div class="fly-footer" style="margin-top:0;padding-top:8px;">© 2026 FLY FUTBOLEROS · Todos los derechos reservados</div>
                 </div>
             </div>
         </div>
@@ -1629,11 +1459,31 @@
                             <p style="font-size:0.8rem;">Cargando noticias...</p>
                         </div>
                     </div>
-                    
                     <div style="display:flex;justify-content:flex-end;margin-top:12px;padding-top:12px;border-top:1px solid var(--border-glow);">
-                        <button class="btn btn-secondary btn-sm" onclick="marcarTodasNoticiasLeidas()">
-                            <i class="fas fa-check-double"></i> Marcar todas como leídas
-                        </button>
+                        <button class="btn btn-secondary btn-sm" onclick="marcarTodasNoticiasLeidas()"><i class="fas fa-check-double"></i> Marcar todas como leídas</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== SECCIÓN MENSAJERÍA ===== -->
+        <div class="section-page" id="section-mensajeria">
+            <div class="glass-card" style="padding:0;overflow:hidden;">
+                <div style="background:linear-gradient(135deg,rgba(0,212,255,0.08),rgba(139,60,255,0.04));padding:14px 20px;border-bottom:1px solid var(--border-glow);">
+                    <div style="display:flex;align-items:center;gap:12px;">
+                        <i class="fas fa-envelope" style="font-size:1.4rem;color:var(--neon-blue);"></i>
+                        <div>
+                            <h3 style="font-size:clamp(0.85rem,1.8vw,1rem);font-weight:700;color:#ffffff;">✉️ Mensajes</h3>
+                            <p style="font-size:0.55rem;color:#9a9ab8;letter-spacing:1px;text-transform:uppercase;">Comunicación interna</p>
+                        </div>
+                    </div>
+                </div>
+                <div style="padding:16px 20px 20px 20px;">
+                    <div id="conversacionesContainer">
+                        <div style="text-align:center;padding:40px 20px;color:var(--text-muted);">
+                            <i class="fas fa-spinner fa-spin" style="font-size:1.5rem;display:block;margin-bottom:12px;color:var(--neon-blue);"></i>
+                            <p style="font-size:0.8rem;">Cargando conversaciones...</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1653,44 +1503,29 @@
                     <label>Selecciona tu plan</label>
                     <div class="selector-group" id="planSelector">
                         <div class="option" data-plan="Mensual" onclick="seleccionarPlanUI('Mensual')">
-                            <span class="icon">📆</span>
-                            <span class="name">Plan Mensual</span>
-                            <span class="price">Gs. 20.000 / mes</span>
-                            <span class="check"><i class="fas fa-check-circle"></i></span>
+                            <span class="icon">📆</span><span class="name">Plan Mensual</span><span class="price">Gs. 20.000 / mes</span><span class="check"><i class="fas fa-check-circle"></i></span>
                         </div>
                         <div class="option" data-plan="Por Partido" onclick="seleccionarPlanUI('Por Partido')">
-                            <span class="icon">⚽</span>
-                            <span class="name">Plan por Partido</span>
-                            <span class="price">Gs. 5.000 / partido</span>
-                            <span class="check"><i class="fas fa-check-circle"></i></span>
+                            <span class="icon">⚽</span><span class="name">Plan por Partido</span><span class="price">Gs. 5.000 / partido</span><span class="check"><i class="fas fa-check-circle"></i></span>
                         </div>
                     </div>
                 </div>
-
                 <div class="config-section">
                     <label>Método de pago</label>
                     <div class="selector-group" id="metodoSelector">
                         <div class="option" data-metodo="Transferencia" onclick="seleccionarMetodoUI('Transferencia')">
-                            <span class="icon">💻</span>
-                            <span class="name">Transferencia</span>
-                            <span class="price">Ueno / Bancos</span>
-                            <span class="check"><i class="fas fa-check-circle"></i></span>
+                            <span class="icon">💻</span><span class="name">Transferencia</span><span class="price">Ueno / Bancos</span><span class="check"><i class="fas fa-check-circle"></i></span>
                         </div>
                         <div class="option" data-metodo="Efectivo" onclick="seleccionarMetodoUI('Efectivo')">
-                            <span class="icon">💰</span>
-                            <span class="name">Efectivo</span>
-                            <span class="price">Pago en persona</span>
-                            <span class="check"><i class="fas fa-check-circle"></i></span>
+                            <span class="icon">💰</span><span class="name">Efectivo</span><span class="price">Pago en persona</span><span class="check"><i class="fas fa-check-circle"></i></span>
                         </div>
                     </div>
                 </div>
-
                 <div class="plan-status" id="planStatus">
                     <div class="item"><span class="label">Plan:</span><span class="value" id="statusPlan">No seleccionado</span></div>
                     <div class="item"><span class="label">Método:</span><span class="value" id="statusMetodo">No seleccionado</span></div>
                     <div class="item"><span class="label">Estado:</span><span class="value" id="statusEstado">Pendiente</span></div>
                 </div>
-
                 <button class="btn btn-confirmar" onclick="confirmarConfiguracion()" id="btnConfirmarConfig">
                     <i class="fas fa-check-circle"></i> CONFIRMAR
                 </button>
@@ -1710,25 +1545,41 @@
             </div>
             <div class="modal-body">
                 <p style="margin-bottom:14px;color:#b8b8d0;font-size:clamp(0.75rem,1.2vw,0.85rem);">Sube una nueva foto de perfil. Formatos: JPG, PNG.</p>
-                <div class="avatar-preview-container">
-                    <img id="avatarPreview" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Ccircle cx='40' cy='40' r='40' fill='%23111122'/%3E%3Ccircle cx='40' cy='26' r='12' fill='%23222244'/%3E%3Cpath d='M10 72c0-12 16-20 30-20s30 8 30 20' fill='%23222244'/%3E%3C/svg%3E" alt="Vista previa">
-                </div>
+                <div class="avatar-preview-container"><img id="avatarPreview" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Ccircle cx='40' cy='40' r='40' fill='%23111122'/%3E%3Ccircle cx='40' cy='26' r='12' fill='%23222244'/%3E%3Cpath d='M10 72c0-12 16-20 30-20s30 8 30 20' fill='%23222244'/%3E%3C/svg%3E" alt="Vista previa"></div>
                 <div class="file-upload-area" onclick="document.getElementById('uploadAvatarInput').click()">
-                    <i class="fas fa-image"></i>
-                    <p>Seleccionar imagen</p>
+                    <i class="fas fa-image"></i><p>Seleccionar imagen</p>
                     <div style="font-size:0.6rem;color:#7a7a9a;margin-top:4px;">Recomendado: 400x400px</div>
                     <input type="file" id="uploadAvatarInput" accept="image/*">
                 </div>
                 <div id="avatarPreviewFile" class="file-preview" style="display:none;">
-                    <i class="fas fa-file-image"></i>
-                    <span class="name" id="avatarFileName">archivo.jpg</span>
+                    <i class="fas fa-file-image"></i><span class="name" id="avatarFileName">archivo.jpg</span>
                     <span class="remove" onclick="document.getElementById('uploadAvatarInput').value='';this.parentElement.style.display='none';document.getElementById('avatarPreview').src=document.getElementById('socioAvatar').src;">✕</span>
                 </div>
                 <div style="display:flex;gap:8px;margin-top:14px;">
-                    <button class="btn btn-primary" onclick="subirFotoPerfil()" style="flex:1;justify-content:center;" id="uploadAvatarBtn">
-                        <i class="fas fa-cloud-upload-alt"></i> Subir Foto
-                    </button>
+                    <button class="btn btn-primary" onclick="subirFotoPerfil()" style="flex:1;justify-content:center;" id="uploadAvatarBtn"><i class="fas fa-cloud-upload-alt"></i> Subir Foto</button>
                     <button class="btn btn-secondary" onclick="closeModal('uploadAvatarModal')" style="flex:0.5;">Cancelar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== MODAL CHAT ===== -->
+    <div class="modal" id="chatModal">
+        <div class="modal-content" style="max-width:500px;">
+            <div class="modal-header">
+                <h2 id="chatModalTitulo">💬 Chat</h2>
+                <button class="modal-close" onclick="cerrarChat()">&times;</button>
+            </div>
+            <div class="modal-body" style="padding:12px 16px;">
+                <div id="chatMensajesContainer" class="chat-mensajes">
+                    <div class="chat-vacio">
+                        <i class="fas fa-comment-dots"></i>
+                        <p>No hay mensajes aún</p>
+                    </div>
+                </div>
+                <div class="chat-input-container">
+                    <input type="text" id="chatInput" placeholder="Escribe un mensaje..." onkeypress="if(event.key==='Enter') enviarMensajeChat()">
+                    <button class="btn-enviar" id="btnEnviarChat" onclick="enviarMensajeChat()"><i class="fas fa-paper-plane"></i></button>
                 </div>
             </div>
         </div>
@@ -1737,25 +1588,24 @@
     <!-- ===== BOTTOM NAV ===== -->
     <nav class="bottom-nav" id="bottomNav">
         <button class="nav-item active" data-section="perfil" onclick="navigateTo('perfil')">
-            <i class="fas fa-user"></i>
-            <span>Perfil</span>
+            <i class="fas fa-user"></i><span>Perfil</span>
         </button>
         <button class="nav-item" data-section="historial" onclick="navigateTo('historial')">
-            <i class="fas fa-history"></i>
-            <span>Historial</span>
+            <i class="fas fa-history"></i><span>Historial</span>
         </button>
         <button class="nav-item" data-section="futboleros" onclick="navigateTo('futboleros')">
-            <i class="fas fa-users"></i>
-            <span>Futboleros</span>
+            <i class="fas fa-users"></i><span>Futboleros</span>
+        </button>
+        <button class="nav-item" data-section="mensajeria" onclick="navigateTo('mensajeria')">
+            <i class="fas fa-envelope"></i><span>Mensajes</span>
+            <span class="nav-badge" id="mensajesBadge" style="display:none;">0</span>
         </button>
         <button class="nav-item" data-section="noticias" onclick="navigateTo('noticias')">
-            <i class="fas fa-newspaper"></i>
-            <span>Noticias</span>
+            <i class="fas fa-newspaper"></i><span>Noticias</span>
             <span class="nav-badge" id="noticiasBadge" style="display:none;">0</span>
         </button>
         <button class="nav-item" onclick="handleLogout()">
-            <i class="fas fa-sign-out-alt"></i>
-            <span>Salir</span>
+            <i class="fas fa-sign-out-alt"></i><span>Salir</span>
         </button>
     </nav>
 
@@ -1887,7 +1737,8 @@
         }
 
         // ================================================================
-        // 5. NAVEGACIÓN        // ================================================================
+        // 5. NAVEGACIÓN
+        // ================================================================
         function navigateTo(section) {
             document.querySelectorAll('.section-page').forEach(function(el) { el.classList.remove('active'); });
             var target = document.getElementById('section-' + section);
@@ -1896,9 +1747,8 @@
                 el.classList.remove('active');
                 if (el.dataset && el.dataset.section === section) el.classList.add('active');
             });
-            if (section === 'noticias') {
-                loadNoticiasSocio();
-            }
+            if (section === 'noticias') loadNoticiasSocio();
+            if (section === 'mensajeria') loadConversaciones();
         }
 
         // ================================================================
@@ -1916,6 +1766,8 @@
         var metodoSeleccionado = null;
         var avatarFile = null;
         var noticiasCache = [];
+        var chatSocioId = null;
+        var chatSocioNombre = '';
 
         function getCurrentUser() {
             try {
@@ -1975,6 +1827,7 @@
                 }
 
                 suscribirseANoticias();
+                suscribirseAMensajes();
 
             } catch (error) {
                 console.error('Error loading data:', error);
@@ -2067,16 +1920,12 @@
             if (legendItems.length >= 5) {
                 const activosText = legendItems[0].querySelector('.percent');
                 if (activosText) activosText.textContent = (pctActivos || 0) + '%';
-
                 const inactivosText = legendItems[1].querySelector('.percent');
                 if (inactivosText) inactivosText.textContent = (pctInactivos || 0) + '%';
-
                 const mensualText = legendItems[2].querySelector('.percent');
                 if (mensualText) mensualText.textContent = (pctMensual || 0) + '%';
-
                 const porPartidoText = legendItems[3].querySelector('.percent');
                 if (porPartidoText) porPartidoText.textContent = (pctPorPartido || 0) + '%';
-
                 const sinPlanText = legendItems[4].querySelector('.percent');
                 if (sinPlanText) sinPlanText.textContent = (pctSinPlan || 0) + '%';
             }
@@ -2102,15 +1951,7 @@
                 if (!container) return;
 
                 if (!socios || socios.length === 0) {
-                    container.innerHTML = `
-                        <div class="activity-item">
-                            <div class="activity-icon"><i class="fas fa-users"></i></div>
-                            <div class="activity-content">
-                                <p>No hay socios registrados</p>
-                                <span class="activity-time">Sé el primero en unirte</span>
-                            </div>
-                        </div>
-                    `;
+                    container.innerHTML = `<div class="activity-item"><div class="activity-icon"><i class="fas fa-users"></i></div><div class="activity-content"><p>No hay socios registrados</p><span class="activity-time">Sé el primero en unirte</span></div></div>`;
                     return;
                 }
 
@@ -2119,18 +1960,7 @@
                     const iconColor = socio.estado === 'Activo' ? 'var(--neon-green)' : 'var(--neon-blue)';
                     const statusText = socio.estado || 'Pendiente';
                     const fecha = socio.created_at ? new Date(socio.created_at).toLocaleDateString() : 'Reciente';
-
-                    return `
-                        <div class="activity-item">
-                            <div class="activity-icon" style="color:${iconColor}">
-                                <i class="fas ${icon}"></i>
-                            </div>
-                            <div class="activity-content">
-                                <p><strong>${socio.nombre || 'Sin nombre'}</strong> ${socio.plan ? '· ' + socio.plan : ''}</p>
-                                <span class="activity-time">${statusText} · ${fecha} ${socio.username ? '· @'+socio.username : ''}</span>
-                            </div>
-                        </div>
-                    `;
+                    return `<div class="activity-item"><div class="activity-icon" style="color:${iconColor}"><i class="fas ${icon}"></i></div><div class="activity-content"><p><strong>${socio.nombre || 'Sin nombre'}</strong> ${socio.plan ? '· ' + socio.plan : ''}</p><span class="activity-time">${statusText} · ${fecha} ${socio.username ? '· @'+socio.username : ''}</span></div></div>`;
                 }).join('');
 
             } catch (error) {
@@ -2139,15 +1969,13 @@
         }
 
         // ================================================================
-        // 11. RENDER PERFIL FUTURISTA
+        // 11. RENDER PERFIL (SIN ARO)
         // ================================================================
         function renderProfile(user) {
-            // Nombre
             document.getElementById('socioNombreFuturista').textContent = user.nombre || 'Sin nombre';
             document.getElementById('socioUsernameFuturista').textContent = '@' + user.username;
             document.getElementById('socioIdFuturista').textContent = '#' + user.id;
 
-            // Role
             const roleEl = document.getElementById('socioRoleFuturista');
             if (user.role === 'admin') {
                 roleEl.textContent = 'ADMIN';
@@ -2161,65 +1989,46 @@
                 roleEl.style.borderColor = 'rgba(0,212,255,0.1)';
             }
 
-            // Plan - Anillo 1
+            // Plan
             const planValor = document.getElementById('planValor');
             const planProgreso = document.querySelector('.plan-progreso');
             if (user.plan) {
                 planValor.textContent = user.plan;
                 planValor.style.color = user.plan === 'Mensual' ? 'var(--neon-green)' : 'var(--neon-orange)';
-                if (planProgreso) {
-                    planProgreso.style.strokeDashoffset = '0';
-                }
+                if (planProgreso) planProgreso.style.strokeDashoffset = '0';
             } else {
                 planValor.textContent = 'Sin plan';
                 planValor.style.color = 'var(--text-muted)';
-                if (planProgreso) {
-                    planProgreso.style.strokeDashoffset = '314.159';
-                }
+                if (planProgreso) planProgreso.style.strokeDashoffset = '314.159';
             }
 
-            // Estado - Anillo 2
+            // Estado
             const estadoValor = document.getElementById('estadoValor');
             const estadoProgreso = document.querySelector('.estado-progreso');
             const estado = user.estado || 'Pendiente';
             estadoValor.textContent = estado;
-            
-            const estadoColors = {
-                'Activo': 'var(--neon-green)',
-                'Pendiente': 'var(--neon-orange)',
-                'Suspendido': 'var(--neon-pink)',
-                'Vencido': 'var(--neon-pink)'
-            };
+            const estadoColors = { 'Activo': 'var(--neon-green)', 'Pendiente': 'var(--neon-orange)', 'Suspendido': 'var(--neon-pink)', 'Vencido': 'var(--neon-pink)' };
             estadoValor.style.color = estadoColors[estado] || 'var(--text-muted)';
-            
             if (estadoProgreso) {
-                if (estado === 'Activo') {
-                    estadoProgreso.style.strokeDashoffset = '0';
-                } else if (estado === 'Pendiente') {
-                    estadoProgreso.style.strokeDashoffset = '78.54';
-                } else {
-                    estadoProgreso.style.strokeDashoffset = '235.62';
-                }
+                if (estado === 'Activo') estadoProgreso.style.strokeDashoffset = '0';
+                else if (estado === 'Pendiente') estadoProgreso.style.strokeDashoffset = '78.54';
+                else estadoProgreso.style.strokeDashoffset = '235.62';
             }
 
-            // Inicio - Anillo 3
+            // Inicio
             const inicioValor = document.getElementById('inicioValor');
             const inicioProgreso = document.querySelector('.inicio-progreso');
             if (user.fecha_inicio) {
                 const fecha = new Date(user.fecha_inicio);
                 inicioValor.textContent = fecha.toLocaleDateString('es');
-                if (inicioProgreso) {
-                    inicioProgreso.style.strokeDashoffset = '0';
-                }
+                if (inicioProgreso) inicioProgreso.style.strokeDashoffset = '0';
             } else {
                 inicioValor.textContent = '--/--/----';
                 inicioValor.style.color = 'var(--text-muted)';
-                if (inicioProgreso) {
-                    inicioProgreso.style.strokeDashoffset = '314.159';
-                }
+                if (inicioProgreso) inicioProgreso.style.strokeDashoffset = '314.159';
             }
 
-            // Vencimiento - Anillo 4
+            // Vencimiento
             const vencimientoValor = document.getElementById('vencimientoValor');
             const vencimientoProgreso = document.querySelector('.vencimiento-progreso');
             if (user.fecha_vencimiento) {
@@ -2230,22 +2039,16 @@
                 if (diff > 0) {
                     const progreso = Math.min(100, (diff / 30) * 100);
                     const offset = 314.159 - (314.159 * (progreso / 100));
-                    if (vencimientoProgreso) {
-                        vencimientoProgreso.style.strokeDashoffset = offset;
-                    }
+                    if (vencimientoProgreso) vencimientoProgreso.style.strokeDashoffset = offset;
                     vencimientoValor.style.color = diff > 7 ? 'var(--neon-green)' : diff > 0 ? 'var(--neon-orange)' : 'var(--neon-pink)';
                 } else {
-                    if (vencimientoProgreso) {
-                        vencimientoProgreso.style.strokeDashoffset = '314.159';
-                    }
+                    if (vencimientoProgreso) vencimientoProgreso.style.strokeDashoffset = '314.159';
                     vencimientoValor.style.color = 'var(--neon-pink)';
                 }
             } else {
                 vencimientoValor.textContent = '--/--/----';
                 vencimientoValor.style.color = 'var(--text-muted)';
-                if (vencimientoProgreso) {
-                    vencimientoProgreso.style.strokeDashoffset = '314.159';
-                }
+                if (vencimientoProgreso) vencimientoProgreso.style.strokeDashoffset = '314.159';
             }
 
             // Días restantes
@@ -2279,19 +2082,6 @@
             } else {
                 avatarContainer.innerHTML = `<img id="socioAvatarFuturista" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='48' fill='%23111122' stroke='%2300d4ff' stroke-width='2'/%3E%3Ccircle cx='50' cy='32' r='14' fill='%23222244'/%3E%3Cpath d='M12 82c0-14 18-24 38-24s38 10 38 24' fill='%23222244'/%3E%3C/svg%3E" alt="Foto de perfil" style="width:100px;height:100px;border-radius:50%;object-fit:cover;border:2px solid rgba(0,212,255,0.2);background:#111122;">`;
             }
-
-            // Anillo del avatar (progreso según estado) - CORREGIDO
-            const avatarRing = document.querySelector('.avatar-ring-progress');
-            if (avatarRing) {
-                const estado = user.estado || 'Pendiente';
-                if (estado === 'Activo') {
-                    avatarRing.style.strokeDashoffset = '0';
-                } else if (estado === 'Pendiente') {
-                    avatarRing.style.strokeDashoffset = '84.823';
-                } else {
-                    avatarRing.style.strokeDashoffset = '254.469';
-                }
-            }
         }
 
         function getStatusClass(estado) {
@@ -2307,12 +2097,10 @@
             planOptions.forEach(function(el) {
                 el.classList.toggle('selected', el.dataset.plan === user.plan);
             });
-
             var metodoOptions = document.querySelectorAll('#metodoSelector .option');
             metodoOptions.forEach(function(el) {
                 el.classList.toggle('selected', el.dataset.metodo === user.metodo_pago);
             });
-
             document.getElementById('statusPlan').textContent = user.plan || 'No seleccionado';
             document.getElementById('statusPlan').className = 'value' + (user.plan ? ' active' : '');
             document.getElementById('statusMetodo').textContent = user.metodo_pago || 'No seleccionado';
@@ -2328,14 +2116,12 @@
             var mensajeContainer = document.getElementById('mensajeVencimiento');
             var titulo = document.getElementById('mensajeVencimientoTitulo');
             var texto = document.getElementById('mensajeVencimientoTexto');
-
             if (user.estado === 'Vencido' || (user.plan === 'Mensual' && user.fecha_vencimiento && new Date(user.fecha_vencimiento) < new Date())) {
                 mensajeContainer.classList.remove('hidden');
                 titulo.textContent = '❌ Tu membresía ha vencido';
                 texto.textContent = 'Renueva ahora para seguir disfrutando de los beneficios.';
                 return;
             }
-            
             if (user.plan === 'Mensual' && user.fecha_vencimiento) {
                 var diff = Math.ceil((new Date(user.fecha_vencimiento) - new Date()) / (1000 * 60 * 60 * 24));
                 if (diff <= 7 && diff > 0) {
@@ -2345,7 +2131,6 @@
                     return;
                 }
             }
-            
             mensajeContainer.classList.add('hidden');
         }
 
@@ -2364,9 +2149,6 @@
             document.body.style.overflow = 'hidden';
         }
 
-        // ================================================================
-        // 15. SELECCIÓN UI
-        // ================================================================
         function seleccionarPlanUI(plan) {
             document.querySelectorAll('#planSelector .option').forEach(function(el) {
                 el.classList.toggle('selected', el.dataset.plan === plan);
@@ -2377,9 +2159,6 @@
             showToast('📋 Plan seleccionado: ' + plan, 'info');
         }
 
-        // ================================================================
-        // 16. SELECCIÓN MÉTODO (SIN COMPROBANTE)
-        // ================================================================
         function seleccionarMetodoUI(metodo) {
             document.querySelectorAll('#metodoSelector .option').forEach(function(el) {
                 el.classList.toggle('selected', el.dataset.metodo === metodo);
@@ -2390,9 +2169,6 @@
             showToast('💳 Método seleccionado: ' + metodo, 'info');
         }
 
-        // ================================================================
-        // 17. CONFIRMAR CONFIGURACIÓN (SIN COMPROBANTE)
-        // ================================================================
         async function confirmarConfiguracion() {
             if (!socioData) { showToast('⚠️ Espera a que carguen los datos', 'warning'); return; }
             if (!planSeleccionado) { showToast('⚠️ Selecciona un plan primero', 'warning'); return; }
@@ -2401,11 +2177,9 @@
                 showToast('ℹ️ Ya tienes esta configuración activa', 'info');
                 return;
             }
-
             var btn = document.getElementById('btnConfirmarConfig');
             btn.disabled = true;
             btn.innerHTML = '<span class="spinner"></span> Guardando...';
-
             try {
                 var sessionUser = getCurrentUser();
                 if (!sessionUser) {
@@ -2414,13 +2188,11 @@
                     btn.innerHTML = '<i class="fas fa-check-circle"></i> CONFIRMAR';
                     return;
                 }
-
                 const updates = { plan: planSeleccionado, metodo_pago: metodoSeleccionado, estado: 'Pendiente' };
                 if (socioData.plan !== planSeleccionado) {
                     updates.fecha_inicio = null;
                     updates.fecha_vencimiento = null;
                 }
-
                 const { error: updateError } = await supabaseClient
                     .from('socios')
                     .update(updates)
@@ -2431,7 +2203,6 @@
                     btn.innerHTML = '<i class="fas fa-check-circle"></i> CONFIRMAR';
                     return;
                 }
-
                 var mensaje = `👤 ${socioData.nombre} (@${socioData.username}) seleccionó ${planSeleccionado} - ${metodoSeleccionado}`;
                 await supabaseClient.from('notificaciones').insert([{
                     tipo: 'nuevo_socio',
@@ -2444,22 +2215,17 @@
                         metodo: metodoSeleccionado
                     }
                 }]);
-
                 socioData.plan = planSeleccionado;
                 socioData.metodo_pago = metodoSeleccionado;
                 socioData.estado = 'Pendiente';
-
                 document.getElementById('statusEstado').textContent = 'Pendiente';
                 document.getElementById('statusEstado').className = 'value pending';
                 renderProfile(socioData);
-
                 planSeleccionado = null;
                 metodoSeleccionado = null;
-
                 showToast('✅ Configuración guardada. Espera aprobación del administrador.', 'success');
                 closeModal('configPlanModal');
                 setTimeout(loadSocioData, 1500);
-
             } catch (error) {
                 console.error('Error:', error);
                 showToast('❌ Error al guardar configuración: ' + error.message, 'error');
@@ -2470,7 +2236,7 @@
         }
 
         // ================================================================
-        // 18. RENOVAR MEMBRESIA
+        // 15. RENOVAR MEMBRESIA
         // ================================================================
         async function renovarMembresia() {
             if (!socioData) { showToast('⚠️ Espera a que carguen los datos', 'warning'); return; }
@@ -2479,16 +2245,13 @@
                 return;
             }
             if (!confirm('¿Renovar tu membresía por 30 días más?')) return;
-
             try {
                 var btn = document.querySelector('#mensajeVencimiento .btn-primary');
                 if (btn) { btn.disabled = true;
                     btn.innerHTML = '<span class="spinner"></span> Procesando...'; }
-
                 var hoy = new Date();
                 var fechaVencimiento = new Date(hoy);
                 fechaVencimiento.setDate(fechaVencimiento.getDate() + 30);
-
                 const { error: updateError } = await supabaseClient
                     .from('socios')
                     .update({
@@ -2503,21 +2266,17 @@
                         btn.innerHTML = '<i class="fas fa-sync"></i> Renovar Ahora'; }
                     return;
                 }
-
                 await supabaseClient.from('notificaciones').insert([{
                     tipo: 'renovacion_solicitada',
                     mensaje: `🔄 ${socioData.nombre} (@${socioData.username}) solicitó renovación de membresía`,
                     leida: false,
                     data: { socio_id: socioData.id, username: socioData.username, plan: socioData.plan }
                 }]);
-
                 socioData.estado = 'Pendiente';
                 socioData.fecha_inicio = hoy.toISOString().split('T')[0];
                 socioData.fecha_vencimiento = fechaVencimiento.toISOString().split('T')[0];
-
                 showToast('✅ Renovación solicitada. Espera aprobación del administrador.', 'success');
                 setTimeout(loadSocioData, 1500);
-
             } catch (error) {
                 console.error('❌ Error en renovación:', error);
                 showToast('❌ Error al renovar: ' + error.message, 'error');
@@ -2529,7 +2288,7 @@
         }
 
         // ================================================================
-        // 19. RENDER HISTORIAL
+        // 16. RENDER HISTORIAL
         // ================================================================
         function renderHistorial() {
             var tbody = document.getElementById('historialTableBody');
@@ -2541,15 +2300,7 @@
             tbody.innerHTML = historialPagos.map(function(p) {
                 var estadoPago = p.estado || 'Pendiente';
                 if (socioData && socioData.estado === 'Activo' && estadoPago === 'Pendiente') estadoPago = 'Aprobado';
-                return '<tr>' +
-                    '<td>' + (p.fecha ? new Date(p.fecha).toLocaleDateString() : 'N/A') + '</td>' +
-                    '<td>Gs. ' + (p.monto || 0).toLocaleString() + '</td>' +
-                    '<td>' + (p.metodo || 'N/A') + '</td>' +
-                    '<td><span class="badge ' + getStatusClass(estadoPago) + '">' + estadoPago + '</span></td>' +
-                    '<td>' + (p.comprobante_url ?
-                        '<button class="btn btn-secondary btn-sm" onclick="verComprobante(\'' + p.comprobante_url + '\')"><i class="fas fa-eye"></i></button>' :
-                        '-') +
-                    '</td></tr>';
+                return '<tr><td>' + (p.fecha ? new Date(p.fecha).toLocaleDateString() : 'N/A') + '</td><td>Gs. ' + (p.monto || 0).toLocaleString() + '</td><td>' + (p.metodo || 'N/A') + '</td><td><span class="badge ' + getStatusClass(estadoPago) + '">' + estadoPago + '</span></td><td>' + (p.comprobante_url ? '<button class="btn btn-secondary btn-sm" onclick="verComprobante(\'' + p.comprobante_url + '\')"><i class="fas fa-eye"></i></button>' : '-') + '</td></tr>';
             }).join('');
         }
 
@@ -2558,7 +2309,7 @@
         }
 
         // ================================================================
-        // 20. AVATAR
+        // 17. AVATAR
         // ================================================================
         function abrirModalAvatar() {
             if (!socioData) { showToast('⚠️ Espera a que carguen los datos', 'warning'); return; }
@@ -2605,7 +2356,6 @@
             var btn = document.getElementById('uploadAvatarBtn');
             btn.disabled = true;
             btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Subiendo...';
-
             try {
                 var sessionUser = getCurrentUser();
                 if (!sessionUser) {
@@ -2618,7 +2368,6 @@
                     'image/bmp': 'bmp', 'image/svg+xml': 'svg' };
                 var ext = mimeToExt[avatarFile.type] || avatarFile.name.split('.').pop().toLowerCase();
                 var fileName = 'avatars/' + sessionUser.id + '_' + Date.now() + '.' + ext;
-
                 var { error: uploadError } = await supabaseClient.storage
                     .from('avatars')
                     .upload(fileName, avatarFile, { cacheControl: '3600', upsert: false, contentType: avatarFile.type });
@@ -2628,7 +2377,6 @@
                     btn.innerHTML = '<i class="fas fa-cloud-upload-alt"></i> Subir Foto';
                     return;
                 }
-
                 var url = supabaseClient.storage.from('avatars').getPublicUrl(fileName).data.publicUrl;
                 var { error: updateError } = await supabaseClient
                     .from('socios')
@@ -2640,12 +2388,10 @@
                     btn.innerHTML = '<i class="fas fa-cloud-upload-alt"></i> Subir Foto';
                     return;
                 }
-
                 socioData.foto_url = url;
                 renderProfile(socioData);
                 showToast('✅ Foto de perfil actualizada exitosamente', 'success');
                 closeModal('uploadAvatarModal');
-
             } catch (error) {
                 console.error('Error:', error);
                 showToast('❌ Error al subir la imagen: ' + error.message, 'error');
@@ -2657,7 +2403,7 @@
         }
 
         // ================================================================
-        // 21. MODAL
+        // 18. MODAL
         // ================================================================
         function closeModal(id) {
             document.getElementById(id).classList.remove('active');
@@ -2677,31 +2423,28 @@
         });
 
         // ================================================================
-        // 22. CERRAR SESIÓN
+        // 19. CERRAR SESIÓN
         // ================================================================
         function handleLogout() {
             if (!confirm('¿Cerrar sesión?')) return;
-            
             try {
                 const sessionUser = getCurrentUser();
                 if (sessionUser) {
                     localStorage.removeItem(`fly_noticias_leidas_${sessionUser.id}`);
                 }
             } catch (e) {}
-            
-            try { 
+            try {
                 localStorage.removeItem('fly_user_session');
-                sessionStorage.clear(); 
+                sessionStorage.clear();
             } catch (e) {}
-            
             showToast('🔒 Sesión cerrada', 'info');
-            setTimeout(function() { 
-                window.location.href = 'index.html'; 
+            setTimeout(function() {
+                window.location.href = 'index.html';
             }, 1000);
         }
 
         // ================================================================
-        // 23. NOTICIAS - FUNCIONES
+        // 20. NOTICIAS
         // ================================================================
         async function loadNoticiasSocio() {
             try {
@@ -2710,22 +2453,17 @@
                     console.warn('⚠️ No hay sesión de usuario');
                     return;
                 }
-
                 console.log('🔄 Cargando noticias para socio:', sessionUser.id);
-
                 const { data: noticias, error } = await supabaseClient
                     .from('noticias_gastos')
                     .select('*')
                     .eq('para_todos', true)
                     .order('fecha_evento', { ascending: false });
-
                 if (error) {
                     console.error('❌ Error al cargar noticias:', error);
                     throw error;
                 }
-
                 console.log('✅ Noticias encontradas:', noticias ? noticias.length : 0);
-
                 let noticiasLeidas = [];
                 try {
                     const { data: socio, error: socioError } = await supabaseClient
@@ -2733,7 +2471,6 @@
                         .select('noticias_leidas')
                         .eq('id', sessionUser.id)
                         .single();
-                        
                     if (!socioError && socio && socio.noticias_leidas) {
                         if (typeof socio.noticias_leidas === 'string') {
                             noticiasLeidas = JSON.parse(socio.noticias_leidas);
@@ -2744,9 +2481,7 @@
                 } catch (e) {
                     console.warn('⚠️ Error obteniendo noticias leídas:', e);
                 }
-
                 noticiasCache = noticias || [];
-
                 const noLeidas = noticiasCache.filter(n => !noticiasLeidas.includes(n.id));
                 const badge = document.getElementById('noticiasBadge');
                 if (badge) {
@@ -2757,20 +2492,13 @@
                         badge.style.display = 'none';
                     }
                 }
-
                 renderNoticiasSocio(noticiasCache, noticiasLeidas);
-
             } catch (error) {
                 console.error('❌ Error en loadNoticiasSocio:', error);
                 const container = document.getElementById('noticiasSocioContainer');
                 if (container) {
-                    container.innerHTML = `
-                        <div style="text-align:center;padding:40px 20px;color:var(--text-muted);">
-                            <i class="fas fa-exclamation-triangle" style="font-size:1.5rem;display:block;margin-bottom:12px;color:var(--neon-orange);"></i>
-                            <p style="font-size:0.8rem;">Error al cargar noticias</p>
-                            <p style="font-size:0.65rem;color:var(--text-muted);">${error.message || 'Intenta nuevamente'}</p>
-                        </div>
-                    `;
+                    container.innerHTML =
+                        `<div style="text-align:center;padding:40px 20px;color:var(--text-muted);"><i class="fas fa-exclamation-triangle" style="font-size:1.5rem;display:block;margin-bottom:12px;color:var(--neon-orange);"></i><p style="font-size:0.8rem;">Error al cargar noticias</p><p style="font-size:0.65rem;color:var(--text-muted);">${error.message || 'Intenta nuevamente'}</p></div>`;
                 }
             }
         }
@@ -2778,29 +2506,20 @@
         function renderNoticiasSocio(noticias, noticiasLeidas) {
             const container = document.getElementById('noticiasSocioContainer');
             if (!container) return;
-
             if (!noticias || noticias.length === 0) {
-                container.innerHTML = `
-                    <div style="text-align:center;padding:40px 20px;color:var(--text-muted);">
-                        <i class="fas fa-newspaper" style="font-size:2.5rem;display:block;margin-bottom:12px;opacity:0.3;"></i>
-                        <p style="font-size:0.85rem;font-weight:600;color:var(--text-secondary);">No hay noticias disponibles</p>
-                        <p style="font-size:0.65rem;color:var(--text-muted);">Pronto llegarán novedades de FLY FUTBOLEROS</p>
-                    </div>
-                `;
+                container.innerHTML =
+                    `<div style="text-align:center;padding:40px 20px;color:var(--text-muted);"><i class="fas fa-newspaper" style="font-size:2.5rem;display:block;margin-bottom:12px;opacity:0.3;"></i><p style="font-size:0.85rem;font-weight:600;color:var(--text-secondary);">No hay noticias disponibles</p><p style="font-size:0.65rem;color:var(--text-muted);">Pronto llegarán novedades de FLY FUTBOLEROS</p></div>`;
                 return;
             }
-
             container.innerHTML = noticias.map(n => {
                 const esLeida = noticiasLeidas.includes(n.id);
                 const tipoClase = n.tipo === 'gasto' ? 'gasto' : 'anuncio';
                 const icono = n.tipo === 'gasto' ? 'fa-receipt' : 'fa-bullhorn';
                 const tituloTipo = n.tipo === 'gasto' ? 'Gasto' : 'Anuncio';
-                
                 let montoHTML = '';
                 if (n.monto) {
                     montoHTML = `<div class="monto">💰 Gasto: Gs. ${Number(n.monto).toLocaleString()}</div>`;
                 }
-
                 const fecha = new Date(n.fecha_evento);
                 const fechaStr = fecha.toLocaleDateString('es', {
                     day: '2-digit',
@@ -2809,32 +2528,11 @@
                     hour: '2-digit',
                     minute: '2-digit'
                 });
-
-                return `
-                    <div class="noticia-item ${!esLeida ? 'no-leida' : ''}" onclick="marcarNoticiaLeida('${n.id}')" data-id="${n.id}">
-                        <div class="noticia-header">
-                            <div class="noticia-icono ${tipoClase}">
-                                <i class="fas ${icono}"></i>
-                            </div>
-                            <div class="noticia-contenido">
-                                <div class="titulo">
-                                    ${n.titulo || 'Sin título'}
-                                    <span class="badge-tipo ${tipoClase}">${tituloTipo}</span>
-                                    ${!esLeida ? '<span style="font-size:0.5rem;color:var(--neon-blue);">● Nuevo</span>' : ''}
-                                </div>
-                                <div class="descripcion">${n.descripcion || 'Sin descripción'}</div>
-                                ${montoHTML}
-                                <div class="noticia-footer">
-                                    <span class="fecha"><i class="far fa-clock"></i> ${fechaStr}</span>
-                                    ${n.categoria ? `<span class="categoria">${n.categoria}</span>` : ''}
-                                    <span class="estado-lectura ${esLeida ? 'leida' : 'no-leida'}">
-                                        ${esLeida ? '✓ Leída' : '● No leída'}
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                `;
+                return `<div class="noticia-item ${!esLeida ? 'no-leida' : ''}" onclick="marcarNoticiaLeida('${n.id}')" data-id="${n.id}">
+                    <div class="noticia-header"><div class="noticia-icono ${tipoClase}"><i class="fas ${icono}"></i></div>
+                    <div class="noticia-contenido"><div class="titulo">${n.titulo || 'Sin título'} <span class="badge-tipo ${tipoClase}">${tituloTipo}</span>${!esLeida ? '<span style="font-size:0.5rem;color:var(--neon-blue);">● Nuevo</span>' : ''}</div>
+                    <div class="descripcion">${n.descripcion || 'Sin descripción'}</div>${montoHTML}
+                    <div class="noticia-footer"><span class="fecha"><i class="far fa-clock"></i> ${fechaStr}</span>${n.categoria ? `<span class="categoria">${n.categoria}</span>` : ''}<span class="estado-lectura ${esLeida ? 'leida' : 'no-leida'}">${esLeida ? '✓ Leída' : '● No leída'}</span></div></div></div></div>`;
             }).join('');
         }
 
@@ -2842,23 +2540,17 @@
             try {
                 const sessionUser = getCurrentUser();
                 if (!sessionUser) return;
-
                 let leidas = obtenerNoticiasLeidas(sessionUser.id);
-                
                 if (leidas.includes(noticiaId)) return;
-
                 leidas.push(noticiaId);
-                
                 const { error } = await supabaseClient
                     .from('socios')
                     .update({ noticias_leidas: leidas })
                     .eq('id', sessionUser.id);
-
                 if (error) {
                     console.warn('⚠️ Error guardando noticias leídas:', error);
                     guardarNoticiasLeidasLocal(sessionUser.id, leidas);
                 }
-
                 const noLeidas = noticiasCache.filter(n => !leidas.includes(n.id));
                 const badge = document.getElementById('noticiasBadge');
                 if (badge) {
@@ -2869,11 +2561,8 @@
                         badge.style.display = 'none';
                     }
                 }
-
                 renderNoticiasSocio(noticiasCache, leidas);
-                
                 console.log('✅ Noticia marcada como leída:', noticiaId);
-
             } catch (error) {
                 console.error('❌ Error marcando noticia como leída:', error);
                 showToast('❌ Error al marcar noticia como leída', 'error');
@@ -2884,26 +2573,19 @@
             try {
                 const sessionUser = getCurrentUser();
                 if (!sessionUser) return;
-
                 const leidas = noticiasCache.map(n => n.id);
-                
                 const { error } = await supabaseClient
                     .from('socios')
                     .update({ noticias_leidas: leidas })
                     .eq('id', sessionUser.id);
-
                 if (error) {
                     console.warn('⚠️ Error guardando noticias leídas:', error);
                     guardarNoticiasLeidasLocal(sessionUser.id, leidas);
                 }
-
                 const badge = document.getElementById('noticiasBadge');
                 if (badge) badge.style.display = 'none';
-
                 renderNoticiasSocio(noticiasCache, leidas);
-                
                 showToast('✅ Todas las noticias marcadas como leídas', 'success');
-
             } catch (error) {
                 console.error('❌ Error marcando todas como leídas:', error);
                 showToast('❌ Error al marcar todas como leídas', 'error');
@@ -2914,12 +2596,8 @@
             try {
                 const key = `fly_noticias_leidas_${socioId}`;
                 const data = localStorage.getItem(key);
-                if (data) {
-                    return JSON.parse(data);
-                }
-            } catch (e) {
-                console.warn('⚠️ Error obteniendo noticias leídas de localStorage:', e);
-            }
+                if (data) { return JSON.parse(data); }
+            } catch (e) { console.warn('⚠️ Error obteniendo noticias leídas de localStorage:', e); }
             return [];
         }
 
@@ -2928,24 +2606,15 @@
                 const key = `fly_noticias_leidas_${socioId}`;
                 localStorage.setItem(key, JSON.stringify(leidas));
                 console.log('✅ Noticias leídas guardadas en localStorage');
-            } catch (e) {
-                console.warn('⚠️ Error guardando en localStorage:', e);
-            }
+            } catch (e) { console.warn('⚠️ Error guardando en localStorage:', e); }
         }
 
-        // ================================================================
-        // 24. SUSCRIPCIÓN A NUEVAS NOTICIAS
-        // ================================================================
         let noticiasSubscription = null;
 
         function suscribirseANoticias() {
-            if (noticiasSubscription) {
-                noticiasSubscription.unsubscribe();
-            }
-
+            if (noticiasSubscription) { noticiasSubscription.unsubscribe(); }
             const sessionUser = getCurrentUser();
             if (!sessionUser) return;
-
             noticiasSubscription = supabaseClient
                 .channel('noticias_changes')
                 .on('postgres_changes', {
@@ -2956,9 +2625,7 @@
                 }, (payload) => {
                     console.log('📰 Nueva noticia recibida:', payload);
                     const nuevaNoticia = payload.new;
-                    
                     const leidas = obtenerNoticiasLeidas(sessionUser.id);
-                    
                     if (!leidas.includes(nuevaNoticia.id)) {
                         showToast(`📰 Nueva noticia: ${nuevaNoticia.titulo}`, 'info');
                         loadNoticiasSocio();
@@ -2968,32 +2635,324 @@
         }
 
         // ================================================================
-        // 25. INICIALIZAR
+        // 21. MENSAJERÍA INTERNA
+        // ================================================================
+        async function loadConversaciones() {
+            try {
+                const sessionUser = getCurrentUser();
+                if (!sessionUser) {
+                    console.warn('⚠️ No hay sesión de usuario');
+                    return;
+                }
+                console.log('🔄 Cargando conversaciones...');
+
+                // Obtener todos los socios excepto el actual
+                const { data: socios, error } = await supabaseClient
+                    .from('socios')
+                    .select('id, nombre, username, foto_url')
+                    .neq('id', sessionUser.id)
+                    .order('nombre');
+
+                if (error) throw error;
+
+                const container = document.getElementById('conversacionesContainer');
+                if (!container) return;
+
+                if (!socios || socios.length === 0) {
+                    container.innerHTML =
+                        `<div style="text-align:center;padding:40px 20px;color:var(--text-muted);"><i class="fas fa-users" style="font-size:2rem;display:block;margin-bottom:12px;opacity:0.3;"></i><p style="font-size:0.8rem;">No hay otros socios para chatear</p></div>`;
+                    return;
+                }
+
+                // Obtener últimos mensajes para cada socio
+                let conversaciones = [];
+                for (const socio of socios) {
+                    const { data: mensajes } = await supabaseClient
+                        .from('mensajes')
+                        .select('*')
+                        .or(`remitente_id.eq.${sessionUser.id},destinatario_id.eq.${sessionUser.id}`)
+                        .or(`remitente_id.eq.${socio.id},destinatario_id.eq.${socio.id}`)
+                        .order('created_at', { ascending: false })
+                        .limit(1);
+
+                    const ultimoMensaje = mensajes && mensajes.length > 0 ? mensajes[0] : null;
+                    
+                    // Contar no leídos
+                    const { count: noLeidos } = await supabaseClient
+                        .from('mensajes')
+                        .select('*', { count: 'exact', head: true })
+                        .eq('remitente_id', socio.id)
+                        .eq('destinatario_id', sessionUser.id)
+                        .eq('leido', false);
+
+                    conversaciones.push({
+                        socio: socio,
+                        ultimoMensaje: ultimoMensaje,
+                        noLeidos: noLeidos || 0
+                    });
+                }
+
+                // Ordenar por fecha del último mensaje
+                conversaciones.sort((a, b) => {
+                    if (!a.ultimoMensaje) return 1;
+                    if (!b.ultimoMensaje) return -1;
+                    return new Date(b.ultimoMensaje.created_at) - new Date(a.ultimoMensaje.created_at);
+                });
+
+                // Actualizar badge de mensajes
+                const totalNoLeidos = conversaciones.reduce((sum, c) => sum + c.noLeidos, 0);
+                const badgeMensajes = document.getElementById('mensajesBadge');
+                if (badgeMensajes) {
+                    if (totalNoLeidos > 0) {
+                        badgeMensajes.style.display = 'block';
+                        badgeMensajes.textContent = totalNoLeidos;
+                    } else {
+                        badgeMensajes.style.display = 'none';
+                    }
+                }
+
+                renderConversaciones(conversaciones);
+
+            } catch (error) {
+                console.error('❌ Error cargando conversaciones:', error);
+                const container = document.getElementById('conversacionesContainer');
+                if (container) {
+                    container.innerHTML =
+                        `<div style="text-align:center;padding:40px 20px;color:var(--text-muted);"><i class="fas fa-exclamation-triangle" style="font-size:1.5rem;display:block;margin-bottom:12px;color:var(--neon-orange);"></i><p style="font-size:0.8rem;">Error al cargar conversaciones</p><p style="font-size:0.65rem;color:var(--text-muted);">${error.message || 'Intenta nuevamente'}</p></div>`;
+                }
+            }
+        }
+
+        function renderConversaciones(conversaciones) {
+            const container = document.getElementById('conversacionesContainer');
+            if (!container) return;
+
+            if (!conversaciones || conversaciones.length === 0) {
+                container.innerHTML =
+                    `<div style="text-align:center;padding:40px 20px;color:var(--text-muted);"><i class="fas fa-comments" style="font-size:2rem;display:block;margin-bottom:12px;opacity:0.3;"></i><p style="font-size:0.8rem;">No hay conversaciones</p></div>`;
+                return;
+            }
+
+            container.innerHTML = conversaciones.map(c => {
+                const socio = c.socio;
+                const iniciales = socio.nombre ? socio.nombre.split(' ').map(n => n.charAt(0)).join('').substring(0, 2).toUpperCase() : '??';
+                const ultimoTexto = c.ultimoMensaje ? c.ultimoMensaje.mensaje.substring(0, 50) + (c.ultimoMensaje.mensaje.length > 50 ? '...' : '') : 'Sin mensajes';
+                const tiempo = c.ultimoMensaje ? timeAgo(c.ultimoMensaje.created_at) : '';
+                const esLeido = c.ultimoMensaje ? c.ultimoMensaje.leido : true;
+                const esRemitente = c.ultimoMensaje ? c.ultimoMensaje.remitente_id === socio.id : false;
+
+                return `<div class="conversacion-item" onclick="abrirChat(${socio.id}, '${socio.nombre}')">
+                    <div class="avatar-chat" style="background:${socio.foto_url ? 'transparent' : 'var(--gradient-primary)'};${socio.foto_url ? 'padding:0;' : ''}">
+                        ${socio.foto_url ? `<img src="${socio.foto_url}" style="width:48px;height:48px;border-radius:50%;object-fit:cover;">` : iniciales}
+                    </div>
+                    <div class="info-chat">
+                        <div class="nombre-chat">${socio.nombre} ${c.noLeidos > 0 ? `<span class="badge-no-leidos">${c.noLeidos}</span>` : ''}</div>
+                        <div class="ultimo-mensaje">${esRemitente ? '👤 ' : '👤 Tú: '}${ultimoTexto}</div>
+                        <div class="tiempo-chat">${tiempo}</div>
+                    </div>
+                    <i class="fas fa-chevron-right" style="color:var(--text-muted);font-size:0.7rem;"></i>
+                </div>`;
+            }).join('');
+        }
+
+        async function abrirChat(socioId, socioNombre) {
+            try {
+                chatSocioId = socioId;
+                chatSocioNombre = socioNombre;
+                document.getElementById('chatModalTitulo').textContent = `💬 ${socioNombre}`;
+                document.getElementById('chatModal').classList.add('active');
+                document.body.style.overflow = 'hidden';
+
+                // Cargar mensajes
+                await cargarMensajesChat(socioId);
+
+                // Enfocar input
+                setTimeout(() => {
+                    document.getElementById('chatInput').focus();
+                }, 300);
+
+            } catch (error) {
+                console.error('❌ Error abriendo chat:', error);
+                showToast('❌ Error al abrir chat', 'error');
+            }
+        }
+
+        async function cargarMensajesChat(socioId) {
+            try {
+                const sessionUser = getCurrentUser();
+                if (!sessionUser) return;
+
+                const { data: mensajes, error } = await supabaseClient
+                    .from('mensajes')
+                    .select('*')
+                    .or(`remitente_id.eq.${sessionUser.id},destinatario_id.eq.${sessionUser.id}`)
+                    .or(`remitente_id.eq.${socioId},destinatario_id.eq.${socioId}`)
+                    .order('created_at', { ascending: true });
+
+                if (error) throw error;
+
+                const container = document.getElementById('chatMensajesContainer');
+                if (!container) return;
+
+                if (!mensajes || mensajes.length === 0) {
+                    container.innerHTML =
+                        `<div class="chat-vacio"><i class="fas fa-comment-dots"></i><p>No hay mensajes aún. ¡Envía el primero!</p></div>`;
+                    return;
+                }
+
+                // Marcar como leídos los mensajes recibidos
+                const mensajesNoLeidos = mensajes.filter(m => m.destinatario_id === sessionUser.id && !m.leido);
+                if (mensajesNoLeidos.length > 0) {
+                    for (const m of mensajesNoLeidos) {
+                        await supabaseClient
+                            .from('mensajes')
+                            .update({ leido: true })
+                            .eq('id', m.id);
+                    }
+                    // Actualizar badge
+                    loadConversaciones();
+                }
+
+                container.innerHTML = mensajes.map(m => {
+                    const esEnviado = m.remitente_id === sessionUser.id;
+                    const hora = new Date(m.created_at).toLocaleTimeString('es', { hour: '2-digit', minute: '2-digit' });
+                    return `<div class="chat-mensaje ${esEnviado ? 'enviado' : 'recibido'}">
+                        ${m.mensaje}
+                        <span class="hora">${hora} ${esEnviado ? '✓' : ''}</span>
+                    </div>`;
+                }).join('');
+
+                // Scroll al final
+                container.scrollTop = container.scrollHeight;
+
+            } catch (error) {
+                console.error('❌ Error cargando mensajes:', error);
+                showToast('❌ Error al cargar mensajes', 'error');
+            }
+        }
+
+        async function enviarMensajeChat() {
+            try {
+                const input = document.getElementById('chatInput');
+                const mensaje = input.value.trim();
+                if (!mensaje || !chatSocioId) return;
+
+                const sessionUser = getCurrentUser();
+                if (!sessionUser) {
+                    showToast('⚠️ Sesión no encontrada', 'error');
+                    return;
+                }
+
+                const btn = document.getElementById('btnEnviarChat');
+                btn.disabled = true;
+
+                const { data, error } = await supabaseClient
+                    .from('mensajes')
+                    .insert([{
+                        remitente_id: parseInt(sessionUser.id),
+                        destinatario_id: chatSocioId,
+                        mensaje: mensaje,
+                        leido: false,
+                        created_at: new Date().toISOString()
+                    }])
+                    .select();
+
+                if (error) throw error;
+
+                input.value = '';
+                await cargarMensajesChat(chatSocioId);
+                loadConversaciones();
+
+                // Notificar al destinatario
+                try {
+                    await supabaseClient.from('notificaciones').insert([{
+                        tipo: 'nuevo_mensaje',
+                        mensaje: `💬 Nuevo mensaje de ${sessionUser.nombre}`,
+                        leida: false,
+                        data: {
+                            remitente_id: sessionUser.id,
+                            destinatario_id: chatSocioId,
+                            mensaje: mensaje
+                        }
+                    }]);
+                } catch (e) {
+                    console.warn('⚠️ Error enviando notificación:', e);
+                }
+
+                btn.disabled = false;
+
+            } catch (error) {
+                console.error('❌ Error enviando mensaje:', error);
+                showToast('❌ Error al enviar mensaje', 'error');
+                document.getElementById('btnEnviarChat').disabled = false;
+            }
+        }
+
+        function cerrarChat() {
+            document.getElementById('chatModal').classList.remove('active');
+            document.body.style.overflow = '';
+            chatSocioId = null;
+            chatSocioNombre = '';
+        }
+
+        let mensajesSubscription = null;
+
+        function suscribirseAMensajes() {
+            if (mensajesSubscription) { mensajesSubscription.unsubscribe(); }
+            const sessionUser = getCurrentUser();
+            if (!sessionUser) return;
+
+            mensajesSubscription = supabaseClient
+                .channel('mensajes_changes')
+                .on('postgres_changes', {
+                    event: 'INSERT',
+                    schema: 'public',
+                    table: 'mensajes',
+                    filter: `destinatario_id=eq.${sessionUser.id}`
+                }, (payload) => {
+                    console.log('📨 Nuevo mensaje recibido:', payload);
+                    const nuevoMensaje = payload.new;
+                    
+                    // Mostrar toast
+                    showToast(`💬 Nuevo mensaje de ${nuevoMensaje.remitente_id}`, 'info');
+                    
+                    // Actualizar conversaciones
+                    loadConversaciones();
+                    
+                    // Si el chat está abierto, recargar mensajes
+                    if (chatSocioId && document.getElementById('chatModal').classList.contains('active')) {
+                        cargarMensajesChat(chatSocioId);
+                    }
+                })
+                .subscribe();
+        }
+
+        // ================================================================
+        // 22. INICIALIZAR
         // ================================================================
         document.addEventListener('DOMContentLoaded', function() {
             loadSocioData();
-            
             setTimeout(() => {
                 loadNoticiasSocio();
+                loadConversaciones();
             }, 1500);
-            
             setInterval(() => {
                 const sectionNoticias = document.getElementById('section-noticias');
                 if (sectionNoticias && sectionNoticias.classList.contains('active')) {
                     loadNoticiasSocio();
                 }
-            }, 300000);
+                const sectionMensajeria = document.getElementById('section-mensajeria');
+                if (sectionMensajeria && sectionMensajeria.classList.contains('active')) {
+                    loadConversaciones();
+                }
+            }, 30000);
         });
 
         console.log('👤 FLY FUTBOLEROS · Panel del Socio');
-        console.log('✅ Conexión real a Supabase para socios activos');
-        console.log('✅ Dashboard con estadísticas en tiempo real');
-        console.log('✅ Gráficos de anillo con datos reales');
-        console.log('✅ Socios recientes desde la base de datos');
-        console.log('✅ Noticias con marcación de leídas');
         console.log('✅ Perfil futurista con anillos contadores');
-        console.log('✅ Planes: Mensual y Por Partido');
-        console.log('✅ Footer corregido: Fundación 2012 · Formato 6v6 · Años +10');
+        console.log('✅ Mensajería interna implementada');
+        console.log('✅ Noticias con marcación de leídas');
+        console.log('✅ Aro del perfil eliminado (versión original)');
     </script>
 
 </body>
